@@ -1,0 +1,18 @@
+---
+name: prepare-production
+description: Prepare a clean production source-code package from an explicit file list, excluding secrets and internal data, with content validation and a safe release plan.
+---
+
+# Prepare for production
+
+Apply this skill to the agreed project and version. First identify the required application files, entry point, configuration templates, dependencies, and rollback method. Use the project's existing tests and build. Removing internal files means excluding them from the new package. Preserve the source tree.
+
+Read `../../docs/PRODUCTION.md`. The `../../scripts/prepare_production.py` tool creates a new directory from an explicit list of relative file paths and a separate manifest. Before reading contents, it rejects internal/secret names; it also rejects links, ambiguous paths, and detected credential literals. It is intended for bounded UTF-8 source code. An unknown format or a scanner finding stops preparation.
+
+1. Agree on the exact relative paths of required files. Do not add secret stores, `.env`, keys, logs, test data, caches, or internal agent instructions. Exclude `.git`/`.hg`/`.svn`, `.graphify`, `graphify-out`/`graphify-output`, Graphify config/index and its ignore file, `.agent-private`, `.codex`/`.agents`, AGENTS.md/AGENTS.override.md, CLAUDE.md/GEMINI.md, `.cursor`/`.windsurf`/`.aider*`, local MCP configurations, and internal plans/checkpoints/receipts. Application modules implementing graphs or MCP are reviewed under the normal rules and are not excluded merely for mentioning the technology. Ensure configuration templates contain only public parameters and names of external runtime variables.
+2. Before building, apply `../check-versions/SKILL.md` and `../../docs/VERSIONS.md`. Distinguish the latest release, support for the selected release line, and the separate security review. Unknown dependencies and stale sources do not establish readiness. Then run the standard checks and build in the agreed environment. Verify that the prepared contents include the entire required runtime. Explicitly including a file from a prohibited category causes refusal. Do not replace a missing file with an empty one or continue after excluding a required dependency.
+3. Prepare a new directory through `prepare` and check it through `validate`. For a scanner finding, report only the path and rule identifier. Do not output the matched text, value, its length, or its hash. A confirmed exposed secret requires revocation/rotation through the authorized owner and a review of its previous distribution locations. Simply deleting the line is insufficient.
+4. Manually review every inclusion and the built application's behavior. The bounded scanner does not prove the absence of all secrets. Hold binary/unsupported files until a separate specialist process verifies their exact contents and hashes. Do not disable validation or rename a file to bypass it.
+5. Before release, check external runtime-secret input, mandatory authentication and permissions, 403/429 errors, origin protection, logging without secrets, and a working rollback. Perform origin checks only in an authorized synthetic environment under `PRODUCTION.md` and the service's instructions.
+
+Creating the package does not authorize publication or switching the running service. Production changes, removal of the old version, key revocation, and other critical actions are separate operations requiring exact current authorization and independent step-up. A trusted component verifies a real hardware factor or an OTP on a separate device. The AI does not enter the code or substitute metadata for verification. If no such component exists, leave the action to the human.

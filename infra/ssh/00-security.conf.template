@@ -1,0 +1,15 @@
+# Replace the marker with the independently tested account before installing.
+# Check Include order and Match blocks using sshd -T -C before reload.
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PermitEmptyPasswords no
+PubkeyAuthentication yes
+AuthenticationMethods publickey
+AllowUsers @@ADMIN_USER@@
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+PermitTunnel no
+MaxAuthTries 3
+LoginGraceTime 30

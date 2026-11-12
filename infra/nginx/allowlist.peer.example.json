@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "mode": "peer",
+  "peer_cidrs": ["REPLACE_WITH_ALLOWED_TRANSPORT_PEER_CIDR"]
+}

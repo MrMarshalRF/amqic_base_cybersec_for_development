@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "paths": [
+    "/.git", "/.env", "/.ssh", "/.aws", "/.well-known/security-private",
+    "/.svn", "/.hg", "/.docker", "/.kube", "/.config", "/.azure",
+    "/credentials", "/kubeconfig", "/service-account.json", "/web.config",
+    "/appsettings.json", "/wp-config.php", "/phpinfo.php", "/database.yml",
+    "/config.yml", "/config.yaml", "/config.json", "/terraform.tfstate",
+    "/terraform.tfvars", "/etc/passwd", "/etc/shadow", "/proc", "/server-status",
+    "/.graphify", "/graphify-out", "/graphify-output", "/AGENTS.md",
+    "/AGENTS.override.md", "/.mcp.json", "/mcp.json", "/plans", "/receipts",
+    "/admin", "/internal", "/private", "/secrets", "/config", "/backups",
+    "/src", "/source", "/node_modules", "/vendor", "/package.json",
+    "/package-lock.json", "/composer.json", "/Dockerfile", "/compose.yaml",
+    "/docker-compose.yml", "/config.local.toml", "/id_rsa", "/id_ed25519"
+  ]
+}

@@ -1,0 +1,35 @@
+# Host nginx terminates TLS and proxies to the explicit internal app IPv4:8080.
+services:
+  app:
+    image: "${APP_IMAGE_REPOSITORY:?Set reviewed image repository}@sha256:${APP_IMAGE_SHA256:?Set reviewed image digest}"
+    pull_policy: never
+    user: "65532:65532"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    # Docker's default seccomp remains active. Never use seccomp=unconfined.
+    privileged: false
+    pids_limit: 64
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.50
+    ulimits:
+      core: {soft: 0, hard: 0}
+      nofile: {soft: 1024, hard: 1024}
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+    networks:
+      app_private:
+        ipv4_address: "${APP_PRIVATE_IPV4:?Set nonconflicting private app IPv4}"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+    # No host files, sockets, devices, /proc mounts or shared PID namespaces.
+networks:
+  app_private:
+    internal: true
+    ipam:
+      config:
+        - subnet: "${APP_PRIVATE_SUBNET:?Set nonconflicting RFC1918 subnet}"

@@ -1,0 +1,4 @@
+# Preserve release payload bytes for the signed SHA-256 registry.
+* -text
+*.gif binary
+*.sig binary

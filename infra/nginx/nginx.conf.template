@@ -1,0 +1,220 @@
+# Generate with render.py. This file cannot be loaded with unresolved markers.
+worker_processes auto;
+pid /tmp/nginx.pid;
+# Routine access/limiter diagnostics can echo the request URI. Keep only critical errors.
+error_log /dev/stderr crit;
+events { worker_connections 512; }
+http {
+    server_tokens off;
+    merge_slashes on;
+    client_max_body_size 1m;
+    client_body_timeout 15s;
+    client_header_timeout 15s;
+    keepalive_timeout 30s;
+    send_timeout 30s;
+    client_body_temp_path /tmp/client-body;
+    proxy_temp_path /tmp/proxy;
+    fastcgi_temp_path /tmp/fastcgi;
+    uwsgi_temp_path /tmp/uwsgi;
+    scgi_temp_path /tmp/scgi;
+    # Do not log query strings, cookies or authorization headers.
+    log_format safe '$remote_addr $request_method $status $body_bytes_sent';
+    access_log /dev/stdout safe;
+    # The socket peer is authoritative. X-Forwarded-For is never a rate-limit key.
+    map $uri $api_request {
+        default 0;
+        "~*^/(?:api|mcp)(?:/|$)" 1;
+    }
+    limit_req_zone $binary_remote_addr zone=website_per_ip:10m rate=10r/s;
+    limit_req_zone $binary_remote_addr zone=api_per_ip:10m rate=10r/m;
+    # Each access/content location below applies exactly one zone.
+    limit_req_status 429;
+    limit_req_dry_run off;
+    limit_req_log_level warn;
+    map $scheme $hsts_policy {
+        default "";
+        https "max-age=31536000";
+    }
+    # One common level preserves these headers in named error/denial locations.
+    add_header Content-Security-Policy "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; media-src 'none'; worker-src 'none'; upgrade-insecure-requests" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy no-referrer always;
+    add_header Strict-Transport-Security $hsts_policy always;
+    # Preserve any stricter upstream CSP. Browsers enforce both policies together.
+    proxy_hide_header X-Content-Type-Options;
+    proxy_hide_header Referrer-Policy;
+    proxy_hide_header Strict-Transport-Security;
+@@INGRESS_POLICY@@
+    map $uri $protected_uri {
+        default 0;
+        # Dot segments, residual encoding and backslashes are never public paths.
+        "~(?:^|/)\." 1;
+        "~%" 1;
+        "~\\\\" 1;
+        "~*\\.(?:bak|backup|old|orig|save|swp|swo|sql|sqlite3?|db|pem|key|p12|pfx|kdbx|keyx|tfstate)(?:$|[;/~.])" 1;
+@@PROTECTED_RULES@@
+    }
+    map $http_host $http_host_ok {
+        default 0;
+        "@@HOST@@" 1;
+        "@@HOST@@:80" 1;
+    }
+    map $http_host $https_host_ok {
+        default 0;
+        "@@HOST@@" 1;
+        "@@HOST@@:443" 1;
+    }
+    map $ssl_server_name $sni_ok {
+        default 0;
+        "@@HOST@@" 1;
+    }
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
+        location / {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location ~* ^/(?:api|mcp)(?:/|$) {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_response { return 421; }
+    }
+    server {
+        listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
+        server_name _;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_reject_handshake on;
+        location / {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location ~* ^/(?:api|mcp)(?:/|$) {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_response { return 421; }
+    }
+    server {
+        listen 80;
+        listen [::]:80;
+        server_name @@HOST@@;
+        recursive_error_pages on;
+        error_page 418 = @protected;
+        error_page 419 = @misdirected;
+        error_page 420 = @misdirected_api;
+        error_page 422 = @protected_api;
+        if ($http_host_ok = 0) { return 419; }
+        if ($ingress_allowed = 0) { return 418; }
+        if ($protected_uri) { return 418; }
+        location @protected {
+            if ($api_request) { return 422; }
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+        }
+        location @protected_api {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+        }
+        location @misdirected {
+            if ($api_request) { return 420; }
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+            # Local error_page entries replace the inherited list.
+            error_page 420 = @misdirected_api;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_api {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_response { return 421; }
+        # Access-phase denial reaches the preaccess limiter before this redirect.
+        location / {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @https_redirect;
+        }
+        location ~* ^/(?:api|mcp)(?:/|$) {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @https_redirect;
+        }
+        # Fixed configured authority prevents attacker-controlled Host redirects.
+        location @https_redirect { return 308 https://@@HOST@@$request_uri; }
+    }
+    server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name @@HOST@@;
+        recursive_error_pages on;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_certificate /etc/nginx/tls/fullchain.pem;
+        ssl_certificate_key /etc/nginx/tls/privkey.pem;
+        ssl_session_tickets off;
+        error_page 418 = @protected;
+        error_page 419 = @misdirected;
+        error_page 420 = @misdirected_api;
+        error_page 422 = @protected_api;
+        if ($sni_ok = 0) { return 419; }
+        if ($https_host_ok = 0) { return 419; }
+        if ($ingress_allowed = 0) { return 418; }
+        if ($protected_uri) { return 418; }
+        location @protected {
+            if ($api_request) { return 422; }
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+        }
+        location @protected_api {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+        }
+        location @misdirected {
+            if ($api_request) { return 420; }
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+            error_page 420 = @misdirected_api;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_api {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+            error_page 403 = @misdirected_response;
+        }
+        location @misdirected_response { return 421; }
+        proxy_set_header Host @@HOST@@;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Forwarded "";
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 30s;
+        proxy_send_timeout 30s;
+        # These exact public routes are examples. Review each new route explicitly.
+        location = / {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            limit_except GET { deny all; }
+            proxy_pass http://@@UPSTREAM@@;
+        }
+        location = /api/v1/status {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            limit_except GET { deny all; }
+            proxy_pass http://@@UPSTREAM@@;
+        }
+        location ~* ^/(?:api|mcp)(?:/|$) {
+            limit_req zone=api_per_ip burst=9 nodelay;
+            deny all;
+        }
+        location / {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            deny all;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+AMQIC voluntary support wallet addresses
+Copyright (c) 2026 amqic.ai
+Maintainer: Aleksei Musienko
+
+USDT
+Network: TRC20
+Address: TTu2KEobZW3hv8RaX2VaWz4Fkj8hQ1Wjqx
+
+BTC
+Network: Bitcoin
+Address: 19BvhiToixuGvVsVw1fZTiDdAPnXhHJzG3
+
+ETH
+Network: Ethereum
+Address: 0xf26b834094b9509d5ec3131759ecb64fb45f7405
+
+Before using an address, verify the maintainer's post-quantum signature on SHA256SUMS at:
+https://amqic.ai/pages/request-verification
+
+Then compare the SHA-256 of this exact wallets.txt file with its SHA256SUMS entry.
+Use the exact asset and network listed. Changes require a new registry and signature.

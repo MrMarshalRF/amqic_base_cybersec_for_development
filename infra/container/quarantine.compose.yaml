@@ -1,0 +1,71 @@
+# Two explicitly separate invocations, described in INFRASTRUCTURE.md.
+services:
+  prepare:
+    profiles: [prepare]
+    image: "${PYTHON_IMAGE_REPOSITORY:?Set reviewed Python repository}@sha256:${PYTHON_IMAGE_SHA256:?Set reviewed Python digest}"
+    pull_policy: never
+    user: "0:0"
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [CHOWN]
+    security_opt: [no-new-privileges:true]
+    network_mode: none
+    pids_limit: 8
+    mem_limit: 64m
+    cpus: 0.25
+    entrypoint: [python3, -c]
+    command:
+      - |
+        import os
+        if list(os.scandir('/payload')):
+            raise SystemExit('Volume must be new and empty')
+        os.chmod('/payload', 0o700)
+        os.chown('/payload', 65532, 65532)
+    volumes:
+      - payload:/payload
+  fetch:
+    profiles: [fetch]
+    image: "${PYTHON_IMAGE_REPOSITORY:?Set reviewed Python repository}@sha256:${PYTHON_IMAGE_SHA256:?Set reviewed Python digest}"
+    pull_policy: never
+    user: "65532:65532"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 16
+    mem_limit: 128m
+    cpus: 0.25
+    entrypoint: [python3, /tools/quarantine.py, fetch]
+    environment:
+      ARTIFACT_URL: "${ARTIFACT_URL:?Set exact HTTPS artifact URL}"
+      ARTIFACT_SHA256: "${ARTIFACT_SHA256:?Set independently verified SHA-256}"
+    volumes:
+      - payload:/payload
+      - ./quarantine.py:/tools/quarantine.py:ro
+    tmpfs: ["/tmp:rw,noexec,nosuid,nodev,size=8m"]
+    networks: [fetch_egress]
+  inspect:
+    profiles: [inspect]
+    image: "${PYTHON_IMAGE_REPOSITORY:?Set reviewed Python repository}@sha256:${PYTHON_IMAGE_SHA256:?Set reviewed Python digest}"
+    pull_policy: never
+    user: "65532:65532"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 16
+    mem_limit: 128m
+    cpus: 0.25
+    network_mode: none
+    entrypoint: [python3, /tools/quarantine.py, inspect]
+    environment:
+      ARTIFACT_SHA256: "${ARTIFACT_SHA256:?Set independently verified SHA-256}"
+    volumes:
+      - payload:/payload:ro
+      - ./quarantine.py:/tools/quarantine.py:ro
+    tmpfs: ["/tmp:rw,noexec,nosuid,nodev,size=8m"]
+volumes:
+  payload:
+    # Prepare a new empty dedicated volume using the one-shot prepare profile.
+    external: true
+    name: "${QUARANTINE_VOLUME:?Set dedicated precreated quarantine volume}"
+networks:
+  fetch_egress: {}

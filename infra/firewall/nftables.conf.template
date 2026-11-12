@@ -1,0 +1,23 @@
+# Rendered candidate for a Linux origin host. Review and check before installation.
+# Exclusive creation refuses to merge silently with an existing table of this name.
+create table inet amqic_origin_guard
+table inet amqic_origin_guard {
+@@SETS@@
+    chain input {
+        type filter hook input priority -10; policy drop;
+        iifname "lo" accept
+        ct state invalid drop
+        ct state established,related accept
+
+        # Preserve error reporting and path MTU discovery.
+        ip protocol icmp icmp type { destination-unreachable, time-exceeded, parameter-problem } accept
+        meta l4proto ipv6-icmp icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem } accept
+        meta l4proto ipv6-icmp ip6 hoplimit 255 icmpv6 type { nd-neighbor-solicit, nd-neighbor-advert } accept
+        meta l4proto ipv6-icmp ip6 saddr fe80::/10 ip6 hoplimit 255 icmpv6 type nd-router-advert accept
+
+        ip saddr @admin_v4 tcp dport @@SSH_PORT@@ accept
+        ip6 saddr @admin_v6 tcp dport @@SSH_PORT@@ accept
+        ip saddr @proxy_v4 tcp dport { 80, 443 } accept
+        ip6 saddr @proxy_v6 tcp dport { 80, 443 } accept
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "mode": "trusted-client",
+  "peer_cidrs": ["REPLACE_WITH_TRUSTED_PROXY_CIDR"],
+  "client_cidrs": ["REPLACE_WITH_ALLOWED_CLIENT_CIDR"],
+  "header": "CF-Connecting-IP"
+}
