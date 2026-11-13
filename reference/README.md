@@ -8,7 +8,7 @@ Run these commands from the `reference` directory.
 
 ```powershell
 node --experimental-sqlite demo.mjs
-node --experimental-sqlite --test core.test.mjs login-client.test.mjs
+node --experimental-sqlite --test core.test.mjs login-client.test.mjs pii-input.test.mjs
 ```
 
 The demo creates temporary in-memory state, a synthetic user, an Ed25519 key, and one synthetic record. Through the core's public methods, it performs login, separate TOTP confirmation, a signed call to an allowed tool, and a retry with a new nonce. The expected result contains `login="completed"`, `first.removed=1`, `retry.removed=1`, `sameResult=true`. The saved response is returned again; the handler is not executed again. No network server is started.
@@ -21,6 +21,7 @@ The demo creates temporary in-memory state, a synthetic user, an Ed25519 key, an
 | --- | --- |
 | `crypto.mjs` | Restricted JSON serialization, SHA-256, Ed25519, scrypt, and TOTP |
 | `core.mjs` | SQLite, login stages, sessions, rate limits, keys, grants, allowed tools |
+| `pii-input.mjs`, `pii-input.test.mjs` | Contact-form schema validation and parameterized SQLite storage with injection regression tests; see [web input protection](../docs/WEB-INPUT-PROTECTION.md) |
 | `login-client.mjs` | Embeddable headless controller for the login sequence |
 | `fixtures.mjs`, `demo.mjs` | Synthetic adapters and an end-to-end example |
 | `core.test.mjs`, `race-worker.mjs` | Checks and a concurrency test using separate SQLite connections |

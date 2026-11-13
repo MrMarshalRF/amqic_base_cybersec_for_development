@@ -121,6 +121,10 @@ docker compose --env-file /secure/quarantine.env -p dependency-review \
 
 After inspection, stop only the containers belonging to that inspection and remove only its demonstrably separate temporary resources according to your retention policy. Keep a safe report, hash, and decision. Do not delete shared volumes or images.
 
+## Upload storage isolation
+
+Use [UPLOAD-ISOLATION.md](UPLOAD-ISOLATION.md) and the separate [uploads Compose topology](../infra/container/uploads.compose.yaml) when an application accepts user files. It separates intake/scanner storage from approved content; it does not replace the dependency-quarantine workflow or provide the application-specific intake, scanning or promotion code.
+
 ## Source verification
 
 The primary nginx, OpenSSH, and Docker guides were checked on November 12, 2026. Verify the applicability of specific parameters against the installed versions. The presence of an example does not establish installation or protection of a particular server.

@@ -108,7 +108,6 @@ backup-manifests/
 dumps/
 *.age
 *.gpg
-*.amqic
 *.tar
 *.tar.gz
 *.tgz
@@ -185,10 +184,8 @@ graphify-output/
 .graphifyignore
 .mcp.json
 mcp.local.json
-amqic-protected-input/
 
 # Task-created transient output and local infrastructure inputs.
-.amqic-*.partial
 .input-*.partial
 .backup-*
 .restore-*

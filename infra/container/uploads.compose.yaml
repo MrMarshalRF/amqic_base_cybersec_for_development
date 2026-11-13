@@ -1,0 +1,109 @@
+# Reference storage boundaries; supply reviewed role-specific implementations.
+# Use a separate Compose project. The prepare profile runs once on NEW volumes.
+x-restrictions: &restrictions
+  pull_policy: never
+  read_only: true
+  privileged: false
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 32
+  mem_limit: 256m
+  memswap_limit: 256m
+  cpus: 0.50
+  ulimits:
+    core: {soft: 0, hard: 0}
+    nofile: {soft: 1024, hard: 1024}
+  tmpfs: ["/tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777"]
+
+x-quarantine-mount: &quarantine-mount
+  type: volume
+  source: quarantine
+  target: /quarantine
+  read_only: true
+  volume: {nocopy: true}
+x-verdicts-mount: &verdicts-mount
+  type: volume
+  source: verdicts
+  target: /verdicts
+  read_only: true
+  volume: {nocopy: true}
+x-clean-mount: &clean-mount
+  type: volume
+  source: clean
+  target: /clean
+  read_only: true
+  volume: {nocopy: true}
+
+services:
+  prepare:
+    <<: *restrictions
+    profiles: [prepare]
+    image: "${PYTHON_IMAGE_REPOSITORY:?Set reviewed Python repository}@sha256:${PYTHON_IMAGE_SHA256:?Set reviewed Python digest}"
+    user: "0:0"
+    cap_add: [CHOWN]
+    network_mode: none
+    entrypoint: [python3, -c]
+    command:
+      - |
+        import os
+        roots = [('/quarantine', 10001, 20001),
+                 ('/verdicts', 10002, 20002),
+                 ('/clean', 10003, 20003)]
+        for path, uid, gid in roots:
+            if list(os.scandir(path)):
+                raise SystemExit('All upload volumes must be new and empty')
+        for path, uid, gid in roots:
+            os.chmod(path, 0o750)
+            os.chown(path, uid, gid)
+    volumes:
+      - <<: *quarantine-mount
+        read_only: false
+      - <<: *verdicts-mount
+        read_only: false
+      - <<: *clean-mount
+        read_only: false
+  intake:
+    <<: *restrictions
+    image: "${UPLOAD_INTAKE_REPOSITORY:?Set reviewed intake repository}@sha256:${UPLOAD_INTAKE_SHA256:?Set reviewed intake digest}"
+    user: "10001:20001"
+    volumes:
+      - <<: *quarantine-mount
+        read_only: false
+    networks: [upload_ingress]
+  scanner:
+    <<: *restrictions
+    image: "${UPLOAD_SCANNER_REPOSITORY:?Set reviewed scanner repository}@sha256:${UPLOAD_SCANNER_SHA256:?Set reviewed scanner digest}"
+    user: "10002:20002"
+    group_add: ["20001"]
+    network_mode: none
+    volumes:
+      - *quarantine-mount
+      - <<: *verdicts-mount
+        read_only: false
+  promoter:
+    <<: *restrictions
+    image: "${UPLOAD_PROMOTER_REPOSITORY:?Set reviewed promoter repository}@sha256:${UPLOAD_PROMOTER_SHA256:?Set reviewed promoter digest}"
+    user: "10003:20003"
+    group_add: ["20001", "20002"]
+    network_mode: none
+    volumes:
+      - *quarantine-mount
+      - *verdicts-mount
+      - <<: *clean-mount
+        read_only: false
+  media:
+    <<: *restrictions
+    image: "${UPLOAD_MEDIA_REPOSITORY:?Set reviewed media repository}@sha256:${UPLOAD_MEDIA_SHA256:?Set reviewed media digest}"
+    user: "10004:10004"
+    group_add: ["20003"]
+    volumes: [*clean-mount]
+    networks: [media_ingress]
+
+# Distinct project-scoped volumes: no shared external name aliases.
+volumes:
+  quarantine: {}
+  verdicts: {}
+  clean: {}
+networks:
+  upload_ingress: {internal: true}
+  media_ingress: {internal: true}

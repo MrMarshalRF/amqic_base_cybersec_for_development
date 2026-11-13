@@ -54,6 +54,14 @@ The associations below are this kit's interpretation of its features against OWA
 | [A09:2025 Security Logging and Alerting Failures](https://top10.owasp.org/2025/A09_2025-Security_Logging_and_Alerting_Failures/) | Audit guidance and minimal ingress logs. | Implement and test security events, protected transport/storage, alerts, and response ownership. No complete logging/alerting subsystem is supplied. |
 | [A10:2025 Mishandling of Exceptional Conditions](https://top10.owasp.org/2025/A10_2025-Mishandling_of_Exceptional_Conditions/) | Local rollback, synchronous adapter checks, bounded inputs, and preserved operation results. | Test dependency failures, timeouts, resource exhaustion, generic external errors, and unknown external outcomes. The core is not an application-wide exception handler. |
 
+## Website form-input example
+
+[pii-input.mjs](../reference/pii-input.mjs) adds bounded contact-field validation and a fixed parameterized SQLite insert. Its regression tests store hostile-looking message strings as data without executing them. The [web input guide](WEB-INPUT-PROTECTION.md) relates this to A05 injection prevention and A01 authorization boundaries, safe HTML output and constrained application containers. Actual HTTP/CSRF checks, browser rendering, database permissions and production privacy controls remain application integration work.
+
+## Binary resilience, VPN and delivery process
+
+The [binary guide](BINARY-OBFUSCATION.md) separately references OWASP MASVS/MASTG for mobile resilience and NIST SSDF 1.1 for build/test/release practices. Symbol stripping is not an access-control measure and does not close an ASVS requirement or Top 10 category by itself. [VPN administration](VPN-TUNNELS.md) complements network access control but retains application authentication and authorization. [Deployment](DEPLOYMENT.md) and [GitHub releases](GITHUB-RELEASES.md) preserve the integrity, configuration and recovery boundaries described above; no new certification or complete category coverage is asserted.
+
 ## Plan verification before adoption
 
 Choose the ASVS requirements applicable to your complete application and its risk, then record each requirement's implementation owner, evidence, result, and exclusions. Start from the full [ASVS 5.0.0 release](https://github.com/OWASP/ASVS/tree/v5.0.0), not only this selected list.

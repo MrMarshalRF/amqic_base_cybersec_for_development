@@ -7,7 +7,7 @@
 
 > **Basic cybersecurity protection.** The measures presented here provide a baseline level of cybersecurity protection. You can substantially extend these capabilities to address a broader range of potential threats. These solutions are intended to help significantly reduce the risk of successful cyberattacks against your applications and systems.
 
-A portable cybersecurity starter kit for developers. It brings together runnable authorization examples, secure infrastructure templates, release preparation tools, and AI skills. The instructions support step-by-step adoption with secure defaults.
+**This is a reusable toolkit, not a standalone application.** It contains independent cybersecurity measures, runnable examples, infrastructure templates, release tools, and AI skills. They are not tied to one product or architecture: select the relevant parts and integrate them into different applications, services, or individual components. You may copy, adapt, and modify them for your own requirements under the MIT license. Match each example to your target runtime and integration contracts; adopting one component does not require adopting the entire kit.
 
 Repository copyright holder — **amqic.ai**. License — [MIT](LICENSE).
 
@@ -23,6 +23,10 @@ Developers building web applications, APIs, MCP integrations, and containerized 
 
 Captured output from `node --experimental-sqlite reference/demo.mjs`, played back with illustrative pacing.
 
+New to cybersecurity? Start with [Security basics, explained simply](docs/SECURITY-BASICS.md): how each protection works, a practical example, and what it does not guarantee.
+
+See the [changelog](CHANGELOG.md) for additions, changes, validation notes and release history.
+
 ## Signed release verification
 
 Official releases use a post-quantum electronic signature on the [SHA256SUMS file registry](SHA256SUMS). Validate that signed registry at [amqic.ai/pages/request-verification](https://amqic.ai/pages/request-verification), then compare the SHA-256 of every release file with its registry entry. The maintainer signs the final registry before publication. See [release verification](docs/RELEASE-VERIFICATION.md) for the scope and checks.
@@ -31,13 +35,15 @@ Report suspected vulnerabilities privately to [cyber@amqic.ai](mailto:cyber@amqi
 
 ## What is included
 
-| Area | Implementation and guide | Related Top 10:2025 risks |
+| Area | Implementation and guide | Related risks and references |
 | --- | --- | --- |
 | Server-side authorization | Login → password → CAPTCHA → TOTP → session, single-use stages, attempt limits, and revocation. [Core](reference/README.md) | [A07, A01](docs/OWASP-MAPPING.md) |
+| Website personal-data forms | Strict server schema, bounded Unicode input and fixed parameterized storage; safe output/container integration guidance. [Web input protection](docs/WEB-INPUT-PROTECTION.md) | [A05, A01](docs/OWASP-MAPPING.md) |
 | Embeddable login | A framework-independent client controller with protection against duplicate submissions and stale responses. [Controller](reference/login-client.mjs) | [A07, A10](docs/OWASP-MAPPING.md) |
 | Machine identity | Ed25519 signatures bound to the request, audience, timestamp, body, and nonce, with persistent replay protection. [Core](reference/README.md) | [A07, A04, A08](docs/OWASP-MAPPING.md) |
 | Sensitive operations | Fresh TOTP verification, a single-use grant for the exact action and arguments, and idempotent retries. [Core](reference/README.md) | [A01, A06](docs/OWASP-MAPPING.md) |
 | API/MCP | A fixed tool catalog, authorization checks, and transport integration contracts. [Integration](reference/README.md) | [A01, A07](docs/OWASP-MAPPING.md) |
+| External web protection | Cloudflare edge/CDN example, safe caching, DDoS concepts, WAF/rate limits and restricted origin. [Cloudflare guide](docs/CLOUDFLARE-EDGE.md) | [A02, A06](docs/OWASP-MAPPING.md) |
 | Nginx origin | HTTPS, Host/SNI checks, blocked paths, a sensitive URI registry, CSP, and 429 responses. [Infrastructure](docs/INFRASTRUCTURE.md) | [A02, A05](docs/OWASP-MAPPING.md) |
 | Initial deployment | Proxying before public launch, closed ports, key-only SSH, and CIDR firewall rules. [Deployment](docs/INITIAL-DEPLOYMENT.md) | [A02](docs/OWASP-MAPPING.md) |
 | Whitelisting | Access restrictions by TCP peer or by end-client address through an explicitly trusted proxy. [Deployment](docs/INITIAL-DEPLOYMENT.md) | [A01, A02](docs/OWASP-MAPPING.md) |
@@ -47,6 +53,11 @@ Report suspected vulnerabilities privately to [cyber@amqic.ai](mailto:cyber@amqi
 | Backups | Explicit file selection, a manifest, restore verification, and AES-256-GCM. [Operations](docs/OPERATIONS.md) | [A04, A08](docs/OWASP-MAPPING.md) |
 | Password management | KeePassXC, KDBX, separate factor storage, and recovery. [KeePassXC](docs/KEEPASSXC.md) | [A04, A07](docs/OWASP-MAPPING.md) |
 | Production preparation | A new clean release directory, exclusion of Git/Graphify/internal files, and checks for common secret patterns. [Preparation](docs/PRODUCTION.md) | [A02, A08](docs/OWASP-MAPPING.md) |
+| Binary release protection | Symbol separation, version-specific obfuscation examples, private diagnostics, and final-byte verification. [Binary guide](docs/BINARY-OBFUSCATION.md) | [Resilience and SSDF scope](docs/BINARY-OBFUSCATION.md#standards-and-evidence) |
+| VPN administration | WireGuard/WireSock and Tailscale patterns, restricted access, and source-address verification. [VPN guide](docs/VPN-TUNNELS.md) | [Network boundaries](docs/VPN-TUNNELS.md) |
+| Upload isolation | Separate quarantine, verdict and approved-content volumes; distinct intake/scanner/promoter/media identities. [Upload guide](docs/UPLOAD-ISOLATION.md) | [ASVS upload / NIST mapping](SECURITY.md#standards-mapping-for-the-v11-additions) |
+| Malware scanning | ClamAV quarantine, update, coverage and failure-policy guidance. [Service protection](docs/SERVICE-PROTECTION.md) | [Layered resource and content checks](docs/SERVICE-PROTECTION.md) |
+| Shared admission state | Private Redis, ACL/TLS, replay-state durability and gateway proof-of-work design guidance. [Service protection](docs/SERVICE-PROTECTION.md) | [Resource-consumption limits](docs/SERVICE-PROTECTION.md#request-proof-of-work-at-a-gateway) |
 | Version currency | Node/Python, supported npm/PyPI dependencies, official metadata, and dated snapshots. [Versions](docs/VERSIONS.md) | [A03](docs/OWASP-MAPPING.md) |
 
 
@@ -68,7 +79,7 @@ Open a terminal in the kit's root directory. These commands run checks against s
 
 ```sh
 node --experimental-sqlite reference/demo.mjs
-node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs
+node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs reference/pii-input.test.mjs
 python -B scripts/test_operations.py
 node --test scripts/test_crypto.mjs
 python -B scripts/test_prepare_production.py
@@ -124,8 +135,35 @@ The primary backup entry point is `scripts/secure_backup.mjs`. It creates a priv
 | [review-dependencies](skills/review-dependencies/SKILL.md) | Offline dependency inspection and an exact SHA-256 approval decision |
 | [prepare-production](skills/prepare-production/SKILL.md) | A clean release inventory and checks for common secret patterns |
 | [check-versions](skills/check-versions/SKILL.md) | Version currency, branch support, and coverage gaps |
+| [obfuscate-binaries](skills/obfuscate-binaries/SKILL.md) | Production binary transformations, preserved contracts, private diagnostics, and final signing |
 
 Give the agent the path to the relevant `SKILL.md`, or install the skill folder through your tool's normal mechanism while preserving access to its relative resources. The skills are part of this kit and reference its `scripts/`, `infra/`, and `docs/` directories. Copying a skill folder alone requires updating those references. Repository agent instructions are in [AGENTS.md](AGENTS.md).
+
+## Production binaries and private administration
+
+Use the [binary obfuscation guide](docs/BINARY-OBFUSCATION.md) to distinguish symbol stripping from actual obfuscation and to preserve diagnostics, runtime compatibility and signing order. It includes Linux ELF and Go metadata-reduction examples, version-bound Garble/R8 templates, and .NET considerations. Obfuscation can increase analysis effort; it cannot protect embedded credentials or replace server-side authorization.
+
+Use the [VPN guide](docs/VPN-TUNNELS.md) for WireGuard with WireSock on Windows or Tailscale, including subnet-router access. Keep SSH and private administrative endpoints restricted by tunnel policy, host firewall and application authorization. A tunnel does not automatically configure Nginx, anonymize an origin, or close public listeners.
+
+## External protection and safe caching
+
+The [Cloudflare edge guide](docs/CLOUDFLARE-EDGE.md) explains network/application DDoS, selective public-asset caching, sensitive-response bypasses, WAF and rate limits, strict origin TLS and proxy-source trust. Cloudflare is an additional layer in front of the existing origin and application controls; caching must never mix one user's personal data with another user's response.
+
+## Website form data and container boundaries
+
+The [web input guide](docs/WEB-INPUT-PROTECTION.md) and [server module](reference/pii-input.mjs) validate contact fields and keep SQL structure fixed while binding all submitted values. Browser output stays plain text; form values never become shell commands or dynamically evaluated code. The guide connects these protections to the constrained server container, least-privilege database access and private networking. Each layer keeps its own checks: container isolation does not replace safe queries or authorization.
+
+## Uploads stay outside primary storage
+
+The [upload-isolation guide](docs/UPLOAD-ISOLATION.md) and [Compose topology](infra/container/uploads.compose.yaml) separate the untrusted intake area from approved content and the main application. Only the trusted promoter can write approved storage, after matching the exact scanned bytes; the media service reads approved content only. The template defines isolation boundaries and requires separately implemented role-specific services.
+
+## Malware scanning and shared request limits
+
+The [service-protection guide](docs/SERVICE-PROTECTION.md) explains ClamAV on a server, private Redis state shared by constrained services, and request proof of work before expensive API/MCP handlers. It covers scan failures, update freshness, ACL/TLS, eviction and failover, atomic consumption and retained authorization. These are integration patterns; this kit does not install a scanner/Redis or implement a proof-of-work gateway.
+
+## Secure deployment and GitHub releases
+
+Follow the [production deployment runbook](docs/DEPLOYMENT.md) for signed-artifact verification, recovery, configuration and secrets, compatible migrations, staged rollout, real-path checks and rollback. Follow the [GitHub release guide](docs/GITHUB-RELEASES.md) for README/SECURITY/LICENSE contents, source-versus-binary inventories, deterministic SHA-256 registries, signing, version tags, draft assets and download verification. Publishing a release and activating it in production are separate actions.
 
 ## Release preparation and updates
 

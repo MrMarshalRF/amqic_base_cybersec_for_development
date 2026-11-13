@@ -72,6 +72,12 @@ python3 -B infra/nginx/render.py --host your-owned-domain.example \
 
 Check the nginx CIDRs against the cloud firewall, origin authentication, and actual proxy addresses. Run `nginx -t` and test allowed/denied clients, header spoofing, protected URIs, limits, and CSP. Only then use the candidate in the server's standard change procedure.
 
+## Private administrative tunnels
+
+See [VPN-TUNNELS.md](VPN-TUNNELS.md) for WireGuard/WireSock and Tailscale deployment patterns, routing boundaries and recovery checks. Tunnel connectivity and application identity are separate: preserve SSH keys, MFA where applicable, host ingress restrictions and Nginx policy.
+
+For a worked external-layer example, read [Cloudflare edge protection](CLOUDFLARE-EDGE.md), including DDoS concepts, selective caching, WAF and strict origin TLS. The edge complements the origin firewall and application; it does not replace them.
+
 ## 6. Publish only proxied web access
 
 Create the web DNS record with proxy mode enabled from the outset, if the provider supports it. Do not publish a temporary DNS-only origin record for initial testing. After delegating DNS, verify that the public answer for the web name contains proxy addresses and that the origin accepts web connections only from allowed networks and with the correct TLS/Host. Certificates can be prepared through a verified DNS-01 process without exposing the origin to the entire internet.

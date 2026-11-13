@@ -34,6 +34,8 @@ Hidden input and file permissions protect against accidental exposure of a secre
 
 Encryption preserves archive confidentiality when a strong passphrase or key is used. It requires key protection, access control for decryption, and a backup recovery method. Losing all keys makes recovery impossible.
 
+Obfuscation can slow reverse engineering but cannot make a distributed client a trusted authority or protect embedded credentials. The [binary guide](BINARY-OBFUSCATION.md) requires runtime-contract checks, diagnostic recovery and final-byte signing. [VPN tunnels](VPN-TUNNELS.md) add transport/network restrictions only; tunnel policy, host firewall, SSH keys and application access control must agree.
+
 ## Official sources
 
 - [Ed25519, RFC 8032](https://www.rfc-editor.org/rfc/rfc8032.html)

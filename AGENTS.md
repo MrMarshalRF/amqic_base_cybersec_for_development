@@ -6,13 +6,21 @@ This repository is a portable security starter kit. Keep documentation, skill de
 
 Read the relevant module instructions before editing. Use README.md for navigation, docs/SECURITY-MODEL.md for boundaries and docs/VALIDATION.md for tested scope. Reuse existing code and preserve unrelated user changes. Keep changes within the requested task.
 
+## Explain the basics when needed
+
+For contributors or users unfamiliar with cybersecurity, link to [Security basics, explained simply](docs/SECURITY-BASICS.md). It explains each kit mechanism with a plain-language example and its limits. Use it to orient the reader, then follow the specific implementation/deployment guide; simple explanations do not replace the relevant security checks.
+
 ## Source layout
 
 - reference/ holds the transport-neutral authorization core, headless login controller, synthetic fixtures and regression tests. Read reference/README.md before changing contracts.
 - scripts/ holds protected input, AES-256-GCM archive helpers, backups, production staging and version evidence tools.
 - infra/nginx/ and infra/firewall/ generate candidates. infra/ssh/ and infra/container/ contain templates. Deployment guidance is in docs/INITIAL-DEPLOYMENT.md and docs/INFRASTRUCTURE.md.
-- skills/ contains five task-specific AI skills. Their relative references require the surrounding kit layout.
+- skills/ contains six task-specific AI skills. Their relative references require the surrounding kit layout.
 - LICENSE contains the standard MIT grant. Preserve its copyright and permission notice.
+
+## Record user-visible changes
+
+Update [CHANGELOG.md](CHANGELOG.md) when a task adds, changes, fixes or removes user-visible behavior, guidance or supported integrations. Keep unassigned future work under Unreleased. Finalize the accepted version entry before signing its registry, using a publication date only when known. A version entry alone must not claim publication; GitHub Releases records that state. Do not edit an already signed release to update its status; make subsequent changes in the next version. Record material validation limits; do not equate documentation, a local commit or a build with deployment. Include the final changelog bytes in the regenerated SHA256SUMS before maintainer signing.
 
 ## Implementation and checks
 
@@ -21,7 +29,7 @@ Use standard-library facilities already present. New dependencies need a task-sp
 Run checks matching the changed behavior. From repository root, the existing commands include these.
 
 ```sh
-node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs
+node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs reference/pii-input.test.mjs
 node --experimental-sqlite reference/demo.mjs
 python -B scripts/test_operations.py
 node --test scripts/test_crypto.mjs

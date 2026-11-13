@@ -1,6 +1,6 @@
 # Preparing a clean production kit
 
-This procedure creates a new source-code kit with verified contents. The source files are preserved. Publication, server configuration, and changes to operational data are separate actions.
+This procedure creates a new source-code kit with verified contents. The source files are preserved. Publication, server configuration, and changes to operational data are separate actions. Continue with the [deployment runbook](DEPLOYMENT.md) for target installation and rollout or the [GitHub release guide](GITHUB-RELEASES.md) for public source/artifact publication and signed registries.
 
 ## 1. Define the operational contents
 
@@ -31,11 +31,21 @@ A small scanner looks for credential literals, some known token formats, and pri
 
 `PRODUCTION-MANIFEST.json` contains only included relative paths, sizes, file SHA-256 values, and a deterministic list hash. Absolute source paths and information about excluded files are not included. Keep the reference hash in a separate trusted release record. The manifest itself does not establish a file's provenance. `validate` rechecks exact membership, the absence of extra directories, hashes, and the limited scanner.
 
+## Binary artifacts and private administrative access
+
+For executable artifacts, use the separate [binary transformation guide](BINARY-OBFUSCATION.md) and [AI skill](../skills/obfuscate-binaries/SKILL.md). The source staging tool remains UTF-8-only. Keep the unmodified baseline and diagnostic mappings, validate runtime contracts after transformation, inspect the final package, and complete all byte changes before platform signing and the final signed inventory.
+
+For administrative access over WireGuard/WireSock or Tailscale, follow [VPN-TUNNELS.md](VPN-TUNNELS.md). Test a second tunnel session, denial from outside the tunnel and an independent recovery path before restricting existing access. Do not change a live VPN or firewall merely to build a release.
+
+For applications accepting untrusted files or expensive requests, plan the [ClamAV, Redis and admission-control integration](SERVICE-PROTECTION.md) separately. Verify scanner coverage/failure policy and shared-state behavior; the source scanner in this kit is not antivirus and is not replaced by Redis or a request puzzle.
+
 ## 4. Resolve findings
 
 When the process stops, examine the rule and path locally. Do not send the secret value in chat or publish the detected fragment. Move a real secret into an external runtime store. If it has already been exposed in a repository, log, artifact, or publication, the authorized owner revokes/rotates it and checks previous distribution locations. Changing the latest file does not revoke the old key. A false positive requires a manual change to the safe template or an appropriate verified process. There is no automatic bypass flag.
 
 The lexical scanner does not determine every field's meaning. For example, a field with a credential-related name may contain the name of the next UI state. The code owner and an independent reviewer first confirm that the value is not a secret. Then, if necessary, they choose another representation while preserving behavior and checking for regressions. Changing syntax, encoding, or names to conceal a real secret from the scanner is prohibited. Real credentials are moved to a protected runtime store. Excluding a file from scanning or maintaining a list of “safe” values does not establish the absence of a secret.
+
+For website forms handling personal data, apply [WEB-INPUT-PROTECTION.md](WEB-INPUT-PROTECTION.md): server-side field validation, fixed parameterized storage, safe rendering, HTTP/body and CSRF checks, and constrained container permissions. Input must remain data across every downstream operation.
 
 ## 5. Check access and rollback
 
