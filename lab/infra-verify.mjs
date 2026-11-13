@@ -72,7 +72,8 @@ export function verifyInfrastructure(output) {
     }
     result.checks.ssh = probe(client.id, 'ssh-probe', server.ip); assert(result.checks.ssh.ok, 'SSH policy check failed');
     // Actual listeners on namespace-only addresses, with no published host ports.
-    exec(server.id, 'sh', '-c', 'python3 -m http.server 443 >/dev/null 2>&1 & python3 -m http.server 8080 >/dev/null 2>&1 &');
+    result.checks.httpSetup = probe(server.id, 'http-setup');
+    assert(result.checks.httpSetup.ok, 'Synthetic HTTP listeners are not ready');
     result.checks.tcpBaseline = { admin: probe(client.id, 'tcp', server.ip, '2222'), proxy: probe(client.id, 'tcp', server.ip, '443'), arbitrary: probe(client.id, 'tcp', server.ip, '8080'), outsider: probe(outsider.id, 'tcp', server.ip, '2222') };
     assert(Object.values(result.checks.tcpBaseline).every(x => x.connected), 'Baseline TCP reachability failed');
     result.checks.firewallLoad = probe(server.id, 'firewall', client.ip);

@@ -182,8 +182,11 @@ class VersionTests(unittest.TestCase):
     def test_project_local_node_never_runs(self):
         executable = self.root / "node.exe"
         executable.write_bytes(b"synthetic fake executable")
+        child = self.root / "child"
+        child.mkdir()
         with patch.object(versions, "node_candidates", return_value=[executable]), patch.object(versions.subprocess, "run", side_effect=AssertionError("must not execute project file")):
             self.assertIsNone(versions.runtime_node(self.root))
+            self.assertIsNone(versions.runtime_node(child / ".."))
 
 
 if __name__ == "__main__":

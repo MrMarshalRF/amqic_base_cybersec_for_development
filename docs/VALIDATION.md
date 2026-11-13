@@ -2,6 +2,12 @@
 
 The final [v1.2 completion protocol](../verification/v1.2.0-report.json) records the actual commands, observed versions, source identities, results and remaining checks. [VERIFICATION.md](VERIFICATION.md) explains report semantics; [REPRODUCIBLE-LAB.md](REPRODUCIBLE-LAB.md) provides the working examples. A passing report establishes the exercised assertions, not that all defects or deployment risks are absent.
 
+## Hosted CI corrections — v1.2.1
+
+The first published v1.2.0 workflow exposed a concurrent SQLite initialization failure, incorrect project-path comparison with Windows short aliases, and a race between starting synthetic HTTP servers and probing their ports. The corrected code applies the busy timeout before WAL setup, resolves both sides of the executable-path comparison, and waits for the actual listener sockets before continuing. Security assertions and supported Node/OS matrix entries remain enabled.
+
+All five jobs passed on the corrected candidate commit `06209c0a88c562b6d970e62a891cc076a3fa6a85`, including Node 22 and 24 on Ubuntu 24.04 and Windows Server 2022, plus the complete `all-local` job. The workflow retains bounded JSON/log diagnostic artifacts for seven days, so individual failed commands and infrastructure checks can be inspected. This hosted result complements the historical local v1.2.0 protocol. [Verified GitHub Actions run](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/actions/runs/43474444198)
+
 ## Reproduce the checks
 
 ```sh

@@ -2,6 +2,21 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.2.1 — 2026-11-13
+
+### Fixed
+
+- Apply the SQLite busy timeout before WAL initialization so concurrent replay-store constructors wait for the database lock.
+- Resolve the project directory before excluding project-local executables from runtime discovery, including Windows short-path aliases.
+- Wait for both synthetic HTTP listeners to become ready before infrastructure reachability checks.
+- Preserve diagnostics for every failed verification command and reserve their output paths before laboratory preparation.
+
+- Update the pinned GitHub actions to Node 24-based releases to remove the Node 20 runtime deprecation warning.
+
+### Validation
+
+- All five jobs passed in the hosted CI candidate, covering Node 22/24 on Ubuntu/Windows and the complete local infrastructure/service lab. The recorded run identifies its tested commit in [VALIDATION.md](docs/VALIDATION.md).
+
 ## v1.2.0 — 2026-11-13
 
 ### Added
