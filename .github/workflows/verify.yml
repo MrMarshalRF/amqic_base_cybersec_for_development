@@ -25,7 +25,20 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run fixed baseline and record skipped integrations
-        run: node scripts/verify.mjs ${{ runner.os == 'Linux' && matrix.node == '22' && '--compose' || '' }}
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/kit-ci"
+          node scripts/verify.mjs ${{ runner.os == 'Linux' && matrix.node == '22' && '--compose' || '' }} --output "$RUNNER_TEMP/kit-ci/baseline.json"
+      - name: Preserve verification diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: baseline-${{ matrix.os }}-node-${{ matrix.node }}
+          path: |
+            ${{ runner.temp }}/kit-ci/*.json
+            ${{ runner.temp }}/kit-ci/*.log
+          if-no-files-found: warn
+          retention-days: 7
   all-local:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -41,4 +54,16 @@ jobs:
           python-version: '3.12'
       - name: Exercise all fixed local scenarios
         shell: bash
-        run: sh lab/run.sh --output "$RUNNER_TEMP/all-local.json"
+        run: |
+          mkdir -p "$RUNNER_TEMP/kit-ci"
+          sh lab/run.sh --output "$RUNNER_TEMP/kit-ci/all-local.json"
+      - name: Preserve verification diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: all-local-diagnostics
+          path: |
+            ${{ runner.temp }}/kit-ci/*.json
+            ${{ runner.temp }}/kit-ci/*.log
+          if-no-files-found: warn
+          retention-days: 7

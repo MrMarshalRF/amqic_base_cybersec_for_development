@@ -22,7 +22,7 @@ export class SqlitePowStore {
   #db;
   constructor(database = ':memory:') {
     this.#db = new DatabaseSync(database);
-    this.#db.exec(`PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL; PRAGMA busy_timeout=3000;
+    this.#db.exec(`PRAGMA busy_timeout=3000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;
       CREATE TABLE IF NOT EXISTS admission_used (nonce TEXT PRIMARY KEY, expires INTEGER NOT NULL);
       CREATE TABLE IF NOT EXISTS admission_clock (id INTEGER PRIMARY KEY CHECK(id=1), seen INTEGER NOT NULL);
       INSERT OR IGNORE INTO admission_clock VALUES(1,0);`);
