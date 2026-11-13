@@ -11,6 +11,8 @@ This file records user-visible additions, changes and validation notes by versio
 - Wait for both synthetic HTTP listeners to become ready before infrastructure reachability checks.
 - Preserve diagnostics for every failed verification command and reserve their output paths before laboratory preparation.
 
+- Update the pinned GitHub actions to Node 24-based releases to remove the Node 20 runtime deprecation warning.
+
 ### Validation
 
 - All five jobs passed in the hosted CI candidate, covering Node 22/24 on Ubuntu/Windows and the complete local infrastructure/service lab. The recorded run identifies its tested commit in [VALIDATION.md](docs/VALIDATION.md).
