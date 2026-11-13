@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:amqic:security-lab:all-local:1",
+  "title": "AMQIC all-local lab result",
+  "type": "object",
+  "required": ["schema_version", "mode", "scope", "started_at", "status", "checks", "prerequisites", "scenarios"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "mode": {"const": "all-local"},
+    "scope": {"type": "string"},
+    "started_at": {"type": "string"},
+    "finished_at": {"type": "string"},
+    "status": {"enum": ["plan", "invalid_request", "failed", "prerequisite_missing", "local_accepted"]},
+    "exit_code": {"enum": [0, 1, 2]},
+    "effect_free": {"const": true},
+    "local_accepted": {"type": "boolean"},
+    "production_verified": {"const": false},
+    "source_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_files": {"type": "array", "items": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "checks": {"type": "array", "items": {"type": "object", "required": ["id", "status"], "properties": {"id": {"type": "string"}, "status": {"enum": ["passed", "failed", "prerequisite_missing"]}, "exit_code": {"type": ["integer", "null"]}, "output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "prerequisites": {"type": "array"},
+    "scenarios": {"type": "array", "items": {"type": "object", "required": ["id", "category"], "properties": {"id": {"type": "string"}, "category": {"enum": ["local", "source-reviewed", "external"]}, "status": {"enum": ["passed", "failed", "prerequisite_missing", "source_reviewed", "external_not_run"]}}}},
+    "cleanup_pending": {"type": "boolean"},
+    "reconciliation_required": {"type": "string"}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "plan"}}}, "then": {"required": ["effect_free", "images", "stages", "status_categories", "exit_codes"]}},
+    {"if": {"properties": {"status": {"const": "local_accepted"}}}, "then": {"required": ["exit_code", "local_accepted", "production_verified", "finished_at", "source_digest", "source_files"], "properties": {"exit_code": {"const": 0}, "local_accepted": {"const": true}}}},
+    {"if": {"properties": {"status": {"const": "prerequisite_missing"}}}, "then": {"properties": {"exit_code": {"const": 2}, "local_accepted": {"const": false}}}},
+    {"if": {"properties": {"status": {"enum": ["failed", "invalid_request"]}}}, "then": {"properties": {"exit_code": {"const": 1}}}}
+  ]
+}

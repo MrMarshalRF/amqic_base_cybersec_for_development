@@ -5,6 +5,10 @@
 [![GitHub forks](https://img.shields.io/github/forks/MrMarshalRF/amqic_base_cybersec_for_development?style=flat)](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/forks)
 [![GitHub issues](https://img.shields.io/github/issues/MrMarshalRF/amqic_base_cybersec_for_development?style=flat)](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/issues)
 
+> **You can verify every release file.** First authenticate the signed [SHA256SUMS](SHA256SUMS) registry through [AMQIC verification](https://amqic.ai/pages/request-verification). Then compare the SHA-256 of each release file with its registry entry.
+>
+> The [VirusTotal scan register](VIRUSTOTAL.md) provides per-file reports and SHA-256 values for all 127 files in the scanned snapshot. The [JSON report](VIRUSTOTAL.json) includes individual engine results.
+
 > **Basic cybersecurity protection.** The measures presented here provide a baseline level of cybersecurity protection. You can substantially extend these capabilities to address a broader range of potential threats. These solutions are intended to help significantly reduce the risk of successful cyberattacks against your applications and systems.
 
 **This is a reusable toolkit, not a standalone application.** It contains independent cybersecurity measures, runnable examples, infrastructure templates, release tools, and AI skills. They are not tied to one product or architecture: select the relevant parts and integrate them into different applications, services, or individual components. You may copy, adapt, and modify them for your own requirements under the MIT license. Match each example to your target runtime and integration contracts; adopting one component does not require adopting the entire kit.
@@ -14,6 +18,30 @@ Repository copyright holder — **amqic.ai**. License — [MIT](LICENSE).
 Developer — **Aleksei Musienko**
 
 Quantum Information & Artificial Intelligence & Mathematical Physics Scientist | Chief Scientist & Head of AMQIC | Q-Developer & SEC Architect | [amqic.ai](https://amqic.ai)
+
+## One command for people and AI agents
+
+[The complete local lab](docs/ALL-LAB.md) exposes a side-effect-free JSON plan and a fixed all-local runner:
+
+```sh
+node scripts/verify.mjs --plan
+node scripts/verify.mjs --all --prepare --output /absolute/external/all-local.json
+```
+
+On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new external report directory and runs the same fixed all-local plan. [Host prerequisites and visible parameters](lab/host-requirements.md) explain the machine requirements and every configuration boundary.
+
+`--prepare` explicitly authorizes only the pinned lab prerequisites. The [scenario catalogue](lab/scenarios.json), [JSON protocol schema](lab/protocol.schema.json) and [AI skill](skills/run-security-lab/SKILL.md) make prerequisites, actions, results and cleanup machine-readable. Local tests and external/manual provider checks remain distinct.
+
+## Run and verify the implementation
+
+The [reproducible lab](docs/REPRODUCIBLE-LAB.md) runs a real HTTP form, server-enforced synthetic login, parameterized storage, an upload/quarantine/promotion flow, the ClamAV protocol and a browser consumer. Its automatic mode also checks a real Redis limiter. Use the pinned prerequisites and a new external report path:
+
+```sh
+node --experimental-sqlite lab/run-lab.mjs --verify --output /absolute/external/live-result.json
+node scripts/verify.mjs --full --output /absolute/external/whole-kit-result.json
+```
+
+Every payload file is classified in [coverage.json](verification/coverage.json). [Claims and limitations](verification/claims.json) connect mechanisms to named checks and standards. The [completion protocol](verification/v1.2.0-report.json) records final observed results. Executable references, configuration templates and source-reviewed guides are distinct; a guide is not counted as a deployed control. Hosted CI is configured, not claimed to have run before publication.
 
 ## Who this is for
 
@@ -38,6 +66,8 @@ Report suspected vulnerabilities privately to [cyber@amqic.ai](mailto:cyber@amqi
 | Area | Implementation and guide | Related risks and references |
 | --- | --- | --- |
 | Server-side authorization | Login → password → CAPTCHA → TOTP → session, single-use stages, attempt limits, and revocation. [Core](reference/README.md) | [A07, A01](docs/OWASP-MAPPING.md) |
+| Runnable verification lab | Real HTTP/browser, ClamAV and Redis consumers; fixed whole-kit verifier and CI. [Reproduction](docs/REPRODUCIBLE-LAB.md) | [Evidence boundaries](verification/claims.json) |
+| Request admission reference | Bound single-use proof of work, SQLite replay store and fixed Redis rate limiter. [Admission](lab/admission.README.md) | [NIST SC-5 scope](verification/claims.json) |
 | Website personal-data forms | Strict server schema, bounded Unicode input and fixed parameterized storage; safe output/container integration guidance. [Web input protection](docs/WEB-INPUT-PROTECTION.md) | [A05, A01](docs/OWASP-MAPPING.md) |
 | Embeddable login | A framework-independent client controller with protection against duplicate submissions and stale responses. [Controller](reference/login-client.mjs) | [A07, A10](docs/OWASP-MAPPING.md) |
 | Machine identity | Ed25519 signatures bound to the request, audience, timestamp, body, and nonce, with persistent replay protection. [Core](reference/README.md) | [A07, A04, A08](docs/OWASP-MAPPING.md) |
@@ -136,6 +166,7 @@ The primary backup entry point is `scripts/secure_backup.mjs`. It creates a priv
 | [prepare-production](skills/prepare-production/SKILL.md) | A clean release inventory and checks for common secret patterns |
 | [check-versions](skills/check-versions/SKILL.md) | Version currency, branch support, and coverage gaps |
 | [obfuscate-binaries](skills/obfuscate-binaries/SKILL.md) | Production binary transformations, preserved contracts, private diagnostics, and final signing |
+| [run-security-lab](skills/run-security-lab/SKILL.md) | Plan and run the fixed local scenarios and interpret machine-readable evidence |
 
 Give the agent the path to the relevant `SKILL.md`, or install the skill folder through your tool's normal mechanism while preserving access to its relative resources. The skills are part of this kit and reference its `scripts/`, `infra/`, and `docs/` directories. Copying a skill folder alone requires updating those references. Repository agent instructions are in [AGENTS.md](AGENTS.md).
 
@@ -159,7 +190,7 @@ The [upload-isolation guide](docs/UPLOAD-ISOLATION.md) and [Compose topology](in
 
 ## Malware scanning and shared request limits
 
-The [service-protection guide](docs/SERVICE-PROTECTION.md) explains ClamAV on a server, private Redis state shared by constrained services, and request proof of work before expensive API/MCP handlers. It covers scan failures, update freshness, ACL/TLS, eviction and failover, atomic consumption and retained authorization. These are integration patterns; this kit does not install a scanner/Redis or implement a proof-of-work gateway.
+The [service-protection guide](docs/SERVICE-PROTECTION.md) explains ClamAV, Redis and request admission. Runnable [upload/ClamAV](lab/upload-pipeline.README.md) and [PoW/Redis](lab/admission.README.md) references supplement those integration patterns. The lab starts temporary real service consumers; it does not install production services or automatically enable PoW on a production API.
 
 ## Secure deployment and GitHub releases
 

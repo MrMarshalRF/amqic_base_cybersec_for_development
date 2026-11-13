@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "purpose": "Traceability, not certification. Test IDs refer to the fixed verification runner.",
+  "claims": [
+    {
+      "id": "staged-authentication",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "reference/core.mjs",
+        "reference/login-client.mjs",
+        "lab/web-app.mjs"
+      ],
+      "references": [
+        "NIST SP 800-63B-4",
+        "OWASP ASVS 5.0.0"
+      ],
+      "limits": "Synthetic enrollment and CAPTCHA only; production identity/factor storage is external.",
+      "lab_scenarios": [
+        "staged-authentication"
+      ]
+    },
+    {
+      "id": "web-input-and-sql",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "files": [
+        "reference/pii-input.mjs",
+        "lab/web-app.mjs",
+        "lab/public/app.js"
+      ],
+      "references": [
+        "ASVS v5.0.0-1.2.1",
+        "ASVS v5.0.0-1.2.4",
+        "ASVS v5.0.0-1.2.5"
+      ],
+      "limits": "One contact-form profile; actual browser verifies plain-text rendering, not arbitrary downstream code.",
+      "lab_scenarios": [
+        "web-input-and-sql"
+      ]
+    },
+    {
+      "id": "machine-signatures",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "core-demo"
+      ],
+      "files": [
+        "reference/crypto.mjs",
+        "reference/core.mjs"
+      ],
+      "references": [
+        "RFC 8032"
+      ],
+      "limits": "Custom request envelope, not a complete HTTP/MCP OAuth implementation.",
+      "lab_scenarios": [
+        "machine-signatures"
+      ]
+    },
+    {
+      "id": "sensitive-operations",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "core-demo"
+      ],
+      "files": [
+        "reference/core.mjs"
+      ],
+      "references": [
+        "NIST SP 800-63B-4"
+      ],
+      "limits": "Synthetic records; external effects require their own durable transaction/result handling.",
+      "lab_scenarios": [
+        "sensitive-operations"
+      ]
+    },
+    {
+      "id": "upload-and-clamd",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "files": [
+        "reference/upload-pipeline.mjs",
+        "reference/clamd-client.mjs",
+        "lab/upload-service.mjs"
+      ],
+      "references": [
+        "ASVS v5.0.0-5.3.1",
+        "ASVS v5.0.0-5.3.2",
+        "ASVS v5.0.0-5.4.3"
+      ],
+      "limits": "Real ClamAV with harmless custom signature; same-process storage API is not an OS sandbox or a durability guarantee.",
+      "lab_scenarios": [
+        "upload-and-clamd"
+      ]
+    },
+    {
+      "id": "upload-role-isolation",
+      "kind": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "files": [
+        "infra/container/uploads.compose.yaml"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7"
+      ],
+      "limits": "Template role mount contract; actual prior synthetic role tests are documented separately, full production split services not supplied.",
+      "lab_scenarios": [
+        "upload-role-isolation"
+      ]
+    },
+    {
+      "id": "pow-replay",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "reference/admission.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 SC-5"
+      ],
+      "limits": "Optional API component, not automatically wired into HTTP; not a standardized HTTP proof protocol.",
+      "lab_scenarios": [
+        "pow-replay"
+      ]
+    },
+    {
+      "id": "redis-limiter",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "files": [
+        "reference/admission.mjs",
+        "lab/redis-live.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "limits": "Fixed atomic counter; live fixture uses public synthetic password, no production TLS/failover claim.",
+      "lab_scenarios": [
+        "redis-limiter"
+      ]
+    },
+    {
+      "id": "encrypted-backups",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "operations",
+        "terminal"
+      ],
+      "files": [
+        "scripts/archive_crypto.mjs",
+        "scripts/backup.py",
+        "scripts/secure_backup.mjs"
+      ],
+      "references": [
+        "FIPS 197",
+        "NIST SP 800-38D",
+        "NIST SP 800-53 CP-9"
+      ],
+      "limits": "Database consistency requires database-native snapshot/dump; terminal consumer requires Linux.",
+      "lab_scenarios": [
+        "encrypted-backups"
+      ]
+    },
+    {
+      "id": "source-preparation",
+      "kind": "executable",
+      "checks": [
+        "production"
+      ],
+      "files": [
+        "scripts/prepare_production.py"
+      ],
+      "references": [
+        "NIST SSDF PS.2",
+        "NIST SSDF PS.3"
+      ],
+      "limits": "Bounded UTF-8 file staging, not arbitrary binary analysis.",
+      "lab_scenarios": [
+        "source-preparation"
+      ]
+    },
+    {
+      "id": "version-checking",
+      "kind": "executable",
+      "checks": [
+        "versions"
+      ],
+      "files": [
+        "scripts/check_versions.py"
+      ],
+      "references": [
+        "NIST SSDF PO.3"
+      ],
+      "limits": "Version currency is not proof of vulnerability clearance.",
+      "lab_scenarios": [
+        "version-checking"
+      ]
+    },
+    {
+      "id": "dependency-quarantine",
+      "kind": "executable",
+      "checks": [
+        "quarantine",
+        "compose"
+      ],
+      "files": [
+        "infra/container/quarantine.py"
+      ],
+      "references": [
+        "NIST SSDF PO.3",
+        "NIST SSDF PS.2"
+      ],
+      "limits": "Archive inspection without executing dependencies; AI/manual content review is separate.",
+      "lab_scenarios": [
+        "dependency-quarantine"
+      ]
+    },
+    {
+      "id": "origin-configuration",
+      "kind": "configuration",
+      "checks": [
+        "nginx-runtime",
+        "nginx-harness",
+        "firewall-render"
+      ],
+      "files": [
+        "infra/nginx/render.py",
+        "infra/firewall/render.py"
+      ],
+      "references": [
+        "NIST SP 800-53 SC-7",
+        "W3C CSP Level 3"
+      ],
+      "limits": "Actual Nginx test needs explicit pinned image; live provider firewall/IPv6 routing not configured.",
+      "lab_scenarios": [
+        "origin-configuration"
+      ]
+    },
+    {
+      "id": "container-configuration",
+      "kind": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "files": [
+        "infra/container/compose.yaml",
+        "infra/container/Dockerfile"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7"
+      ],
+      "limits": "Config normalization is not a complete escape-resistance assessment.",
+      "lab_scenarios": [
+        "container-configuration"
+      ]
+    },
+    {
+      "id": "vpn-and-cloudflare",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/VPN-TUNNELS.md",
+        "docs/CLOUDFLARE-EDGE.md"
+      ],
+      "references": [
+        "NIST SP 800-53 SC-7",
+        "RFC 9111"
+      ],
+      "limits": "Source-reviewed recipes; no user VPN or Cloudflare account mutation or current-live protection claim.",
+      "lab_scenarios": [
+        "nginx-cache",
+        "firewall-and-vpn",
+        "external-cloudflare",
+        "external-vpn"
+      ]
+    },
+    {
+      "id": "binary-obfuscation",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/BINARY-OBFUSCATION.md"
+      ],
+      "references": [
+        "NIST SSDF PW.6",
+        "OWASP MASVS-RESILIENCE"
+      ],
+      "limits": "The local ELF/symbol-reduction fixture is tested in the infrastructure lab; application-specific Garble/R8/.NET transformations require separate integration.",
+      "lab_scenarios": [
+        "binary-obfuscation"
+      ]
+    },
+    {
+      "id": "release-provenance",
+      "kind": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "source-stability"
+      ],
+      "files": [
+        "scripts/verify.mjs",
+        "verification/coverage.json"
+      ],
+      "references": [
+        "FIPS 180-4",
+        "NIST SSDF PS.2",
+        "NIST SSDF PS.3"
+      ],
+      "limits": "Hashes and source stability only; maintainer signature is verified separately.",
+      "lab_scenarios": [
+        "release-provenance"
+      ]
+    },
+    {
+      "id": "password-manager-lab",
+      "kind": "executable",
+      "checks": [],
+      "lab_scenarios": [
+        "keepassxc"
+      ],
+      "files": [
+        "lab/infra-verify.mjs",
+        "lab/infra-fixtures/probes.py"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3"
+      ],
+      "limits": "Synthetic KeePassXC CLI database only; no real user vault is read or changed."
+    },
+    {
+      "id": "all-local-control",
+      "kind": "executable",
+      "checks": [],
+      "lab_scenarios": [
+        "api-mcp-catalog",
+        "binary-obfuscation",
+        "container-configuration",
+        "dependency-quarantine",
+        "encrypted-backups",
+        "external-binary-hardening",
+        "external-cloudflare",
+        "external-identity-captcha",
+        "external-signature",
+        "external-vpn",
+        "firewall-and-vpn",
+        "keepassxc",
+        "machine-signatures",
+        "nginx-cache",
+        "origin-configuration",
+        "pow-replay",
+        "redis-limiter",
+        "release-provenance",
+        "secrets-terminal",
+        "sensitive-operations",
+        "source-preparation",
+        "ssh-key-only",
+        "staged-authentication",
+        "upload-and-clamd",
+        "upload-role-isolation",
+        "version-checking",
+        "vpn-and-cloudflare",
+        "web-input-and-sql"
+      ],
+      "files": [
+        "lab/all-local.mjs",
+        "lab/scenarios.json",
+        "skills/run-security-lab/SKILL.md"
+      ],
+      "references": [
+        "NIST SSDF PO.4"
+      ],
+      "limits": "Only required local scenarios can be accepted; external/provider/manual steps are listed separately and never inferred from local tests."
+    }
+  ]
+}

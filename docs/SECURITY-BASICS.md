@@ -4,6 +4,8 @@ This guide is for developers who are new to cybersecurity. Imagine that you are 
 
 Security is a set of cooperating checks. A locked front door does not help if a window is open. Each section below explains one check, a simple example, and its limits. The linked guides contain the actual procedures and tested scope. This kit provides basic protection, not a guarantee that a system cannot be attacked.
 
+To try the mechanisms yourself, use the [one-command laboratory](ALL-LAB.md). Its JSON plan shows which checks run locally and which require an external provider or manual step. A successful local test does not automatically validate your production configuration.
+
 ## 1. Decide who may do what
 
 **Authentication** asks who is signing in. **Authorization** asks what that person may do. They are different checks.

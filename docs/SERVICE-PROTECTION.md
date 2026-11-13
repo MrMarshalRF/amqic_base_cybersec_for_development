@@ -1,6 +1,6 @@
 # Server malware scanning, Redis and request proof of work
 
-These mechanisms address different risks. ClamAV detects some known malicious content; Redis can coordinate short-lived security state across replicas; request proof of work can increase the cost of repeated requests. None replaces application authorization, patching, container isolation, backups, or the signed release process. The patterns below are integration guidance, not a deployed scanner, Redis service or proof-of-work implementation.
+These mechanisms address different risks. ClamAV detects some known malicious content; Redis can coordinate short-lived security state across replicas; request proof of work can increase the cost of repeated requests. None replaces application authorization, patching, container isolation, backups, or the signed release process. The patterns below describe production integration requirements. Runnable references are now available for [ClamAV/uploads](../lab/upload-pipeline.README.md), [PoW/Redis](../lab/admission.README.md), and the [synthetic lab](REPRODUCIBLE-LAB.md). They are not deployed production services.
 
 ## ClamAV on a server
 
@@ -90,10 +90,10 @@ A typical hash puzzle makes a solution search expensive relative to verification
 
 Test expired and replayed challenges, changed request bodies/routes, cross-user use, forged difficulty, concurrent submissions, clock skew, Redis outage/restart/failover, counter eviction and direct backend bypass. Confirm that rejection happens before costly file parsing, model calls or database work. Monitor false rejections and overall origin load; successful puzzle verification alone does not prove denial-of-service resistance.
 
-OWASP's [Denial of Service guidance](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html) and [API4 resource-consumption risk](https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/) support layered resource limits and monitoring. They are not certification of this puzzle pattern. No proof-of-work protocol is implemented or benchmarked in this repository update; production integration needs a reviewed protocol, client compatibility and fault/concurrency tests.
+OWASP's [Denial of Service guidance](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html) and [API4 resource-consumption risk](https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/) support layered resource limits and monitoring. They are not certification of this puzzle pattern. The [admission reference](../reference/admission.mjs) implements a bounded, request-bound challenge with unit/concurrency tests. It is an application-specific example, not an HTTP/MCP standard or a production DoS-resistance benchmark. Production integration still needs client compatibility, workload measurements and deployment fault tests.
 
 ## Operational acceptance
 
 Record the scanner engine/database age and coverage, Redis version/topology/ACL/TLS/eviction/persistence choices, gateway challenge policy, denied bypass paths, outage behavior, load measurements and incident owner. Keep records and recovery credentials outside public source. A detection, scanner outage, lost replay state or excess resource use must have an explicit containment and recovery action.
 
-The guidance adds no live scanner, Redis deployment or gateway to the existing authorization core. Use [secure deployment](DEPLOYMENT.md) for a separately reviewed rollout and [release preparation](GITHUB-RELEASES.md) for the final artifact inventory.
+The runnable lab adds temporary real ClamAV and Redis consumers; standalone PoW and Redis admission APIs are not silently attached to every authorization-core operation. No production deployment or gateway activation is performed. Use [secure deployment](DEPLOYMENT.md) for a separately reviewed rollout and [release preparation](GITHUB-RELEASES.md) for the final artifact inventory.

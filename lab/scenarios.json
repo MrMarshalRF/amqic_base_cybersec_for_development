@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "purpose": "Local executable acceptance and explicit source-reviewed/external boundaries, not certification.",
+  "images": [
+    {
+      "id": "clamav",
+      "reference": "clamav/clamav@sha256:64ca916618842ba469ef38a501e6c2f42a68281c064c03749b0126c0fb085ce5"
+    },
+    {
+      "id": "redis",
+      "reference": "redis@sha256:02f2cc4882f8bf87c79a220ac958f58c700bdec0dfb9b9ea61b62fb0e8f1bfcf"
+    },
+    {
+      "id": "nginx",
+      "reference": "nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10"
+    },
+    {
+      "id": "node-tool-base",
+      "reference": "node@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c"
+    },
+    {
+      "id": "python-tool-base",
+      "reference": "python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7"
+    },
+    {
+      "id": "upload-python",
+      "reference": "python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704"
+    }
+  ],
+  "prerequisites": [
+    "Node.js >=22",
+    "Python >=3.12",
+    "Docker engine with Linux containers",
+    "Docker Compose",
+    "OpenSSL",
+    "existing Chromium browser",
+    "infrastructure tool fixture image; see lab/infra-fixtures"
+  ],
+  "stages": [
+    {
+      "id": "baseline",
+      "timeout_ms": 300000
+    },
+    {
+      "id": "live-consumers",
+      "timeout_ms": 300000
+    },
+    {
+      "id": "nginx-runtime",
+      "timeout_ms": 300000
+    },
+    {
+      "id": "infra-runtime",
+      "timeout_ms": 600000
+    },
+    {
+      "id": "cache-runtime",
+      "timeout_ms": 300000
+    },
+    {
+      "id": "upload-isolation-runtime",
+      "timeout_ms": 600000
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "staged-authentication",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-63B-4",
+        "OWASP ASVS 5.0.0"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic enrollment and CAPTCHA only; production identity/factor storage is external.",
+      "external_manual_integration": "Synthetic enrollment and CAPTCHA only; production identity/factor storage is external.",
+      "required": true
+    },
+    {
+      "id": "web-input-and-sql",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "standards": [
+        "ASVS v5.0.0-1.2.1",
+        "ASVS v5.0.0-1.2.4",
+        "ASVS v5.0.0-1.2.5"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "One contact-form profile; actual browser verifies plain-text rendering, not arbitrary downstream code.",
+      "external_manual_integration": "One contact-form profile; actual browser verifies plain-text rendering, not arbitrary downstream code.",
+      "required": true
+    },
+    {
+      "id": "machine-signatures",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "core-demo"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "RFC 8032"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Custom request envelope, not a complete HTTP/MCP OAuth implementation.",
+      "external_manual_integration": "Custom request envelope, not a complete HTTP/MCP OAuth implementation.",
+      "required": true
+    },
+    {
+      "id": "sensitive-operations",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "core-demo"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-63B-4"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic records; external effects require their own durable transaction/result handling.",
+      "external_manual_integration": "Synthetic records; external effects require their own durable transaction/result handling.",
+      "required": true
+    },
+    {
+      "id": "upload-and-clamd",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "standards": [
+        "ASVS v5.0.0-5.3.1",
+        "ASVS v5.0.0-5.3.2",
+        "ASVS v5.0.0-5.4.3"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Real ClamAV with harmless custom signature; same-process storage API is not an OS sandbox or a durability guarantee.",
+      "external_manual_integration": "Real ClamAV with harmless custom signature; same-process storage API is not an OS sandbox or a durability guarantee.",
+      "required": true
+    },
+    {
+      "id": "upload-role-isolation",
+      "category": "local",
+      "test_checks": [
+        "compose",
+        "upload-isolation-runtime"
+      ],
+      "stages": [
+        "baseline",
+        "upload-isolation-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "Five isolated roles enforce three-volume write/read denial and readonly mount assertions on actual containers.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Synthetic upload-role and mount-permission fixture only; production services require separate integration.",
+      "external_manual_integration": "The ALL run checks synthetic role mounts and permissions; real ingress, content scanning and production split-service integration require separate validation.",
+      "required": true
+    },
+    {
+      "id": "pow-replay",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-5"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Optional API component, not automatically wired into HTTP; not a standardized HTTP proof protocol.",
+      "external_manual_integration": "Optional API component, not automatically wired into HTTP; not a standardized HTTP proof protocol.",
+      "required": true
+    },
+    {
+      "id": "redis-limiter",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Fixed atomic counter; live fixture uses public synthetic password, no production TLS/failover claim.",
+      "external_manual_integration": "Fixed atomic counter; live fixture uses public synthetic password, no production TLS/failover claim.",
+      "required": true
+    },
+    {
+      "id": "encrypted-backups",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "operations",
+        "terminal"
+      ],
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "standards": [
+        "FIPS 197",
+        "NIST SP 800-38D",
+        "NIST SP 800-53 CP-9"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Database consistency requires database-native snapshot/dump; terminal consumer requires Linux.",
+      "external_manual_integration": "Database consistency requires database-native snapshot/dump; terminal consumer requires Linux.",
+      "required": true
+    },
+    {
+      "id": "source-preparation",
+      "category": "local",
+      "test_checks": [
+        "production"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SSDF PS.2",
+        "NIST SSDF PS.3"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Bounded UTF-8 file staging, not arbitrary binary analysis.",
+      "external_manual_integration": "Bounded UTF-8 file staging, not arbitrary binary analysis.",
+      "required": true
+    },
+    {
+      "id": "version-checking",
+      "category": "local",
+      "test_checks": [
+        "versions"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SSDF PO.3"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Version currency is not proof of vulnerability clearance.",
+      "external_manual_integration": "Version currency is not proof of vulnerability clearance.",
+      "required": true
+    },
+    {
+      "id": "dependency-quarantine",
+      "category": "local",
+      "test_checks": [
+        "quarantine",
+        "compose"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SSDF PO.3",
+        "NIST SSDF PS.2"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Archive inspection without executing dependencies; AI/manual content review is separate.",
+      "external_manual_integration": "Archive inspection without executing dependencies; AI/manual content review is separate.",
+      "required": true
+    },
+    {
+      "id": "origin-configuration",
+      "category": "local",
+      "test_checks": [
+        "nginx-runtime",
+        "nginx-harness",
+        "firewall-render"
+      ],
+      "stages": [
+        "baseline",
+        "nginx-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-7",
+        "W3C CSP Level 3"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Actual Nginx test needs explicit pinned image; live provider firewall/IPv6 routing not configured.",
+      "external_manual_integration": "Actual Nginx test needs explicit pinned image; live provider firewall/IPv6 routing not configured.",
+      "required": true
+    },
+    {
+      "id": "container-configuration",
+      "category": "local",
+      "test_checks": [
+        "compose"
+      ],
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes",
+        "Docker with pinned images"
+      ],
+      "operational_scope": "Config normalization is not a complete escape-resistance assessment.",
+      "external_manual_integration": "Config normalization is not a complete escape-resistance assessment.",
+      "required": true
+    },
+    {
+      "id": "vpn-and-cloudflare",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-7",
+        "RFC 9111"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Source-reviewed recipes; no user VPN or Cloudflare account mutation or current-live protection claim.",
+      "external_manual_integration": "Source-reviewed recipes; no user VPN or Cloudflare account mutation or current-live protection claim.",
+      "required": false
+    },
+    {
+      "id": "binary-obfuscation",
+      "category": "local",
+      "test_checks": [
+        "infra-runtime:artifacts"
+      ],
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SSDF PW.6",
+        "OWASP MASVS-RESILIENCE"
+      ],
+      "expected_result": "ELF debug-info separation preserves execution; separate debug information is retained.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "The local native-symbol fixture is distinct from application-specific Garble/R8/.NET transformations.",
+      "external_manual_integration": "Validate application-specific obfuscators, runtime contracts and diagnostics separately.",
+      "required": true
+    },
+    {
+      "id": "release-provenance",
+      "category": "local",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "source-stability"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "FIPS 180-4",
+        "NIST SSDF PS.2",
+        "NIST SSDF PS.3"
+      ],
+      "expected_result": "All named local assertions pass; documented limits remain.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Hashes and source stability only; maintainer signature is verified separately.",
+      "external_manual_integration": "Hashes and source stability only; maintainer signature is verified separately.",
+      "required": true
+    },
+    {
+      "id": "nginx-cache",
+      "category": "local",
+      "test_checks": [
+        "cache-runtime"
+      ],
+      "stages": [
+        "cache-runtime"
+      ],
+      "standards": [
+        "RFC 9111"
+      ],
+      "expected_result": "Real local Nginx: public cache hits and sensitive response bypass.",
+      "prerequisites": [
+        "local fixture prerequisites"
+      ],
+      "operational_scope": "Production CDN is separate.",
+      "external_manual_integration": "Production CDN is separate.",
+      "required": true
+    },
+    {
+      "id": "ssh-key-only",
+      "category": "local",
+      "test_checks": [
+        "infra-runtime"
+      ],
+      "stages": [
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 IA-2"
+      ],
+      "expected_result": "Disposable local sshd accepts correct fixture key and rejects disallowed login.",
+      "prerequisites": [
+        "Docker, Linux container capabilities"
+      ],
+      "operational_scope": "Host sshd is never changed.",
+      "external_manual_integration": "Host sshd is never changed.",
+      "required": true
+    },
+    {
+      "id": "firewall-and-vpn",
+      "category": "local",
+      "test_checks": [
+        "infra-runtime"
+      ],
+      "stages": [
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "Isolated namespace firewall and WireGuard fixture assertions.",
+      "prerequisites": [
+        "Docker, Linux container capabilities"
+      ],
+      "operational_scope": "No user host firewall, Tailscale or WireSock is changed.",
+      "external_manual_integration": "No user host firewall, Tailscale or WireSock is changed.",
+      "required": true
+    },
+    {
+      "id": "api-mcp-catalog",
+      "category": "local",
+      "test_checks": [
+        "baseline"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "OWASP ASVS 5.0.0"
+      ],
+      "expected_result": "Fixed catalog and authorization tests.",
+      "prerequisites": [
+        "local fixture prerequisites"
+      ],
+      "operational_scope": "Transport and deployment require integration.",
+      "external_manual_integration": "Transport and deployment require integration.",
+      "required": true
+    },
+    {
+      "id": "secrets-terminal",
+      "category": "local",
+      "test_checks": [
+        "infra-runtime"
+      ],
+      "stages": [
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-28"
+      ],
+      "expected_result": "Synthetic hidden terminal input and encrypted backup roundtrip.",
+      "prerequisites": [
+        "Docker, Linux container capabilities"
+      ],
+      "operational_scope": "Real secrets never enter this lab.",
+      "external_manual_integration": "Real secrets never enter this lab.",
+      "required": true
+    },
+    {
+      "id": "keepassxc",
+      "category": "local",
+      "test_checks": [
+        "infra-runtime:artifacts"
+      ],
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-63B-4"
+      ],
+      "expected_result": "Real synthetic ELF symbol separation and KeePassXC vault create/open/wrong-password assertions pass.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Operator selects KDBX settings and recovery policy.",
+      "external_manual_integration": "Operator selects KDBX settings and recovery policy.",
+      "required": true
+    },
+    {
+      "id": "external-cloudflare",
+      "category": "external",
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "RFC 9111",
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "Not run: provider configuration requires separate authorized integration.",
+      "prerequisites": [
+        "separate authorized integration"
+      ],
+      "operational_scope": "No account access or cloud deployment.",
+      "external_manual_integration": "No account access or cloud deployment.",
+      "required": false
+    },
+    {
+      "id": "external-identity-captcha",
+      "category": "external",
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "NIST SP 800-63B-4"
+      ],
+      "expected_result": "Not run: live CAPTCHA, enrollment and factor recovery.",
+      "prerequisites": [
+        "separate authorized integration"
+      ],
+      "operational_scope": "Lab fixtures do not verify a live identity provider.",
+      "external_manual_integration": "Lab fixtures do not verify a live identity provider.",
+      "required": false
+    },
+    {
+      "id": "external-signature",
+      "category": "external",
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "NIST SSDF PS.3"
+      ],
+      "expected_result": "Not run: maintainer detached signature and trust verification.",
+      "prerequisites": [
+        "separate authorized integration"
+      ],
+      "operational_scope": "Local SHA-256 integrity is distinct from signer authenticity.",
+      "external_manual_integration": "Local SHA-256 integrity is distinct from signer authenticity.",
+      "required": false
+    },
+    {
+      "id": "external-vpn",
+      "category": "external",
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "Not run: actual Tailscale/WireSock/production VPN policy.",
+      "prerequisites": [
+        "separate authorized integration"
+      ],
+      "operational_scope": "Synthetic WireGuard is not live VPN acceptance.",
+      "external_manual_integration": "Synthetic WireGuard is not live VPN acceptance.",
+      "required": false
+    },
+    {
+      "id": "external-binary-hardening",
+      "category": "external",
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "NIST SSDF PW.6"
+      ],
+      "expected_result": "Not run: actual application-specific Garble/R8/.NET release.",
+      "prerequisites": [
+        "separate authorized integration"
+      ],
+      "operational_scope": "Guide integrity is not binary-hardening execution.",
+      "external_manual_integration": "Guide integrity is not binary-hardening execution.",
+      "required": false
+    },
+    {
+      "id": "all-local-control",
+      "category": "local",
+      "required": true,
+      "test_checks": [
+        "source-stability",
+        "node-tests"
+      ],
+      "stages": [
+        "baseline",
+        "live-consumers",
+        "nginx-runtime",
+        "infra-runtime",
+        "cache-runtime",
+        "upload-isolation-runtime"
+      ],
+      "standards": [
+        "NIST SSDF PO.3",
+        "NIST SSDF PS.3"
+      ],
+      "expected_result": "All fixed local stages and resource cleanup accepted, current source unchanged.",
+      "prerequisites": [
+        "Node.js >=22",
+        "Python >=3.12",
+        "Docker engine with Linux containers",
+        "Docker Compose",
+        "OpenSSL",
+        "existing Chromium browser",
+        "infrastructure tool fixture image; see lab/infra-fixtures"
+      ],
+      "operational_scope": "Single-command synthetic local verification; never production or external-provider approval.",
+      "external_manual_integration": "Release signing, deployment and external accounts remain separate."
+    }
+  ],
+  "tool_build": {
+    "image": "amqic-infra-lab:1.2",
+    "recipe": "lab/infra-fixtures/Dockerfile",
+    "contract": "Exact reviewed Dockerfile SHA-256, digest-pinned bases and dated signed Debian snapshots; observed image and packages recorded. Tag alone is not accepted."
+  }
+}

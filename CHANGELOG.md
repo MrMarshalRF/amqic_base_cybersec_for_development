@@ -2,6 +2,24 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.2.0 — 2026-11-13
+
+### Added
+
+- Runnable loopback HTTP/browser lab with full synthetic login stages, server-side contact handling and owner-scoped upload/download.
+- Real ClamAV INSTREAM client, persistent quarantine/promotion reference and content-identity/concurrency tests.
+- Bounded request proof-of-work API with SQLite replay storage, fixed Redis rate limiter and real Redis consumer test.
+- One-command disposable service/browser verification, fixed whole-kit runner, per-file coverage, standards-linked claims and a final completion protocol.
+- All-local scenario catalogue, machine-readable plan/result schema, infrastructure and cache/privacy labs, and an AI laboratory skill.
+- POSIX one-command wrapper and inspectable host/Linux configuration parameters.
+- Read-only CI workflow definitions with pinned actions and service images. Hosted results remain separate from local verification.
+
+### Changed
+
+- Added current-session scope verification for real HTTP adapters, with expiry/logout/revocation tests.
+- Separated implemented references, configuration templates and guidance in the verification record.
+- Expanded reproduction instructions and preserved explicit synthetic-data, production-integration and environment limitations.
+
 ## v1.1.0 — 2026-11-13
 
 ### Added

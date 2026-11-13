@@ -2,7 +2,7 @@
 
 An uploaded file is untrusted input even if its name and extension look normal. Keep newly received bytes in a quarantine area that the public application cannot use as approved content. Scanning and release into trusted storage are separate operations under different identities.
 
-This guide and [uploads.compose.yaml](../infra/container/uploads.compose.yaml) define a storage/network topology. They do not supply an HTTP upload server, antivirus adapter, durable approval service or download application. Supply those reviewed role-specific images and implement the contracts below before deployment. The existing dependency-quarantine tool is for inspecting build artifacts; it is not a web upload endpoint.
+This guide and [uploads.compose.yaml](../infra/container/uploads.compose.yaml) define a storage/network topology. The [v1.2 lab](REPRODUCIBLE-LAB.md) additionally supplies a real loopback HTTP upload/download server, ClamAV adapter and persistent reference promotion API. Its application coordinator is a trusted single process; it does not implement this production four-role OS/storage separation. Supply reviewed role-specific images and implement the production contracts below before deployment. The existing dependency-quarantine tool is for inspecting build artifacts; it is not a web upload endpoint.
 
 ## Separate the roles and storage
 

@@ -21,6 +21,8 @@ The demo creates temporary in-memory state, a synthetic user, an Ed25519 key, an
 | --- | --- |
 | `crypto.mjs` | Restricted JSON serialization, SHA-256, Ed25519, scrypt, and TOTP |
 | `core.mjs` | SQLite, login stages, sessions, rate limits, keys, grants, allowed tools |
+| `upload-pipeline.mjs`, `clamd-client.mjs` | Working quarantine/promotion and real ClamAV protocol; see [the lab](../docs/REPRODUCIBLE-LAB.md) |
+| `admission.mjs` | Standalone bounded PoW, durable replay store and fixed Redis limiter; see [admission](../lab/admission.README.md) |
 | `pii-input.mjs`, `pii-input.test.mjs` | Contact-form schema validation and parameterized SQLite storage with injection regression tests; see [web input protection](../docs/WEB-INPUT-PROTECTION.md) |
 | `login-client.mjs` | Embeddable headless controller for the login sequence |
 | `fixtures.mjs`, `demo.mjs` | Synthetic adapters and an end-to-end example |

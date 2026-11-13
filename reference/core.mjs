@@ -230,6 +230,16 @@ export class SecurityCore {
     });
   }
 
+  // HTTP adapters use this on every protected request, not a cached login result.
+  authorizeSession(session, requiredScope) {
+    if (!validId(requiredScope)) deny();
+    return this.#transaction(now => {
+      const user = this.#session(session, now);
+      if (!JSON.parse(user.scopes).includes(requiredScope)) deny();
+      return Object.freeze({ userId: user.id });
+    });
+  }
+
   #tool(action, args, user) {
     const tool = this.#tools.get(action);
     if (!tool || !JSON.parse(user.scopes).includes(tool.scope) || synchronous(tool.validate(args)) !== true) deny();

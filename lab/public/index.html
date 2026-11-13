@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic security lab</title>
+<h1>Synthetic loopback security lab</h1>
+<p>Educational fixture only. These are public synthetic accounts and simulated CAPTCHA, never production authentication. Do not enter real personal data or credentials.</p>
+<pre id="hints"></pre>
+<button id="refresh" type="button">Refresh synthetic codes</button>
+<h2>Login</h2>
+<p id="stage">login</p>
+<form id="login"><label>Current stage value <input id="value" required autocomplete="off"></label><button>Submit stage</button></form>
+<button id="reset" type="button">Start new login</button><button id="logout" type="button">Log out</button>
+<h2>Contact form</h2>
+<form id="contact">
+<label>Full name <input name="fullName" required maxlength="100" autocomplete="off"></label>
+<label>Email <input name="email" type="email" required maxlength="254" autocomplete="off"></label>
+<label>Phone <input name="phone" maxlength="16" autocomplete="off"></label>
+<label>Message <textarea name="message" maxlength="2000"></textarea></label><button>Save</button>
+</form><button id="list" type="button">List my contacts</button>
+<h2>Upload quarantine</h2>
+<p>Only the authenticated owner can request scanning and download accepted bytes. Antivirus clearance does not make active content safe.</p>
+<input id="file" type="file"><button id="upload" type="button">Upload pending file</button>
+<label>Upload ID <input id="upload-id" autocomplete="off"></label><button id="process" type="button">Scan and promote</button><button id="download" type="button">Download my accepted file</button>
+<h2>Result</h2><pre id="result" aria-live="polite"></pre>
+<script src="/app.js" defer></script></html>

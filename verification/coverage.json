@@ -1,0 +1,1125 @@
+{
+  "schema_version": 1,
+  "description": "Public payload membership and honest validation scope. Named tests are not assertions that every feature or path is covered.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": ".gitignore",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "AGENTS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "CHANGELOG.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "LICENSE",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "MANIFESTO.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "SECURITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "VIRUSTOTAL.json",
+      "category": "static-asset",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "VirusTotal observations for the identified pre-report snapshot; see the report for scope and engine coverage."
+    },
+    {
+      "path": "VIRUSTOTAL.md",
+      "category": "static-asset",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "VirusTotal observations for the identified pre-report snapshot; see the report for scope and engine coverage."
+    },
+    {
+      "path": "THREAT-DATA.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "assets/demo.gif",
+      "category": "static-asset",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Static image bytes are covered by integrity; no visual or browser validation is implied."
+    },
+    {
+      "path": "assets/threat-data-daily.png",
+      "category": "static-asset",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Static image bytes are covered by integrity; no visual or browser validation is implied."
+    },
+    {
+      "path": "docs/ALL-LAB.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "docs/BINARY-OBFUSCATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/CLOUDFLARE-EDGE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/DEPLOYMENT.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/GITHUB-RELEASES.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/INFRASTRUCTURE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/INITIAL-DEPLOYMENT.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/KEEPASSXC.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/OPERATIONS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/OWASP-MAPPING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/PRODUCTION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/RELEASE-VERIFICATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/REPRODUCIBLE-LAB.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reproducible lab instructions; membership and integrity do not establish that every described environment was executed."
+    },
+    {
+      "path": "docs/SECURITY-BASICS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/SECURITY-MODEL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/SERVICE-PROTECTION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/UPLOAD-ISOLATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/VALIDATION-MATRIX.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/VERSIONS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/VPN-TUNNELS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/WEB-INPUT-PROTECTION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "infra/container/Dockerfile",
+      "category": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "scope": "Compose references only; Dockerfile has source review, no image build/runtime claim."
+    },
+    {
+      "path": "infra/container/compose.yaml",
+      "category": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "scope": "Docker Compose normalization only, no service runtime claim."
+    },
+    {
+      "path": "infra/container/quarantine.compose.yaml",
+      "category": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "scope": "Docker Compose normalization only, no service runtime claim."
+    },
+    {
+      "path": "infra/container/quarantine.py",
+      "category": "executable",
+      "checks": [
+        "quarantine"
+      ],
+      "scope": "Synthetic quarantine helper tests; no external package execution is authorized."
+    },
+    {
+      "path": "infra/container/test_compose.py",
+      "category": "executable",
+      "checks": [
+        "compose"
+      ],
+      "scope": "Executes Docker Compose configuration normalization assertions; no running container validation."
+    },
+    {
+      "path": "infra/container/test_quarantine.py",
+      "category": "executable",
+      "checks": [
+        "quarantine"
+      ],
+      "scope": "Synthetic quarantine helper tests; no external package execution is authorized."
+    },
+    {
+      "path": "infra/container/uploads.compose.yaml",
+      "category": "configuration",
+      "checks": [
+        "compose"
+      ],
+      "scope": "Docker Compose normalization only, no service runtime claim."
+    },
+    {
+      "path": "infra/firewall/__init__.py",
+      "category": "executable",
+      "checks": [
+        "firewall-render"
+      ],
+      "scope": "Real renderer positive/negative fixtures; does not install or evaluate kernel rules."
+    },
+    {
+      "path": "infra/firewall/addresses.py",
+      "category": "executable",
+      "checks": [
+        "firewall-render"
+      ],
+      "scope": "Real renderer positive/negative fixtures; does not install or evaluate kernel rules."
+    },
+    {
+      "path": "infra/firewall/nftables.conf.template",
+      "category": "configuration",
+      "checks": [
+        "firewall-render"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/firewall/policy.example.json",
+      "category": "configuration",
+      "checks": [
+        "firewall-render"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/firewall/render.py",
+      "category": "executable",
+      "checks": [
+        "firewall-render"
+      ],
+      "scope": "Real renderer positive/negative fixtures; does not install or evaluate kernel rules."
+    },
+    {
+      "path": "infra/nginx/allowlist.client.example.json",
+      "category": "configuration",
+      "checks": [
+        "nginx-runtime"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/nginx/allowlist.peer.example.json",
+      "category": "configuration",
+      "checks": [
+        "nginx-runtime"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/nginx/nginx.conf.template",
+      "category": "configuration",
+      "checks": [
+        "nginx-runtime"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/nginx/render.py",
+      "category": "executable",
+      "checks": [
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "scope": "Mock harness regressions; actual Nginx execution requires optional pinned local-image integration."
+    },
+    {
+      "path": "infra/nginx/test_harness.py",
+      "category": "executable",
+      "checks": [
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "scope": "Mock harness regressions; actual Nginx execution requires optional pinned local-image integration."
+    },
+    {
+      "path": "infra/nginx/test_nginx.py",
+      "category": "executable",
+      "checks": [
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "scope": "Mock harness regressions; actual Nginx execution requires optional pinned local-image integration."
+    },
+    {
+      "path": "infra/protected-paths.json",
+      "category": "configuration",
+      "checks": [
+        "nginx-runtime"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/ssh/00-security.conf.template",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "lab/admission.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Admission integration guidance; integrity and membership only, no implementation or deployment guarantee."
+    },
+    {
+      "path": "lab/all-local.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests"
+      ],
+      "scope": "Fixed all-local dispatcher, metadata refusal and per-stage acceptance contracts; full runtime requires all catalog prerequisites."
+    },
+    {
+      "path": "lab/all-local.test.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests"
+      ],
+      "scope": "Fixed all-local dispatcher, metadata refusal and per-stage acceptance contracts; full runtime requires all catalog prerequisites."
+    },
+    {
+      "path": "lab/cache-fixtures/proxy.conf",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "cache-runtime"
+      ],
+      "scope": "Synthetic Nginx HTTP cache fixture and teardown; no Cloudflare account or vendor integration claim."
+    },
+    {
+      "path": "lab/cache-fixtures/upstream.conf",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "cache-runtime"
+      ],
+      "scope": "Synthetic Nginx HTTP cache fixture and teardown; no Cloudflare account or vendor integration claim."
+    },
+    {
+      "path": "lab/cache-verify.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "cache-runtime"
+      ],
+      "scope": "Synthetic Nginx HTTP cache fixture and teardown; no Cloudflare account or vendor integration claim."
+    },
+    {
+      "path": "lab/cache.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "lab/host-requirements.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed host prerequisite guidance; no automatic host installation or environment activation."
+    },
+    {
+      "path": "lab/infra-fixtures/Dockerfile",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "infra-runtime"
+      ],
+      "scope": "Purpose-built isolated infrastructure fixture; named SSH/firewall/WireGuard/terminal/artifact/container assertions only, never host or production activation."
+    },
+    {
+      "path": "lab/infra-fixtures/probes.py",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "infra-runtime"
+      ],
+      "scope": "Purpose-built isolated infrastructure fixture; named SSH/firewall/WireGuard/terminal/artifact/container assertions only, never host or production activation."
+    },
+    {
+      "path": "lab/infra-fixtures/runtime-probe.c",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "infra-runtime"
+      ],
+      "scope": "Purpose-built isolated infrastructure fixture; named SSH/firewall/WireGuard/terminal/artifact/container assertions only, never host or production activation."
+    },
+    {
+      "path": "lab/infra-verify.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "infra-runtime"
+      ],
+      "scope": "Purpose-built isolated infrastructure fixture; named SSH/firewall/WireGuard/terminal/artifact/container assertions only, never host or production activation."
+    },
+    {
+      "path": "lab/infra.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "lab/lifecycle.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Actual fixed CLI preflight checks refuse relative/source-tree output and preserve existing evidence before any service creation."
+    },
+    {
+      "path": "lab/live-verify.mjs",
+      "category": "executable",
+      "checks": [
+        "live-consumers"
+      ],
+      "scope": "Synthetic HTTP fixture or browser/ClamAV consumer; actual external checks are optional and individually reported."
+    },
+    {
+      "path": "lab/protocol.schema.json",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Declarative scenario/protocol configuration; membership and integrity, with runtime acceptance reported separately."
+    },
+    {
+      "path": "lab/public/app.js",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "scope": "Synthetic HTTP fixture or browser/ClamAV consumer; actual external checks are optional and individually reported."
+    },
+    {
+      "path": "lab/public/index.html",
+      "category": "configuration",
+      "checks": [
+        "live-consumers"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "lab/redis-live.mjs",
+      "category": "executable",
+      "checks": [
+        "live-consumers"
+      ],
+      "scope": "Fixed isolated Redis service fixture, invoked by run-lab --verify; baseline unit tests do not count as live service evidence."
+    },
+    {
+      "path": "lab/run-lab.mjs",
+      "category": "executable",
+      "checks": [
+        "live-consumers"
+      ],
+      "scope": "Owns pinned synthetic ClamAV container and actual browser consumer verification with exact resource cleanup; requires Docker and a local Chromium browser."
+    },
+    {
+      "path": "lab/run-shell.test.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests"
+      ],
+      "scope": "POSIX wrapper contract tests; explicit platform skip when no supported shell is present."
+    },
+    {
+      "path": "lab/run.sh",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests"
+      ],
+      "scope": "Fixed POSIX all-local launcher; wrapper help, plan and invalid-input checks, no host installation."
+    },
+    {
+      "path": "lab/scenarios.json",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Declarative scenario/protocol configuration; membership and integrity, with runtime acceptance reported separately."
+    },
+    {
+      "path": "lab/upload-isolation-verify.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "upload-isolation-runtime"
+      ],
+      "scope": "Five synthetic upload roles with isolated mounts and three volumes; actual local permission probes and exact teardown, no production service claim."
+    },
+    {
+      "path": "lab/upload-isolation.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed local upload isolation fixture instructions; no deployment or live service claim."
+    },
+    {
+      "path": "lab/upload-pipeline.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "lab/upload-service.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed composition helper; the web fixture composes the same primitives directly. No direct helper invocation test."
+    },
+    {
+      "path": "lab/web-app.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "scope": "Synthetic HTTP fixture or browser/ClamAV consumer; actual external checks are optional and individually reported."
+    },
+    {
+      "path": "lab/web-app.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "scope": "Synthetic HTTP fixture or browser/ClamAV consumer; actual external checks are optional and individually reported."
+    },
+    {
+      "path": "lab/web.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "reference/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "reference/admission.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "live-consumers"
+      ],
+      "scope": "Synthetic PoW and Redis protocol/replay fixtures; actual isolated Redis service is a separately reported optional integration."
+    },
+    {
+      "path": "reference/admission.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic admission, replay and Redis response unit regressions; no live Redis service claim."
+    },
+    {
+      "path": "reference/clamd-client.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/clamd-client.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/core.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/core.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/crypto.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/demo.mjs",
+      "category": "executable",
+      "checks": [
+        "core-demo"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/fixtures.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "core-demo"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/login-client.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/login-client.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/pii-input.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/pii-input.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/race-worker.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/session-authorization.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/upload-pipeline.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "reference/upload-pipeline.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
+    },
+    {
+      "path": "scripts/archive_crypto.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/backup.py",
+      "category": "executable",
+      "checks": [
+        "operations"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/check_versions.py",
+      "category": "executable",
+      "checks": [
+        "versions"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/prepare_production.py",
+      "category": "executable",
+      "checks": [
+        "production"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/protected_input.mjs",
+      "category": "executable",
+      "checks": [
+        "terminal",
+        "node-tests"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/secure_backup.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_check_versions.py",
+      "category": "executable",
+      "checks": [
+        "versions"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_crypto.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_operations.py",
+      "category": "executable",
+      "checks": [
+        "operations"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_prepare_production.py",
+      "category": "executable",
+      "checks": [
+        "production"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_terminal_input.py",
+      "category": "executable",
+      "checks": [
+        "terminal",
+        "node-tests"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/verify.mjs",
+      "category": "executable",
+      "checks": [
+        "node-syntax",
+        "source-stability"
+      ],
+      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "skills/check-versions/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "skills/obfuscate-binaries/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "skills/prepare-production/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "skills/protected-terminal-input/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "skills/review-dependencies/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "skills/run-security-lab/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "skills/verified-backup/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "verification/claims.json",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Declarative claim-to-evidence mapping; membership and integrity only. Each claim retains its independently reported execution scope."
+    },
+    {
+      "path": "verification/coverage.json",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "verification/v1.2.0-report.json",
+      "category": "static-asset",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Final evidence projection, covered by payload SHA256SUMS. Excluded from executable source identity to avoid self-reference; this file is not an executed test."
+    },
+    {
+      "path": "wallets.txt",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    }
+  ]
+}

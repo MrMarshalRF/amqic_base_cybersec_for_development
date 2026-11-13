@@ -1,0 +1,1928 @@
+{
+  "schema_version": 1,
+  "mode": "all-local",
+  "scope": "purpose-built synthetic local lab only",
+  "started_at": "2026-11-13T09:07:20.844Z",
+  "checks": [
+    {
+      "id": "baseline",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "3d2730b1cad47a41de823fda3c01c7a7613221cd22780ced22293eb9e4b072f5",
+      "output_bytes": 22606,
+      "report_sha256": "3d2730b1cad47a41de823fda3c01c7a7613221cd22780ced22293eb9e4b072f5"
+    },
+    {
+      "id": "live-consumers",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "747c84c93aeeba98cc24b29656bb37ee14f97d6fb47f19a7071afb56042afe68",
+      "output_bytes": 386,
+      "report_sha256": "d397fe6602798a0375b8b54581494e716e4bef1e5c58170fa902f1ef6fd0d864"
+    },
+    {
+      "id": "nginx-runtime",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "cfd1253ff9005298ecd9d7c5ed87258ab5cf5608db94321b6964289e2932d54e",
+      "output_bytes": 118
+    },
+    {
+      "id": "infra-runtime",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "5bbfbfbe1bd7e4a2a81ad8157564e95d0b07fcde61c3cbd7afe9a801de2ee618",
+      "output_bytes": 131,
+      "report_sha256": "91cdb4c8866731619f6c56acb454566664bd77fb01dc6c53d32485de9819f83a"
+    },
+    {
+      "id": "cache-runtime",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_bytes": 0,
+      "report_sha256": "675b86901234326a4b047bedcdd9fbb3edbdd426f58dfda41f51945980e3808d"
+    },
+    {
+      "id": "upload-isolation-runtime",
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_bytes": 0,
+      "report_sha256": "1577494d085714f785c2290e987c910cd3e20ad375875c6042c502b9e45f7b43"
+    },
+    {
+      "id": "terminal-coverage",
+      "status": "passed"
+    },
+    {
+      "id": "source-stability",
+      "status": "passed",
+      "final_source_digest": "715abd93bd22d6888028d6dfc924a97e1889dcbeb3e372e2735a2984ce6e8231",
+      "full_payload_unchanged": true
+    }
+  ],
+  "prerequisites": [
+    {
+      "id": "node22",
+      "status": "ready",
+      "remedy": "Install Node.js 22 or later.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_bytes": 0
+    },
+    {
+      "id": "python312",
+      "status": "ready",
+      "remedy": "Install Python 3.12 or later on PATH.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_bytes": 0
+    },
+    {
+      "id": "docker",
+      "status": "ready",
+      "remedy": "Start a Docker engine using Linux containers.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "d745fba1cb70ab9dc02a80eeba8a1864a0f32b2941e008c0af389be7b56ba830",
+      "output_bytes": 6
+    },
+    {
+      "id": "compose",
+      "status": "ready",
+      "remedy": "Install the Docker Compose v2 plugin.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "f9893302cd3158f3b5aea394dcd2a91574869e9e6ff69e9235b10a3bf8c983fb",
+      "output_bytes": 6
+    },
+    {
+      "id": "openssl3",
+      "status": "ready",
+      "remedy": "Install OpenSSL 3 with a usable certificate configuration; on Windows an existing Git for Windows installation is detected automatically.",
+      "certificate_probe": {
+        "exit_code": 0,
+        "signal": null,
+        "error_code": null,
+        "output_sha256": "eb65951e5fa7a54d5f20ab7bc7aeed231190bd7b5dbb34a577b12c4ab338176b",
+        "output_bytes": 986
+      },
+      "executable_sha256": "e7c10875d990b320a6000653b3a8c12f5aa06442c1937a246d2daeb342b7c9c5",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "9764d47ad1b9d6783432a1bdc0127599109ee9c16f713a0c04d802be0444f975",
+      "output_bytes": 63
+    },
+    {
+      "id": "chromium",
+      "status": "ready",
+      "remedy": "Install a local Chromium browser or set LAB_BROWSER_PATH to its existing absolute executable."
+    },
+    {
+      "id": "clamav",
+      "reference": "clamav/clamav@sha256:64ca916618842ba469ef38a501e6c2f42a68281c064c03749b0126c0fb085ce5",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "f9b3e47954519996f9804dc2b39facf4b94be313b7110bb33f54b7200e6b844a",
+      "output_bytes": 2323
+    },
+    {
+      "id": "redis",
+      "reference": "redis@sha256:02f2cc4882f8bf87c79a220ac958f58c700bdec0dfb9b9ea61b62fb0e8f1bfcf",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "74b57dd3787eb03fedc757ffa837e071bf06d96632ede9a73e8a4cf25855b48f",
+      "output_bytes": 2629
+    },
+    {
+      "id": "nginx",
+      "reference": "nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "c9c6bf079920334b702dcd1b515ca58f8d9a2bcf504ad08a57b1f8e78d4c06ba",
+      "output_bytes": 2566
+    },
+    {
+      "id": "node-tool-base",
+      "reference": "node@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "fa6f57efe21042376bf7c6973265b4f85c3d5496e9521eb67518f2d1ab44229b",
+      "output_bytes": 1940
+    },
+    {
+      "id": "python-tool-base",
+      "reference": "python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "3f1a4384a960d7ffe2f41092f5ede377ee90a64a06c1a7fb51d4fedd4b4130b5",
+      "output_bytes": 1892
+    },
+    {
+      "id": "upload-python",
+      "reference": "python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704",
+      "status": "ready",
+      "remedy": "Use --all --prepare to pull the fixed digest.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "d714e790eb0f2c783160509611b939d62839d43f83a6de7625e90e61749fac0d",
+      "output_bytes": 1891
+    },
+    {
+      "id": "infra-tools",
+      "status": "ready",
+      "recipe_sha256": "5aa53d08d05fb16dccdcfac34bfdfb58a4ccf84a5733c658f26e2d828dc2a543",
+      "remedy": "Use --all --prepare to build the fixed pinned-base, dated signed Debian snapshot recipe.",
+      "exit_code": 0,
+      "signal": null,
+      "error_code": null,
+      "output_sha256": "654a0a16f487e246ce7f0d12a2d189b3e82ecfa0c2035169ef86bde1e2f65f2c",
+      "output_bytes": 65
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "staged-authentication",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Synthetic enrollment and CAPTCHA only; production identity/factor storage is external."
+    },
+    {
+      "id": "web-input-and-sql",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "operational_scope": "One contact-form profile; actual browser verifies plain-text rendering, not arbitrary downstream code."
+    },
+    {
+      "id": "machine-signatures",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Custom request envelope, not a complete HTTP/MCP OAuth implementation."
+    },
+    {
+      "id": "sensitive-operations",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Synthetic records; external effects require their own durable transaction/result handling."
+    },
+    {
+      "id": "upload-and-clamd",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "operational_scope": "Real ClamAV with harmless custom signature; same-process storage API is not an OS sandbox or a durability guarantee."
+    },
+    {
+      "id": "upload-role-isolation",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "upload-isolation-runtime"
+      ],
+      "operational_scope": "Synthetic upload-role and mount-permission fixture only; production services require separate integration."
+    },
+    {
+      "id": "pow-replay",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Optional API component, not automatically wired into HTTP; not a standardized HTTP proof protocol."
+    },
+    {
+      "id": "redis-limiter",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "live-consumers"
+      ],
+      "operational_scope": "Fixed atomic counter; live fixture uses public synthetic password, no production TLS/failover claim."
+    },
+    {
+      "id": "encrypted-backups",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "operational_scope": "Database consistency requires database-native snapshot/dump; terminal consumer requires Linux."
+    },
+    {
+      "id": "source-preparation",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Bounded UTF-8 file staging, not arbitrary binary analysis."
+    },
+    {
+      "id": "version-checking",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Version currency is not proof of vulnerability clearance."
+    },
+    {
+      "id": "dependency-quarantine",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Archive inspection without executing dependencies; AI/manual content review is separate."
+    },
+    {
+      "id": "origin-configuration",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "nginx-runtime"
+      ],
+      "operational_scope": "Actual Nginx test needs explicit pinned image; live provider firewall/IPv6 routing not configured."
+    },
+    {
+      "id": "container-configuration",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "operational_scope": "Config normalization is not a complete escape-resistance assessment."
+    },
+    {
+      "id": "vpn-and-cloudflare",
+      "category": "source-reviewed",
+      "status": "source_reviewed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Source-reviewed recipes; no user VPN or Cloudflare account mutation or current-live protection claim."
+    },
+    {
+      "id": "binary-obfuscation",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "operational_scope": "The local native-symbol fixture is distinct from application-specific Garble/R8/.NET transformations."
+    },
+    {
+      "id": "release-provenance",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Hashes and source stability only; maintainer signature is verified separately."
+    },
+    {
+      "id": "nginx-cache",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "cache-runtime"
+      ],
+      "operational_scope": "Production CDN is separate."
+    },
+    {
+      "id": "ssh-key-only",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "infra-runtime"
+      ],
+      "operational_scope": "Host sshd is never changed."
+    },
+    {
+      "id": "firewall-and-vpn",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "infra-runtime"
+      ],
+      "operational_scope": "No user host firewall, Tailscale or WireSock is changed."
+    },
+    {
+      "id": "api-mcp-catalog",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline"
+      ],
+      "operational_scope": "Transport and deployment require integration."
+    },
+    {
+      "id": "secrets-terminal",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "infra-runtime"
+      ],
+      "operational_scope": "Real secrets never enter this lab."
+    },
+    {
+      "id": "keepassxc",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "infra-runtime"
+      ],
+      "operational_scope": "Operator selects KDBX settings and recovery policy."
+    },
+    {
+      "id": "external-cloudflare",
+      "category": "external",
+      "status": "external_not_run",
+      "stages": [],
+      "operational_scope": "No account access or cloud deployment."
+    },
+    {
+      "id": "external-identity-captcha",
+      "category": "external",
+      "status": "external_not_run",
+      "stages": [],
+      "operational_scope": "Lab fixtures do not verify a live identity provider."
+    },
+    {
+      "id": "external-signature",
+      "category": "external",
+      "status": "external_not_run",
+      "stages": [],
+      "operational_scope": "Local SHA-256 integrity is distinct from signer authenticity."
+    },
+    {
+      "id": "external-vpn",
+      "category": "external",
+      "status": "external_not_run",
+      "stages": [],
+      "operational_scope": "Synthetic WireGuard is not live VPN acceptance."
+    },
+    {
+      "id": "external-binary-hardening",
+      "category": "external",
+      "status": "external_not_run",
+      "stages": [],
+      "operational_scope": "Guide integrity is not binary-hardening execution."
+    },
+    {
+      "id": "all-local-control",
+      "category": "local",
+      "status": "passed",
+      "stages": [
+        "baseline",
+        "live-consumers",
+        "nginx-runtime",
+        "infra-runtime",
+        "cache-runtime",
+        "upload-isolation-runtime"
+      ],
+      "operational_scope": "Single-command synthetic local verification; never production or external-provider approval."
+    }
+  ],
+  "identity_excluded_files": [
+    "verification/v1.2.0-report.json",
+    "SHA256SUMS",
+    "SHA256SUMS.sig"
+  ],
+  "source_files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "be55ee050241b6b477f88f0b97bd4a705efe8f06bcaca3d68a33dd8f4cf43f1f"
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "sha256": "3e7d8a24bc0e1132ed12b84bd4625d7ef674329df408520f9a7d0566a5c7cfee"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "f72ddc1bfa6b035f3dc361fa7a642abebf0550c70c5a9589087fae1e880b2e1a"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "4ac3eb58ebf0052147fdfdf8fc53ff094ac5b3af6f56cf0f3e9a934b6ec749e7"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "858eaa5d07db77a30af4432367a01d6a4232c3afa10a28bcfb0ecc5769dbd33f"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "a24ad987320e08d35846979de41396560fcafd56d055f1770a81d819b00eae66"
+    },
+    {
+      "path": "MANIFESTO.md",
+      "sha256": "27d57da70ab2b73bd8dbb7524217c014a610b581db1efcf23ccf478552b9ccaf"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5492fafbe6ea92199d01f48d0e0c210839b53d5266000118115f0a57723c7f6d"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "dfa4ed72489498c1090b2ee5eab425c5151cc2542ad1f672536ebfdc4a07a7b1"
+    },
+    {
+      "path": "THREAT-DATA.md",
+      "sha256": "ba309912e2a729d133075909ce372f39c8e04e0963de09cc97366290c5190fc4"
+    },
+    {
+      "path": "assets/demo.gif",
+      "sha256": "88330f1d6e0b305d3e6cd51398e57790d34f384355f5b7621ea27ad5ea3182d3"
+    },
+    {
+      "path": "assets/threat-data-daily.png",
+      "sha256": "8baa484fe07b67b216e15d2d297d5e135024577abaf934e76bf1a9fc08dd18e8"
+    },
+    {
+      "path": "docs/ALL-LAB.md",
+      "sha256": "635b65e4d441667ee111c1e9313814432f5d5817e3e19c67d832f9854694a487"
+    },
+    {
+      "path": "docs/BINARY-OBFUSCATION.md",
+      "sha256": "b75ddba599f1544ac3fa4bafbf27180939a23c9928afdde00bc6f7cfc46a067e"
+    },
+    {
+      "path": "docs/CLOUDFLARE-EDGE.md",
+      "sha256": "a02059d13c9456f6b4d1bd32ad7d89806baab88001096d2a490f84bbc0f5a9b2"
+    },
+    {
+      "path": "docs/DEPLOYMENT.md",
+      "sha256": "c161f53000db8d6c45af7e21c9c980c2ac391ba97684020130d0375612c7a7a4"
+    },
+    {
+      "path": "docs/GITHUB-RELEASES.md",
+      "sha256": "9c57cf333686f4db6da8dd4e4174abb8f6119f570ed11a4198132e4f3e909e92"
+    },
+    {
+      "path": "docs/INFRASTRUCTURE.md",
+      "sha256": "ae656a0b461f1e8c25de10d1c89790ee49c2da4c473ea190595c9377708e27df"
+    },
+    {
+      "path": "docs/INITIAL-DEPLOYMENT.md",
+      "sha256": "2b333aa17f14941835e8a0c39c88cf02d7eb58f48bd1f8222caca24d994f5065"
+    },
+    {
+      "path": "docs/KEEPASSXC.md",
+      "sha256": "5477ec9062869c20cd0b2e56240f547951475fdeaccf67514b4d799d1aa70977"
+    },
+    {
+      "path": "docs/OPERATIONS.md",
+      "sha256": "4686bf8b0c6862f309ce329040a7ff4752f018383ea7cf2f9274f5178a3f5dd5"
+    },
+    {
+      "path": "docs/OWASP-MAPPING.md",
+      "sha256": "aa75711a379f3c4d5730da358e5f39bb6df10a9fd579eefb89d421f53c6dfc22"
+    },
+    {
+      "path": "docs/PRODUCTION.md",
+      "sha256": "662a22fc83efd3213b143d255ea34e907f98b70b726055ec9c389b006a1611f4"
+    },
+    {
+      "path": "docs/RELEASE-VERIFICATION.md",
+      "sha256": "c8d7626072aa40ca29e1cae7d95acd9db3f0f809aa1e8176b39ed37c723321e2"
+    },
+    {
+      "path": "docs/REPRODUCIBLE-LAB.md",
+      "sha256": "dc3c419035c56cfe0cd59e270d1e81fa09d866ffc0794ff3e0c19f4362ae92a4"
+    },
+    {
+      "path": "docs/SECURITY-BASICS.md",
+      "sha256": "826e10e9664f2f44b0144dc087460ad2aa87da6c2aca0fb95aebb67ea9d1c0ad"
+    },
+    {
+      "path": "docs/SECURITY-MODEL.md",
+      "sha256": "98c030c88445affab2d472e1fe12f71a9f6059150b04079bd6c71caca635aa08"
+    },
+    {
+      "path": "docs/SERVICE-PROTECTION.md",
+      "sha256": "3f40552bc69c9a21bdc639d15c0bf3a72f9269a16bb34374caead1b83bfa35bc"
+    },
+    {
+      "path": "docs/UPLOAD-ISOLATION.md",
+      "sha256": "4c9a3208f64f142ffa19d8befa68d34f56a780f77d6a827bdb61e127efc267cc"
+    },
+    {
+      "path": "docs/VALIDATION-MATRIX.md",
+      "sha256": "913e73fe069b472467e559b217762290e59feb11b83d8d4c5b0ad9be853c6c0a"
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "sha256": "a9a61c215073ebc9217779618293e70a98acd7690a0c4d36e0ce440a9152e415"
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "sha256": "4a4f76ae4b67b853dd40a68b64817e13a26a3cd34dc4ffff369bdc2143873da4"
+    },
+    {
+      "path": "docs/VERSIONS.md",
+      "sha256": "af58e48839f426b77354a87ba011f70034e07b4f1b4a7f39265bfc6100cce66c"
+    },
+    {
+      "path": "docs/VPN-TUNNELS.md",
+      "sha256": "afddda80388ef852ea6175db6395533ca58511dc00f7db424c08630315417314"
+    },
+    {
+      "path": "docs/WEB-INPUT-PROTECTION.md",
+      "sha256": "4a1af19de3c5f8297c0d3213f1f148a7acef9c96da739d42ac32fbb5b7769db1"
+    },
+    {
+      "path": "infra/container/Dockerfile",
+      "sha256": "81d9a4d72a511e2ed360eb1a42211399b944893b5db1227c8749fc7dbcc9e459"
+    },
+    {
+      "path": "infra/container/compose.yaml",
+      "sha256": "ae597cf4cecf0d756ecb94db9e80ce3d58c20fd0285e36c210bbfcff5fd7001d"
+    },
+    {
+      "path": "infra/container/quarantine.compose.yaml",
+      "sha256": "ef9280bf281d8257e97df94e90a9fa684ec1173e1c287f4cd5c41c2acdfab423"
+    },
+    {
+      "path": "infra/container/quarantine.py",
+      "sha256": "02721ac466640d6fb08b8e77a5722fdc763cf2a6753698858f6a2b684b35ceb9"
+    },
+    {
+      "path": "infra/container/test_compose.py",
+      "sha256": "ffab8a3af627a5cc46d9c6ad941968a4916e6dbfeb20efdca256ed293de072a4"
+    },
+    {
+      "path": "infra/container/test_quarantine.py",
+      "sha256": "739047d5a5a08bf36ed2ddbf03b8dafc4f7121a65b3b7687b9b90a55dc0d75c4"
+    },
+    {
+      "path": "infra/container/uploads.compose.yaml",
+      "sha256": "a250eeb6ba99ce47f07f5c6a43acf015ab84d7d831f4d4195be6938ece0ae7d3"
+    },
+    {
+      "path": "infra/firewall/__init__.py",
+      "sha256": "5dbd69f612da5f186ac6d144e36eeee36d55443b2da4fbcca6b5d0e88cf12daa"
+    },
+    {
+      "path": "infra/firewall/addresses.py",
+      "sha256": "826eca34cbb363a2aacb8c710ba27bb7cfef638d23c63c4a0d257b057bae6e3b"
+    },
+    {
+      "path": "infra/firewall/nftables.conf.template",
+      "sha256": "9c1dc00deec03ac46591ea4d24054ca933481bc88b0f1bf80cd89bdb8338ed72"
+    },
+    {
+      "path": "infra/firewall/policy.example.json",
+      "sha256": "2564419107dba9866056a0a6e15c88c18a6dac0eb441b4afeefb16dc07cb35d6"
+    },
+    {
+      "path": "infra/firewall/render.py",
+      "sha256": "439d0198cb719220f4f4d4aa0acbf58ef0f30426f67afad72ba76938927c2460"
+    },
+    {
+      "path": "infra/nginx/allowlist.client.example.json",
+      "sha256": "53571799770abdcfa39b39af15f6c1396acb726e2fc68cddbaff5c2b2f362d69"
+    },
+    {
+      "path": "infra/nginx/allowlist.peer.example.json",
+      "sha256": "0a7c5ab3dd40e94ee7d45d090a15261798a30b996a3d9c62bb1c3378aeb1b3c2"
+    },
+    {
+      "path": "infra/nginx/nginx.conf.template",
+      "sha256": "3a8fff4007a0af67147a591d046bc4958b7f1e9a7cc86c7d674ab1d5738453c8"
+    },
+    {
+      "path": "infra/nginx/render.py",
+      "sha256": "240fee95e07e2c3736a524f5f365e1428ce2c3d0d479bd11b19ed5f3a3ca9c38"
+    },
+    {
+      "path": "infra/nginx/test_harness.py",
+      "sha256": "28568987e6b24a5b979619cbaacc3bb4bab4d290419a31a6e2e420d308de3159"
+    },
+    {
+      "path": "infra/nginx/test_nginx.py",
+      "sha256": "d8d7ea33a1e68ab318b8522eec20da9b3a911a2a0c5e900c289bd3067ac6ee56"
+    },
+    {
+      "path": "infra/protected-paths.json",
+      "sha256": "78d030f4cbf30d545bb3a89cb21e3f2d12032462a032c8b8a1f33801e8b455b7"
+    },
+    {
+      "path": "infra/ssh/00-security.conf.template",
+      "sha256": "4b5569e91e23b4bec57e6d3942c5f91975caa9ead1eccb3c151a10ca36fc4f30"
+    },
+    {
+      "path": "lab/admission.README.md",
+      "sha256": "97c93c64ffdc59f2fe7e58318474d960d3a203e430cb6d6a9612fa702d28e736"
+    },
+    {
+      "path": "lab/all-local.mjs",
+      "sha256": "9b7ff15328d1b007ced0ba8b93dcd0780b7fdca4a90e68bb37d73fc1899bbd85"
+    },
+    {
+      "path": "lab/all-local.test.mjs",
+      "sha256": "200761c619d8a1b793241bc76951bd1b8655060db0bcde9684273e09934e4893"
+    },
+    {
+      "path": "lab/cache-fixtures/proxy.conf",
+      "sha256": "b62268144241b2304ba5fef0176ae1f21535e41fc9ef65b9bab7bcd2010dead8"
+    },
+    {
+      "path": "lab/cache-fixtures/upstream.conf",
+      "sha256": "75dfb06bebc8abc44b77b9a5bea155616681f7a15c43eda5aaffb9b23274f9f5"
+    },
+    {
+      "path": "lab/cache-verify.mjs",
+      "sha256": "e8e43dce05fd66253220c697c70c1c6b01508cdd8dfce70cab42be22563656c2"
+    },
+    {
+      "path": "lab/cache.README.md",
+      "sha256": "697cf2acceab18bb64a5c73068008ba3e2395b3d4b3265fd54531e9892607935"
+    },
+    {
+      "path": "lab/host-requirements.md",
+      "sha256": "493af27362a871fed0f14432f02fd80a411e7c9387e62587c636a3cce6f56d76"
+    },
+    {
+      "path": "lab/infra-fixtures/Dockerfile",
+      "sha256": "5aa53d08d05fb16dccdcfac34bfdfb58a4ccf84a5733c658f26e2d828dc2a543"
+    },
+    {
+      "path": "lab/infra-fixtures/probes.py",
+      "sha256": "2341f1fda52b922381c9c395ca96f9c7690d3e94df8896d5582e0352b67945a1"
+    },
+    {
+      "path": "lab/infra-fixtures/runtime-probe.c",
+      "sha256": "86a1a4fa606db9bc74ca8cd454bd7c9d55ddac0544cc2fadd9569e54452fb033"
+    },
+    {
+      "path": "lab/infra-verify.mjs",
+      "sha256": "bfdd0abcceba71968d1d8e682c49efbec2c81c013e0d4e2eeeeef290c1540dc1"
+    },
+    {
+      "path": "lab/infra.README.md",
+      "sha256": "3fc1a696b96d4c06ae2aedd8d3c2459769c91457ea482499be6f5cc3b4c400da"
+    },
+    {
+      "path": "lab/lifecycle.test.mjs",
+      "sha256": "2286818b5937ba1ff2475cc348b352ebd3949fd90f5075f58e6d19c158533775"
+    },
+    {
+      "path": "lab/live-verify.mjs",
+      "sha256": "98c7c8a6351a6fb14d89fa0805653c42aeb25c12f579354f0edb455ca6ce0812"
+    },
+    {
+      "path": "lab/protocol.schema.json",
+      "sha256": "30babf67fa480d5e17ec9f11e9e750bd734ac2d36d7a3ffeb79af095dfd83a01"
+    },
+    {
+      "path": "lab/public/app.js",
+      "sha256": "8b1a3b29ca3e4b8a60e903b86b9e32257cc269810e5ac64ea79d589bcdc77b29"
+    },
+    {
+      "path": "lab/public/index.html",
+      "sha256": "f73a761b14dc750cf19ac75035b1213cb009904a0306f109fe47ed86b1f7c0a7"
+    },
+    {
+      "path": "lab/redis-live.mjs",
+      "sha256": "8355ecc37e73dcf4bea49c981883a1a9da94f95d692e746aebcf4a7ce97d3f16"
+    },
+    {
+      "path": "lab/run-lab.mjs",
+      "sha256": "921c50d53098913122bc352c12a123aeea1b408b663d7403ad3792a89a97377e"
+    },
+    {
+      "path": "lab/run-shell.test.mjs",
+      "sha256": "58381fd47a390c1560d4cb12e87938e1147d6d863601b193b09ff93d71c3cda7"
+    },
+    {
+      "path": "lab/run.sh",
+      "sha256": "6a849d047d544dc467677c139cb17fdc4630c9fa01b7bf01e01357fa744116a1"
+    },
+    {
+      "path": "lab/scenarios.json",
+      "sha256": "73f7edd0baec14e0e0712476391d8652675cd39f4e8cba903962307fa7b5c123"
+    },
+    {
+      "path": "lab/upload-isolation-verify.mjs",
+      "sha256": "054f8ed40a3d04717418b44e2455c4fb01fb3da050da9290a91c3888c2ab3be5"
+    },
+    {
+      "path": "lab/upload-isolation.README.md",
+      "sha256": "50400b21ccf752550224c37eb7e05ad39b4dcee103ac4bee16f2f93440e5ea7e"
+    },
+    {
+      "path": "lab/upload-pipeline.README.md",
+      "sha256": "452f5119f31fd28454c381576219374be12e1ea24a0158058386a3517022803a"
+    },
+    {
+      "path": "lab/upload-service.mjs",
+      "sha256": "4c43d3da90d3c7423ba56d21551c18632dfc93739b4993a0714662c216184647"
+    },
+    {
+      "path": "lab/web-app.mjs",
+      "sha256": "161158d8cdc3ff3e45e713f874a86e808269647046cc19761932037db8c3a879"
+    },
+    {
+      "path": "lab/web-app.test.mjs",
+      "sha256": "308c8415d25ffc7494d9694dcf7a6e983de37ff54624a41f2c171ab6127a42e2"
+    },
+    {
+      "path": "lab/web.README.md",
+      "sha256": "1db4297231bd3ba53e82920659148abe14478b349e9d7e31525a4a94d45be307"
+    },
+    {
+      "path": "reference/README.md",
+      "sha256": "d83f1cc7af348207b47578f0ac28e49b245cfd96b53d621c3894a51f3e098768"
+    },
+    {
+      "path": "reference/admission.mjs",
+      "sha256": "d2a1ea20cf06b366493d7d93988b1b7b6dbf1f9fb3513246b34c606dcc339859"
+    },
+    {
+      "path": "reference/admission.test.mjs",
+      "sha256": "50dc928f45f61b05d6f23947848061f44df51151e1aeca2d41bf8eb457d07cee"
+    },
+    {
+      "path": "reference/clamd-client.mjs",
+      "sha256": "e1c2355532f07aae8613f00122619c80d29400427f8c3d51431d5510ae07b500"
+    },
+    {
+      "path": "reference/clamd-client.test.mjs",
+      "sha256": "0d68a1ae1de1c0697d6401285f0d73299f9a7346b555afbacce6948db529d3d5"
+    },
+    {
+      "path": "reference/core.mjs",
+      "sha256": "e2f40bda02c01831ddddcb871fb8567433b65736aef756417b3c55f5d2731c4b"
+    },
+    {
+      "path": "reference/core.test.mjs",
+      "sha256": "a3ff1468328ba25e7a541249ed1dcbdd3bd71f9984c149cbcbd83e650cdc0c7d"
+    },
+    {
+      "path": "reference/crypto.mjs",
+      "sha256": "8ff909b750bc8410df6d6b6f601d2f2d023bb80c40e38a8bf562b27bcff7824a"
+    },
+    {
+      "path": "reference/demo.mjs",
+      "sha256": "2e1062ff238840f24733154b370a0b87437af98b8c318d372fd922b0e3a7e061"
+    },
+    {
+      "path": "reference/fixtures.mjs",
+      "sha256": "1919ccabc8de191b73ae94e5ec54ef3a930821566943cb9f13a50a204174bc78"
+    },
+    {
+      "path": "reference/login-client.mjs",
+      "sha256": "b7172fb41b1726ec9541a3b08e110a3610e0f728e3189ce71e6164d6c900b24a"
+    },
+    {
+      "path": "reference/login-client.test.mjs",
+      "sha256": "63b0e1a30203cd213ca4daeae9ccc52190163c9982cef8d630eb20516cca7812"
+    },
+    {
+      "path": "reference/pii-input.mjs",
+      "sha256": "04f3113d0d75f2f58a9340d505794ecda10c512251410441190ac41f1f84b9ef"
+    },
+    {
+      "path": "reference/pii-input.test.mjs",
+      "sha256": "402b2a40b37dd4a8fcb036bc59a7c3a3e4acf6c914246b7ebb28ed731b8df24c"
+    },
+    {
+      "path": "reference/race-worker.mjs",
+      "sha256": "9631b0f8e2938565129c0368a76ba49077c2db927837537cfe17605f7ddddda6"
+    },
+    {
+      "path": "reference/session-authorization.test.mjs",
+      "sha256": "075a2cde51bfb3236ed935db8e0f49d14e16d8ba2f2557fc0189c26a4f2f33de"
+    },
+    {
+      "path": "reference/upload-pipeline.mjs",
+      "sha256": "50eff6e48da7c97b386357351f6ee57775360e294eb4f8987a1867bb9359183d"
+    },
+    {
+      "path": "reference/upload-pipeline.test.mjs",
+      "sha256": "ee860e89c1a33bec4ba9f16aeedbc5c0ad913766135e9a99197053cce9b59093"
+    },
+    {
+      "path": "scripts/archive_crypto.mjs",
+      "sha256": "75855d58855c9e221092e88efdb6c291b1cfd6662ba0314583b0abb969d13b6b"
+    },
+    {
+      "path": "scripts/backup.py",
+      "sha256": "50901570952c229c8d14b3dd094b575196865e0bd840ed3bfe89048a1671af2c"
+    },
+    {
+      "path": "scripts/check_versions.py",
+      "sha256": "a8ac38b9bc0f00a3d55a27520c584f5e53ed670653cfeeab06110e5859be6862"
+    },
+    {
+      "path": "scripts/prepare_production.py",
+      "sha256": "220a24d3c0bb66a09d2379d25b8ea2846aa7245ed620409ad1c484e8c12782f7"
+    },
+    {
+      "path": "scripts/protected_input.mjs",
+      "sha256": "c82f789df79aa9ff6fc3f443de7405882bd30e55c4437daa2617bf99cfe532a1"
+    },
+    {
+      "path": "scripts/secure_backup.mjs",
+      "sha256": "f09d11766314defe84d6ddc8de00dc7b97ec6dbecf5ed5b6982c2e8da419e3ef"
+    },
+    {
+      "path": "scripts/test_check_versions.py",
+      "sha256": "7f3c9ef084fcf99731658a02b5302ddedf8a5acd3b706888ec0e567adf6f2933"
+    },
+    {
+      "path": "scripts/test_crypto.mjs",
+      "sha256": "c6d20b2c89820a88663f27684714494582824360fb29930b43bbdfbfef439b3d"
+    },
+    {
+      "path": "scripts/test_operations.py",
+      "sha256": "e6071ae56de245071f3ee5fe6e398d3d3b9306f4d5f21d027d8030232f7f1fb4"
+    },
+    {
+      "path": "scripts/test_prepare_production.py",
+      "sha256": "e485bd850966385b09f48ef27c35027b526a3477ab1409e0d66b4792f81886a4"
+    },
+    {
+      "path": "scripts/test_terminal_input.py",
+      "sha256": "847e93155a80b77f353ed00847d26885e7f82a708311d0d473a7d0117954a4b5"
+    },
+    {
+      "path": "scripts/verify.mjs",
+      "sha256": "fd7654aa9eb1d4ba74bcaa35470a7bd5d009ba6f2de5e9054636ecc48061cf0c"
+    },
+    {
+      "path": "skills/check-versions/SKILL.md",
+      "sha256": "ecdc53b4d6112fd036003acbf6a7eb220e2e618ef931ee62c87debc66a8369ca"
+    },
+    {
+      "path": "skills/obfuscate-binaries/SKILL.md",
+      "sha256": "17b83843c87bb6baab040b7d4bf36e10f18fcb7648c42281f83fd123d16b3555"
+    },
+    {
+      "path": "skills/prepare-production/SKILL.md",
+      "sha256": "cbcba8359dfa1b5cb7f52d863b1703734a69b6e412a88f3842c7dd22638f6b51"
+    },
+    {
+      "path": "skills/protected-terminal-input/SKILL.md",
+      "sha256": "599943a8608c9f99e5b64a20ed1dfc237c7a5b6ac1ca674f8e3c78e55c1e0fd7"
+    },
+    {
+      "path": "skills/review-dependencies/SKILL.md",
+      "sha256": "56a88ff440024f2c6987834d391ff6f41fc814a743e4f1636c89434dcb50bdeb"
+    },
+    {
+      "path": "skills/run-security-lab/SKILL.md",
+      "sha256": "bbe55df96d345a0b1569eb2ee1ae29e21d0d0877531c8b2a451f770883adf253"
+    },
+    {
+      "path": "skills/verified-backup/SKILL.md",
+      "sha256": "d3eee3cdae437d8c291fae21c059e90397ff2d652fc449b7d535815369e2eaa0"
+    },
+    {
+      "path": "verification/claims.json",
+      "sha256": "9a44c10796949d1a80f0a6f1110460366153235df8f1a6ba4f1b16e574e94731"
+    },
+    {
+      "path": "verification/coverage.json",
+      "sha256": "4ea58f7ecdf0ffff0b2bb13584dc3594456beb122af9bf3014130f7996c5c04d"
+    },
+    {
+      "path": "wallets.txt",
+      "sha256": "d0b4deef517855bd62b48b4000ca54a67dc2f4b1e150f90982915098103eebf3"
+    }
+  ],
+  "source_digest": "715abd93bd22d6888028d6dfc924a97e1889dcbeb3e372e2735a2984ce6e8231",
+  "status": "local_accepted",
+  "local_accepted": true,
+  "production_verified": false,
+  "exit_code": 0,
+  "finished_at": "2026-11-13T09:10:18.989Z",
+  "release_version": "v1.2.0",
+  "launcher": {
+    "command": "sh lab/run.sh --output <new-absolute-external-report.json>",
+    "observed_host": "Windows with Git POSIX shell; Linux services and network namespaces in Docker",
+    "native_macOS_host_run": false,
+    "hosted_ci_run": false
+  },
+  "runtime_evidence": {
+    "baseline": {
+      "status": "incomplete",
+      "complete": false,
+      "node": "v22.14.0",
+      "python": "3.13.5",
+      "platform": "win32",
+      "checks": [
+        {
+          "id": "coverage-membership",
+          "status": "passed",
+          "files": 126,
+          "meaning": "Every public payload file is classified; classification is not proof of implemented security."
+        },
+        {
+          "id": "sha256-registry",
+          "status": "passed",
+          "files": 126,
+          "signature_verified": false
+        },
+        {
+          "id": "node-runtime",
+          "status": "passed"
+        },
+        {
+          "id": "python-runtime",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 49,
+          "output_sha256": "d7d7dbce2874cbcac948bc8db4cc29d07959351bd30bc2ed3cbc3bf9de8b6060",
+          "output_bytes": 8,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "node-syntax",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 65,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_bytes": 0,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "node-tests",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 16562,
+          "output_sha256": "89ce3c03c0a1387cfb8723b094a924ca0e43fa92e373d5cfe5a91ee062feb01d",
+          "output_bytes": 18182,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "core-demo",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 403,
+          "output_sha256": "bb5f8496f6e8f1c3281195458917ddde11608efe6a02f186149eb4f619ac70c7",
+          "output_bytes": 254,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "operations",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 1958,
+          "output_sha256": "56793d6b180ad4a9618bfc4449c4f7962704570246cd87ffe436ff195df38c9b",
+          "output_bytes": 130,
+          "skipped_subtests": 3
+        },
+        {
+          "id": "production",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 1054,
+          "output_sha256": "66df6cc9a40194509cb9c7db2e4b41044b1edece5c6c05fa283b305feb24ff78",
+          "output_bytes": 118,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "versions",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 369,
+          "output_sha256": "643af360d67f0b86ca00161612b1212fc1836ab65f964e1e1d2ebcc9cbb04fc4",
+          "output_bytes": 118,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "quarantine",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 2102,
+          "output_sha256": "8fad65b1fbca001a0398c258383b16540f6245a682ae7bc9ca01050355fc7c0f",
+          "output_bytes": 98,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "nginx-harness",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 180,
+          "output_sha256": "7e073a025c01d969cfceb956e851b725554c3b8c370c50b6f10034bcd7e006b2",
+          "output_bytes": 116,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "firewall-render",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 123,
+          "output_sha256": "4a0ae94eb83b9e7241e6988a3c1e89c8229064c6031100f84c0fbaa683416db1",
+          "output_bytes": 105,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "terminal",
+          "status": "not_run",
+          "reason": "Linux PTY required; run Linux CI for this check"
+        },
+        {
+          "id": "compose-runtime",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 205,
+          "output_sha256": "f9893302cd3158f3b5aea394dcd2a91574869e9e6ff69e9235b10a3bf8c983fb",
+          "output_bytes": 6,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "compose",
+          "status": "passed",
+          "exit_code": 0,
+          "signal": null,
+          "error_code": null,
+          "elapsed_ms": 1576,
+          "output_sha256": "1c1532543e2b3be16286abaa0bd648db0ab258300cd79500a1e0e657c363633e",
+          "output_bytes": 107,
+          "skipped_subtests": 0
+        },
+        {
+          "id": "live-consumers",
+          "status": "not_run",
+          "reason": "Use --full with the documented isolated integration prerequisites"
+        },
+        {
+          "id": "nginx-runtime",
+          "status": "not_run",
+          "reason": "Requires explicit reviewed local image and new external output directory"
+        },
+        {
+          "id": "source-stability",
+          "status": "passed",
+          "final_source_digest": "715abd93bd22d6888028d6dfc924a97e1889dcbeb3e372e2735a2984ce6e8231",
+          "integrity_registry_unchanged": true,
+          "full_payload_unchanged": true
+        }
+      ]
+    },
+    "services": {
+      "status": "passed",
+      "node": "v22.14.0",
+      "browser": "Chrome/157.0.8103.78",
+      "checks": [
+        {
+          "id": "clamav-clean",
+          "status": "passed",
+          "engine": "ClamAV",
+          "version": "ClamAV 1.5.4",
+          "synthetic_database": true
+        },
+        {
+          "id": "clamav-marker",
+          "status": "passed",
+          "engine": "ClamAV",
+          "version": "ClamAV 1.5.4",
+          "synthetic_database": true
+        },
+        {
+          "id": "browser-fixture-loaded",
+          "status": "passed"
+        },
+        {
+          "id": "browser-full-login-stages",
+          "status": "passed"
+        },
+        {
+          "id": "browser-stored-text-not-html",
+          "status": "passed",
+          "literal_output": true,
+          "injected_dom_nodes": 0,
+          "script_executed": false
+        },
+        {
+          "id": "browser-upload-clean",
+          "status": "passed",
+          "pending_denied": true,
+          "verdict": "clean",
+          "download_status": 200
+        },
+        {
+          "id": "browser-upload-rejected",
+          "status": "passed",
+          "pending_denied": true,
+          "verdict": "rejected",
+          "download_status": 404
+        },
+        {
+          "id": "redis-authenticated-atomic-limits",
+          "status": "passed",
+          "image": "redis@sha256:02f2cc4882f8bf87c79a220ac958f58c700bdec0dfb9b9ea61b62fb0e8f1bfcf",
+          "concurrent_requests": 8,
+          "admitted": 2,
+          "expiry_reset": true,
+          "synthetic_credential": true
+        }
+      ],
+      "cleanup": {
+        "browser_stopped": true,
+        "application_stopped": true,
+        "private_temp_removed": true,
+        "scanner_removed": true,
+        "network_removed": true,
+        "scanner_temp_removed": true,
+        "redis_removed": true
+      },
+      "source_files": [
+        {
+          "path": "lab/live-verify.mjs",
+          "sha256": "98c7c8a6351a6fb14d89fa0805653c42aeb25c12f579354f0edb455ca6ce0812"
+        },
+        {
+          "path": "lab/web-app.mjs",
+          "sha256": "161158d8cdc3ff3e45e713f874a86e808269647046cc19761932037db8c3a879"
+        },
+        {
+          "path": "lab/public/index.html",
+          "sha256": "f73a761b14dc750cf19ac75035b1213cb009904a0306f109fe47ed86b1f7c0a7"
+        },
+        {
+          "path": "lab/public/app.js",
+          "sha256": "8b1a3b29ca3e4b8a60e903b86b9e32257cc269810e5ac64ea79d589bcdc77b29"
+        },
+        {
+          "path": "reference/core.mjs",
+          "sha256": "e2f40bda02c01831ddddcb871fb8567433b65736aef756417b3c55f5d2731c4b"
+        },
+        {
+          "path": "reference/crypto.mjs",
+          "sha256": "8ff909b750bc8410df6d6b6f601d2f2d023bb80c40e38a8bf562b27bcff7824a"
+        },
+        {
+          "path": "reference/pii-input.mjs",
+          "sha256": "04f3113d0d75f2f58a9340d505794ecda10c512251410441190ac41f1f84b9ef"
+        },
+        {
+          "path": "reference/upload-pipeline.mjs",
+          "sha256": "50eff6e48da7c97b386357351f6ee57775360e294eb4f8987a1867bb9359183d"
+        },
+        {
+          "path": "reference/clamd-client.mjs",
+          "sha256": "e1c2355532f07aae8613f00122619c80d29400427f8c3d51431d5510ae07b500"
+        }
+      ],
+      "orchestrator_source_files": [
+        {
+          "path": "lab/run-lab.mjs",
+          "sha256": "921c50d53098913122bc352c12a123aeea1b408b663d7403ad3792a89a97377e"
+        },
+        {
+          "path": "lab/redis-live.mjs",
+          "sha256": "8355ecc37e73dcf4bea49c981883a1a9da94f95d692e746aebcf4a7ce97d3f16"
+        },
+        {
+          "path": "reference/admission.mjs",
+          "sha256": "d2a1ea20cf06b366493d7d93988b1b7b6dbf1f9fb3513246b34c606dcc339859"
+        }
+      ]
+    },
+    "nginx": {
+      "status": "passed",
+      "image": "sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "assertions": {
+        "security_headers_all_http_responses": true,
+        "website_protected": {
+          "codes": [
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            429,
+            403
+          ],
+          "seconds": 0.006133300019428134,
+          "send_seconds": 0.001308700069785118
+        },
+        "api_protected": {
+          "codes": [
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            429,
+            403
+          ],
+          "seconds": 0.003388599958270788,
+          "send_seconds": 0.0009816999081522226
+        },
+        "spoofed_xff_no_bypass": [
+          429,
+          429,
+          429
+        ],
+        "forbidden_methods": [
+          403,
+          403
+        ],
+        "core_rejects_trace": [
+          405,
+          405
+        ],
+        "website_allowed": {
+          "codes": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            429,
+            200
+          ],
+          "seconds": 0.0029650998767465353,
+          "send_seconds": 0.0009838000405579805
+        },
+        "api_allowed": {
+          "codes": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            429,
+            200
+          ],
+          "seconds": 0.004179400159046054,
+          "send_seconds": 0.0012293001636862755
+        },
+        "mcp_shares_api_bucket": [
+          429,
+          429,
+          429
+        ],
+        "independent_refill": true,
+        "http_redirect": {
+          "codes": [
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            429,
+            308
+          ],
+          "seconds": 0.002095300005748868,
+          "send_seconds": 0.0010448999237269163
+        },
+        "http_api_redirect": {
+          "codes": [
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            308,
+            429,
+            308
+          ],
+          "seconds": 0.0023942000698298216,
+          "send_seconds": 0.001257200026884675
+        },
+        "unknown_host_limited": {
+          "codes": [
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            429
+          ],
+          "seconds": 0.003162199864163995,
+          "send_seconds": 0.0015488998033106327
+        },
+        "wrong_port_host_limited": {
+          "codes": [
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            429,
+            421,
+            421
+          ],
+          "seconds": 0.0026364000514149666,
+          "send_seconds": 0.0014841000083833933
+        },
+        "api_wrong_port_host_limited": {
+          "codes": [
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            429
+          ],
+          "seconds": 0.002621999941766262,
+          "send_seconds": 0.0011483998969197273
+        },
+        "api_default_host_limited": {
+          "codes": [
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            421,
+            429,
+            421
+          ],
+          "seconds": 0.0023246000055223703,
+          "send_seconds": 0.0010748000349849463
+        },
+        "mixed_allowed_denied_website": [
+          200,
+          403,
+          200,
+          403,
+          200,
+          403,
+          200,
+          403,
+          200,
+          403,
+          429
+        ],
+        "credential_variants": [
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403
+        ],
+        "internal_tooling_paths": [
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403,
+          403
+        ],
+        "anchored_classifier": true,
+        "stricter_upstream_csp_preserved": true,
+        "unknown_sni_rejected": true,
+        "query_marker_absent_from_stdout_and_stderr": true,
+        "whitelist_denials_are_limited": {
+          "codes": [
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            403,
+            429
+          ],
+          "seconds": 0.0027771000750362873,
+          "send_seconds": 0.0016199001111090183
+        },
+        "peer_and_trusted_client_whitelists": true,
+        "ipv6_client_header_policy": true
+      },
+      "source_unchanged": true,
+      "container_removed": true,
+      "network_removed": true
+    },
+    "infrastructure": {
+      "status": "passed",
+      "ok": true,
+      "complete": true,
+      "image": "sha256:dbf80ad85ced828ef819c8817fe9e642c04c91a2e8049f8b64962f2da69a768e",
+      "recipe_sha256": "5aa53d08d05fb16dccdcfac34bfdfb58a4ccf84a5733c658f26e2d828dc2a543",
+      "packages": [
+        "binutils\t2.40-2",
+        "gcc\t4:12.2.0-3",
+        "iproute2\t6.1.0-3",
+        "iputils-ping\t3:20221126-1+deb12u1",
+        "keepassxc\t2.7.4+dfsg.1-2",
+        "nftables\t1.0.6-2+deb12u2",
+        "openssh-client\t1:9.2p1-2+deb12u10",
+        "openssh-server\t1:9.2p1-2+deb12u10",
+        "python3\t3.11.2-1+b1",
+        "wireguard-tools\t1.0.20210914-1+b1"
+      ],
+      "checks": {
+        "sshSetup": {
+          "ok": true
+        },
+        "ssh": {
+          "ok": true,
+          "keySuccess": true,
+          "wrongKeyDenied": true,
+          "rootDenied": true,
+          "passwordDenied": true
+        },
+        "tcpBaseline": {
+          "admin": {
+            "connected": true
+          },
+          "proxy": {
+            "connected": true
+          },
+          "arbitrary": {
+            "connected": true
+          },
+          "outsider": {
+            "connected": true
+          }
+        },
+        "firewallLoad": {
+          "ok": true,
+          "rules": "{\"nftables\": [{\"metainfo\": {\"version\": \"1.0.6\", \"release_name\": \"Lester Gooch #5\", \"json_schema_version\": 1}}, {\"table\": {\"family\": \"inet\", \"name\": \"amqic_origin_guard\", \"handle\": 3}}, {\"set\": {\"family\": \"inet\", \"name\": \"admin_v4\", \"table\": \"amqic_origin_guard\", \"type\": \"ipv4_addr\", \"handle\": 2, \"flags\": [\"interval\"], \"elem\": [\"192.168.96.3\"]}}, {\"set\": {\"family\": \"inet\", \"name\": \"admin_v6\", \"table\": \"amqic_origin_guard\", \"type\": \"ipv6_addr\", \"handle\": 3, \"flags\": [\"interval\"]}}, {\"set\": {\"family\": \"inet\", \"name\": \"proxy_v4\", \"table\": \"amqic_origin_guard\", \"type\": \"ipv4_addr\", \"handle\": 4, \"flags\": [\"interval\"], \"elem\": [\"192.168.96.3\"]}}, {\"set\": {\"family\": \"inet\", \"name\": \"proxy_v6\", \"table\": \"amqic_origin_guard\", \"type\": \"ipv6_addr\", \"handle\": 5, \"flags\": [\"interval\"]}}, {\"chain\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"name\": \"input\", \"handle\": 1, \"type\": \"filter\", \"hook\": \"input\", \"prio\": -10, \"policy\": \"drop\"}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 6, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"meta\": {\"key\": \"iifname\"}}, \"right\": \"lo\"}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 7, \"expr\": [{\"match\": {\"op\": \"in\", \"left\": {\"ct\": {\"key\": \"state\"}}, \"right\": \"invalid\"}}, {\"drop\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 8, \"expr\": [{\"match\": {\"op\": \"in\", \"left\": {\"ct\": {\"key\": \"state\"}}, \"right\": [\"established\", \"related\"]}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 10, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip\", \"field\": \"protocol\"}}, \"right\": \"icmp\"}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"icmp\", \"field\": \"type\"}}, \"right\": {\"set\": [\"destination-unreachable\", \"time-exceeded\", \"parameter-problem\"]}}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 12, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"icmpv6\", \"field\": \"type\"}}, \"right\": {\"set\": [\"destination-unreachable\", \"packet-too-big\", \"time-exceeded\", \"parameter-problem\"]}}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 14, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip6\", \"field\": \"hoplimit\"}}, \"right\": 255}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"icmpv6\", \"field\": \"type\"}}, \"right\": {\"set\": [\"nd-neighbor-solicit\", \"nd-neighbor-advert\"]}}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 15, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip6\", \"field\": \"saddr\"}}, \"right\": {\"prefix\": {\"addr\": \"fe80::\", \"len\": 10}}}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip6\", \"field\": \"hoplimit\"}}, \"right\": 255}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"icmpv6\", \"field\": \"type\"}}, \"right\": \"nd-router-advert\"}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 16, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip\", \"field\": \"saddr\"}}, \"right\": \"@admin_v4\"}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"tcp\", \"field\": \"dport\"}}, \"right\": 2222}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 17, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip6\", \"field\": \"saddr\"}}, \"right\": \"@admin_v6\"}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"tcp\", \"field\": \"dport\"}}, \"right\": 2222}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 19, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip\", \"field\": \"saddr\"}}, \"right\": \"@proxy_v4\"}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"tcp\", \"field\": \"dport\"}}, \"right\": {\"set\": [80, 443]}}}, {\"accept\": null}]}}, {\"rule\": {\"family\": \"inet\", \"table\": \"amqic_origin_guard\", \"chain\": \"input\", \"handle\": 21, \"expr\": [{\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"ip6\", \"field\": \"saddr\"}}, \"right\": \"@proxy_v6\"}}, {\"match\": {\"op\": \"==\", \"left\": {\"payload\": {\"protocol\": \"tcp\", \"field\": \"dport\"}}, \"right\": {\"set\": [80, 443]}}}, {\"accept\": null}]}}]}\n"
+        },
+        "firewall": {
+          "ok": true,
+          "adminAllowed": true,
+          "proxyAllowed": true,
+          "arbitraryDenied": true,
+          "outsiderSshDenied": true,
+          "outsiderWebDenied": true
+        },
+        "wireguard": {
+          "status": "tested",
+          "ok": true,
+          "tunnelPing": true,
+          "handshakeObserved": true,
+          "revokedPeerDenied": true
+        },
+        "linuxComplements": {
+          "ok": true,
+          "tests": [
+            {
+              "python": "Python 3.11.2",
+              "test": "test_terminal_input.py",
+              "ok": true,
+              "tests": 1,
+              "skipped": 0
+            },
+            {
+              "python": "Python 3.11.2",
+              "test": "test_operations.py",
+              "ok": true,
+              "tests": 14,
+              "skipped": 3
+            },
+            {
+              "python": "Python 3.12.11",
+              "test": "test_terminal_input.py",
+              "ok": true,
+              "tests": 1,
+              "skipped": 0
+            },
+            {
+              "python": "Python 3.12.11",
+              "test": "test_operations.py",
+              "ok": true,
+              "tests": 14,
+              "skipped": 3
+            }
+          ]
+        },
+        "artifacts": {
+          "ok": true,
+          "symbolSeparation": {
+            "ok": true
+          },
+          "syntheticKeePass": {
+            "ok": true,
+            "created": true,
+            "correctPasswordOpened": true,
+            "wrongPasswordDenied": true
+          }
+        },
+        "containerRuntime": {
+          "ok": true,
+          "uid": 65532,
+          "rootWriteDenied": true,
+          "tmpWriteAllowed": true,
+          "capEffZero": true,
+          "noNewPrivileges": true,
+          "coreLimitZero": true,
+          "shellAbsent": true,
+          "dockerSocketAbsent": true
+        }
+      },
+      "cleanup": {
+        "ok": true,
+        "failures": []
+      },
+      "source_unchanged": true
+    },
+    "cache": {
+      "status": "passed",
+      "complete": true,
+      "scope": "isolated synthetic Nginx HTTP cache reference",
+      "realCloudflare": "vendor_not_tested",
+      "image": "nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10",
+      "node": "v22.14.0",
+      "source_files": [
+        {
+          "path": "lab/cache-verify.mjs",
+          "sha256": "e8e43dce05fd66253220c697c70c1c6b01508cdd8dfce70cab42be22563656c2"
+        },
+        {
+          "path": "lab/cache-fixtures/upstream.conf",
+          "sha256": "75dfb06bebc8abc44b77b9a5bea155616681f7a15c43eda5aaffb9b23274f9f5"
+        },
+        {
+          "path": "lab/cache-fixtures/proxy.conf",
+          "sha256": "b62268144241b2304ba5fef0176ae1f21535e41fc9ef65b9bab7bcd2010dead8"
+        }
+      ],
+      "checks": [
+        {
+          "id": "public_fingerprinted_asset_cache_hit",
+          "status": "passed",
+          "first": "MISS",
+          "second": "HIT"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/public.0123456789abcdef.js",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/public.0123456789abcdef.js",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/private",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/private",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/api/profile",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/api/profile",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/account",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/account",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/no-store.0123456789abcdef.js",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/no-store.0123456789abcdef.js",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/cookie.0123456789abcdef.js",
+          "credential": "authorization",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "client_isolation",
+          "path": "/assets/cookie.0123456789abcdef.js",
+          "credential": "cookie",
+          "status": "passed",
+          "cache": "BYPASS"
+        },
+        {
+          "id": "origin_private_or_set_cookie_not_stored",
+          "path": "/private",
+          "status": "passed",
+          "observed": [
+            "BYPASS",
+            "BYPASS"
+          ]
+        },
+        {
+          "id": "origin_private_or_set_cookie_not_stored",
+          "path": "/api/profile",
+          "status": "passed",
+          "observed": [
+            "BYPASS",
+            "BYPASS"
+          ]
+        },
+        {
+          "id": "origin_private_or_set_cookie_not_stored",
+          "path": "/account",
+          "status": "passed",
+          "observed": [
+            "BYPASS",
+            "BYPASS"
+          ]
+        },
+        {
+          "id": "origin_private_or_set_cookie_not_stored",
+          "path": "/assets/no-store.0123456789abcdef.js",
+          "status": "passed",
+          "observed": [
+            "MISS",
+            "MISS"
+          ]
+        },
+        {
+          "id": "origin_private_or_set_cookie_not_stored",
+          "path": "/assets/cookie.0123456789abcdef.js",
+          "status": "passed",
+          "observed": [
+            "MISS",
+            "MISS"
+          ]
+        },
+        {
+          "id": "source_stable_and_anonymous_cache_unpoisoned",
+          "status": "passed"
+        }
+      ],
+      "cleanup": {
+        "containers_absent": true,
+        "network_absent": true,
+        "verified_by_successful_listing": true
+      },
+      "nginx_version": "nginx version: nginx/1.27.5"
+    },
+    "upload_roles": {
+      "status": "passed",
+      "ok": true,
+      "complete": true,
+      "scope": "Synthetic Linux upload-volume DAC and read-only mount enforcement; all roles network none",
+      "application_pipeline": "not_tested",
+      "ingress_networks": "not_tested",
+      "image": "python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704",
+      "source_files": [
+        {
+          "path": "lab/upload-isolation-verify.mjs",
+          "sha256": "054f8ed40a3d04717418b44e2455c4fb01fb3da050da9290a91c3888c2ab3be5"
+        },
+        {
+          "path": "infra/container/uploads.compose.yaml",
+          "sha256": "a250eeb6ba99ce47f07f5c6a43acf015ab84d7d831f4d4195be6938ece0ae7d3"
+        }
+      ],
+      "checks": [
+        {
+          "id": "compose_contract",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "runtime_prepare",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "runtime_intake",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "runtime_scanner",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "runtime_promoter",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "runtime_media",
+          "status": "passed",
+          "ok": true
+        },
+        {
+          "id": "source_stable",
+          "status": "passed",
+          "ok": true
+        }
+      ],
+      "cleanup": {
+        "ok": true,
+        "containers_absent": true,
+        "volumes_absent": true,
+        "verified_by_successful_listing": true
+      },
+      "prepare_sha256": "8ed3f85802ef3c5b85fda67e73aef5e8e0abf03f25aeddf273cd7a3641e155b5"
+    }
+  },
+  "interpretation": {
+    "local_only": true,
+    "signature_verified": false,
+    "scope": "Local component and contract validation, not a certification or validation of production accounts/deployment.",
+    "source_identity": "The final protocol and checksum registries are excluded from execution source identity; SHA256SUMS covers the final protocol after sealing.",
+    "external_scenarios": "External/manual scenarios remain external_not_run and are not included in local acceptance."
+  }
+}
