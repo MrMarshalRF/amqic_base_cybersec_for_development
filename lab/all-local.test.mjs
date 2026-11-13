@@ -2,6 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { acceptStage } from './all-local.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -26,6 +29,19 @@ test('invalid metadata fails before prerequisites or effects', () => {
     assert.deepEqual(result.report.prerequisites, []);
     assert.deepEqual(result.report.checks, []);
   }
+});
+
+test('existing baseline diagnostics are preserved before preparation', t => {
+  const directory = mkdtempSync(join(tmpdir(), 'ci-evidence-'));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const output = join(directory, 'report.json');
+  const log = output + '.baseline.json.versions.log';
+  writeFileSync(log, 'previous diagnostic');
+  const result = cli('--all', '--prepare', '--output', output);
+  assert.equal(result.status, 1);
+  assert.equal(result.report.status, 'invalid_request');
+  assert.deepEqual(result.report.prerequisites, []);
+  assert.equal(readFileSync(log, 'utf8'), 'previous diagnostic');
 });
 test('exit-zero shaped reports cannot omit actual checks or cleanup', () => {
   for (const stage of ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'unknown']) {

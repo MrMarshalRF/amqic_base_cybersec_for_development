@@ -68,6 +68,44 @@ def tcp_probe(ip, port):
     except (OSError, TimeoutError):
         emit({'connected': False})
 
+
+def http_setup():
+    processes = []
+    try:
+        for port in (443, 8080):
+            process = subprocess.Popen(
+                [sys.executable, '-m', 'http.server', str(port), '--bind', '0.0.0.0'],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            processes.append((port, process))
+        deadline = time.monotonic() + 10
+        pending = {port for port, _ in processes}
+        while pending:
+            exited = [(port, process.returncode) for port, process in processes if process.poll() is not None]
+            if exited:
+                raise RuntimeError(f'Synthetic HTTP listener exited before readiness: {exited}')
+            for port in tuple(pending):
+                try:
+                    with socket.create_connection(('127.0.0.1', port), timeout=0.2):
+                        pending.remove(port)
+                except OSError:
+                    pass
+            if not pending:
+                break
+            if time.monotonic() >= deadline:
+                raise RuntimeError('Synthetic HTTP listener readiness timed out')
+            time.sleep(0.05)
+        if any(process.poll() is not None for _, process in processes):
+            raise RuntimeError('Synthetic HTTP listener exited at readiness')
+        emit({'ok': True, 'ports': [port for port, _ in processes],
+              'pids': [process.pid for _, process in processes]})
+    except Exception:
+        for _, process in processes:
+            if process.poll() is None:
+                process.terminate()
+        for _, process in processes:
+            process.wait(timeout=5)
+        raise
+
 def firewall(ip):
     policy = {'schema_version': 1, 'ssh_port': 2222, 'admin_cidrs': [ip + '/32'], 'proxy_cidrs': [ip + '/32']}
     Path('/lab/policy.json').write_text(json.dumps(policy))
@@ -122,5 +160,5 @@ def artifacts():
     emit({'ok': symbols['ok'] and vault['ok'], 'symbolSeparation': symbols, 'syntheticKeePass': vault})
 
 if __name__ == '__main__':
-    commands = {'ssh-setup': ssh_setup, 'ssh-probe': ssh_probe, 'tcp': tcp_probe, 'firewall': firewall, 'wg-setup': wg_setup, 'complements': complements, 'artifacts': artifacts}
+    commands = {'ssh-setup': ssh_setup, 'ssh-probe': ssh_probe, 'tcp': tcp_probe, 'http-setup': http_setup, 'firewall': firewall, 'wg-setup': wg_setup, 'complements': complements, 'artifacts': artifacts}
     commands[sys.argv[1]](*sys.argv[2:])

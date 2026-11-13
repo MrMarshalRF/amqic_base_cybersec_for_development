@@ -64,6 +64,10 @@ const base = { schema_version: 1, mode: 'all-local', scope: 'purpose-built synth
 let output;
 let initialSnapshot;
 const suffixes = ['', '.baseline.json', '.baseline.json.node-tests.log', '.integration.json', '.integration.json.resources.json', '.integration.json.consumer.json', '.nginx', '.infra.json', '.infra.json.resources.json', '.cache.json', '.cache.json.resources.json', '.upload.json', '.upload.json.resources.json'];
+for (const id of ['python-runtime', 'node-syntax', 'core-demo', 'operations', 'production',
+  'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose']) {
+  suffixes.push(`.baseline.json.${id}.log`);
+}
 try {
   if (invalid || (!options['--all'] && !options['--plan']) || (options['--all'] && options['--plan']) || (options['--plan'] && options['--output']) || (options['--prepare'] && (!options['--all'] || options['--plan']))) throw new Error(invalid ?? 'invalid_option_combination');
   if (catalog.schema_version !== 1 || JSON.stringify(catalog.images) !== JSON.stringify(fixedImages) || JSON.stringify(catalog.stages?.map(stage => stage.id)) !== JSON.stringify(stageIds) || catalog.stages.some(stage => !Number.isInteger(stage.timeout_ms) || stage.timeout_ms < 1000 || stage.timeout_ms > 1200000) || !Array.isArray(catalog.scenarios) || catalog.scenarios.some(scenario => !['local', 'source-reviewed', 'external'].includes(scenario.category) || !Array.isArray(scenario.stages) || scenario.stages.some(id => !stageIds.includes(id)) || (scenario.category !== 'external' && scenario.stages.length === 0))) throw new Error('invalid_fixed_catalog');

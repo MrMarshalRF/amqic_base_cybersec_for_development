@@ -73,6 +73,7 @@ def node_candidates():
 
 
 def runtime_node(project):
+    project = project.resolve(strict=True)
     environment = {"SYSTEMROOT": os.environ["SYSTEMROOT"]} if "SYSTEMROOT" in os.environ else {}
     for candidate in node_candidates():
         try:

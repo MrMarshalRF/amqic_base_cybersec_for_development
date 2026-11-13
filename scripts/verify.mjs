@@ -20,26 +20,30 @@ for (let i = 0; i < args.length; i++) {
   else throw new Error(`Unknown or incomplete option: ${key}`);
 }
 if (options['--full'] && !options['--output']) throw new Error('--full requires --output for external integration evidence');
+const checkIds = new Set(['coverage-membership', 'sha256-registry', 'source-stability', 'node-runtime', 'python-runtime', 'node-syntax', 'node-tests', 'core-demo', 'operations', 'production', 'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime']);
 if (options['--output']) {
   const destination = resolve(options['--output']);
   const within = relative(root, realpathSync(dirname(destination)));
   if (!isAbsolute(options['--output']) || (!within.startsWith(`..${sep}`) && within !== '..' && !isAbsolute(within))) throw new Error('--output must be an absolute path outside the public kit');
-  if ([destination, destination + '.node-tests.log', ...(options['--full'] ? [destination + '.integration.json'] : [])].some(existsSync)) throw new Error('Choose a new output filename and sidecars');
+  if ([destination, ...[...checkIds].map(id => `${destination}.${id}.log`), ...(options['--full'] ? [destination + '.integration.json'] : [])].some(existsSync)) throw new Error('Choose a new output filename and sidecars');
 }
 const report = { schema_version: 1, started_at: new Date().toISOString(), node: process.version, platform: process.platform, source_digest: null, checks: [] };
 const identityExcluded = new Set(['verification/v1.2.0-report.json']);
 report.identity_excluded_files = [...identityExcluded];
 let initialPayloadDigest = null;
-const checkIds = new Set(['coverage-membership', 'sha256-registry', 'source-stability', 'node-runtime', 'python-runtime', 'node-syntax', 'node-tests', 'core-demo', 'operations', 'production', 'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime']);
 function record(id, status, details = {}) { report.checks.push({ id, status, ...details }); }
 function command(id, executable, commandArgs, timeout = 120000) {
+  if (!checkIds.has(id)) throw new Error('Unregistered check');
   const start = Date.now();
   const result = spawnSync(executable, commandArgs, { cwd: root, shell: false, timeout, maxBuffer: 8 * 1024 * 1024, windowsHide: true });
   const output = Buffer.concat([result.stdout ?? Buffer.alloc(0), result.stderr ?? Buffer.alloc(0)]);
   const text = output.toString('utf8');
   const skipped = Number(text.match(/skipped=(\d+)/)?.[1] ?? text.match(/# skipped (\d+)/)?.[1] ?? 0);
   const failed = result.status !== 0 || !!result.error;
-  if (failed && id === 'node-tests' && options['--output']) writeFileSync(options['--output'] + '.node-tests.log', output, { flag: 'wx', mode: 0o600 });
+  if (failed && options['--output']) {
+    writeFileSync(`${options['--output']}.${id}.log`, output, { flag: 'wx', mode: 0o600 });
+    process.stderr.write(`Check ${id} failed (exit ${result.status ?? 'unknown'}). Diagnostic log saved.\n`);
+  }
   record(id, result.status === 0 && !result.error ? 'passed' : 'failed', {
     exit_code: result.status, signal: result.signal, error_code: result.error?.code ?? null,
     elapsed_ms: Date.now() - start, output_sha256: sha(output), output_bytes: output.length,
