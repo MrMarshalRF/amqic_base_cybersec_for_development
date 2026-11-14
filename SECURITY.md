@@ -50,6 +50,10 @@ The [Cloudflare guide](docs/CLOUDFLARE-EDGE.md) cites official proxy, TLS, origi
 
 The [service-protection guide](docs/SERVICE-PROTECTION.md) references the official ClamAV manual, Redis security/ACL/TLS and persistence documentation, and OWASP denial-of-service and API resource-consumption guidance. ClamAV is an additional content check, not a proof of safety. Redis must stay private and its eviction/restart/failover behavior must match the security state it stores. A request proof-of-work gate cannot replace authentication, CAPTCHA, step-up, container isolation or durable idempotency. The standalone [admission implementation](reference/admission.mjs) now supplies a tested challenge and Redis limiter; it is not automatically attached to the existing core or a production API. These additions are source-reviewed guidance, not an attestation of a production deployment.
 
+## Optional SandHive review boundary
+
+[SandHive](docs/SANDHIVE.md) is an optional external reference for case-guided review, consistent with NIST SSDF PW.7 and PW.8. This kit does not download, install or execute its toolkit and does not include it in the laboratory. External cases are untrusted evidence: assess their assumptions and collect current-target evidence before reporting a vulnerability. Reading recommendations grant no installation or execution authority.
+
 ## AI-driven local verification
 
 [The all-local laboratory](docs/ALL-LAB.md) provides a fixed scenario runner and typed plan/results for agents. Preparation is explicit; commands are not accepted from HTTP input or generated test reports. The catalogue distinguishes local mechanisms from real provider/account/manual validation, and resource cleanup is part of acceptance. Source integrity and a successful local plan do not authorize a production or external-account change.

@@ -52,6 +52,10 @@ The output binds the tested files to their hashes and records actual tool versio
 
 An agent may summarize a scenario as passed only when that scenario's required assertions ran successfully on the stated inputs. It must keep external/manual items and untested production behavior visible. Standards links explain the test objective; they do not confer certification.
 
+## Optional case-guided review
+
+[SandHive](SANDHIVE.md) is recommended as an external source of security-investigation cases. It has no launcher, download stage or executable scenario in this laboratory. Reading cases can inform separately authorized checks; it is not a laboratory pass or a completed target assessment.
+
 ## Review and reuse
 
 Start with [REPRODUCIBLE-LAB.md](REPRODUCIBLE-LAB.md) for the interactive form/upload flow and [VERIFICATION.md](VERIFICATION.md) for the fixed verifier. The final accepted results are in [the completion protocol](../verification/v1.2.0-report.json). The report is tied to its recorded source revision; edits require new verification and a refreshed signed registry before release.

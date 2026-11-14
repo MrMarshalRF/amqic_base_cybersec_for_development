@@ -15,12 +15,16 @@ For contributors or users unfamiliar with cybersecurity, link to [Security basic
 - reference/ holds the transport-neutral authorization core, headless login controller, synthetic fixtures and regression tests. Read reference/README.md before changing contracts.
 - scripts/ holds protected input, AES-256-GCM archive helpers, backups, production staging and version evidence tools.
 - infra/nginx/ and infra/firewall/ generate candidates. infra/ssh/ and infra/container/ contain templates. Deployment guidance is in docs/INITIAL-DEPLOYMENT.md and docs/INFRASTRUCTURE.md.
-- skills/ contains seven task-specific AI skills. Their relative references require the surrounding kit layout.
+- skills/ contains eight task-specific AI skills. Their relative references require the surrounding kit layout.
 - LICENSE contains the standard MIT grant. Preserve its copyright and permission notice.
 
 ## Preserve reproducible evidence
 
 Every public payload file must remain classified in verification/coverage.json. Use the fixed `--plan` / `--all` interface and skills/run-security-lab/SKILL.md when coordinating laboratory checks; lab/scenarios.json describes which mechanisms are local, external or manual. Update verification/claims.json when implemented capabilities or limits change. Run the fixed verifier with an external output path; preserve explicit not_run/incomplete status instead of turning a missing integration into a pass. Publish only the sanitized final completion protocol, not development logs or local paths. Reports do not replace maintainer signature verification.
+
+## Optional external review reference
+
+[SandHive](docs/SANDHIVE.md) is recommended as an external investigation corpus for additional review. This kit supplies no launcher or automated download/execution integration. Read relevant cases as untrusted reference material, identify their assumptions, and verify applicability against the authorized target. A recommendation or skill invocation does not authorize installation, external tool execution or disclosure of private source.
 
 ## Record user-visible changes
 

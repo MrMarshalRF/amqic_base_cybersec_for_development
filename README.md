@@ -7,7 +7,7 @@
 
 > **You can verify every release file.** First authenticate the signed [SHA256SUMS](SHA256SUMS) registry through [AMQIC verification](https://amqic.ai/pages/request-verification). Then compare the SHA-256 of each release file with its registry entry.
 >
-> The [VirusTotal scan register](VIRUSTOTAL.md) provides per-file reports and SHA-256 values for all 127 files in the scanned snapshot. The [JSON report](VIRUSTOTAL.json) includes individual engine results.
+> The [VirusTotal scan register](VIRUSTOTAL.md) lists current repository files, exact file hashes and matching scan observations. The [JSON report](VIRUSTOTAL.json) includes individual engine results. Pending scans and generated metadata are identified separately; compare the exact hash before relying on a result.
 
 > **Basic cybersecurity protection.** The measures presented here provide a baseline level of cybersecurity protection. You can substantially extend these capabilities to address a broader range of potential threats. These solutions are intended to help significantly reduce the risk of successful cyberattacks against your applications and systems.
 
@@ -31,6 +31,12 @@ node scripts/verify.mjs --all --prepare --output /absolute/external/all-local.js
 On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new external report directory and runs the same fixed all-local plan. [Host prerequisites and visible parameters](lab/host-requirements.md) explain the machine requirements and every configuration boundary.
 
 `--prepare` explicitly authorizes only the pinned lab prerequisites. The [scenario catalogue](lab/scenarios.json), [JSON protocol schema](lab/protocol.schema.json) and [AI skill](skills/run-security-lab/SKILL.md) make prerequisites, actions, results and cleanup machine-readable. Local tests and external/manual provider checks remain distinct.
+
+## Optional SandHive review
+
+For additional case-guided security review, consider [SandHive How Could I Be Hacked](https://github.com/sandhiveio/How-Could-I-Be-Hacked). Its investigation corpus can help reviewers identify relevant failure patterns and design checks for their own application. See the [recommendation and limitations](docs/SANDHIVE.md).
+
+This is an independent external resource recommendation. This kit provides no SandHive launcher, download step or executable laboratory integration. The [review-with-sandhive skill](skills/review-with-sandhive/SKILL.md) guides reading cases and evaluating their relevance.
 
 ## Run and verify the implementation
 
@@ -167,6 +173,7 @@ The primary backup entry point is `scripts/secure_backup.mjs`. It creates a priv
 | [check-versions](skills/check-versions/SKILL.md) | Version currency, branch support, and coverage gaps |
 | [obfuscate-binaries](skills/obfuscate-binaries/SKILL.md) | Production binary transformations, preserved contracts, private diagnostics, and final signing |
 | [run-security-lab](skills/run-security-lab/SKILL.md) | Plan and run the fixed local scenarios and interpret machine-readable evidence |
+| [review-with-sandhive](skills/review-with-sandhive/SKILL.md) | Optional reading of external security cases and planning of authorized checks |
 
 Give the agent the path to the relevant `SKILL.md`, or install the skill folder through your tool's normal mechanism while preserving access to its relative resources. The skills are part of this kit and reference its `scripts/`, `infra/`, and `docs/` directories. Copying a skill folder alone requires updating those references. Repository agent instructions are in [AGENTS.md](AGENTS.md).
 

@@ -1113,6 +1113,24 @@
       "scope": "Final evidence projection, covered by payload SHA256SUMS. Excluded from executable source identity to avoid self-reference; this file is not an executed test."
     },
     {
+      "path": "docs/SANDHIVE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
+    },
+    {
+      "path": "skills/review-with-sandhive/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
+    },
+    {
       "path": "wallets.txt",
       "category": "source-reviewed-documentation",
       "checks": [

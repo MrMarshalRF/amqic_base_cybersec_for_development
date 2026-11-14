@@ -8,6 +8,10 @@ The first published v1.2.0 workflow exposed a concurrent SQLite initialization f
 
 All five jobs passed on the corrected candidate commit `06209c0a88c562b6d970e62a891cc076a3fa6a85`, including Node 22 and 24 on Ubuntu 24.04 and Windows Server 2022, plus the complete `all-local` job. The workflow retains bounded JSON/log diagnostic artifacts for seven days, so individual failed commands and infrastructure checks can be inspected. This hosted result complements the historical local v1.2.0 protocol. [Verified GitHub Actions run](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/actions/runs/43474444198)
 
+## Optional SandHive reference
+
+The [SandHive recommendation](SANDHIVE.md) and its reading skill are source-reviewed documentation. There is no adapter, automatic download, external command execution or laboratory scenario for SandHive in this payload. Recommendation-only guidance is checked through skill validation, source/link review and exact coverage/registry membership. Reading a case is not a completed target security assessment.
+
 ## Reproduce the checks
 
 ```sh

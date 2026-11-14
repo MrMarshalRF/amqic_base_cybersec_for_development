@@ -2,6 +2,16 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## Unreleased
+
+### Added
+
+- Recommend SandHive's security-investigation corpus for optional case-guided review, with an external GitHub link, applicability examples and a reading-only AI skill.
+
+### Removed
+
+- Remove the active SandHive adapter, its tests, automatic download/execution command and associated laboratory check/scenario.
+
 ## v1.2.1 — 2026-11-13
 
 ### Fixed
