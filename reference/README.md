@@ -1,5 +1,7 @@
 # Executable security core
 
+For database authorization and encrypted fields, see [DATABASE-SECURITY.md](../docs/DATABASE-SECURITY.md), the [PostgreSQL example](../infra/database/README.md) and [field-envelope provider contract](field-encryption.README.md). These are separate components: the existing SQLite core is not silently migrated to PostgreSQL or connected to a cloud KMS.
+
 A standalone example of server-side checks for Node.js 22.14.0. There are no npm dependencies. The `node:sqlite` store is experimental in this Node.js version. Known async core adapters and tool callbacks are rejected during construction. Unexpected Promise results are observed and rejected synchronously, preserving the synchronous contract and preventing unhandled rejection of that result. This does not cancel external effects already initiated by invalid trusted code. The code uses synchronous SQLite transactions and performs the `login → password → CAPTCHA → TOTP → session` sequence on the server. There are no switches for disabling stages.
 
 ## Local execution

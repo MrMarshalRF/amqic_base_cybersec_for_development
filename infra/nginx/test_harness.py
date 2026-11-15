@@ -1,10 +1,17 @@
 """Docker harness failure handling, using mocks without a Docker daemon."""
 import copy
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import tempfile
 import subprocess
 import unittest
 from unittest.mock import MagicMock, patch
 
 import test_nginx as harness
+from render import load_paths, render
 
 
 class HarnessTests(unittest.TestCase):
@@ -113,6 +120,119 @@ class HarnessTests(unittest.TestCase):
         command.assert_not_called()
         self.assertTrue(state["cleanup_pending"])
         self.assertEqual(saved, [state])
+
+
+class RegistryPolicyTests(unittest.TestCase):
+    root = Path(__file__).resolve().parents[2]
+
+    def test_actual_rendered_registry_literals_and_boundaries(self):
+        paths = load_paths(self.root / "infra/protected-paths.json")
+        config = render("kit.example.test", "192.168.240.2:8080",
+                        self.root / "infra/protected-paths.json",
+                        self.root / "infra/nginx/nginx.conf.template")
+        # Exercise rules extracted from the real rendered output, not a second renderer.
+        literals = [line.strip()[4:-4] for line in config.split("map $uri $protected_uri {", 1)[1].split("\n    }", 1)[0].splitlines()
+                    if line.strip().startswith('"~*^/') and line.strip().endswith('" 1;')]
+        self.assertEqual(len(literals), len(paths))
+        rules = [re.compile(pattern, re.I) for pattern in literals]
+        for path, rule in zip(paths, rules):
+            with self.subTest(path=path):
+                for suffix in ("", "/child", ".bak", ";parameter", "~"):
+                    self.assertTrue(rule.match(path.upper() + suffix))
+                self.assertFalse(rule.match(path + "-public"))
+                self.assertFalse(rule.match(path + "x"))
+        for path in ("/robots.txt", "/.well-known/security.txt", "/api/v1/status", "/"):
+            self.assertFalse(any(rule.match(path) for rule in rules), path)
+
+    def test_registry_rejects_unsafe_values_duplicates_and_bounds(self):
+        with tempfile.TemporaryDirectory(prefix="kit-registry-") as folder:
+            file = Path(folder) / "paths.json"
+            invalid = [[], ["/a"] * 257, ["/Case", "/case"],
+                       ["/a/../b"], ["/./a"], ["//a"], ["/a/"], ["relative"],
+                       ["/a%2fb"], ["/app/api/[...]/route.ts"], ["/a?x=1"],
+                       ["/a#fragment"], ["/a\\b"], ["/a\ninclude evil;"],
+                       ['/a" 0;'], ["/a|b"], ["/a$b"], ["/nonascii-Г©"], [None]]
+            for paths in invalid:
+                file.write_text(json.dumps({"schema_version": 1, "paths": paths}))
+                with self.subTest(paths=paths), self.assertRaises(ValueError):
+                    load_paths(file)
+            file.write_text(json.dumps({"schema_version": 1, "paths": ["/p" + str(i) for i in range(256)]}))
+            self.assertEqual(len(load_paths(file)), 256)
+            file.write_text(json.dumps({"schema_version": True, "paths": ["/ok"]}))
+            with self.assertRaises(ValueError):
+                load_paths(file)
+
+    def test_gitignore_keeps_source_and_public_examples_versionable(self):
+        # A standalone disposable fixture; never initialize or modify the source repository.
+        parent = Path(tempfile.gettempdir()).resolve()
+        fixture = Path(tempfile.mkdtemp(prefix="kit-ignore-", dir=parent)).resolve()
+        self.assertEqual(fixture.parent, parent)
+        positives = [".env", "nested/.env.production", "nested/.env.worker",
+                     "mailgun.env", "nested/resend.env", "huggingface.env",
+                     "credentials.json", "nested/credentials.yaml", "envs/staging.env",
+                     "k8s/app-secrets.yaml", "k8s/namespace/secrets.yaml",
+                     "kubernetes/secret.yaml", "manifests/secret.yml", "manifests/secret.yaml",
+                     "helm/secrets/values.yaml", "helm/charts/app/values-secret.yaml",
+                     "config/prod.secret.exs", "config/keys.json", "config/secrets.json",
+                     "pb_data/data.db", "pb_data/auxiliary.json",
+                     "bootstrap/cache/config.php", "storage/framework/cache/config.php",
+                     "dump.sql", "private.sql.gz"]
+        negatives = [".env.example", ".env.prod.example", "nested/.env.worker.example",
+                     "env.example", "env.sample", "envs/staging.example", "envs/staging.sample",
+                     "terraform.tfvars.example", "schema.sql", "db/schema.rb", "db/seeds.rb",
+                     "prisma/schema.prisma", "Jenkinsfile", "Gemfile", "Pipfile.lock",
+                     "package-lock.json", "playwright.config.js", "cypress.config.js",
+                     "jest.setup.ts", "astro.config.ts", "app.config.js", "app.config.ts",
+                     "kustomization.yaml", "k8s/env-configmap.yaml", "helm/values-staging.yaml",
+                     ".github/workflows/secrets.yml", ".github/workflows/publish.yml",
+                     "docker-compose.yml", "cloudfunctions.yaml", "firebase.config.json",
+                     "convex.json", "netlify.toml", "sparkpost.json", "sparkpost.php",
+                     "connectionstrings.config", "emailconfig.yml", "mail.conf", "mail.ini",
+                     "sendgrid.yml", "ses-config.json", "sentry.properties",
+                     "robots.txt", ".well-known/security.txt",
+                     "AGENTS.md", "SECURITY.md", "skills/example/SKILL.md",
+                     "reference/core.mjs", "release-public-key.pem", "release-public-key.gpg"]
+        # Git subprocesses must not inherit a caller's repository/index redirects
+        # or machine-global ignore policies. A hostile synthetic parent environment
+        # exercises isolation without referencing any real repository or secret.
+        sentinel = parent / (fixture.name + "-outside-git")
+        self.assertFalse(sentinel.exists())
+        caller_config = fixture / "caller-config"
+        (caller_config / "git").mkdir(parents=True)
+        (caller_config / "git/ignore").write_text("Jenkinsfile\n")
+        with patch.dict(os.environ, {"GIT_DIR": str(sentinel),
+                                    "XDG_CONFIG_HOME": str(caller_config),
+                                    "GIT_WORK_TREE": str(sentinel),
+                                    "GIT_INDEX_FILE": str(sentinel / "index"),
+                                    "GIT_CONFIG_COUNT": "1",
+                                    "GIT_CONFIG_KEY_0": "core.excludesfile",
+                                    "GIT_CONFIG_VALUE_0": str(sentinel / "ignore")}):
+            git_env = {key: value for key, value in os.environ.items()
+                       if not key.startswith("GIT_")}
+            git_env.update({"GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+                            "GIT_CONFIG_SYSTEM": os.devnull})
+            try:
+                subprocess.run(["git", "-c", "core.excludesFile=" + os.devnull,
+                                "init", "--quiet", "--template=", str(fixture)], check=True,
+                               capture_output=True, env=git_env, timeout=30)
+                shutil.copyfile(self.root / ".gitignore", fixture / ".gitignore")
+                for name in positives + negatives:
+                    file = fixture / name
+                    file.parent.mkdir(parents=True, exist_ok=True)
+                    file.write_text("synthetic fixture only\n")
+                for names, ignored in ((positives, True), (negatives, False)):
+                    for name in names:
+                        result = subprocess.run(["git", "-c", "core.excludesFile=" + os.devnull,
+                                             "check-ignore", "--no-index", "--", name],
+                                                cwd=fixture, capture_output=True, text=True, env=git_env, timeout=5)
+                        with self.subTest(path=name):
+                            self.assertEqual(result.returncode, 0 if ignored else 1, result.stdout + result.stderr)
+            finally:
+                # Exact newly-created child only; refuse traversal/symlink replacement before recursive cleanup.
+                if fixture.resolve().parent != parent or fixture.is_symlink():
+                    raise RuntimeError("Unsafe disposable Git fixture cleanup target")
+                shutil.rmtree(fixture)
+                self.assertFalse(sentinel.exists(), "Inherited Git redirect escaped the fixture")
 
 
 if __name__ == "__main__":

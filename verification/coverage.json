@@ -25,9 +25,10 @@
       "category": "source-reviewed-documentation",
       "checks": [
         "coverage-membership",
-        "sha256-registry"
+        "sha256-registry",
+        "nginx-harness"
       ],
-      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+      "scope": "Git tracking policy checked against isolated real Git private/public fixtures; not HTTP access control."
     },
     {
       "path": "AGENTS.md",
@@ -84,6 +85,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "THREAT-DATA.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
       "path": "VIRUSTOTAL.json",
       "category": "static-asset",
       "checks": [
@@ -100,15 +110,6 @@
         "sha256-registry"
       ],
       "scope": "VirusTotal observations for the identified pre-report snapshot; see the report for scope and engine coverage."
-    },
-    {
-      "path": "THREAT-DATA.md",
-      "category": "source-reviewed-documentation",
-      "checks": [
-        "coverage-membership",
-        "sha256-registry"
-      ],
-      "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
       "path": "assets/demo.gif",
@@ -154,6 +155,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/DATABASE-SECURITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Database access, field encryption and cross-instance replay guidance with primary sources."
     },
     {
       "path": "docs/DEPLOYMENT.md",
@@ -244,6 +254,15 @@
         "sha256-registry"
       ],
       "scope": "Reproducible lab instructions; membership and integrity do not establish that every described environment was executed."
+    },
+    {
+      "path": "docs/SANDHIVE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
     },
     {
       "path": "docs/SECURITY-BASICS.md",
@@ -392,6 +411,35 @@
       "scope": "Docker Compose normalization only, no service runtime claim."
     },
     {
+      "path": "infra/database/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "SQL principal/transaction trust boundaries and production integration limits."
+    },
+    {
+      "path": "infra/database/schema.sql",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "database-runtime"
+      ],
+      "scope": "PostgreSQL RLS, column grants and constrained primary-store replay admission; synthetic runtime fixtures."
+    },
+    {
+      "path": "infra/database/test_rls.sql",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "database-runtime"
+      ],
+      "scope": "Actual PostgreSQL tenant/column/role/injection fixture assertions."
+    },
+    {
       "path": "infra/firewall/__init__.py",
       "category": "executable",
       "checks": [
@@ -471,7 +519,7 @@
         "nginx-harness",
         "nginx-runtime"
       ],
-      "scope": "Mock harness regressions; actual Nginx execution requires optional pinned local-image integration."
+      "scope": "Daemon-free timeout/cleanup/port tests plus actual rendered registry boundaries and isolated real Git tracking fixtures."
     },
     {
       "path": "infra/nginx/test_nginx.py",
@@ -486,9 +534,10 @@
       "path": "infra/protected-paths.json",
       "category": "configuration",
       "checks": [
-        "nginx-runtime"
+        "nginx-runtime",
+        "nginx-harness"
       ],
-      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+      "scope": "Canonical protected URI list; literal boundaries tested and every entry required to return exact403 in isolated Nginx."
     },
     {
       "path": "infra/ssh/00-security.conf.template",
@@ -566,6 +615,26 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "lab/database-verify.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-syntax",
+        "database-runtime"
+      ],
+      "scope": "Isolated pinned PostgreSQL verification with exact owned-resource cleanup."
+    },
+    {
+      "path": "lab/database.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Fixed database laboratory invocation, prerequisites and limits."
     },
     {
       "path": "lab/host-requirements.md",
@@ -851,6 +920,37 @@
       "scope": "Synthetic Node regression coverage; protocol mocks remain distinct from external service execution."
     },
     {
+      "path": "reference/field-encryption.README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Provider/envelope API, context, rotation and memory limitations."
+    },
+    {
+      "path": "reference/field-encryption.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests",
+        "node-syntax"
+      ],
+      "scope": "Authenticated field-envelope implementation and injected KMS contract; local fixture validation only."
+    },
+    {
+      "path": "reference/field-encryption.test.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry",
+        "node-tests",
+        "node-syntax"
+      ],
+      "scope": "Real authenticated crypto with synthetic KMS adapters, authorization and tamper regressions."
+    },
+    {
       "path": "reference/fixtures.mjs",
       "category": "executable",
       "checks": [
@@ -1068,6 +1168,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "skills/review-with-sandhive/SKILL.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
+    },
+    {
       "path": "skills/run-security-lab/SKILL.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -1111,24 +1220,6 @@
         "sha256-registry"
       ],
       "scope": "Final evidence projection, covered by payload SHA256SUMS. Excluded from executable source identity to avoid self-reference; this file is not an executed test."
-    },
-    {
-      "path": "docs/SANDHIVE.md",
-      "category": "source-reviewed-documentation",
-      "checks": [
-        "coverage-membership",
-        "sha256-registry"
-      ],
-      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
-    },
-    {
-      "path": "skills/review-with-sandhive/SKILL.md",
-      "category": "source-reviewed-documentation",
-      "checks": [
-        "coverage-membership",
-        "sha256-registry"
-      ],
-      "scope": "Reading-only external case-review recommendation; no automatic download, execution or current-target assessment."
     },
     {
       "path": "wallets.txt",

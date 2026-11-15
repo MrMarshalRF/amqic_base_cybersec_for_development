@@ -1,5 +1,17 @@
 # Verification results and scope
 
+## Origin-path and security-policy candidate
+
+The updated registry has 146 canonical entries. The isolated Nginx run checked every entry for exact `403`, three encoded source-path default-deny cases, and fresh permitted root/API `200` controls, alongside the existing HTTP/TLS, Host/SNI, headers, CSP, rate and whitelist checks. The runtime-bound sources stayed unchanged and the owned Nginx container and network were verified absent. These are synthetic local results, not activation of a public origin or proof that a requested sensitive file existed.
+
+Fifteen daemon-free tests passed, including per-literal rendered rule boundaries and actual Git ignore decisions for private files versus versionable source/public examples. Git fixtures isolate inherited Git variables, system/global/default excludes and templates; no user Git settings or source repository are modified. The security policy now documents VirusTotal category/hash boundaries and selected database/crypto/replay standards. Changes after any scan or signature need new evidence and a newly authenticated registry.
+
+## Database-security candidate
+
+The field-encryption module passed 23 tests on Node.js 22.14.0 using real AES-GCM and synthetic KMS adapters. The targeted combined suite passed 67 tests on both native Windows Node.js 22.14.0 and 24.22.3, covering field envelopes, core/PoW replay and laboratory dispatch. New replay regressions cover stale instance clocks after another connection advances time and prunes expired nonces. These results do not establish a live KMS policy or a production database deployment.
+
+The PostgreSQL stage passed all eleven checks against PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) in the fixed digest-pinned image. It exercised real tenant/column/role restrictions, bound-value query fixtures, two independent connection claims with exactly one winner, a real server restart, expiration/pruning and clock-guard failure. Its exact owned container was removed and absence verified. This is a synthetic isolated primary, not a production tenant/KMS/failover assessment. The previous completion protocol below predates these additions.
+
 The final [v1.2 completion protocol](../verification/v1.2.0-report.json) records the actual commands, observed versions, source identities, results and remaining checks. [VERIFICATION.md](VERIFICATION.md) explains report semantics; [REPRODUCIBLE-LAB.md](REPRODUCIBLE-LAB.md) provides the working examples. A passing report establishes the exercised assertions, not that all defects or deployment risks are absent.
 
 ## Hosted CI corrections — v1.2.1

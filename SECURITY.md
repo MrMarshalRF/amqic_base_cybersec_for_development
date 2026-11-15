@@ -24,6 +24,18 @@ Official release signing is performed by the maintainer before publication. Veri
 
 The public support addresses are also listed in [wallets.txt](wallets.txt). Verify the registry signature and the wallets.txt hash before relying on its addresses. A matching address copied from two files in the same repository does not independently establish authenticity. Changed files require an updated registry and a new registry signature.
 
+## VirusTotal file verification
+
+The [current file register](VIRUSTOTAL.md) links each available observation to its exact SHA-256. The [JSON report](VIRUSTOTAL.json) retains individual engine results, analysis/retrieval times and category totals. Compare the local file hash before relying on a report. A result for an older revision does not cover a changed file, even when its name is identical. Pending rows have no current scan result and are not a passed check.
+
+The [official VirusTotal result definitions](https://docs.virustotal.com/reference/analyses-object) distinguish completed analyses from individual engine outcomes. `undetected` means the engine reported no detection; it does not prove that source code or its deployment is safe. `type-unsupported` means that an engine could not analyze the file type. `timeout`, `confirmed-timeout` and `failure` remain visible operational limitations; they are never converted into successful checks. Local tests and source review provide different evidence and do not erase a scanner observation.
+
+This repository's register contains only current file paths. Generated `VIRUSTOTAL.json`, `VIRUSTOTAL.md` and `SHA256SUMS` are identified as metadata rather than claiming recursive antivirus self-verification. The reports are covered by the authenticated release registry; the registry excludes itself and needs the maintainer's signature. Report updates or any source edit require new hashes and a newly authenticated registry before publication.
+
+Submitting a file to the public service can disclose it to VirusTotal and its partners; see [VirusTotal's upload documentation](https://docs.virustotal.com/reference/files-scan). Upload only explicitly authorized public payloads. Do not submit credentials, private source, customer records, database exports or sensitive diagnostics. A VirusTotal API key is entered through the operator's protected terminal process and is not included in source, reports or release assets.
+
+These observations relate to the malware-protection objective in [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) `SI-3`. Broader vulnerability review/monitoring (`RA-5`) and [SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final) `PW.7`/`PW.8` still require appropriate source analysis and executable tests. Antivirus observations alone do not establish CVE coverage, application authorization correctness, certification or complete satisfaction of those controls.
+
 ## Scope and attribution
 
 Security reports may cover authorization, cryptography usage, file handling, metadata parsing, generated infrastructure rules, tests, and misleading security claims in the documentation. Please distinguish a demonstrated defect from a deployment prerequisite or an unsupported use case.
@@ -121,3 +133,22 @@ The register below identifies algorithm specifications, verification references,
 | [KeePassXC user guide](https://keepassxc.org/docs/KeePassXC_UserGuide) | Password database, backup, key-file, and recovery guidance. |
 
 The original source code and documentation are licensed under [MIT](LICENSE). External standards and documentation retain their own licenses. Their inclusion here does not imply endorsement by NIST, OWASP, component maintainers, or a certification authority.
+
+## Database security and field-encryption references
+
+The [database guide](docs/DATABASE-SECURITY.md) distinguishes row authorization, column selection, authenticated field encryption and distributed replay state. The PostgreSQL example enforces tenant isolation through restricted database principals and RLS; the field module enforces a trusted authorization/KMS contract. Real application identity, production KMS/IAM, replication/failover, TLS and key recovery require deployment-specific verification.
+
+The database mapping below was checked against the linked primary sources on **15 November 2026**. ASVS identifiers refer to the [official 5.0.0 English requirement data](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/docs_en/OWASP_Application_Security_Verification_Standard_5.0.0_en.csv); chapter references identify review areas, not an achieved verification level. NIST references are selected Rev. 5 control relationships, not a full assessment or a claim that every supplemental update is implemented.
+
+| Mechanism | Primary sources and applicable control areas | Boundary |
+| --- | --- | --- |
+| Row and column authorization | ASVS `v5.0.0-8.2.2` (data-item authorization), `v5.0.0-8.2.3` (field authorization); [PostgreSQL RLS](https://www.postgresql.org/docs/current/ddl-rowsecurity.html), [privileges](https://www.postgresql.org/docs/current/ddl-priv.html), [OWASP Database Security](https://cheatsheetseries.owasp.org/cheatsheets/Database_Security_Cheat_Sheet.html); NIST `AC-3`/`AC-6` | Tenant identity comes from restricted DB principals. Superuser/BYPASSRLS, migration roles, pooled identity and security-definer interfaces remain privileged boundaries. |
+| Safe selection and output | ASVS `v5.0.0-1.2.4` (parameterized data selection); [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html), [Query Parameterization](https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html); NIST `SI-10` | Bind values, allowlist identifiers and select explicit fields. Bound SQL does not authorize rows, HTML output or operating-system commands. |
+| Field encryption and KMS | ASVS 5.0.0 chapters `V11` (Cryptography) and `V14` (Data Protection); [NIST SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final), [SP 800-57 Part 1 Rev. 5](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final), [OWASP Key Management](https://cheatsheetseries.owasp.org/cheatsheets/Key_Management_Cheat_Sheet.html); NIST `SC-12`/`SC-13`/`SC-28` | Authorize before KMS unwrap; authenticate tenant/record/field/version identity and key metadata. Wrapped DEKs complement access control. Test providers are not live KMS/HSM or certification. |
+| Shared replay enforcement | [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) `AC-3`/`SC-23` and [PostgreSQL unique constraints](https://www.postgresql.org/docs/current/ddl-constraints.html) | Nonce uniqueness, expiry and replay-state enforcement must remain consistent across instances. Atomic primary writes, time sampled after serialization, persistence and fail-closed storage behavior are distinct from production failover verification. |
+
+## Origin path registry and repository hygiene
+
+The [protected-path registry](infra/protected-paths.json) supplies literal path boundaries for the [Nginx renderer](infra/nginx/render.py), complementing deny-by-default routes. The example [.gitignore](.gitignore) controls future Git tracking; it does not restrict HTTP access or remove credentials already committed. Probe logs identify requested paths, not proof that a file exists, that a secret was disclosed or that an attacker succeeded. Public resources and legitimate versioned configuration must be reviewed separately from private runtime credentials.
+
+These boundaries relate to [OWASP Secrets Management guidance](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html), NIST `AC-3`/`AC-6`/`SC-7`, and SSDF `PS.1` (protect code from unauthorized access and tampering). A generated rule, ignore pattern or successful local test does not establish the configuration of a live origin.

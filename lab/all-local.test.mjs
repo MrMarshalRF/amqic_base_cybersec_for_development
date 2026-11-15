@@ -19,7 +19,7 @@ test('plan needs no executable dependencies and starts no lab', () => {
   assert.equal(result.report.status, 'plan');
   assert.deepEqual(result.report.checks, []);
   assert.ok(result.report.scenarios.some(scenario => scenario.category === 'external'));
-  assert.deepEqual(result.report.stages.map(stage => stage.id), ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime']);
+  assert.deepEqual(result.report.stages.map(stage => stage.id), ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'database-runtime']);
 });
 test('invalid metadata fails before prerequisites or effects', () => {
   for (const args of [['--all', '--output', 'relative.json'], ['--all', '--command', 'anything'], ['--plan', '--prepare'], ['--plan', '--output', 'anything.json'], ['--all', '--plan'], ['--all', '--all']]) {
@@ -44,7 +44,7 @@ test('existing baseline diagnostics are preserved before preparation', t => {
   assert.equal(readFileSync(log, 'utf8'), 'previous diagnostic');
 });
 test('exit-zero shaped reports cannot omit actual checks or cleanup', () => {
-  for (const stage of ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'unknown']) {
+  for (const stage of ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'database-runtime', 'unknown']) {
     for (const report of [null, {}, { status: 'passed' }, { status: 'unknown', complete: true, checks: [] }, { ok: true, cleanup: { ok: true, failures: [] }, checks: {} }]) {
       assert.equal(!!acceptStage(stage, report), false, stage);
     }
@@ -60,4 +60,21 @@ test('exit-zero shaped reports cannot omit actual checks or cleanup', () => {
   assert.equal(acceptStage('upload-isolation-runtime', upload), true);
   assert.equal(acceptStage('upload-isolation-runtime', { ...upload, checks: upload.checks.filter(check => check.id !== 'runtime_scanner') }), false);
   assert.equal(acceptStage('upload-isolation-runtime', { ...upload, cleanup: { ...upload.cleanup, volumes_absent: false } }), false);
+});
+
+test('database stage requires real tenant, replay and cleanup checks', () => {
+  const ids = ['tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
+    'service_no_direct_store_or_registration_or_clock_access', 'invalid_timestamp_and_unknown_key_fail_closed',
+    'two_independent_connections_exactly_one_claim', 'separate_process_replay_denied',
+    'transaction_rollback_does_not_pretend_durable_claim', 'committed_nonce_survives_server_restart',
+    'future_window_retention_and_expired_proof_after_prune', 'clock_rollback_and_missing_guard_fail_closed', 'owned_sources_unchanged'];
+  const valid = { schema_version: 1, status: 'passed', complete: true,
+    checks: ids.map(id => ({ id, status: 'passed' })),
+    cleanup: { status: 'passed', containers_absent: true, no_persistent_volume_or_network_created: true } };
+  assert.equal(acceptStage('database-runtime', valid), true);
+  for (const id of ids) assert.equal(acceptStage('database-runtime', { ...valid,
+    checks: valid.checks.filter(check => check.id !== id) }), false, id);
+  assert.equal(acceptStage('database-runtime', { ...valid, complete: false }), false);
+  assert.equal(acceptStage('database-runtime', { ...valid, cleanup: { ...valid.cleanup, containers_absent: false } }), false);
+  assert.equal(acceptStage('database-runtime', { ...valid, checks: [...valid.checks, { id: 'unverified', status: 'not_run' }] }), false);
 });

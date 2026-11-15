@@ -221,3 +221,21 @@ A new upload is untrusted. Receive it in a separate quarantine area that cannot 
 Example: the upload receiver can write only to quarantine. A scanner checks an exact stable copy. A trusted promoter verifies that the approved bytes match before copying them into approved storage. The download service can read that approved storage but cannot write it.
 
 Separate directories alone are weak isolation if the same process can freely modify both. Use separate volume/bucket permissions and service identities. A read-only scanner also does not stop the receiver from changing the source, so the final content must match the scan result. See [upload isolation](UPLOAD-ISOLATION.md).
+
+## 28. Give each database user only their own rows and needed fields
+
+Imagine an apartment building. RLS is a door lock that lets a tenant open only their own apartment; column permissions control which cupboards a service may open inside it. A contact list needs a display name, not every private field stored beside it.
+
+The server first verifies who is asking. The database then enforces the tenant boundary and grants access only to approved columns. A tenant name supplied in a browser form is not identity. Bound SQL parameters keep a submitted value from turning into SQL code; they do not replace those permission checks. See the [database guide](DATABASE-SECURITY.md).
+
+## 29. Use a separate key service for sensitive fields
+
+Think of each sensitive field as a locked envelope. A small, fresh key encrypts the contents. KMS locks that small key under another key kept outside the database. A stolen database should contain encrypted envelopes and locked keys, not the master key.
+
+The service still needs permission before opening an envelope. The encryption also labels the expected tenant, record and field, so moving one person's envelope into another person's row fails authentication. KMS failure must not turn into plaintext fallback. Administrators, key recovery and an application allowed to decrypt remain part of the threat model.
+
+## 30. Share the used-ticket register across servers
+
+A signed request can be copied. A nonce is its one-use ticket number. If two servers each keep a separate used-ticket list, both may accept the same copied request.
+
+All servers need one authoritative register that atomically accepts the first use and rejects the second. They also need consistent time and expiration: a fast server must not remove a ticket while a slower server still considers it valid. Restoring an old register can make used tickets appear new. The [database laboratory](../lab/database.README.md) tests shared-state examples; production failover needs its own checks.

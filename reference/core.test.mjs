@@ -249,6 +249,34 @@ test('clock rollback is rejected', t => {
   assert.throws(() => f.core.login('person@example.test', 'client'), AccessDenied);
 });
 
+test('shared clock guard rejects stale-instance replay after another connection prunes expiry', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'security-shared-expiry-'));
+  const database = join(directory, 'state.sqlite');
+  const f = fixture({ database });
+  f.provision();
+  const replay = f.request({ purpose: 'nonce-retention-regression' });
+  const initial = f.now();
+  let later = initial;
+  const other = new SecurityCore({ database, audience: 'synthetic-example', tools: syntheticTools,
+    clock: () => later, captcha: { verify: () => false },
+    factors: { assertEnrollment: () => false, secretFor: () => f.secret } });
+  try {
+    assert.deepEqual(f.core.verifyRequest(replay, 'records.remove'), { userId: 'user-1' });
+    // A different instance advances shared time and removes the expired nonce.
+    later = initial + 62;
+    const fresh = signRequest(f.pair.privateKey, { keyId: 'example-key', method: 'POST',
+      target: '/tools/call', audience: 'synthetic-example', timestamp: later, body: Buffer.from('{}') });
+    assert.deepEqual(other.verifyRequest(fresh, 'records.remove'), { userId: 'user-1' });
+    // The first instance still sees its old wall clock. Shared enforcement rejects it.
+    assert.throws(() => f.core.verifyRequest(replay, 'records.remove'), AccessDenied);
+    f.advance(62);
+    assert.throws(() => f.core.verifyRequest(replay, 'records.remove'), AccessDenied);
+    assert.throws(() => other.verifyRequest(fresh, 'records.remove'), AccessDenied);
+  } finally {
+    other.close(); f.core.close(); rmSync(directory, { recursive: true });
+  }
+});
+
 test('two worker connections race one nonce, exactly one succeeds', { timeout: 20000 }, async () => {
   const directory = mkdtempSync(join(tmpdir(), 'security-race-'));
   const database = join(directory, 'state.sqlite');

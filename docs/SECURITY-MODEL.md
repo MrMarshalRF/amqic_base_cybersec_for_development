@@ -1,5 +1,7 @@
 # Security model and mandatory integration boundaries
 
+Database isolation and field encryption are separate boundaries described in [DATABASE-SECURITY.md](DATABASE-SECURITY.md). RLS requires a trusted database principal, and KMS unwrap follows row/field authorization. Replay protection across instances requires shared atomic nonce admission and consistent expiration and authoritative time. SQLite fixtures cover same-host shared-file connections; PostgreSQL fixtures cover the demonstrated primary-database topology. Neither establishes production failover or a live KMS policy.
+
 ## Trusted components
 
 The owner controls machine-key registration, secret access, user permissions, and recovery. The server independently verifies authorization for every operation. Input JSON, dependency text, and tool output are treated as untrusted data, including any instructions for AI they contain.

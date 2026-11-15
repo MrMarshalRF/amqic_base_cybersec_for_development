@@ -13,7 +13,7 @@ import subprocess
 import time
 import uuid
 
-from render import render
+from render import load_paths, render
 
 EXPECTED_CSP = (
     "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; "
@@ -357,6 +357,29 @@ def main():
         codes, _, _ = burst(["/?upstream_csp=1"], additional_csp="script-src 'none'")
         require(codes == [200], ("preserved upstream CSP", codes))
         state["results"]["stricter_upstream_csp_preserved"] = True
+        # All configured literals must return a real denial, never a rate-limit false positive.
+        start(True)
+        codes, _, _ = burst(["/", "/api/v1/status"])
+        require(codes == [200, 200], ("registry positive controls", codes))
+        start(True)
+        registry_codes = {}
+        for path in load_paths(here.parent / "protected-paths.json"):
+            # Website requests stay below 10r/s. API/MCP paths get fresh state,
+            # since their independent bucket replenishes at only 10r/m.
+            if re.match(r"^/(?:api|mcp)(?:/|$)", path, re.I):
+                start(True)
+            codes, _, _ = burst([path])
+            require(codes == [403], ("registry literal denied", path, codes))
+            registry_codes[path] = codes[0]
+            time.sleep(0.13)
+        state["results"]["all_registry_paths_denied"] = registry_codes
+        start(True)
+        encoded_paths = ["/app/api/%5B...%5D/route.ts", "/app/api/ordinary/route.ts",
+                         "/app/api/%255B...%255D/route.ts"]
+        codes, _, _ = burst(encoded_paths)
+        require(codes == [403] * len(encoded_paths), ("encoded source deny-by-default", codes))
+        state["results"]["noncanonical_source_paths_denied"] = dict(zip(encoded_paths, codes))
+        save()
         untrusted = ssl._create_unverified_context()
         port = int(state["ports"]["443/tcp"][0]["HostPort"])
         try:

@@ -6,6 +6,8 @@ This repository is a portable security starter kit. Keep documentation, skill de
 
 Read the relevant module instructions before editing. Use README.md for navigation, docs/SECURITY-MODEL.md for boundaries and docs/VALIDATION.md for tested scope. Reuse existing code and preserve unrelated user changes. Keep changes within the requested task.
 
+For database work read [DATABASE-SECURITY.md](docs/DATABASE-SECURITY.md), the [PostgreSQL contracts](infra/database/README.md) and the [field-encryption provider contract](reference/field-encryption.README.md). Preserve RLS `USING`/`WITH CHECK`, tenant-principal identity and column grants. Authorize the row and field before requesting KMS unwrap; plaintext and DEKs must not enter logs or reports. A local provider fixture is not a production KMS. Replay admission requires atomic shared nonce state and consistent expiry/clock enforcement across instances, not merely unique nonce generation in each process.
+
 ## Explain the basics when needed
 
 For contributors or users unfamiliar with cybersecurity, link to [Security basics, explained simply](docs/SECURITY-BASICS.md). It explains each kit mechanism with a plain-language example and its limits. Use it to orient the reader, then follow the specific implementation/deployment guide; simple explanations do not replace the relevant security checks.

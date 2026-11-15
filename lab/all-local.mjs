@@ -11,6 +11,13 @@ const catalog = JSON.parse(readFileSync(resolve(root, 'lab/scenarios.json'), 'ut
 export function acceptStage(id, child) {
   const cleanup = child?.cleanup;
   const has = ids => Array.isArray(child?.checks) && ids.every(id => child.checks.some(check => check.id === id && check.status === 'passed'));
+  if (id === 'database-runtime') return child?.schema_version === 1 && child.status === 'passed' && child.complete === true &&
+    has(['tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
+      'service_no_direct_store_or_registration_or_clock_access', 'invalid_timestamp_and_unknown_key_fail_closed',
+      'two_independent_connections_exactly_one_claim', 'separate_process_replay_denied',
+      'transaction_rollback_does_not_pretend_durable_claim', 'committed_nonce_survives_server_restart',
+      'future_window_retention_and_expired_proof_after_prune', 'clock_rollback_and_missing_guard_fail_closed', 'owned_sources_unchanged']) &&
+    child.checks.every(check => check.status === 'passed') && cleanup?.status === 'passed' && cleanup.containers_absent === true && cleanup.no_persistent_volume_or_network_created === true;
   if (id === 'baseline') return child?.schema_version === 1 && ['passed', 'incomplete'].includes(child.status) && has(['coverage-membership', 'sha256-registry', 'source-stability', 'node-runtime', 'python-runtime', 'node-syntax', 'node-tests', 'core-demo', 'operations', 'production', 'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'compose-runtime', 'compose']) && child.checks.every(check => check.status === 'passed' || (check.status === 'not_run' && ['terminal', 'live-consumers', 'nginx-runtime'].includes(check.id)));
   if (id === 'live-consumers') return child?.schema_version === 1 && child.status === 'passed' && has(['clamav-clean', 'clamav-marker', 'browser-fixture-loaded', 'browser-full-login-stages', 'browser-stored-text-not-html', 'browser-upload-clean', 'browser-upload-rejected', 'redis-authenticated-atomic-limits']) && child.checks.every(check => check.status === 'passed') && ['scanner_removed', 'network_removed', 'scanner_temp_removed', 'redis_removed', 'browser_stopped', 'application_stopped', 'private_temp_removed'].every(key => cleanup?.[key] === true);
   if (id === 'infra-runtime') return child?.schemaVersion === 1 && child.ok === true && cleanup?.ok === true && cleanup.failures?.length === 0 && ['ssh', 'firewall', 'wireguard', 'linuxComplements', 'artifacts', 'containerRuntime'].every(key => child.checks?.[key]?.ok === true);
@@ -37,8 +44,9 @@ const fixedImages = [
   { id: 'node-tool-base', reference: 'node@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c' },
   { id: 'python-tool-base', reference: 'python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7' },
   { id: 'upload-python', reference: 'python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704' },
+  { id: 'postgres', reference: 'docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536' },
 ];
-const stageIds = ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime'];
+const stageIds = ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'database-runtime'];
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 function sourceSnapshot(directory = root, prefix = '') {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -63,7 +71,7 @@ const emit = (report, code, output) => {
 const base = { schema_version: 1, mode: 'all-local', scope: 'purpose-built synthetic local lab only', started_at: new Date().toISOString(), checks: [], prerequisites: [], scenarios: [] };
 let output;
 let initialSnapshot;
-const suffixes = ['', '.baseline.json', '.baseline.json.node-tests.log', '.integration.json', '.integration.json.resources.json', '.integration.json.consumer.json', '.nginx', '.infra.json', '.infra.json.resources.json', '.cache.json', '.cache.json.resources.json', '.upload.json', '.upload.json.resources.json'];
+const suffixes = ['', '.baseline.json', '.baseline.json.node-tests.log', '.integration.json', '.integration.json.resources.json', '.integration.json.consumer.json', '.nginx', '.infra.json', '.infra.json.resources.json', '.cache.json', '.cache.json.resources.json', '.upload.json', '.upload.json.resources.json', '.database.json', '.database.json.resources.json'];
 for (const id of ['python-runtime', 'node-syntax', 'core-demo', 'operations', 'production',
   'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose']) {
   suffixes.push(`.baseline.json.${id}.log`);
@@ -158,6 +166,7 @@ if (process.exitCode === undefined && options['--plan']) {
         : stage.id === 'live-consumers' ? ['--experimental-sqlite', 'lab/run-lab.mjs', '--verify', '--output', output + '.integration.json']
         : stage.id === 'infra-runtime' ? ['lab/infra-verify.mjs', '--output', output + '.infra.json']
         : stage.id === 'cache-runtime' ? ['lab/cache-verify.mjs', '--output', output + '.cache.json']
+        : stage.id === 'database-runtime' ? ['lab/database-verify.mjs', '--output', output + '.database.json']
         : stage.id === 'upload-isolation-runtime' ? ['lab/upload-isolation-verify.mjs', '--output', output + '.upload.json'] : null;
       if (stage.id === 'nginx-runtime') {
         const inspected = invoke('docker', ['image', 'inspect', fixedImages.find(image => image.id === 'nginx').reference, '--format', '{{.Id}}']);
@@ -177,12 +186,12 @@ if (process.exitCode === undefined && options['--plan']) {
       } else {
         const call = invoke(process.execPath, args, stage.timeout_ms);
         let child;
-        const file = output + ({ baseline: '.baseline.json', 'live-consumers': '.integration.json', 'infra-runtime': '.infra.json', 'cache-runtime': '.cache.json', 'upload-isolation-runtime': '.upload.json' }[stage.id]);
+        const file = output + ({ baseline: '.baseline.json', 'live-consumers': '.integration.json', 'infra-runtime': '.infra.json', 'cache-runtime': '.cache.json', 'upload-isolation-runtime': '.upload.json', 'database-runtime': '.database.json' }[stage.id]);
         try { child = JSON.parse(readFileSync(file, 'utf8')); } catch {}
         childReports[stage.id] = child;
         const accepted = call.result.status === 0 && !call.result.error && acceptStage(stage.id, child);
         record(stage.id, accepted ? 'passed' : call.result.status === 2 ? 'prerequisite_missing' : 'failed', { ...call.evidence, report_file: file, report_sha256: child ? digest(readFileSync(file)) : null });
-        const cleanupVerified = stage.id === 'baseline' || (stage.id === 'infra-runtime' ? child?.cleanup?.ok === true : stage.id === 'upload-isolation-runtime' ? child?.cleanup?.ok === true && child?.cleanup?.containers_absent === true && child?.cleanup?.volumes_absent === true : stage.id === 'cache-runtime' ? child?.cleanup?.containers_absent === true && child?.cleanup?.network_absent === true : child?.cleanup?.scanner_removed === true && child?.cleanup?.network_removed === true && child?.cleanup?.browser_stopped === true && child?.cleanup?.application_stopped === true);
+        const cleanupVerified = stage.id === 'baseline' || (stage.id === 'database-runtime' ? child?.cleanup?.status === 'passed' && child?.cleanup?.containers_absent === true && child?.cleanup?.no_persistent_volume_or_network_created === true : stage.id === 'infra-runtime' ? child?.cleanup?.ok === true : stage.id === 'upload-isolation-runtime' ? child?.cleanup?.ok === true && child?.cleanup?.containers_absent === true && child?.cleanup?.volumes_absent === true : stage.id === 'cache-runtime' ? child?.cleanup?.containers_absent === true && child?.cleanup?.network_absent === true : child?.cleanup?.scanner_removed === true && child?.cleanup?.network_removed === true && child?.cleanup?.browser_stopped === true && child?.cleanup?.application_stopped === true);
         if (call.result.error?.code === 'ETIMEDOUT' || !cleanupVerified) { report.cleanup_pending = stage.id !== 'baseline'; report.reconciliation_required = stage.id === 'baseline' ? file : file + '.resources.json'; break; }
       }
     }

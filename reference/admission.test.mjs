@@ -9,6 +9,22 @@ import { Worker } from 'node:worker_threads';
 import { createPowGate, SqlitePowStore, solvePow, createRedisRateLimiter } from './admission.mjs';
 
 const request = { subject: 'synthetic-user', audience: 'lab', method: 'POST', path: '/bounded', bodyHash: createHash('sha256').update('body').digest('hex') };
+
+test('shared PoW store rejects stale-instance time after another connection prunes a nonce', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'pow-shared-expiry-'));
+  const database = join(directory, 'state.sqlite');
+  const first = new SqlitePowStore(database);
+  const second = new SqlitePowStore(database);
+  try {
+    assert.equal(await first.consume('used-ticket', 1030, 1000), true);
+    assert.equal(await second.consume('fresh-ticket', 1090, 1060), true);
+    assert.equal(await first.consume('used-ticket', 1030, 1000), false);
+    assert.equal(await first.consume('used-ticket', 1030, 1060), false);
+    assert.equal(await first.consume('fresh-ticket', 1090, 1060), false);
+  } finally {
+    first.close(); second.close(); await rm(directory, { recursive: true, maxRetries: 5, retryDelay: 50 });
+  }
+});
 function fixture(store = new SqlitePowStore()) {
   let time = 1000;
   const gate = createPowGate({ secret: Buffer.alloc(32, 7), store, difficulty: 8, ttlSeconds: 30, clock: () => time });
@@ -94,7 +110,7 @@ test('SQLite retains replay and clock guards across independent connections/reop
     const other = createPowGate({ secret: Buffer.alloc(32, 7), store: reopened, difficulty: 8, ttlSeconds: 30, clock: () => 1000 });
     assert.equal(await other.verify({ ...f, request }), false);
     assert.equal(await reopened.consume('new', 1040, 999), false);
-  } finally { reopened.close(); await rm(dir, { recursive: true, force: true }); }
+  } finally { reopened.close(); await rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }); }
 });
 
 test('SQLite unique consumption arbitrates actual concurrent workers', async () => {
@@ -120,7 +136,7 @@ test('SQLite unique consumption arbitrates actual concurrent workers', async () 
     assert.equal((await Promise.all(outcomes)).filter(Boolean).length, 1);
   } finally {
     await Promise.all(workers.map(worker => worker.terminate()));
-    await rm(dir, { recursive: true, force: true });
+    await rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
   }
 });
 

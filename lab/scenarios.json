@@ -25,6 +25,10 @@
     {
       "id": "upload-python",
       "reference": "python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704"
+    },
+    {
+      "id": "postgres",
+      "reference": "docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536"
     }
   ],
   "prerequisites": [
@@ -60,6 +64,10 @@
     {
       "id": "upload-isolation-runtime",
       "timeout_ms": 600000
+    },
+    {
+      "id": "database-runtime",
+      "timeout_ms": 420000
     }
   ],
   "scenarios": [
@@ -665,7 +673,8 @@
         "nginx-runtime",
         "infra-runtime",
         "cache-runtime",
-        "upload-isolation-runtime"
+        "upload-isolation-runtime",
+        "database-runtime"
       ],
       "standards": [
         "NIST SSDF PO.3",
@@ -683,6 +692,88 @@
       ],
       "operational_scope": "Single-command synthetic local verification; never production or external-provider approval.",
       "external_manual_integration": "Release signing, deployment and external accounts remain separate."
+    },
+    {
+      "id": "database-row-and-column-isolation",
+      "category": "local",
+      "required": true,
+      "test_checks": [
+        "database-runtime"
+      ],
+      "stages": [
+        "database-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "expected_result": "Tenant-bound RLS, column privileges and real principal restrictions hold under cross-tenant and bound-value fixtures.",
+      "prerequisites": [
+        "Docker Linux engine",
+        "pinned PostgreSQL image"
+      ],
+      "operational_scope": "Synthetic PostgreSQL primary only; production identity, TLS and pooling require integration.",
+      "external_manual_integration": "Synthetic PostgreSQL primary only; production identity, TLS and pooling require integration."
+    },
+    {
+      "id": "distributed-database-replay",
+      "category": "local",
+      "required": true,
+      "test_checks": [
+        "database-runtime"
+      ],
+      "stages": [
+        "database-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "expected_result": "Independent connections arbitrate one nonce; committed state, expiry and clock guard remain authoritative.",
+      "prerequisites": [
+        "Docker Linux engine",
+        "pinned PostgreSQL image"
+      ],
+      "operational_scope": "This does not prove replica failover, external-effect exactly-once execution or cloud deployment.",
+      "external_manual_integration": "This does not prove replica failover, external-effect exactly-once execution or cloud deployment."
+    },
+    {
+      "id": "field-envelope-encryption",
+      "category": "local",
+      "required": true,
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "expected_result": "Authorized envelope encryption detects ciphertext and tenant/row/field/version/key-header tampering; KMS failure denies access.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Injected local provider fixtures, not a live KMS/IAM deployment.",
+      "external_manual_integration": "Injected local provider fixtures, not a live KMS/IAM deployment."
+    },
+    {
+      "id": "production-database-and-kms",
+      "category": "external",
+      "required": false,
+      "test_checks": [],
+      "stages": [],
+      "standards": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "NIST SP 800-57 Part 1 Rev. 5"
+      ],
+      "expected_result": "Not run: real production tenant identity, database failover/backup restoration and KMS/IAM authorization.",
+      "prerequisites": [
+        "Separately authorized production integration and protected workload identity"
+      ],
+      "operational_scope": "Local PostgreSQL and synthetic KMS fixtures do not establish a live provider policy or production failover.",
+      "external_manual_integration": "Verify exact application principals, grants, TLS, KMS context/keys, old-key restore and replica/failover persistence in the intended environment."
     }
   ],
   "tool_build": {

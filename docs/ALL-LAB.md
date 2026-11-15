@@ -35,6 +35,7 @@ The [scenario catalogue](../lab/scenarios.json) maps the kit's mechanisms to a c
 In particular:
 
 - Form, authentication, machine-signature, step-up, replay, backup, archive, version and release-preparation checks exercise the supplied code.
+- The PostgreSQL stage checks tenant RLS, column privileges, principal boundaries and shared atomic replay/clock state in an isolated primary. Field-envelope tests exercise real authenticated cryptography through synthetic provider contracts; they do not call a live KMS. See [DATABASE-SECURITY.md](DATABASE-SECURITY.md) and the [database lab](../lab/database.README.md).
 - HTTP/browser, ClamAV and Redis scenarios use actual local consumers with clearly labelled synthetic identities and data.
 - Nginx/cache and infrastructure scenarios exercise the named local service or namespace, not a user's public origin.
 - A local cache/route/VPN contract test does not establish the configuration of Cloudflare, WireSock, Tailscale or another real provider account.

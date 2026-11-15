@@ -387,7 +387,10 @@
         "upload-role-isolation",
         "version-checking",
         "vpn-and-cloudflare",
-        "web-input-and-sql"
+        "web-input-and-sql",
+        "database-row-and-column-isolation",
+        "distributed-database-replay",
+        "field-envelope-encryption"
       ],
       "files": [
         "lab/all-local.mjs",
@@ -398,6 +401,67 @@
         "NIST SSDF PO.4"
       ],
       "limits": "Only required local scenarios can be accepted; external/provider/manual steps are listed separately and never inferred from local tests."
+    },
+    {
+      "id": "database-row-and-column-isolation",
+      "kind": "executable",
+      "checks": [
+        "database-runtime"
+      ],
+      "lab_scenarios": [
+        "database-row-and-column-isolation"
+      ],
+      "files": [
+        "infra/database/schema.sql",
+        "infra/database/test_rls.sql",
+        "lab/database-verify.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "limits": "Dedicated tenant DB principals with RLS and column grants in an isolated PostgreSQL primary. Application identity, pool configuration, TLS and production roles require separate integration."
+    },
+    {
+      "id": "distributed-database-replay",
+      "kind": "executable",
+      "checks": [
+        "database-runtime",
+        "node-tests"
+      ],
+      "lab_scenarios": [
+        "distributed-database-replay"
+      ],
+      "files": [
+        "infra/database/schema.sql",
+        "lab/database-verify.mjs",
+        "reference/core.test.mjs",
+        "reference/admission.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "limits": "Atomic shared-primary nonce state and expiry/clock policy; SQLite fixtures cover shared same-host file. No production failover or exactly-once external-effect claim."
+    },
+    {
+      "id": "field-envelope-encryption",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "lab_scenarios": [
+        "field-envelope-encryption"
+      ],
+      "files": [
+        "reference/field-encryption.mjs",
+        "reference/field-encryption.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3/AC-6/SC-12/SC-13/SC-28",
+        "OWASP Database Security"
+      ],
+      "limits": "AES-256-GCM authenticated envelope with tenant/record/field/version binding and trusted KMS/authorization ports. Synthetic providers do not establish live KMS/IAM policy."
     }
   ]
 }

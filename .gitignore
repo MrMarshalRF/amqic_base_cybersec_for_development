@@ -208,3 +208,35 @@ infra/container/app
 .internal/
 config.local.toml
 !config.local.toml.example
+
+# Provider credential files and private runtime configuration; review examples separately.
+mailgun.env
+resend.env
+huggingface.env
+env.staging
+envs/*.env
+!envs/*.example
+!envs/*.sample
+
+# Secret-bearing manifests only; ordinary deployment manifests stay versioned.
+k8s/app-secrets.yaml
+k8s/secret.yaml
+k8s/namespace/secrets.yaml
+kubernetes/secret.yaml
+manifests/secret.yaml
+manifests/secret.yml
+helm/secrets/
+helm/secrets.yaml
+helm/charts/*/values-secret.yaml
+config/prod.secret.exs
+config/secrets.json
+config/keys.json
+
+# Private database and generated framework configuration/cache state.
+pb_data/
+bootstrap/cache/
+storage/framework/cache/
+
+# CI workflow source is public configuration, including a file named secrets.yml.
+!.github/workflows/*.yml
+!.github/workflows/*.yaml

@@ -20,7 +20,7 @@ for (let i = 0; i < args.length; i++) {
   else throw new Error(`Unknown or incomplete option: ${key}`);
 }
 if (options['--full'] && !options['--output']) throw new Error('--full requires --output for external integration evidence');
-const checkIds = new Set(['coverage-membership', 'sha256-registry', 'source-stability', 'node-runtime', 'python-runtime', 'node-syntax', 'node-tests', 'core-demo', 'operations', 'production', 'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime']);
+const checkIds = new Set(['coverage-membership', 'sha256-registry', 'source-stability', 'node-runtime', 'python-runtime', 'node-syntax', 'node-tests', 'core-demo', 'operations', 'production', 'versions', 'quarantine', 'nginx-harness', 'firewall-render', 'terminal', 'compose-runtime', 'compose', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'database-runtime']);
 if (options['--output']) {
   const destination = resolve(options['--output']);
   const within = relative(root, realpathSync(dirname(destination)));
@@ -96,7 +96,7 @@ report.python = py.status === 0 ? py.stdout.toString('utf8').trim() : null;
 command('node-syntax', process.execPath, ['--check', 'scripts/verify.mjs']);
 command('node-tests', process.execPath, ['--experimental-sqlite', '--test', '--test-concurrency=1',
   'reference/core.test.mjs', 'reference/login-client.test.mjs', 'reference/pii-input.test.mjs', 'reference/session-authorization.test.mjs',
-  'reference/admission.test.mjs',
+  'reference/admission.test.mjs', 'reference/field-encryption.test.mjs',
   'reference/upload-pipeline.test.mjs', 'reference/clamd-client.test.mjs', 'lab/web-app.test.mjs', 'lab/lifecycle.test.mjs', 'lab/all-local.test.mjs', 'lab/run-shell.test.mjs', 'scripts/test_crypto.mjs']);
 command('core-demo', process.execPath, ['--experimental-sqlite', 'reference/demo.mjs']);
 for (const [id, path] of [

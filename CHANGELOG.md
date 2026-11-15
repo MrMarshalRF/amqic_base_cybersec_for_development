@@ -2,7 +2,23 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
-## Unreleased
+## v1.3.0
+
+### Database security
+
+- Add a PostgreSQL row-level-security example with tenant-bound principals, column privileges and explicit bound-value selection, plus an isolated database laboratory.
+- Add authenticated field-envelope encryption and a provider-neutral KMS contract, with authorization before decrypt, strict key selection and tenant/record/field binding.
+- Explain consistent nonce uniqueness, expiration and shared replay enforcement across instances; add a stale-instance/expired-nonce regression for the existing SQLite core.
+- Document key rotation, query limits, connection identity, failover/recovery risks and standards references. Local provider fixtures do not establish live cloud KMS or production deployment readiness.
+
+### Origin and verification
+
+- Extend the protected-path registry from 56 to 146 reviewed entries for private configuration, credentials, source and deployment artifacts; retain literal boundaries and deny-by-default routing.
+- Extend the example Git ignore policy for private secret manifests and runtime state while keeping ordinary source/deployment configuration and public examples versionable. Add isolated Git and registry matching regressions plus all-registry HTTP denial checks.
+- Expand the security policy with explicit VirusTotal report semantics, exact-hash and generated-metadata boundaries, and version-qualified OWASP/NIST references for database and field security.
+- Bound retries when removing owned SQLite test fixtures on Windows, where transient directory-removal errors can otherwise fail a completed test.
+
+## v1.2.2 — 2026-11-14
 
 ### Added
 

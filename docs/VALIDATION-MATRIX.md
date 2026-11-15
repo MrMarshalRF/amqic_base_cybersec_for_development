@@ -7,7 +7,7 @@ Platform-specific skips are retained in the test reports. A file can be checked 
 | File | Validation method | Scope boundary |
 | --- | --- | --- |
 | [.gitattributes](../.gitattributes) | Git attribute evaluation and raw Git/archive byte comparison | Preserves file bytes across checkout. |
-| [.gitignore](../.gitignore) | Git check-ignore with current payload and private/public fixture paths | Commit filtering; not an HTTP access control. |
+| [.gitignore](../.gitignore) | Actual Git check-ignore with isolated configuration, hostile ambient Git/default-exclude fixtures and private/public path controls | Commit filtering only; ordinary source manifests and public examples stay versionable. |
 | [AGENTS.md](../AGENTS.md) | English content/relative-link review and implementation/source consistency | External services, mailbox delivery, and future maintainer signing are separate. |
 | [CHANGELOG.md](../CHANGELOG.md) | Comparison with accepted changes, release state and validation evidence; link review | A version entry does not itself establish publication, signing or deployment. |
 | [LICENSE](../LICENSE) | Standard MIT text, holder, and year comparison | No separate ownership or third-party licensing audit. |
@@ -54,9 +54,9 @@ Platform-specific skips are retained in the test reports. A file can be checked 
 | [infra/nginx/allowlist.peer.example.json](../infra/nginx/allowlist.peer.example.json) | JSON placeholder/schema review; unconfigured input rejected; substituted policy tested in the lab | Operator must supply real trusted CIDRs before use. |
 | [infra/nginx/nginx.conf.template](../infra/nginx/nginx.conf.template) | Full isolated Nginx HTTP/TLS, rate, CSP, whitelist, and spoofed-header tests | IPv6 header data checked; physical IPv6 ingress remains target-specific. |
 | [infra/nginx/render.py](../infra/nginx/render.py) | Full isolated Nginx HTTP/TLS, rate, CSP, whitelist, and spoofed-header tests | IPv6 header data checked; physical IPv6 ingress remains target-specific. |
-| [infra/nginx/test_harness.py](../infra/nginx/test_harness.py) | 12 daemon-free timeout, cleanup, readiness, and port-metadata tests | Mocks cover failure paths; actual Nginx run covers the consumer. |
-| [infra/nginx/test_nginx.py](../infra/nginx/test_nginx.py) | Full isolated Nginx HTTP/TLS, rate, CSP, whitelist, and spoofed-header tests | IPv6 header data checked; physical IPv6 ingress remains target-specific. |
-| [infra/protected-paths.json](../infra/protected-paths.json) | Full isolated Nginx HTTP/TLS, rate, CSP, whitelist, and spoofed-header tests | IPv6 header data checked; physical IPv6 ingress remains target-specific. |
+| [infra/nginx/test_harness.py](../infra/nginx/test_harness.py) | 15 daemon-free harness, rendered registry-boundary and isolated Git ignore tests | Mocks cover failure paths; real Git fixtures check tracking decisions; Nginx runtime checks the consumer. |
+| [infra/nginx/test_nginx.py](../infra/nginx/test_nginx.py) | All-registry exact 403, encoded default-deny and permitted 200 controls, plus isolated HTTP/TLS/rate/CSP/whitelist checks | Physical IPv6 ingress and live origin configuration remain target-specific. |
+| [infra/protected-paths.json](../infra/protected-paths.json) | Literal-boundary/validator unit checks and exact 403 for all 146 entries in isolated Nginx | Public resources are not inferred malicious from a probe; encoded source forms stay separate from canonical registry entries. |
 | [infra/ssh/00-security.conf.template](../infra/ssh/00-security.conf.template) | Actual sshd syntax/effective settings; good/wrong/root/password-only authentication | Ephemeral lab account and Ed25519 keys; no production access. |
 | [reference/README.md](../reference/README.md) | English content/relative-link review and implementation/source consistency | External services, mailbox delivery, and future maintainer signing are separate. |
 | [reference/core.mjs](../reference/core.mjs) | 36 Node core/client tests plus actual end-to-end demo on Windows and Linux | Synthetic adapters; actual application integration remains separate. |
@@ -137,3 +137,12 @@ Platform-specific skips are retained in the test reports. A file can be checked 
 | [VIRUSTOTAL.md](../VIRUSTOTAL.md) | Match current file table and counts to JSON; source and link review | No historical or removed-file entries; pending checks remain explicit. |
 | [docs/SANDHIVE.md](../docs/SANDHIVE.md) | Source and relative-link review; coverage and registry membership | External case-reading recommendation; no executable integration or target-assessment claim. |
 | [skills/review-with-sandhive/SKILL.md](../skills/review-with-sandhive/SKILL.md) | Skill frontmatter validation and source/relative-link review | Reading-only workflow; no upstream installation or execution authority. |
+| [docs/DATABASE-SECURITY.md](../docs/DATABASE-SECURITY.md) | coverage-membership, sha256-registry | Database access, field encryption and cross-instance replay guidance with primary sources. |
+| [infra/database/schema.sql](../infra/database/schema.sql) | database-runtime | PostgreSQL RLS, column grants and constrained primary-store replay admission; synthetic runtime fixtures. |
+| [infra/database/test_rls.sql](../infra/database/test_rls.sql) | database-runtime | Actual PostgreSQL tenant/column/role/injection fixture assertions. |
+| [infra/database/README.md](../infra/database/README.md) | coverage-membership, sha256-registry | SQL principal/transaction trust boundaries and production integration limits. |
+| [lab/database-verify.mjs](../lab/database-verify.mjs) | node-syntax, database-runtime | Isolated pinned PostgreSQL verification with exact owned-resource cleanup. |
+| [lab/database.README.md](../lab/database.README.md) | coverage-membership, sha256-registry | Fixed database laboratory invocation, prerequisites and limits. |
+| [reference/field-encryption.mjs](../reference/field-encryption.mjs) | node-tests, node-syntax | Authenticated field-envelope implementation and injected KMS contract; local fixture validation only. |
+| [reference/field-encryption.test.mjs](../reference/field-encryption.test.mjs) | node-tests, node-syntax | Real authenticated crypto with synthetic KMS adapters, authorization and tamper regressions. |
+| [reference/field-encryption.README.md](../reference/field-encryption.README.md) | coverage-membership, sha256-registry | Provider/envelope API, context, rotation and memory limitations. |
