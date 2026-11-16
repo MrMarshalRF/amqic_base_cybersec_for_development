@@ -19,6 +19,8 @@ Developer — **Aleksei Musienko**
 
 Quantum Information & Artificial Intelligence & Mathematical Physics Scientist | Chief Scientist & Head of AMQIC | Q-Developer & SEC Architect | [amqic.ai](https://amqic.ai)
 
+AI-assisted development, testing, and review — **[OpenAI Codex](https://openai.com/codex/)**, under the direction of the project maintainer.
+
 ## One command for people and AI agents
 
 [The complete local lab](docs/ALL-LAB.md) exposes a side-effect-free JSON plan and a fixed all-local runner:
@@ -34,11 +36,27 @@ On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new exter
 
 The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) also covers private technical paths, administrative source maps, terminating edge blocks and Nginx static-location precedence. [Production preparation](docs/PRODUCTION.md#repository-tracking-and-private-operational-material) explains why Git ignore rules, tracked-file review and exact release inventories must be checked separately.
 
-## Optional SandHive review
+## Recommended security resources
+
+Independent projects for additional security review and AI-agent protection. Review each project's current documentation and applicability to your environment.
+
+### SandHive
 
 For additional case-guided security review, consider [SandHive How Could I Be Hacked](https://github.com/sandhiveio/How-Could-I-Be-Hacked). Its investigation corpus can help reviewers identify relevant failure patterns and design checks for their own application. See the [recommendation and limitations](docs/SANDHIVE.md).
 
 This is an independent external resource recommendation. This kit provides no SandHive launcher, download step or executable laboratory integration. The [review-with-sandhive skill](skills/review-with-sandhive/SKILL.md) guides reading cases and evaluating their relevance.
+
+### Stonecell.AI — SPFsmartGATE
+
+[Stonecell.AI](https://stonecell.ai/) presents **SPFsmartGATE** as a local, Rust-based MCP security gateway for applying policies to AI-agent actions. Consider it when evaluating additional controls around agent tools and permitted paths.
+
+At the time of this recommendation, the vendor labels the product pre-release. Check current availability and review which tool calls, paths and data flows it actually governs before adopting it.
+
+## Computer vision and desktop automation
+
+### Oarwise
+
+[Oarwise](https://oarwise.com/) offers computer-use tooling for Codex on Windows. Consider it for computer-vision-assisted desktop workflows. Review its current documentation and permissions, explicitly select the target application/window, and account for sensitive information visible on screen.
 
 ## Run and verify the implementation
 

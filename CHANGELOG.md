@@ -2,6 +2,15 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.3.2
+
+### Attribution
+
+- Acknowledge OpenAI Codex assistance with implementation, testing, and review in README.
+- Record the co-author trailer for future Codex-assisted commits while preserving human authorship and published history.
+- Group SandHive and Stonecell.AI security recommendations separately from Oarwise computer vision and Codex desktop-automation tooling.
+- Refresh hash-bound verification metadata for changed documentation; unscanned new bytes remain explicitly pending.
+
 ## v1.3.1
 
 ### Edge, origin and repository boundaries
