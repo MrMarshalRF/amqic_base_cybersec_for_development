@@ -501,7 +501,7 @@
       "checks": [
         "nginx-runtime"
       ],
-      "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+      "scope": "Pre-location protected-path map and existing HTTP/TLS/header/rate/whitelist consumers; static-prefix source-map regression uses an isolated synthetic owner, not a newly public application route."
     },
     {
       "path": "infra/nginx/render.py",
@@ -519,7 +519,7 @@
         "nginx-harness",
         "nginx-runtime"
       ],
-      "scope": "Daemon-free timeout/cleanup/port tests plus actual rendered registry boundaries and isolated real Git tracking fixtures."
+      "scope": "Daemon-free timeout/cleanup/port tests, rendered literal/class boundaries, static-prefix fixture and isolated real Git private/public tracking fixtures."
     },
     {
       "path": "infra/nginx/test_nginx.py",
@@ -528,7 +528,7 @@
         "nginx-harness",
         "nginx-runtime"
       ],
-      "scope": "Mock harness regressions; actual Nginx execution requires optional pinned local-image integration."
+      "scope": "Actual Nginx regression requires an explicit reviewed local image; permissive synthetic static-prefix owner distinguishes source-map denial from default-deny routing."
     },
     {
       "path": "infra/protected-paths.json",
@@ -1053,7 +1053,7 @@
       "checks": [
         "production"
       ],
-      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+      "scope": "Explicit UTF-8 staging and validation; private agent-work/evidence/delegation/DPAPI path rejection also applies to tracked files and forged payload manifests; not a general secret detector."
     },
     {
       "path": "scripts/protected_input.mjs",
@@ -1102,7 +1102,7 @@
       "checks": [
         "production"
       ],
-      "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+      "scope": "Synthetic staging/validation regressions including forced-tracked ignored files and independently forged manifests; no operational deployment."
     },
     {
       "path": "scripts/test_terminal_input.py",

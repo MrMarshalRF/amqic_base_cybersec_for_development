@@ -102,6 +102,18 @@
     "/telescope/api/requests",
     "/test.php",
     "/var/run/secrets/kubernetes.io/serviceaccount/token",
-    "/website/settings.py"
+    "/website/settings.py",
+    "/api/v1/secrets",
+    "/proc/self/environ",
+    "/jenkins/credentials/store/system/domain/_",
+    "/credentials.js",
+    "/ssl/server.key",
+    "/ssl/localhost.key",
+    "/config/custom-environment-variables.json",
+    "/config/database.json",
+    "/gc-service.json",
+    "/google-service-account.json",
+    "/google-services.json",
+    "/api/proc/self/environ"
   ]
 }

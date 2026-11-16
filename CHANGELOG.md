@@ -2,6 +2,15 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.3.1
+
+### Edge, origin and repository boundaries
+
+- Extend reviewed technical-path protections and explicitly deny administrative source maps before Nginx location selection, including a synthetic static-prefix bypass regression.
+- Explain terminating edge blocks, plan-dependent matching, origin rule persistence, safe rollout checks and the distinction between public compiled assets and private deployment artifacts.
+- Extend private agent-work, evidence, delegated-operation and encrypted-secret exclusions; check production payload policy separately from Git ignore decisions.
+- Keep private incident provenance outside the public kit. These portable changes do not configure any Cloudflare zone or production origin.
+
 ## v1.3.0
 
 ### Database security

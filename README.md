@@ -32,6 +32,8 @@ On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new exter
 
 `--prepare` explicitly authorizes only the pinned lab prerequisites. The [scenario catalogue](lab/scenarios.json), [JSON protocol schema](lab/protocol.schema.json) and [AI skill](skills/run-security-lab/SKILL.md) make prerequisites, actions, results and cleanup machine-readable. Local tests and external/manual provider checks remain distinct.
 
+The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) also covers private technical paths, administrative source maps, terminating edge blocks and Nginx static-location precedence. [Production preparation](docs/PRODUCTION.md#repository-tracking-and-private-operational-material) explains why Git ignore rules, tracked-file review and exact release inventories must be checked separately.
+
 ## Optional SandHive review
 
 For additional case-guided security review, consider [SandHive How Could I Be Hacked](https://github.com/sandhiveio/How-Could-I-Be-Hacked). Its investigation corpus can help reviewers identify relevant failure patterns and design checks for their own application. See the [recommendation and limitations](docs/SANDHIVE.md).

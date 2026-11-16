@@ -73,6 +73,59 @@ class ProductionTests(unittest.TestCase):
         result = production.prepare(self.source, self.target, ["app/graph.json", "app/mcp_client.mjs", "LICENSE", "NOTICE", "COPYING"])
         self.assertEqual(len(result["files"]), 5)
 
+    def test_private_artifact_names_blocked_before_read(self):
+        names = [
+            ".agent-work/task.json", "nested/.AGENT-WORK/task.md",
+            "private-evidence/check.md", "nested/PRIVATE-EVIDENCE/check.json",
+            "api-delegations/task.json", "nested/API-DELEGATIONS/task.md",
+            ".dpapi/store.json", "nested/.DPAPI/store.json",
+            "session.dpapi", "nested/SESSION.DPAPI",
+            ".claude/settings.json", "nested/.CLAUDE/rules.md",
+        ]
+        with patch.object(production, "read_scanned", side_effect=AssertionError("must not read")):
+            for name in names:
+                with self.subTest(name=name), self.assertRaises(production.Blocked):
+                    production.prepare(self.source, self.target, [name])
+        self.assertFalse(self.target.exists())
+
+    def test_tracked_private_artifact_is_still_rejected(self):
+        name = ".agent-work/task.json"
+        path = self.source / name
+        path.parent.mkdir()
+        path.write_text('{"synthetic": true}', encoding="utf-8")
+        (self.source / ".gitignore").write_text('.agent-work/\n', encoding="utf-8")
+        environment = {key: value for key, value in os.environ.items() if not key.upper().startswith("GIT_")}
+        environment.update({"GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull})
+        template = self.root / "empty-template"
+        template.mkdir()
+        for arguments in [["init", "--quiet", "--template", str(template)], ["add", "--force", "--", name]]:
+            result = subprocess.run(["git", "-C", str(self.source), *arguments], env=environment, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        tracked = subprocess.run(["git", "-C", str(self.source), "ls-files", "--", name], env=environment, capture_output=True, text=True)
+        self.assertEqual(tracked.returncode, 0, tracked.stderr)
+        self.assertEqual(tracked.stdout.strip(), name)
+        with patch.object(production, "read_scanned", side_effect=AssertionError("must not read")), self.assertRaises(production.Blocked):
+            production.prepare(self.source, self.target, [name])
+        self.assertFalse(self.target.exists())
+
+    def test_private_artifact_manifest_is_rejected(self):
+        self.target.mkdir()
+        for name in [".agent-work/task.json", "private-evidence/check.md", "api-delegations/task.json", ".dpapi/store.json", "session.dpapi", ".claude/settings.json"]:
+            document = production.manifest_for([{"path": name, "size": 0, "sha256": "0" * 64}])
+            (self.target / production.MANIFEST).write_text(json.dumps(document), encoding="utf-8")
+            with self.subTest(name=name), patch.object(production, "read_scanned", side_effect=AssertionError("must not read")), self.assertRaises(production.Blocked):
+                production.validate(self.target)
+
+    def test_ordinary_source_names_are_not_private_artifacts(self):
+        names = ["app/evidence.json", "app/agent-workflow.mjs", "package-lock.json", "deploy/compose.yaml"]
+        for name in names:
+            path = self.source / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("{}\n", encoding="utf-8")
+        result = production.prepare(self.source, self.target, names)
+        self.assertEqual([entry["path"] for entry in result["files"]], sorted(names))
+        self.assertEqual(result, production.validate(self.target))
+
     def test_secret_literal_returns_no_value(self):
         fixture = 'secret = "PUBLIC_SYNTHETIC_FIXTURE_123456"\n'
         path = self.source / "app" / "main.mjs"

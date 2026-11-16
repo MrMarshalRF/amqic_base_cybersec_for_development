@@ -1,8 +1,18 @@
 # Verification results and scope
 
-## Origin-path and security-policy candidate
+## Edge/origin boundary candidate — v1.3.1
 
-The updated registry has 146 canonical entries. The isolated Nginx run checked every entry for exact `403`, three encoded source-path default-deny cases, and fresh permitted root/API `200` controls, alongside the existing HTTP/TLS, Host/SNI, headers, CSP, rate and whitelist checks. The runtime-bound sources stayed unchanged and the owned Nginx container and network were verified absent. These are synthetic local results, not activation of a public origin or proof that a requested sensitive file existed.
+The registry preserves the prior 146 entries and adds 12 canonical technical paths, for 158 total. A successful isolated Nginx run checked all 158 for exact `403`, with separate canonical/encoded/traversal controls. A deliberately permissive synthetic `^~ /assets/admin/` owner returned `200` for ordinary JavaScript/CSS, benign filename near-matches and a query-only source-map mention, while nested/case/slash/encoding map variants returned `403` before static dispatch. The permissive owner is a test fixture, not a new public route in the portable template.
+
+All 33 runtime regression categories completed, including existing HTTP/TLS, hostname/SNI, CSP/error headers, website/API rate separation, upstream-policy preservation and trusted-peer/header checks. Six runtime-bound source hashes stayed unchanged; the exact test process, container and network were verified absent, and shared Docker container/network/volume membership was unchanged. The successful run used an explicit synthetic TLS fixture. Physical IPv6 transport and live Cloudflare parser/rule/configuration behavior were not tested.
+
+Seventeen daemon-free harness/Git tests and eighteen production-preparation tests passed. The latter include a force-tracked ignored private file and a forged payload manifest: Git ignore decisions do not override package exclusions. Current tracked membership and the supplied private incident markers were reviewed separately; no private case identifiers or machine paths were copied into these changes. This bounded review is not an exhaustive proof of no secrets.
+
+The Cloudflare expression is source-reviewed, plan-dependent guidance. It is not a deployed rule or a complete registry export. New or modified file bytes need matching VirusTotal observations and a newly authenticated final release registry; cached results from another hash do not cover this candidate.
+
+## Origin-path and security-policy candidate — v1.3.0
+
+The v1.3.0 registry had 146 canonical entries. The isolated Nginx run checked every entry for exact `403`, three encoded source-path default-deny cases, and fresh permitted root/API `200` controls, alongside the existing HTTP/TLS, Host/SNI, headers, CSP, rate and whitelist checks. The runtime-bound sources stayed unchanged and the owned Nginx container and network were verified absent. These are synthetic local results, not activation of a public origin or proof that a requested sensitive file existed.
 
 Fifteen daemon-free tests passed, including per-literal rendered rule boundaries and actual Git ignore decisions for private files versus versionable source/public examples. Git fixtures isolate inherited Git variables, system/global/default excludes and templates; no user Git settings or source repository are modified. The security policy now documents VirusTotal category/hash boundaries and selected database/crypto/replay standards. Changes after any scan or signature need new evidence and a newly authenticated registry.
 

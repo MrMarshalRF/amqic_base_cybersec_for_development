@@ -194,7 +194,7 @@
         "NIST SSDF PS.2",
         "NIST SSDF PS.3"
       ],
-      "limits": "Bounded UTF-8 file staging, not arbitrary binary analysis.",
+      "limits": "Bounded UTF-8 file staging with independent private-artifact path exclusions even for tracked files; not arbitrary binary analysis or proof of no credentials.",
       "lab_scenarios": [
         "source-preparation"
       ]
@@ -251,7 +251,7 @@
         "NIST SP 800-53 SC-7",
         "W3C CSP Level 3"
       ],
-      "limits": "Actual Nginx test needs explicit pinned image; live provider firewall/IPv6 routing not configured.",
+      "limits": "Pre-location protected-path/source-map denial is tested with a permissive synthetic static owner; actual Nginx needs an explicit pinned image. No live Cloudflare/firewall/IPv6 routing configuration.",
       "lab_scenarios": [
         "origin-configuration"
       ]

@@ -52,6 +52,8 @@ http {
         "~%" 1;
         "~\\\\" 1;
         "~*\\.(?:bak|backup|old|orig|save|swp|swo|sql|sqlite3?|db|pem|key|p12|pfx|kdbx|keyx|tfstate)(?:$|[;/~.])" 1;
+        # Server guard also covers nested source maps before any ^~ static owner.
+        "~*^/assets/admin/.*\\.map(?:$|/|[.;~])" 1;
 @@PROTECTED_RULES@@
     }
     map $http_host $http_host_ok {

@@ -205,6 +205,11 @@ infra/container/app
 
 .agent-private/
 .agent-secrets/
+.agent-work/
+private-evidence/
+api-delegations/
+.dpapi/
+*.dpapi
 .internal/
 config.local.toml
 !config.local.toml.example

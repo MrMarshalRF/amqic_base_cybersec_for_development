@@ -54,3 +54,20 @@ In an authorized synthetic environment, check a normal authorized request and se
 Check that responses and logs contain no secrets, external runtime input works, and mandatory MFA is preserved. Use the infrastructure documentation for the reverse proxy/origin boundary. The current preparation command does not make network requests or establish these service properties.
 
 Record the previous working version, its hash, data-compatibility settings, and the exact rollback procedure. A production switch requires separate authorization for the exact release. Deleting old versions, changing permissions, revoking/issuing keys, and other critical steps require an independent hardware factor or OTP on a separate device through a trusted verification component. If no integration exists, a human performs these steps. An authorization file or AI message does not replace actual second-factor verification.
+
+
+## Repository tracking and private operational material
+
+Keep `.agent-work/`, `private-evidence/`, `api-delegations/`, encrypted secret stores and local AI configuration outside both version control and runtime delivery. A file protected by DPAPI is still a private credential artifact; encryption does not make it suitable for a public repository. Use descriptive private directories instead of mixing incident evidence with public documentation. A public incident summary must be prepared separately, with source identifiers, provider/account IDs, private machine paths and operational exceptions removed.
+
+Git ignore rules apply to untracked files. They do not remove an already tracked file or stop a bundler, container build or custom archive command from copying it. Review the tracked and staged path inventories locally before release:
+
+```sh
+git ls-files
+git diff --cached --name-status
+git ls-files --cached --ignored --exclude-standard
+```
+
+The last command lists tracked paths that now match ignore rules; it is a review queue, not proof that every listed file is a secret. Reviewed public certificates, placeholders and intentionally shipped metadata need explicit disposition. Do not print secret contents to resolve a finding. If a real credential was distributed, the owner must authorize revocation/rotation and review of earlier distribution; deleting a current file or changing `.gitignore` is insufficient.
+
+Use the production tool's explicit include list and validate the completed directory even when Git's inventory looks clean. Its path exclusions and content checks are a separate boundary: an explicit include cannot authorize a forbidden private path. For binaries, static assets, container images and other unsupported formats, inspect the final artifact membership and exact bytes through their separate reviewed packaging process. For administrative web builds, disable public source-map generation, check that published output contains no administrative `*.map`, and retain any diagnostic maps only in a restricted private store. The [edge/origin guide](CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) supplies an additional HTTP denial layer; a deny rule is not a substitute for excluding sensitive material from the build.

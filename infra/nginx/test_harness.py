@@ -132,7 +132,8 @@ class RegistryPolicyTests(unittest.TestCase):
                         self.root / "infra/nginx/nginx.conf.template")
         # Exercise rules extracted from the real rendered output, not a second renderer.
         literals = [line.strip()[4:-4] for line in config.split("map $uri $protected_uri {", 1)[1].split("\n    }", 1)[0].splitlines()
-                    if line.strip().startswith('"~*^/') and line.strip().endswith('" 1;')]
+                    if line.strip().startswith('"~*^/') and line.strip().endswith('" 1;')
+                    and not line.strip().startswith('"~*^/assets/admin/.*')]
         self.assertEqual(len(literals), len(paths))
         rules = [re.compile(pattern, re.I) for pattern in literals]
         for path, rule in zip(paths, rules):
@@ -144,12 +145,50 @@ class RegistryPolicyTests(unittest.TestCase):
         for path in ("/robots.txt", "/.well-known/security.txt", "/api/v1/status", "/"):
             self.assertFalse(any(rule.match(path) for rule in rules), path)
 
+    def test_admin_map_class_uses_the_existing_server_guard(self):
+        config = render("kit.example.test", "192.168.240.2:8080",
+                        self.root / "infra/protected-paths.json",
+                        self.root / "infra/nginx/nginx.conf.template")
+        block = config.split("map $uri $protected_uri {", 1)[1].split("\n    }", 1)[0]
+        line, = [line.strip() for line in block.splitlines()
+                 if line.strip().startswith('"~*^/assets/admin/.*')]
+        # Nginx quoted strings unescape doubled backslashes before PCRE sees them.
+        rule = re.compile(line[4:-4].replace("\\\\", "\\"), re.I)
+        for path in ("/assets/admin/app.js.map", "/assets/admin/nested/app.css.map",
+                     "/ASSETS/ADMIN/APP.JS.MAP", "/assets/admin/app.map/child",
+                     "/assets/admin/app.map;download", "/assets/admin/app.map.bak"):
+            self.assertTrue(rule.match(path), path)
+        for path in ("/assets/admin/app.js", "/assets/admin/nested/app.css",
+                     "/assets/admin/app.map-public", "/assets/admin/app.js.mapx",
+                     "/assets/administrator/app.map", "/api/v1/status",
+                     "/api/v1/admin/content", "/.well-known/security.txt"):
+            self.assertFalse(rule.match(path), path)
+        self.assertEqual(config.count("if ($protected_uri) { return 418; }"), 2)
+        self.assertNotIn("location ^~ /assets/admin/", config)
+        lab = harness.add_static_bypass_fixture(config)
+        self.assertEqual(lab.count("location ^~ /assets/admin/"), 1)
+        self.assertIn("limit_req zone=website_per_ip burst=9 nodelay;", lab)
+        self.assertLess(lab.rindex("if ($protected_uri)"), lab.index("location ^~ /assets/admin/"))
+
+    def test_technical_paths_are_canonical_and_raw_traversal_stays_out(self):
+        paths = load_paths(self.root / "infra/protected-paths.json")
+        expected = {"/api/v1/secrets", "/proc/self/environ",
+                    "/jenkins/credentials/store/system/domain/_", "/credentials.js",
+                    "/ssl/server.key", "/ssl/localhost.key", "/backend/settings.py",
+                    "/config/custom-environment-variables.json", "/config/database.json",
+                    "/gc-service.json", "/google-service-account.json", "/google-services.json",
+                    "/api/proc/self/environ"}
+        self.assertTrue(expected.issubset(paths))
+        self.assertEqual(len(paths), 158)
+        self.assertNotIn("/assets/admin/*.map", paths)
+        self.assertFalse(any(".." in path.split("/") for path in paths))
+
     def test_registry_rejects_unsafe_values_duplicates_and_bounds(self):
         with tempfile.TemporaryDirectory(prefix="kit-registry-") as folder:
             file = Path(folder) / "paths.json"
             invalid = [[], ["/a"] * 257, ["/Case", "/case"],
                        ["/a/../b"], ["/./a"], ["//a"], ["/a/"], ["relative"],
-                       ["/a%2fb"], ["/app/api/[...]/route.ts"], ["/a?x=1"],
+                       ["/a%2fb"], ["/assets/admin/*.map"], ["/app/api/[...]/route.ts"], ["/a?x=1"],
                        ["/a#fragment"], ["/a\\b"], ["/a\ninclude evil;"],
                        ['/a" 0;'], ["/a|b"], ["/a$b"], ["/nonascii-Г©"], [None]]
             for paths in invalid:
@@ -176,7 +215,10 @@ class RegistryPolicyTests(unittest.TestCase):
                      "config/prod.secret.exs", "config/keys.json", "config/secrets.json",
                      "pb_data/data.db", "pb_data/auxiliary.json",
                      "bootstrap/cache/config.php", "storage/framework/cache/config.php",
-                     "dump.sql", "private.sql.gz"]
+                     "dump.sql", "private.sql.gz",
+                     ".agent-work/task.json", "nested/.agent-work/task.md",
+                     "private-evidence/check.md", "api-delegations/task.json",
+                     ".dpapi/store.json", "nested/session.dpapi"]
         negatives = [".env.example", ".env.prod.example", "nested/.env.worker.example",
                      "env.example", "env.sample", "envs/staging.example", "envs/staging.sample",
                      "terraform.tfvars.example", "schema.sql", "db/schema.rb", "db/seeds.rb",
@@ -191,7 +233,10 @@ class RegistryPolicyTests(unittest.TestCase):
                      "sendgrid.yml", "ses-config.json", "sentry.properties",
                      "robots.txt", ".well-known/security.txt",
                      "AGENTS.md", "SECURITY.md", "skills/example/SKILL.md",
-                     "reference/core.mjs", "release-public-key.pem", "release-public-key.gpg"]
+                     "reference/core.mjs", "release-public-key.pem", "release-public-key.gpg",
+                     "app/evidence.json", "app/agent-workflow.mjs",
+                     "config.local.toml.example", ".env.production.example",
+                     "deploy/compose.yaml", "trust/public.crt", "trust/public.cer"]
         # Git subprocesses must not inherit a caller's repository/index redirects
         # or machine-global ignore policies. A hostile synthetic parent environment
         # exercises isolation without referencing any real repository or secret.

@@ -23,12 +23,13 @@ DENIED_PARTS = {
     ".dev", ".idea", ".vscode", ".pytest_cache", ".mypy_cache", ".ruff_cache",
     "__pycache__", "node_modules", ".venv", "venv", "coverage", ".nyc_output",
     "test", "tests", "__tests__", "fixtures", "secrets", ".secrets", "private",
-    "backups", "backup", "logs", ".agent-private", ".agent-secrets",
+    "backups", "backup", "logs", ".agent-private", ".agent-secrets", ".agent-work",
+    "private-evidence", "api-delegations", ".dpapi",
     "amqic-protected-input", ".codex", ".agents", "state", "debug", "tmp", "temp", ".kube",
     ".graphify", "graphify-out", "graphify-output", ".internal", "receipts", "checkpoints", "plans",
-    ".github", ".gitlab", ".devcontainer", ".cursor", ".windsurf",
+    ".github", ".gitlab", ".devcontainer", ".claude", ".cursor", ".windsurf",
 }
-DENIED_SUFFIXES = {".key", ".keyx", ".pem", ".p12", ".pfx", ".kdbx", ".secret", ".log", ".bak", ".old", ".pyc", ".map", ".zip", ".gz", ".tar", ".sqlite", ".db"}
+DENIED_SUFFIXES = {".key", ".keyx", ".pem", ".p12", ".pfx", ".kdbx", ".secret", ".dpapi", ".log", ".bak", ".old", ".pyc", ".map", ".zip", ".gz", ".tar", ".sqlite", ".db"}
 TEXT_SUFFIXES = {".js", ".mjs", ".cjs", ".jsx", ".ts", ".tsx", ".py", ".json", ".yaml", ".yml", ".toml", ".ini", ".conf", ".txt", ".md", ".html", ".css", ".sh", ".sql", ".xml", ".svg"}
 TEXT_FILENAMES = {"license", "notice", "copying"}
 INTERNAL_FILES = {

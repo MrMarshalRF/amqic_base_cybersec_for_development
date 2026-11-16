@@ -105,6 +105,19 @@ def wait_for_listeners(connect, timeout=30):
                 time.sleep(min(0.05, remaining))
 
 
+def add_static_bypass_fixture(config):
+    """Synthetic permissive static owner: never added to the portable template."""
+    marker = "        # These exact public routes are examples. Review each new route explicitly."
+    require(config.count(marker) == 1, "Synthetic static fixture insertion point changed")
+    fixture = """        # Lab-only owner deliberately permits every asset, including map files.
+        location ^~ /assets/admin/ {
+            limit_req zone=website_per_ip burst=9 nodelay;
+            proxy_pass http://127.0.0.1:18080;
+        }
+"""
+    return config.replace(marker, fixture + marker)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", required=True, help="Reviewed local nginx image sha256:...")
@@ -149,7 +162,7 @@ def main():
     def make_config(policy=None):
         result = render("kit.example.test", "192.168.240.2:8080", here.parent / "protected-paths.json", here / "nginx.conf.template", policy)
         result = result.replace("192.168.240.2:8080", "127.0.0.1:18080")
-        return result.rsplit("}", 1)[0] + upstream_fixture
+        return add_static_bypass_fixture(result).rsplit("}", 1)[0] + upstream_fixture
 
     config = make_config()
     (base / "nginx.conf").write_text(config, encoding="utf-8")
@@ -379,6 +392,43 @@ def main():
         codes, _, _ = burst(encoded_paths)
         require(codes == [403] * len(encoded_paths), ("encoded source deny-by-default", codes))
         state["results"]["noncanonical_source_paths_denied"] = dict(zip(encoded_paths, codes))
+        # A ^~ owner defeats regex locations; the existing server-level guard must
+        # deny maps before selection while ordinary compiled assets still reach upstream.
+        start(True)
+        assets = ["/assets/admin/app.js", "/assets/admin/app.css",
+                  "/assets/admin/nested/app.js", "/assets/admin/nested/app.css",
+                  "/assets/admin/app.map-public", "/assets/admin/app.js.mapx",
+                  "/assets/admin/app.js?debug=app.js.map"]
+        codes, _, _ = burst(assets)
+        require(codes == [200] * len(assets), ("legitimate static fixture assets", codes))
+        state["results"]["prefixed_static_public_assets"] = dict(zip(assets, codes))
+        start(True)
+        maps = ["/assets/admin/app.js.map", "/assets/admin/nested/app.css.map",
+                "/assets/admin/APP.JS.MAP", "//assets//admin//nested//app.js.map",
+                "/assets/admin/app.js.map?download=1", "/assets/admin/app.js%2emap",
+                "/assets/admin/app.js%252emap", "/assets/admin/app.js.map;download"]
+        codes, _, _ = burst(maps)
+        require(codes == [403] * len(maps), ("server guard before prefixed static owner", codes))
+        state["results"]["prefixed_static_source_maps_denied"] = dict(zip(maps, codes))
+        start(True)
+        technical = ["//GOOGLE-SERVICES.JSON", "/%63redentials.js",
+                     "/google-service-account.json?download=1"]
+        codes, _, _ = burst(technical)
+        require(codes == [403] * len(technical), ("technical normalized variants", codes))
+        state["results"]["technical_normalized_variants"] = dict(zip(technical, codes))
+        start(True)
+        traversal = ["/api/w/admins/jobs_u/get_log_file/../../../../proc/self/environ",
+                     "/api/proc/self/environ",
+                     "/api/w/admins/jobs_u/get_log_file/%2e%2e/%2e%2e/%2e%2e/%2e%2e/proc/self/environ",
+                     "/api/w/admins/jobs_u/get_log_file/%252e%252e/%252e%252e/%252e%252e/%252e%252e/proc/self/environ"]
+        codes, _, _ = burst(traversal)
+        require(codes == [403] * len(traversal), ("raw and normalized traversal denial", codes))
+        state["results"]["raw_and_normalized_traversal_denied"] = dict(zip(traversal, codes))
+        start(True)
+        unchanged = ["/api/v1/status", "/api/v1/admin/content", "/.well-known/security.txt"]
+        codes, _, _ = burst(unchanged)
+        require(codes == [200, 403, 403], ("unchanged public and default-deny routes", codes))
+        state["results"]["unchanged_route_policy"] = dict(zip(unchanged, codes))
         save()
         untrusted = ssl._create_unverified_context()
         port = int(state["ports"]["443/tcp"][0]["HostPort"])

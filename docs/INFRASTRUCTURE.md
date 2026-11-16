@@ -23,6 +23,9 @@ The container shares the host kernel. Removing the shell removes a ready-made co
 
 ## 2. Expose only the required HTTP routes
 
+Administrative source maps and private technical files need an explicit pre-location guard even when you later add a permissive `^~` static-assets location. The existing server-level `$protected_uri` path retains that boundary; keep it ahead of location dispatch. See the [edge/origin matching and acceptance procedure](CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps). The canonical JSON list remains literal-only; class predicates live in the template and require their own distinguishing tests. Ordinary published JS/CSS is not a credential or authorization bypass.
+
+
 1. Set your own lowercase ASCII domain. The generator rejects IP addresses, line breaks, spaces, and configuration characters. For an IDN, first obtain its valid ASCII/Punycode form.
 2. Review `infra/protected-paths.json`. This is the single URI list for enforced `403` responses, including private directories, configuration files, and their variants. Add project-specific private URIs.
 3. List the exact public routes in `nginx.conf.template`. The example allows `/` and `/api/v1/status`. Authentication and MCP routes remain closed and are added only after the corresponding handlers are reviewed. Every route must retain application checks for authentication, authorization, method, and parameters. Expanding this to proxying through `location /` defeats the allowlist.
@@ -40,7 +43,7 @@ Matching uses the normalized `$uri`, without the query string. Case variants, de
 
 ### Maintain the protected-path and Git policies separately
 
-The current registry contains 146 reviewed canonical URI entries, including private mail/cloud configuration, secret manifests, framework caches, database runtime state and source/deployment artifacts. It retains the renderer's strict path grammar, literal escaping and suffix/descendant boundaries. Adding observations from a request log is a review step: a requested path does not establish that a file exists, that the response exposed it or that a compromise occurred.
+The current registry contains 158 reviewed canonical URI entries, including private mail/cloud configuration, secret manifests, framework caches, database runtime state and source/deployment artifacts. It retains the renderer's strict path grammar, literal escaping and suffix/descendant boundaries. Adding observations from a request log is a review step: a requested path does not establish that a file exists, that the response exposed it or that a compromise occurred.
 
 Do not blindly turn every observed name into a deny or ignore rule. `robots.txt` and `/.well-known/security.txt` are excluded from the new registry additions and Git ignores because they can be intentional public resources. The baseline template still allows only its reviewed public routes, and its generic hidden-segment policy denies security.txt; publishing that resource needs an explicit route and a deliberate policy exception. The observed encoded source form `/app/api/%5B...%5D/route.ts` is tested as deny-by-default: after URI decoding its brackets do not prove a residual-percent map match, and it is not inserted into the canonical registry.
 
