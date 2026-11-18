@@ -2,6 +2,16 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.5.0
+
+- Add Rust tool, migration and endpoint-protection references to README.
+- Document the enterprise controls, verification scope and deployment checks in SECURITY.md.
+- Add an enterprise profile with executable policy, tenant-scoped admission and abuse controls.
+- Add security audit and evidence tooling with JSON and human-readable output, digest verification and an offline signature workflow.
+- Add source inventory verification, SBOM and release provenance workflows.
+- Add short-lived credential and tenant-key rotation references with synthetic provider tests.
+- Document defensive Java runtime triage, hardened workload examples and deployment verification boundaries.
+
 ## v1.4.0
 
 - Update README.

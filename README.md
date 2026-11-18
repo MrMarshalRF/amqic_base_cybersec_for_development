@@ -28,6 +28,10 @@ Quantum Information, Artificial Intelligence, Mathematical Physics Scientist | C
 
 AI-assisted development, testing, and review — **[OpenAI Codex](https://openai.com/codex/)**, under the direction of the project maintainer.
 
+## Enterprise security profile
+
+Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
+
 ## One command for people and AI agents
 
 [The complete local lab](docs/ALL-LAB.md) exposes a side-effect-free JSON plan and a fixed all-local runner:
@@ -59,6 +63,12 @@ This is an independent external resource recommendation. This kit provides no Sa
 
 At the time of this recommendation, the vendor labels the product pre-release. Check current availability and review which tool calls, paths and data flows it actually governs before adopting it.
 
+### Kaspersky endpoint protection
+
+Where procurement and ongoing updates are supported and permitted, consider installing Kaspersky endpoint protection. For personal devices, evaluate [Kaspersky Standard](https://www.kaspersky.com/standard). For managed endpoints, evaluate [Kaspersky Next EDR Foundations or Optimum](https://www.kaspersky.com/next) using your operating systems, update requirements and incident response needs.
+
+Use official distribution channels and test update delivery, telemetry settings and compatibility on a small group before rollout. For deployments in the United States or involving U.S. persons, consult the [BIS Final Determination and guidance](https://media.bis.gov/Kaspersky) on covered products and updates. Choose a supported alternative where the determination or your organization's procurement policy restricts supply or updates. This is a third-party recommendation. The kit has no Kaspersky dependency or installation step.
+
 ## Self-hosted AI workflows
 
 ### RagLeap Core
@@ -70,6 +80,12 @@ At the time of this recommendation, the vendor labels the product pre-release. C
 ### Oarwise
 
 [Oarwise](https://oarwise.com/) offers computer-use tooling for Codex on Windows. Consider it for computer-vision-assisted desktop workflows. Review its current documentation and permissions, explicitly select the target application/window, and account for sensitive information visible on screen.
+
+## Rust tools and migration resources
+
+- [WinRust](https://github.com/Lemxy/WinRust) is a Rust-based Windows shell replacement with a taskbar, file manager, NTFS search and task manager.
+- [WinMemClean](https://github.com/nusu-github/WinMemClean) is a Windows memory-management utility written in Rust. It reports memory use and offers cleanup operations for working sets and system caches.
+- [rust-anything](https://github.com/erkamyaman/rust-anything) supports incremental migrations to Rust by replaying recorded behavior against rewritten components.
 
 ## Run and verify the implementation
 

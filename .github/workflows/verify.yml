@@ -52,11 +52,30 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: '3.12'
+      - name: Verify the source inventory
+        run: node enterprise/supply/supply.mjs check-sha256 .
+      - name: Validate the enterprise policy
+        run: node enterprise/policy/policy-cli.mjs --check enterprise/policy/example-policy.json
       - name: Exercise all fixed local scenarios
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/kit-ci"
           sh lab/run.sh --output "$RUNNER_TEMP/kit-ci/all-local.json"
+      - name: Export control evidence
+        shell: bash
+        run: node enterprise/evidence/cli.mjs export "$GITHUB_WORKSPACE" "$RUNNER_TEMP/kit-ci/all-local.json" "$RUNNER_TEMP/control-evidence"
+      - name: Record the declared lab image inventory
+        shell: bash
+        run: |
+          node --input-type=module -e 'import { readFileSync } from "node:fs"; const { images } = JSON.parse(readFileSync("lab/scenarios.json", "utf8")); process.stdout.write(JSON.stringify(images.map(({ id, reference }) => ({ name: id, version: reference, type: "container" }))));' > "$RUNNER_TEMP/declared-lab-images.json"
+          node enterprise/supply/supply.mjs sbom-components "$RUNNER_TEMP/declared-lab-images.json" > "$RUNNER_TEMP/control-evidence/lab-images.cdx.json"
+      - name: Upload control evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: control-evidence
+          path: ${{ runner.temp }}/control-evidence/
+          if-no-files-found: error
+          retention-days: 14
       - name: Preserve verification diagnostics
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

@@ -1,0 +1,14 @@
+# Include from a trusted CI configuration and extend on a protected release ref.
+.amqic_supply_verify:
+  tags: [amqic-supply-isolated]
+  timeout: 10 minutes
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - |
+      set -eu
+      node "$AMQIC_SUPPLY_TOOL" verify "$AMQIC_SUPPLY_PAYLOAD_DIR" "$AMQIC_SUPPLY_BINARY_POLICY" "$AMQIC_SUPPLY_INVENTORY" "$AMQIC_SUPPLY_SIGNATURE" "$AMQIC_SUPPLY_PUBLIC_KEY" "$AMQIC_SUPPLY_SOURCE_COMMIT"
+      bom="$(mktemp)"
+      trap 'rm -- "$bom"' EXIT
+      node "$AMQIC_SUPPLY_TOOL" sbom "$AMQIC_SUPPLY_PAYLOAD_DIR/package-lock.json" > "$bom"
+      cmp "$bom" "$AMQIC_SUPPLY_PAYLOAD_DIR/bom.cdx.json"

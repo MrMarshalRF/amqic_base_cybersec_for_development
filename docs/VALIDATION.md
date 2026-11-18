@@ -1,5 +1,11 @@
 # Verification results and scope
 
+## Enterprise references
+
+The fixed baseline runs the policy, evidence, supply-chain, rotation and runtime suites. The corresponding scenarios appear in the laboratory report, where their scope is limited to the named local tests. Hosted CI exports evidence after a successful full laboratory run. Test output records actual outcomes for each source revision.
+
+Provider authorization, infrastructure rollout, signer identity, compliance assessment and production audit retention require verification in the intended environment. See the [enterprise adoption guide](../enterprise/README.md).
+
 ## Subscription offer eligibility
 
 The synthetic billing tests exercise verified account binding, active purchase state, exact offer selection, expiry and campaign eligibility. Two SQLite connections check single issuance, idempotent retry, cross-account replay rejection and the one-claim-per-campaign rule. The baseline runner includes these tests. Provider integration and refund, renewal and revocation handling must be verified separately.

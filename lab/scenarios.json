@@ -795,6 +795,111 @@
       "operational_scope": "Synthetic verified purchase adapter and shared SQLite claim ledger. Provider API, lifecycle, and live billing deployment require separate integration.",
       "external_manual_integration": "Synthetic verified purchase adapter and shared SQLite claim ledger. Provider API, lifecycle, and live billing deployment require separate integration.",
       "required": true
+    },
+    {
+      "id": "enterprise-policy",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "expected_result": "Verify tenant and action binding, policy enforcement and per-tenant quota adaptation.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Same-host SQLite and synthetic trusted context. Service principal wiring, storage enforcement and distributed quotas require target checks.",
+      "external_manual_integration": "Same-host SQLite and synthetic trusted context. Service principal wiring, storage enforcement and distributed quotas require target checks.",
+      "required": true
+    },
+    {
+      "id": "enterprise-evidence",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AU-9",
+        "NIST SP 800-53 AU-12"
+      ],
+      "expected_result": "Verify evidence hashes and reject tampered audit events and signatures.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic audit and signing fixtures. Verify signer trust, collection periods and delivery against deployment records.",
+      "external_manual_integration": "Synthetic audit and signing fixtures. Verify signer trust, collection periods and delivery against deployment records.",
+      "required": true
+    },
+    {
+      "id": "enterprise-supply",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-218 SSDF PS.2",
+        "SLSA v1.2 provenance"
+      ],
+      "expected_result": "Verify exact payload digests, binary allowances, SBOM records and signed subject binding.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic artifacts and declared components. Assess package coverage, authenticated build provenance and trust anchors in the real pipeline.",
+      "external_manual_integration": "Synthetic artifacts and declared components. Assess package coverage, authenticated build provenance and trust anchors in the real pipeline.",
+      "required": true
+    },
+    {
+      "id": "enterprise-secrets",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 IA-5",
+        "NIST SP 800-53 SC-12"
+      ],
+      "expected_result": "Verify scope, expiry, activation and reconciliation of credential and key rotation.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic provider stores. Exercise real workload identity, atomic promotion, lease revocation and retained key recovery before deployment.",
+      "external_manual_integration": "Synthetic provider stores. Exercise real workload identity, atomic promotion, lease revocation and retained key recovery before deployment.",
+      "required": true
+    },
+    {
+      "id": "enterprise-runtime",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 CM-6",
+        "NIST SP 800-53 SI-2"
+      ],
+      "expected_result": "Verify Java assessment and workload configuration checks against synthetic inputs.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Static reference profiles and synthetic inventory records. Validate actual Helm/OpenTofu rendering, kernel behavior, Falco support and running JVM inventory for the target.",
+      "external_manual_integration": "Static reference profiles and synthetic inventory records. Validate actual Helm/OpenTofu rendering, kernel behavior, Falco support and running JVM inventory for the target.",
+      "required": true
     }
   ],
   "tool_build": {

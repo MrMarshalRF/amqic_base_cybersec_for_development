@@ -481,6 +481,96 @@
       "lab_scenarios": [
         "billing-offer-eligibility"
       ]
+    },
+    {
+      "id": "enterprise-policy",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/policy/policy.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "limits": "Same-host SQLite and synthetic trusted context. Service principal wiring, storage enforcement and distributed quotas require target checks.",
+      "lab_scenarios": [
+        "enterprise-policy"
+      ]
+    },
+    {
+      "id": "enterprise-evidence",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/evidence/evidence.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AU-9",
+        "NIST SP 800-53 AU-12"
+      ],
+      "limits": "Synthetic audit and signing fixtures. Verify signer trust, collection periods and delivery against deployment records.",
+      "lab_scenarios": [
+        "enterprise-evidence"
+      ]
+    },
+    {
+      "id": "enterprise-supply",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/supply/supply.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-218 SSDF PS.2",
+        "SLSA v1.2 provenance"
+      ],
+      "limits": "Synthetic artifacts and declared components. Assess package coverage, authenticated build provenance and trust anchors in the real pipeline.",
+      "lab_scenarios": [
+        "enterprise-supply"
+      ]
+    },
+    {
+      "id": "enterprise-secrets",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/rotation/rotation.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 IA-5",
+        "NIST SP 800-53 SC-12"
+      ],
+      "limits": "Synthetic provider stores. Exercise real workload identity, atomic promotion, lease revocation and retained key recovery before deployment.",
+      "lab_scenarios": [
+        "enterprise-secrets"
+      ]
+    },
+    {
+      "id": "enterprise-runtime",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/runtime/runtime.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 CM-6",
+        "NIST SP 800-53 SI-2"
+      ],
+      "limits": "Static reference profiles and synthetic inventory records. Validate actual Helm/OpenTofu rendering, kernel behavior, Falco support and running JVM inventory for the target.",
+      "lab_scenarios": [
+        "enterprise-runtime"
+      ]
     }
   ]
 }

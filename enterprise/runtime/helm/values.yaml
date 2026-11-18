@@ -1,0 +1,2 @@
+# Set registry/repository@sha256:<digest> to the approved Java image.
+image: ""

@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "tenants": [
+    {
+      "id": "tenant-alpha",
+      "quota": {
+        "windowMs": 60000,
+        "normal": 3,
+        "elevated": 1
+      },
+      "rules": [
+        {
+          "method": "GET",
+          "path": "/records",
+          "resource": "record",
+          "classification": "internal",
+          "roles": [
+            "reader",
+            "operator"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/records",
+          "resource": "record",
+          "classification": "confidential",
+          "roles": [
+            "operator"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tenant-beta",
+      "quota": {
+        "windowMs": 60000,
+        "normal": 2,
+        "elevated": 1
+      },
+      "rules": [
+        {
+          "method": "GET",
+          "path": "/records",
+          "resource": "record",
+          "classification": "internal",
+          "roles": [
+            "reader"
+          ]
+        }
+      ]
+    }
+  ]
+}

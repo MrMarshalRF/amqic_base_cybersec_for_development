@@ -1,0 +1,24 @@
+{{- $image := required "Set .Values.image to an approved digest-pinned image" .Values.image -}}
+{{- if not (regexMatch "^[a-z0-9][a-z0-9./:_-]+@sha256:[0-9a-f]{64}$" $image) -}}
+{{- fail "Expected a digest-pinned Linux image reference" -}}
+{{- end -}}
+{{- $spec := .Files.Get "files/pod-spec.json" | fromJson -}}
+{{- $container := index $spec.containers 0 -}}
+{{- $_ := set $container "image" $image -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: amqic-java-workload
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: amqic-java-workload
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    spec:
+{{- $spec | toYaml | nindent 6 }}

@@ -1,0 +1,10 @@
+- rule: Shell started by Java in a container
+  desc: A successful shell exec with a Java parent needs investigation.
+  condition: >
+    evt.type in (execve, execveat) and evt.dir = < and evt.rawres >= 0 and
+    container.id != host and proc.pname = java and
+    proc.name in (sh, bash, dash, ash, zsh, ksh)
+  output: "Java child shell (container=%container.id parent=%proc.pname process=%proc.name pid=%proc.pid)"
+  priority: WARNING
+  source: syscall
+  tags: [container, java, runtime]

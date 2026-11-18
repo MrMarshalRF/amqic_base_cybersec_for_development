@@ -160,6 +160,24 @@ The portable origin model evaluates protected-path predicates at server rewrite 
 
 These measures support the existing NIST SP 800-53 `AC-3`/`SC-7` boundary goals and SSDF `PS.2`/`PS.3` release-integrity practices; they are implementation examples, not certification or complete traversal/exposure prevention. Git ignore rules, tracked-file review, deployment-artifact inspection and HTTP denial serve separate purposes. A user-agent name, isolated 4xx response or sampled edge event is not evidence of a compromise. Public incident summaries must exclude raw per-source operational evidence and private infrastructure identifiers.
 
+## v1.5.0 enterprise security controls
+
+The [enterprise profile](enterprise/README.md) maps the new references to local tests and deployment checks. See the [scenario catalogue](lab/scenarios.json), [claims](verification/claims.json) and [validation guide](docs/VALIDATION.md) for the executable scope. The references below are control objectives from [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) and [SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final).
+
+| Area | Controls and local verification | Deployment verification |
+| --- | --- | --- |
+| Policy enforcement, tenant isolation and abuse controls | [Policy reference](enterprise/policy/README.md). AC-3 and SC-5. CI validates the example policy. Local tests exercise tenant and resource binding, denial, and per-tenant risk-based quotas using a shared SQLite file. | Verify trusted identity and authorization at the storage or side-effect boundary. Apply and test PostgreSQL RLS with actual service roles, tenant key separation and shared quota enforcement for distributed workers. |
+| Audit trail and evidence | [Evidence and audit tools](enterprise/evidence/README.md). AU-9 and AU-12. Tests exercise event integrity, checkpoint binding and detached Ed25519 verification. The workflow exports JSON and Markdown and retains check outcomes and digests. | Verify the trusted checkpoint and verifier key, access to raw diagnostics, evidence retention, and delivery to the production collector. The assessor determines how the evidence applies to the operating period and control scope. |
+| Supply chain | [Supply-chain tools](enterprise/supply/README.md). SSDF PS.2 and PS.3. Local checks cover hashes, npm archive integrity, binary allowances and signed payload bindings. CI exports a CycloneDX inventory of declared lab images. | Generate the SBOM from the actual build inputs and outputs, verify the signer and builder, and assess build provenance. The signed inventory and example workflows do not assign a SLSA level. |
+| Credential lifecycle and KMS rotation | [Rotation reference](enterprise/rotation/README.md). IA-5 and SC-12. Synthetic tests cover scope, expiry, activation, ambiguous outcomes and retention of old key versions. | Verify real Vault or cloud KMS permissions, workload identity, atomic provider reservations, lease revocation, old-key recovery and emergency rollback. |
+| Workload hardening and Java response | [Runtime guide](enterprise/runtime/README.md). CM-6 and SI-2. Offline checks bind vendor findings to inventory and confirm a recorded rollout against the expected build, artifact and replacement process. The shipped Helm, OpenTofu and Falco examples are source reviewed. | Validate actual rendering, network and admission enforcement, the active workload profiles and runtime signals. Follow the vendor advisory for CVE-2026-114938, update each affected JVM and verify the running version after restart. |
+
+The current report keeps local passes, source review, skipped checks and external work visible as separate outcomes. Audit mappings are preparation for an assessment. Production assurance requires evidence from the deployed system.
+
+### Endpoint protection recommendation
+
+The [README recommendation](README.md#kaspersky-endpoint-protection) treats endpoint protection as a deployment choice. Confirm supported updates, vendor trust, procurement restrictions and telemetry handling before installation. Endpoint scan observations, release integrity and the enterprise control tests each retain their own evidence.
+
 ## Subscription offers and entitlement grants
 
 The [billing offer reference](reference/README.md#subscription-offer-eligibility) applies eligibility checks before recording a promotional entitlement. The backend matches the authenticated account and a provider-verified purchase against an explicit campaign policy. Client catalog entries, UI visibility and offer identifiers are untrusted inputs.

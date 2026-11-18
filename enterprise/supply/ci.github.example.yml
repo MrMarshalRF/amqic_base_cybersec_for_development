@@ -1,0 +1,30 @@
+name: Verify signed release subject
+
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  verify:
+    runs-on: [self-hosted, linux, amqic-supply-isolated]
+    environment: supply-verification
+    timeout-minutes: 10
+    env:
+      SUPPLY_TOOL: ${{ vars.AMQIC_SUPPLY_TOOL }}
+      PAYLOAD_DIR: ${{ vars.AMQIC_SUPPLY_PAYLOAD_DIR }}
+      BINARY_POLICY: ${{ vars.AMQIC_SUPPLY_BINARY_POLICY }}
+      INVENTORY: ${{ vars.AMQIC_SUPPLY_INVENTORY }}
+      INVENTORY_SIGNATURE: ${{ vars.AMQIC_SUPPLY_SIGNATURE }}
+      TRUSTED_PUBLIC_KEY: ${{ vars.AMQIC_SUPPLY_PUBLIC_KEY }}
+      SOURCE_COMMIT: ${{ vars.AMQIC_SUPPLY_SOURCE_COMMIT }}
+    steps:
+      - name: Verify the signed subject and its npm lock inventory
+        shell: bash
+        run: |
+          set -eu
+          node "$SUPPLY_TOOL" verify "$PAYLOAD_DIR" "$BINARY_POLICY" "$INVENTORY" "$INVENTORY_SIGNATURE" "$TRUSTED_PUBLIC_KEY" "$SOURCE_COMMIT"
+          bom="$(mktemp)"
+          trap 'rm -- "$bom"' EXIT
+          node "$SUPPLY_TOOL" sbom "$PAYLOAD_DIR/package-lock.json" > "$bom"
+          cmp "$bom" "$PAYLOAD_DIR/bom.cdx.json"

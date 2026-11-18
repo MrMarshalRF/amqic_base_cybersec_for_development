@@ -1,0 +1,62 @@
+{
+  "automountServiceAccountToken": false,
+  "enableServiceLinks": false,
+  "hostNetwork": false,
+  "hostPID": false,
+  "hostIPC": false,
+  "nodeSelector": {
+    "kubernetes.io/os": "linux"
+  },
+  "securityContext": {
+    "runAsNonRoot": true,
+    "runAsUser": 10001,
+    "runAsGroup": 10001,
+    "fsGroup": 10001,
+    "seccompProfile": {
+      "type": "RuntimeDefault"
+    },
+    "appArmorProfile": {
+      "type": "RuntimeDefault"
+    }
+  },
+  "containers": [
+    {
+      "name": "java",
+      "imagePullPolicy": "IfNotPresent",
+      "securityContext": {
+        "privileged": false,
+        "allowPrivilegeEscalation": false,
+        "readOnlyRootFilesystem": true,
+        "capabilities": {
+          "drop": [
+            "ALL"
+          ]
+        }
+      },
+      "volumeMounts": [
+        {
+          "name": "tmp",
+          "mountPath": "/tmp"
+        }
+      ],
+      "resources": {
+        "requests": {
+          "cpu": "100m",
+          "memory": "128Mi"
+        },
+        "limits": {
+          "cpu": "500m",
+          "memory": "512Mi"
+        }
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "tmp",
+      "emptyDir": {
+        "sizeLimit": "64Mi"
+      }
+    }
+  ]
+}
