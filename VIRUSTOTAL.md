@@ -1,6 +1,6 @@
 # VirusTotal current file register
 
-All 191 ordinary files have matching completed analysis observations. Three generated metadata files have external integrity references.
+188 ordinary files have matching completed observations. Three changed files are pending scans. Three generated metadata files have external integrity references.
 
 Completed analysis on file does not mean every engine passed. Unsupported types are not successful checks. Undetected is not proof of safety or a source-code security audit. Per-file dates identify cached observations.
 
@@ -8,7 +8,7 @@ Generated reports are hashed by SHA256SUMS; the registry excludes itself and req
 
 Engine unavailable denotes the original provider failure category. Timeouts and unsupported types remain partial engine coverage; none is a successful check. Raw JSON retains original categories and every engine observation.
 
-Category totals: malicious=0, suspicious=0, harmless=0, undetected=11564, type-unsupported=2601, failure=22, timeout=60, confirmed-timeout=0
+Category totals: malicious=0, suspicious=0, harmless=0, undetected=11380, type-unsupported=2561, failure=22, timeout=60, confirmed-timeout=0
 
 | File | Status | SHA-256 / report | Malicious | Suspicious | Harmless | Undetected | Unsupported | Engine unavailable (failure) | Timeout | Confirmed timeout | Analysis time (UTC) |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
@@ -120,7 +120,7 @@ Category totals: malicious=0, suspicious=0, harmless=0, undetected=11564, type-u
 | infra/protected-paths.json | completed | [c9bf1bffbe63a63f116a48267c874ee582cd5aa04a0ddef16c95a61cdf6842bf](https://www.virustotal.com/gui/file/c9bf1bffbe63a63f116a48267c874ee582cd5aa04a0ddef16c95a61cdf6842bf) | 0 | 0 | 0 | 60 | 13 | 0 | 1 | 0 | 2026-11-15T23:40:24+00:00 |
 | infra/ssh/00-security.conf.template | completed | [4b5569e91e23b4bec57e6d3942c5f91975caa9ead1eccb3c151a10ca36fc4f30](https://www.virustotal.com/gui/file/4b5569e91e23b4bec57e6d3942c5f91975caa9ead1eccb3c151a10ca36fc4f30) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-13T09:48:10+00:00 |
 | lab/admission.README.md | completed | [97c93c64ffdc59f2fe7e58318474d960d3a203e430cb6d6a9612fa702d28e736](https://www.virustotal.com/gui/file/97c93c64ffdc59f2fe7e58318474d960d3a203e430cb6d6a9612fa702d28e736) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-13T09:48:26+00:00 |
-| lab/all-local.mjs | completed | [b2286aeffe9b90d5808aecf3c940f443daa7e48230fb0baef17e06c3abe1817a](https://www.virustotal.com/gui/file/b2286aeffe9b90d5808aecf3c940f443daa7e48230fb0baef17e06c3abe1817a) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-15T12:08:13+00:00 |
+| lab/all-local.mjs | pending_scan | [0f8c629a2e708f35a9f21314238f9a759452ac3cc7c583cc459735a03f5d6146](https://www.virustotal.com/gui/file/0f8c629a2e708f35a9f21314238f9a759452ac3cc7c583cc459735a03f5d6146) | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 | lab/all-local.test.mjs | completed | [cf3a33c9823daad3aa4fec99e41715cd85d5236fdf2f1686c3ace74104f036d6](https://www.virustotal.com/gui/file/cf3a33c9823daad3aa4fec99e41715cd85d5236fdf2f1686c3ace74104f036d6) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-15T12:08:29+00:00 |
 | lab/cache-fixtures/proxy.conf | completed | [b62268144241b2304ba5fef0176ae1f21535e41fc9ef65b9bab7bcd2010dead8](https://www.virustotal.com/gui/file/b62268144241b2304ba5fef0176ae1f21535e41fc9ef65b9bab7bcd2010dead8) | 0 | 0 | 0 | 61 | 14 | 0 | 0 | 0 | 2026-11-14T16:18:39+00:00 |
 | lab/cache-fixtures/upstream.conf | completed | [75dfb06bebc8abc44b77b9a5bea155616681f7a15c43eda5aaffb9b23274f9f5](https://www.virustotal.com/gui/file/75dfb06bebc8abc44b77b9a5bea155616681f7a15c43eda5aaffb9b23274f9f5) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-13T09:49:30+00:00 |
@@ -129,7 +129,7 @@ Category totals: malicious=0, suspicious=0, harmless=0, undetected=11564, type-u
 | lab/database-verify.mjs | completed | [87e2079b77e9063d4a615da13cf2b735a1ba3f4911370d70fa217fd259771680](https://www.virustotal.com/gui/file/87e2079b77e9063d4a615da13cf2b735a1ba3f4911370d70fa217fd259771680) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-15T12:32:51+00:00 |
 | lab/database.README.md | completed | [e6ce707c4d1ce6c11e25c3a4b5b06fe0db4dfc39262e87e0143c786ecd8d158d](https://www.virustotal.com/gui/file/e6ce707c4d1ce6c11e25c3a4b5b06fe0db4dfc39262e87e0143c786ecd8d158d) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-15T12:09:01+00:00 |
 | lab/host-requirements.md | completed | [493af27362a871fed0f14432f02fd80a411e7c9387e62587c636a3cce6f56d76](https://www.virustotal.com/gui/file/493af27362a871fed0f14432f02fd80a411e7c9387e62587c636a3cce6f56d76) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-13T09:50:18+00:00 |
-| lab/infra-fixtures/Dockerfile | completed | [5aa53d08d05fb16dccdcfac34bfdfb58a4ccf84a5733c658f26e2d828dc2a543](https://www.virustotal.com/gui/file/5aa53d08d05fb16dccdcfac34bfdfb58a4ccf84a5733c658f26e2d828dc2a543) | 0 | 0 | 0 | 61 | 14 | 0 | 0 | 0 | 2026-11-13T09:50:34+00:00 |
+| lab/infra-fixtures/Dockerfile | pending_scan | [355f33b68d78d728b692ec359e16f27f1bc111557f937e5eb3d11750b31e9238](https://www.virustotal.com/gui/file/355f33b68d78d728b692ec359e16f27f1bc111557f937e5eb3d11750b31e9238) | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 | lab/infra-fixtures/probes.py | completed | [4e2c3b3c8129c72c3329ff17434020a5dc4c1c8fbb1bcd1f4a17cc4cd2e886b7](https://www.virustotal.com/gui/file/4e2c3b3c8129c72c3329ff17434020a5dc4c1c8fbb1bcd1f4a17cc4cd2e886b7) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-14T12:46:24+00:00 |
 | lab/infra-fixtures/runtime-probe.c | completed | [86a1a4fa606db9bc74ca8cd454bd7c9d55ddac0544cc2fadd9569e54452fb033](https://www.virustotal.com/gui/file/86a1a4fa606db9bc74ca8cd454bd7c9d55ddac0544cc2fadd9569e54452fb033) | 0 | 0 | 0 | 61 | 14 | 0 | 0 | 0 | 2026-11-13T09:51:06+00:00 |
 | lab/infra-verify.mjs | completed | [d2c233360c8539da7a69e20e7635a2279ec415ee310c8c11e67f27fba8928845](https://www.virustotal.com/gui/file/d2c233360c8539da7a69e20e7635a2279ec415ee310c8c11e67f27fba8928845) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-14T16:19:11+00:00 |
@@ -143,7 +143,7 @@ Category totals: malicious=0, suspicious=0, harmless=0, undetected=11564, type-u
 | lab/run-lab.mjs | completed | [921c50d53098913122bc352c12a123aeea1b408b663d7403ad3792a89a97377e](https://www.virustotal.com/gui/file/921c50d53098913122bc352c12a123aeea1b408b663d7403ad3792a89a97377e) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-13T09:53:30+00:00 |
 | lab/run-shell.test.mjs | completed | [58381fd47a390c1560d4cb12e87938e1147d6d863601b193b09ff93d71c3cda7](https://www.virustotal.com/gui/file/58381fd47a390c1560d4cb12e87938e1147d6d863601b193b09ff93d71c3cda7) | 0 | 0 | 0 | 61 | 14 | 0 | 0 | 0 | 2026-11-14T17:21:57+00:00 |
 | lab/run.sh | completed | [6a849d047d544dc467677c139cb17fdc4630c9fa01b7bf01e01357fa744116a1](https://www.virustotal.com/gui/file/6a849d047d544dc467677c139cb17fdc4630c9fa01b7bf01e01357fa744116a1) | 0 | 0 | 0 | 61 | 14 | 0 | 0 | 0 | 2026-11-13T09:54:02+00:00 |
-| lab/scenarios.json | completed | [f0364d7acfd49ef438fbe3ddae09ac60401b3efcfa77b4990b5ec0d50da59acc](https://www.virustotal.com/gui/file/f0364d7acfd49ef438fbe3ddae09ac60401b3efcfa77b4990b5ec0d50da59acc) | 0 | 0 | 0 | 61 | 13 | 0 | 0 | 0 | 2026-11-18T11:31:43+00:00 |
+| lab/scenarios.json | pending_scan | [8a33f9a4379e8c51674280d14444a54b7a92172dac56cce154015b5d658446d8](https://www.virustotal.com/gui/file/8a33f9a4379e8c51674280d14444a54b7a92172dac56cce154015b5d658446d8) | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 | lab/upload-isolation-verify.mjs | completed | [054f8ed40a3d04717418b44e2455c4fb01fb3da050da9290a91c3888c2ab3be5](https://www.virustotal.com/gui/file/054f8ed40a3d04717418b44e2455c4fb01fb3da050da9290a91c3888c2ab3be5) | 0 | 0 | 0 | 62 | 13 | 0 | 0 | 0 | 2026-11-13T09:54:35+00:00 |
 | lab/upload-isolation.README.md | completed | [50400b21ccf752550224c37eb7e05ad39b4dcee103ac4bee16f2f93440e5ea7e](https://www.virustotal.com/gui/file/50400b21ccf752550224c37eb7e05ad39b4dcee103ac4bee16f2f93440e5ea7e) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-14T16:19:59+00:00 |
 | lab/upload-pipeline.README.md | completed | [452f5119f31fd28454c381576219374be12e1ea24a0158058386a3517022803a](https://www.virustotal.com/gui/file/452f5119f31fd28454c381576219374be12e1ea24a0158058386a3517022803a) | 0 | 0 | 0 | 60 | 15 | 0 | 0 | 0 | 2026-11-13T09:55:06+00:00 |
