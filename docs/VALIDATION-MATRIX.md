@@ -146,3 +146,5 @@ Platform-specific skips are retained in the test reports. A file can be checked 
 | [reference/field-encryption.mjs](../reference/field-encryption.mjs) | node-tests, node-syntax | Authenticated field-envelope implementation and injected KMS contract; local fixture validation only. |
 | [reference/field-encryption.test.mjs](../reference/field-encryption.test.mjs) | node-tests, node-syntax | Real authenticated crypto with synthetic KMS adapters, authorization and tamper regressions. |
 | [reference/field-encryption.README.md](../reference/field-encryption.README.md) | coverage-membership, sha256-registry | Provider/envelope API, context, rotation and memory limitations. |
+| [reference/billing-offer.mjs](../reference/billing-offer.mjs) | node-syntax, node-tests | Synthetic provider adapter, eligibility checks and shared SQLite one-time claims. |
+| [reference/billing-offer.test.mjs](../reference/billing-offer.test.mjs) | node-syntax, node-tests | Synthetic provider adapter, eligibility checks and shared SQLite one-time claims. |

@@ -2,6 +2,12 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.4.0
+
+- Update README.
+- Expand the November threat report and map the subscription offer controls in SECURITY.md.
+- Add a provider-neutral billing offer guard with backend purchase verification, an explicit offer allowlist, and a single atomic trial claim per account and campaign.
+
 ## v1.3.2
 
 ### Attribution

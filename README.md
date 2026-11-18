@@ -5,6 +5,13 @@
 [![GitHub forks](https://img.shields.io/github/forks/MrMarshalRF/amqic_base_cybersec_for_development?style=flat)](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/forks)
 [![GitHub issues](https://img.shields.io/github/issues/MrMarshalRF/amqic_base_cybersec_for_development?style=flat)](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/issues)
 
+[![AMQIC Website](https://img.shields.io/badge/AMQIC-Website-2155a3)](https://amqic.ai)
+[![AMQIC X](https://img.shields.io/badge/AMQIC-X-000000?logo=x&logoColor=white)](https://x.com/alexmus_amqic)
+[![AMQIC Telegram](https://img.shields.io/badge/AMQIC-Telegram-229ED9?logo=telegram&logoColor=white)](https://t.me/amqic)
+[![AMQIC VK](https://img.shields.io/badge/AMQIC-VK-0077FF?logo=vk&logoColor=white)](https://vk.ru/amqic)
+[![AMQIC YouTube](https://img.shields.io/badge/AMQIC-YouTube-CC0000?logo=youtube&logoColor=white)](https://www.youtube.com/@amqic)
+[![AMQIC Instagram](https://img.shields.io/badge/AMQIC-Instagram-C13584?logo=instagram&logoColor=white)](https://www.instagram.com/alex_mus96/)
+
 > **You can verify every release file.** First authenticate the signed [SHA256SUMS](SHA256SUMS) registry through [AMQIC verification](https://amqic.ai/pages/request-verification). Then compare the SHA-256 of each release file with its registry entry.
 >
 > The [VirusTotal scan register](VIRUSTOTAL.md) lists current repository files, exact file hashes and matching scan observations. The [JSON report](VIRUSTOTAL.json) includes individual engine results. Pending scans and generated metadata are identified separately; compare the exact hash before relying on a result.
@@ -17,7 +24,7 @@ Repository copyright holder — **amqic.ai**. License — [MIT](LICENSE).
 
 Developer — **Aleksei Musienko**
 
-Quantum Information & Artificial Intelligence & Mathematical Physics Scientist | Chief Scientist & Head of AMQIC | Q-Developer & SEC Architect | [amqic.ai](https://amqic.ai)
+Quantum Information, Artificial Intelligence, Mathematical Physics Scientist | Chief Scientist and Head of AMQIC | Q-Developer | SEC Architect (Blue Team; defensive-focused Purple Team) | PQC Architect
 
 AI-assisted development, testing, and review — **[OpenAI Codex](https://openai.com/codex/)**, under the direction of the project maintainer.
 
@@ -51,6 +58,12 @@ This is an independent external resource recommendation. This kit provides no Sa
 [Stonecell.AI](https://stonecell.ai/) presents **SPFsmartGATE** as a local, Rust-based MCP security gateway for applying policies to AI-agent actions. Consider it when evaluating additional controls around agent tools and permitted paths.
 
 At the time of this recommendation, the vendor labels the product pre-release. Check current availability and review which tool calls, paths and data flows it actually governs before adopting it.
+
+## Self-hosted AI workflows
+
+### RagLeap Core
+
+[RagLeap Core](https://github.com/ragleap/ragleap-core) is an open-source project for self-hosted AI agents and document-grounded workflows. Consider it for workflows that need human approvals before agent actions. Review the project's permissions and data flows for your deployment. AMQIC maintainer Aleksei Musienko helped improve the project.
 
 ## Computer vision and desktop automation
 
@@ -234,11 +247,13 @@ Secret detection is limited to supported text formats and known patterns. Manual
 
 `check_versions.py` distinguishes the current environment, lockfile/requirements versions, and dated official metadata. Its report separately shows the latest release, the current patch in the selected branch, support status, and available withdrawn-release information. Private package names are not sent over the network automatically. Updates go through quarantine, compatibility review, and the normal tests. See the [version guide](docs/VERSIONS.md).
 
+## Subscription offer eligibility
+
+The [billing offer guard](reference/README.md#subscription-offer-eligibility) enforces account eligibility and authorized offer selection before issuing a trial entitlement. The reference uses a trusted purchase verification adapter and an atomic SQLite claim record to prevent duplicate grants.
+
 ## Operational threat data
 
-[Vallatum-collected telemetry from AMQIC's public site](THREAT-DATA.md) covers 22 October–12 November 2026. It records **17,872 Block decisions** and **787 Managed Challenges**. The Block total includes **8,106 temporary maintenance access denials** and **9,766 decisions from other rules**.
-
-The full report includes the daily chart, **514 distinct scanner and sensitive-target paths**, collection limits, and an investigated origin sample with 71 responses of 404 and one public landing-page response of 200. These are request-level policy observations from the site's deployment, with maintenance activity and sampled diagnostics kept separate. They provide operational context for this kit; the report explains what the data can and cannot establish.
+[Vallatum telemetry from AMQIC's public site](THREAT-DATA.md) covers 27 UTC dates, from 22 October through 17 November 2026. Cloudflare reported **21,296 Block decisions** and **968 Managed Challenges**. The Block total includes **8,106** attributed to the tracked maintenance rule and **13,190** from other rules. These counts describe policy decisions on requests. The separate filtered sample for 12–17 November contains **235 distinct public paths or redacted aliases**, with **1,680 Blocks** and **14 Managed Challenges**. Its counts come from returned, adaptively sampled groups. The report also includes the daily chart, a separate origin sample and collection limits.
 
 ## Verification and readiness boundaries
 

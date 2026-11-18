@@ -774,6 +774,27 @@
       ],
       "operational_scope": "Local PostgreSQL and synthetic KMS fixtures do not establish a live provider policy or production failover.",
       "external_manual_integration": "Verify exact application principals, grants, TLS, KMS context/keys, old-key restore and replica/failover persistence in the intended environment."
+    },
+    {
+      "id": "billing-offer-eligibility",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 Rev. 5 AC-3",
+        "NIST SP 800-53 Rev. 5 SI-10"
+      ],
+      "expected_result": "Only an eligible matching purchase can issue one initial entitlement.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic verified purchase adapter and shared SQLite claim ledger. Provider API, lifecycle, and live billing deployment require separate integration.",
+      "external_manual_integration": "Synthetic verified purchase adapter and shared SQLite claim ledger. Provider API, lifecycle, and live billing deployment require separate integration.",
+      "required": true
     }
   ],
   "tool_build": {

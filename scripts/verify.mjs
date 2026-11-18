@@ -96,7 +96,7 @@ report.python = py.status === 0 ? py.stdout.toString('utf8').trim() : null;
 command('node-syntax', process.execPath, ['--check', 'scripts/verify.mjs']);
 command('node-tests', process.execPath, ['--experimental-sqlite', '--test', '--test-concurrency=1',
   'reference/core.test.mjs', 'reference/login-client.test.mjs', 'reference/pii-input.test.mjs', 'reference/session-authorization.test.mjs',
-  'reference/admission.test.mjs', 'reference/field-encryption.test.mjs',
+  'reference/admission.test.mjs', 'reference/field-encryption.test.mjs', 'reference/billing-offer.test.mjs',
   'reference/upload-pipeline.test.mjs', 'reference/clamd-client.test.mjs', 'lab/web-app.test.mjs', 'lab/lifecycle.test.mjs', 'lab/all-local.test.mjs', 'lab/run-shell.test.mjs', 'scripts/test_crypto.mjs']);
 command('core-demo', process.execPath, ['--experimental-sqlite', 'reference/demo.mjs']);
 for (const [id, path] of [

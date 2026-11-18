@@ -872,6 +872,22 @@
       "scope": "Synthetic admission, replay and Redis response unit regressions; no live Redis service claim."
     },
     {
+      "path": "reference/billing-offer.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic verified purchase adapter, policy rejection and shared SQLite one-time claim tests. Provider integration is separate."
+    },
+    {
+      "path": "reference/billing-offer.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic verified purchase adapter, policy rejection and shared SQLite one-time claim tests. Provider integration is separate."
+    },
+    {
       "path": "reference/clamd-client.mjs",
       "category": "executable",
       "checks": [

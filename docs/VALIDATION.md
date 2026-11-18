@@ -1,5 +1,9 @@
 # Verification results and scope
 
+## Subscription offer eligibility
+
+The synthetic billing tests exercise verified account binding, active purchase state, exact offer selection, expiry and campaign eligibility. Two SQLite connections check single issuance, idempotent retry, cross-account replay rejection and the one-claim-per-campaign rule. The baseline runner includes these tests. Provider integration and refund, renewal and revocation handling must be verified separately.
+
 ## Edge/origin boundary candidate — v1.3.1
 
 The registry preserves the prior 146 entries and adds 12 canonical technical paths, for 158 total. A successful isolated Nginx run checked all 158 for exact `403`, with separate canonical/encoded/traversal controls. A deliberately permissive synthetic `^~ /assets/admin/` owner returned `200` for ordinary JavaScript/CSS, benign filename near-matches and a query-only source-map mention, while nested/case/slash/encoding map variants returned `403` before static dispatch. The permissive owner is a test fixture, not a new public route in the portable template.

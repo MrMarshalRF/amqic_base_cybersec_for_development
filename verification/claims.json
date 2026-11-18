@@ -462,6 +462,25 @@
         "OWASP Database Security"
       ],
       "limits": "AES-256-GCM authenticated envelope with tenant/record/field/version binding and trusted KMS/authorization ports. Synthetic providers do not establish live KMS/IAM policy."
+    },
+    {
+      "id": "billing-offer-eligibility",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "reference/billing-offer.mjs",
+        "reference/billing-offer.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 Rev. 5 AC-3",
+        "NIST SP 800-53 Rev. 5 SI-10"
+      ],
+      "limits": "Synthetic verified purchase adapter and shared SQLite claim ledger. Provider API, lifecycle, and live billing deployment require separate integration.",
+      "lab_scenarios": [
+        "billing-offer-eligibility"
+      ]
     }
   ]
 }

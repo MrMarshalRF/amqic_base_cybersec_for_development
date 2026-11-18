@@ -1,16 +1,20 @@
 # Threat Data
 
-**21 days of retained telemetry from one public site: 17,872 recorded Block decisions and 787 Managed Challenges.**  
-**Of those Block decisions, 8,106 came from temporary maintenance access restrictions; 9,766 came from other rules.**  
+**27 UTC dates of telemetry from one public site: 21,296 reported Block decisions and 968 Managed Challenges.**
+
+**Of those Block decisions, 8,106 were attributed to the tracked maintenance rule; 13,190 came from other rules.**
+
 **One investigated scan reached the origin with 72 requests: 71 returned 404, and the public landing page returned 200.**
 
 **Cybersecurity of AMQIC powered by Vallatum.**
 
 Aggregate observations from the public website's scanner-defense operation.
 
-**Observation period:** 22 October 2026, 09:30 UTC–12 November 2026, 18:00 UTC.  
-**Dataset cutoff:** 12 November 2026, 18:00 UTC.  
-**Source:** retained Cloudflare security-event aggregates and a bounded diagnostic sample collected by the site's security monitor.
+**Observation period:** 22 October 2026, 09:30 UTC–18 November 2026, 00:00 UTC.
+
+**Dataset cutoff:** 18 November 2026, 00:00 UTC.
+
+**Source:** retained Cloudflare security-event aggregates and a bounded diagnostic sample through 12 November at 18:00 UTC; direct Cloudflare Security Events aggregates for the subsequent six intervals.
 
 The retained record starts while the public domain was serving a placeholder and continues through subsequent application releases. It covers the available public-site operation history. The exact initial launch timestamp has not been independently established, so this document makes no claim about activity before the first retained interval.
 
@@ -18,21 +22,21 @@ The retained record starts while the public domain was serving a placeholder and
 
 | Action | Provider-reported count |
 |---|---:|
-| Requests with a Block action | 17,872 |
-| Requests with a Managed Challenge action | 787 |
+| Requests with a Block action | 21,296 |
+| Requests with a Managed Challenge action | 968 |
 | Managed Challenge events marked non-interactively solved | 11 |
 | Managed Challenge events marked bypassed | 24 |
 | Log-only events | 2 |
 
-The headline observation is **17,872 recorded Block decisions**, including **8,106 temporary maintenance access denials** and **9,766 decisions from other rules**. These are request-level decisions. They do not establish 17,872 separate attacks, distinct actors, or confirmed malicious visitors.
+The headline observation is **21,296 reported Block decisions**, including **8,106 attributed to the tracked temporary maintenance rule** and **13,190 from other rules**. The update adds **3,424 Blocks and 181 Managed Challenges** without overlapping the initial archive. These are request-level decisions. The number of distinct attacks, actors, and confirmed malicious visitors remains unknown.
 
 The challenge counts describe recorded actions and outcomes. A challenge being issued does not establish that it was failed. The outcome categories are retained separately and are not added to the block count.
 
-177,804 Skip events are scoped exceptions (authenticated monitoring, machine API, managed-rule) and are excluded from threat totals.
+250,251 reported Skip events are excluded from threat totals. The historical archive describes scoped exceptions such as authenticated monitoring, machine API and managed-rule exclusions.
 
 ## Daily defensive-action counts
 
-Dates are UTC. The first and last dates are partial days.
+Dates are UTC. The first date is partial. On 12 November, the table combines two disjoint intervals at the 18:00 UTC cutoff. The chart marks the boundary of the direct-query update.
 
 ![Daily Block decisions and Managed Challenges, with maintenance-policy denials shown separately](assets/threat-data-daily.png)
 
@@ -59,8 +63,13 @@ Dates are UTC. The first and last dates are partial days.
 | 2026-11-09 | 192 | 6 |
 | 2026-11-10 | 100 | 0 |
 | 2026-11-11 | 349 | 4 |
-| 2026-11-12 | 163 | 45 |
-| **Total** | **17,872** | **787** |
+| 2026-11-12 | 250 | 51 |
+| 2026-11-13 | 484 | 28 |
+| 2026-11-14 | 333 | 11 |
+| 2026-11-15 | 1,288 | 82 |
+| 2026-11-16 | 632 | 44 |
+| 2026-11-17 | 600 | 10 |
+| **Total** | **21,296** | **968** |
 
 A zero in this table means no action of that type was reported in the retained intervals for that date. It does not establish absence of attempts or traffic.
 
@@ -68,12 +77,12 @@ A zero in this table means no action of that type was reported in the retained i
 
 All 5,630 Block decisions on November 3 came from the temporary owner-only maintenance rule. On November 4, the four Block decisions came from the unexpected-port rule. Both dates have a full 24 hours of retained coverage, with no query-limit hit. The change in the chart is a change in the observed policy decisions; it does not establish that attacks fell by the same amount or that a particular fix caused the decline.
 
-Across the complete period, the maintenance rule produced 2,450 denials on November 2, 5,630 on November 3 and 26 on November 9. These are explicitly separated in the chart.
+The tracked maintenance rule produced 2,450 denials on November 2, 5,630 on November 3 and 26 on November 9. These are explicitly separated in the chart.
 
 ## Scanner and sensitive-target probes
 
 This register retains only requests targeting credential files, configuration and diagnostics, database exports, backups, development artifacts, or endpoints associated with unsupported software stacks. Ordinary pages, SEO endpoints, public APIs, published media, fonts, brand assets and routine authentication navigation have been removed. Ambiguous clean navigation paths are omitted.
-The filtered register contains **514 distinct path strings and 1,680 stored records**: **1,537 Block records** and **143 Managed Challenge records**. These figures describe the retained diagnostic sample. They do not alter the full security-action totals above.
+The historical filtered register (through 12 November at 18:00 UTC) contains **514 distinct path strings and 1,680 stored records**: **1,537 Block records** and **143 Managed Challenge records**. These figures describe the retained diagnostic sample. They do not alter the full security-action totals above.
 
 Paths preserve observed spelling, case, encoding and repeated separators. Opaque identifiers remain replaced. Entry IDs retain their source-snapshot numbering, so gaps are intentional. Appearance here identifies the type of probe; it does not identify its operator or establish successful access.
 
@@ -606,6 +615,286 @@ Keep credentials, repository metadata and backups outside the served document ro
 
 Validate each path against the site's intended public routes before implementing a rule. Public configuration files and environment examples may be intentional. Preserve working APIs and required well-known resources. Verify normalization, denial responses and rollback with controlled fixtures.
 
+## Scanner target update, 12–17 November
+
+The original daily path queries for 15 and 16 November reached the 350-group cap. The table below replaces those two daily results with disjoint six-hour queries. The historical diagnostic register above uses a separate collection method.
+
+| Target family | Reported Block count | Reported Managed Challenge count |
+|---|---:|---:|
+| Environment files (/.env and variants) | 1,253 | 0 |
+| Version control (/.git/config, /.git/HEAD, /.svn/wc.db) | 101 | 0 |
+| Diagnostic endpoints (/actuator/env, /phpinfo.php) | 91 | 3 |
+| Database dumps and backups (/db.sql, /config.json.bak) | 77 | 4 |
+| Configuration files (/config.json, /api/config.php) | 72 | 7 |
+| Cloud or SSH credentials (/.aws/credentials, /.ssh/id_*) | 47 | 0 |
+| WordPress probes (/wp-login.php, /wp-config.php, /wp-json/) | 39 | 0 |
+
+None of the replacement six-hour queries reached the cap; the largest returned 299 groups. Cloudflare reported adaptive sampling in 9 of 12 retained intervals. The independent action totals and daily chart are unchanged. [Cloudflare Security Events sampling](https://developers.cloudflare.com/waf/analytics/security-events/#sampling)
+
+### Detailed paths in the returned sample
+
+The table includes every qualifying returned group. **235 distinct public paths or aliases** account for **1,680 Blocks** and **14 Managed Challenges** in this filtered query. Known technical segments preserve their observed case and percent encoding. Other segments appear as `{redacted}`; counts are combined when multiple paths map to the same alias. Routine routes are excluded. Redacted groups account for 622 Blocks and 4 Managed Challenges.
+
+| UTC interval | Returned action/path groups | Distinct qualifying paths in that interval | Query cap reached |
+|---|---:|---:|---|
+| 2026-11-12 18:00–24:00 | 61 | 28 | No |
+| 2026-11-13 00:00–24:00 | 235 | 102 | No |
+| 2026-11-14 00:00–24:00 | 166 | 74 | No |
+| 2026-11-15 00:00–06:00 | 76 | 41 | No |
+| 2026-11-15 06:00–12:00 | 1 | 0 | No |
+| 2026-11-15 12:00–18:00 | 122 | 38 | No |
+| 2026-11-15 18:00–24:00 | 299 | 104 | No |
+| 2026-11-16 00:00–06:00 | 22 | 3 | No |
+| 2026-11-16 06:00–12:00 | 38 | 5 | No |
+| 2026-11-16 12:00–18:00 | 243 | 132 | No |
+| 2026-11-16 18:00–24:00 | 92 | 46 | No |
+| 2026-11-17 00:00–24:00 | 233 | 145 | No |
+
+A path can appear in multiple intervals. The following register combines identical public paths and aliases across all intervals.
+
+<details>
+<summary>Expand all 235 public paths and aliases from the update</summary>
+
+| Observed path or public alias | Reported Block count | Reported Managed Challenge count |
+|---|---:|---:|
+| <code>/{redacted}/.env</code> | 362 | 0 |
+| <code>/{redacted}</code> | 194 | 0 |
+| <code>/.env</code> | 28 | 0 |
+| <code>/.git/HEAD</code> | 27 | 0 |
+| <code>/.git/config</code> | 24 | 0 |
+| <code>/.env.local</code> | 22 | 0 |
+| <code>/.env.production</code> | 19 | 0 |
+| <code>/phpinfo.php</code> | 19 | 0 |
+| <code>/.env.save</code> | 17 | 0 |
+| <code>/.env.old</code> | 16 | 0 |
+| <code>/.env.bak</code> | 15 | 0 |
+| <code>/admin/.env</code> | 15 | 0 |
+| <code>/api/.env</code> | 15 | 0 |
+| <code>/cms/.env</code> | 15 | 0 |
+| <code>/core/.env</code> | 15 | 0 |
+| <code>/.env.development</code> | 14 | 0 |
+| <code>/.env.staging</code> | 14 | 0 |
+| <code>/.env.example</code> | 13 | 0 |
+| <code>/lib/.env</code> | 13 | 0 |
+| <code>/.env.backup</code> | 12 | 0 |
+| <code>/.env.docker</code> | 12 | 0 |
+| <code>/.env.php.bak</code> | 12 | 0 |
+| <code>/.env.production.local</code> | 12 | 0 |
+| <code>/.env.test</code> | 12 | 0 |
+| <code>/.svn/wc.db</code> | 12 | 0 |
+| <code>/config/.env</code> | 12 | 0 |
+| <code>/.aws/credentials</code> | 11 | 0 |
+| <code>/.docker/config.json</code> | 10 | 0 |
+| <code>/app/.env</code> | 10 | 0 |
+| <code>/laravel/.env</code> | 10 | 0 |
+| <code>/staging/.env</code> | 10 | 0 |
+| <code>/wp/.env</code> | 10 | 0 |
+| <code>/.env.development.local</code> | 9 | 0 |
+| <code>/.env.dist</code> | 9 | 0 |
+| <code>/assets/.env</code> | 9 | 0 |
+| <code>/backend/.env</code> | 9 | 0 |
+| <code>/config.php.bak</code> | 9 | 0 |
+| <code>/frontend/.env</code> | 9 | 0 |
+| <code>/gcp-credentials.json</code> | 9 | 0 |
+| <code>/lab/.env</code> | 9 | 0 |
+| <code>/v2/.env</code> | 9 | 0 |
+| <code>/wp-config.php.bak</code> | 9 | 0 |
+| <code>/{redacted}/api/.env</code> | 9 | 0 |
+| <code>/.env.dev</code> | 8 | 0 |
+| <code>/.github/.env</code> | 8 | 0 |
+| <code>/api/v2/.env</code> | 8 | 0 |
+| <code>/api/v3/.env</code> | 8 | 0 |
+| <code>/config.json</code> | 8 | 0 |
+| <code>/dev/.env</code> | 8 | 0 |
+| <code>/public/.env</code> | 8 | 0 |
+| <code>/src/.env</code> | 8 | 0 |
+| <code>/v1/.env</code> | 8 | 0 |
+| <code>/web/.env</code> | 8 | 0 |
+| <code>/%2eenv</code> | 7 | 0 |
+| <code>/.aws/config</code> | 7 | 0 |
+| <code>/admin/phpinfo.php</code> | 7 | 0 |
+| <code>/api/v1/.env</code> | 7 | 0 |
+| <code>/backup.sql</code> | 7 | 0 |
+| <code>/config.yml</code> | 7 | 0 |
+| <code>/config/gcp-credentials.json</code> | 7 | 0 |
+| <code>/credentials.json</code> | 7 | 0 |
+| <code>/server/.env</code> | 7 | 0 |
+| <code>/wp-login.php</code> | 7 | 0 |
+| <code>/.env.prod</code> | 6 | 0 |
+| <code>/.env.testing</code> | 6 | 0 |
+| <code>/.env_copy</code> | 6 | 0 |
+| <code>//xmlrpc.php</code> | 6 | 0 |
+| <code>/actuator/configprops</code> | 6 | 0 |
+| <code>/admin/config.json</code> | 0 | 6 |
+| <code>/api/.env/public/.env</code> | 6 | 0 |
+| <code>/backup/.env</code> | 6 | 0 |
+| <code>/cache/{redacted}/{redacted}/{redacted}/.env</code> | 6 | 0 |
+| <code>/deploy/.env</code> | 6 | 0 |
+| <code>/dump.sql</code> | 6 | 0 |
+| <code>/email/.env</code> | 6 | 0 |
+| <code>/static/.env</code> | 6 | 0 |
+| <code>/store/.env</code> | 6 | 0 |
+| <code>/wp-config.php</code> | 6 | 0 |
+| <code>/wp-config.php.old</code> | 6 | 0 |
+| <code>/.env.orig</code> | 5 | 0 |
+| <code>/.hg/hgrc</code> | 5 | 0 |
+| <code>/client/.env</code> | 5 | 0 |
+| <code>/config.php</code> | 5 | 0 |
+| <code>/production/.env</code> | 5 | 0 |
+| <code>/site/.env</code> | 5 | 0 |
+| <code>/storage/.env</code> | 5 | 0 |
+| <code>/tmp/phpinfo.php</code> | 5 | 0 |
+| <code>/.claude/settings.json</code> | 4 | 0 |
+| <code>/.env-example</code> | 4 | 0 |
+| <code>/.env.sample</code> | 4 | 0 |
+| <code>/actuator/env</code> | 4 | 0 |
+| <code>/actuator/heapdump</code> | 4 | 0 |
+| <code>/actuator/{redacted}</code> | 4 | 0 |
+| <code>/administrator/.env</code> | 4 | 0 |
+| <code>/api/phpinfo.php</code> | 4 | 0 |
+| <code>/beta/.env</code> | 4 | 0 |
+| <code>/database.sql</code> | 4 | 0 |
+| <code>/db.sql</code> | 4 | 0 |
+| <code>/dev/phpinfo.php</code> | 4 | 0 |
+| <code>/mysql/.env</code> | 4 | 0 |
+| <code>/smtp/phpinfo.php</code> | 4 | 0 |
+| <code>/stage/.env</code> | 4 | 0 |
+| <code>/tmp/.env</code> | 4 | 0 |
+| <code>/web.config</code> | 4 | 0 |
+| <code>/wordpress/.env</code> | 4 | 0 |
+| <code>/www/.env</code> | 4 | 0 |
+| <code>/{redacted}/settings.json</code> | 4 | 0 |
+| <code>/{redacted}/{redacted}/.env</code> | 4 | 0 |
+| <code>/.git/{redacted}</code> | 3 | 0 |
+| <code>/.ssh/{redacted}</code> | 3 | 0 |
+| <code>/.svn/entries</code> | 3 | 0 |
+| <code>/administrator/phpinfo.php</code> | 3 | 0 |
+| <code>/buildkite/.env</code> | 3 | 0 |
+| <code>/config/config.json</code> | 3 | 0 |
+| <code>/hosting/phpinfo.php</code> | 3 | 0 |
+| <code>/htdocs/phpinfo.php</code> | 3 | 0 |
+| <code>/includes/phpinfo.php</code> | 3 | 0 |
+| <code>/public/phpinfo.php</code> | 3 | 0 |
+| <code>/public_html/.env</code> | 3 | 0 |
+| <code>/server-status</code> | 0 | 3 |
+| <code>/shop/.env</code> | 3 | 0 |
+| <code>/var/www/.env</code> | 3 | 0 |
+| <code>/webmail/phpinfo.php</code> | 3 | 0 |
+| <code>/wp-config.old</code> | 3 | 0 |
+| <code>/{redacted}/config.yml</code> | 3 | 0 |
+| <code>/{redacted}/docs/.env</code> | 3 | 0 |
+| <code>/{redacted}/{redacted}</code> | 1 | 2 |
+| <code>/%2eenv.local</code> | 2 | 0 |
+| <code>/.aws/credentials.bak</code> | 2 | 0 |
+| <code>/.ENV</code> | 2 | 0 |
+| <code>/.env.1</code> | 2 | 0 |
+| <code>/.env.prod.local</code> | 2 | 0 |
+| <code>/.env/</code> | 2 | 0 |
+| <code>/.ssh/id_rsa</code> | 2 | 0 |
+| <code>/admin/.git/config</code> | 2 | 0 |
+| <code>/api/.env.bak</code> | 2 | 0 |
+| <code>/api/.git/config</code> | 2 | 0 |
+| <code>/api/config.php</code> | 2 | 0 |
+| <code>/app/.git/config</code> | 2 | 0 |
+| <code>/application.yml</code> | 2 | 0 |
+| <code>/aws/.env</code> | 2 | 0 |
+| <code>/backend/.git/config</code> | 2 | 0 |
+| <code>/backup.tar.gz</code> | 2 | 0 |
+| <code>/backup.zip</code> | 2 | 0 |
+| <code>/backup/.git/HEAD</code> | 2 | 0 |
+| <code>/config.yaml</code> | 2 | 0 |
+| <code>/config/.env.dev</code> | 2 | 0 |
+| <code>/config/.env.local</code> | 2 | 0 |
+| <code>/data/.env</code> | 2 | 0 |
+| <code>/demo/.env</code> | 2 | 0 |
+| <code>/docs/phpinfo.php</code> | 2 | 0 |
+| <code>/frontend/.git/config</code> | 2 | 0 |
+| <code>/htdocs/.env</code> | 2 | 0 |
+| <code>/info.php.bak</code> | 2 | 0 |
+| <code>/logs/.env</code> | 2 | 0 |
+| <code>/mail/phpinfo.php</code> | 2 | 0 |
+| <code>/media/.env</code> | 2 | 0 |
+| <code>/newsletter/.env</code> | 2 | 0 |
+| <code>/old/.env</code> | 2 | 0 |
+| <code>/postgres/.env</code> | 2 | 0 |
+| <code>/public/.git/config</code> | 2 | 0 |
+| <code>/rabbitmq/.env</code> | 2 | 0 |
+| <code>/server/.git/config</code> | 2 | 0 |
+| <code>/settings.json</code> | 2 | 0 |
+| <code>/settings.php</code> | 2 | 0 |
+| <code>/shared/.env</code> | 2 | 0 |
+| <code>/site/phpinfo.php</code> | 2 | 0 |
+| <code>/sitemaps/.env</code> | 2 | 0 |
+| <code>/studioserver/.git/config</code> | 2 | 0 |
+| <code>/test/phpinfo.php</code> | 2 | 0 |
+| <code>/uploads/.env</code> | 2 | 0 |
+| <code>/vendor/.env</code> | 2 | 0 |
+| <code>/web/.git/config</code> | 2 | 0 |
+| <code>/wp-admin/</code> | 2 | 0 |
+| <code>/wp-admin/css/{redacted}/wp-login.php</code> | 2 | 0 |
+| <code>/wp-content/{redacted}/wp-login.php</code> | 2 | 0 |
+| <code>/wp-includes/</code> | 2 | 0 |
+| <code>/wp-includes/{redacted}/wp-login.php</code> | 2 | 0 |
+| <code>/wp-json</code> | 2 | 0 |
+| <code>/www/.git/config</code> | 2 | 0 |
+| <code>/{redacted}/cache/config.php</code> | 2 | 0 |
+| <code>/{redacted}/config.json</code> | 2 | 0 |
+| <code>/{redacted}/config.php</code> | 2 | 0 |
+| <code>/{redacted}/phpinfo.php</code> | 2 | 0 |
+| <code>/{redacted}/web/.env</code> | 2 | 0 |
+| <code>/%252eenv</code> | 1 | 0 |
+| <code>/.aws/credentials.json</code> | 1 | 0 |
+| <code>/.docker/.env</code> | 1 | 0 |
+| <code>/.Env</code> | 1 | 0 |
+| <code>/.kube/config.bak</code> | 1 | 0 |
+| <code>/.well-known/wp-login.php</code> | 1 | 0 |
+| <code>/admin/config.php</code> | 0 | 1 |
+| <code>/app/config.php</code> | 1 | 0 |
+| <code>/backend/%2eenv</code> | 1 | 0 |
+| <code>/backend/.%65nv</code> | 1 | 0 |
+| <code>/backend/.env.production</code> | 1 | 0 |
+| <code>/backend//.env</code> | 1 | 0 |
+| <code>/backend/{redacted}/.env</code> | 1 | 0 |
+| <code>/backup/.git/config</code> | 1 | 0 |
+| <code>/cgi-bin/wp-login.php</code> | 1 | 0 |
+| <code>/config/config.php</code> | 1 | 0 |
+| <code>/core/app/.env</code> | 1 | 0 |
+| <code>/crm/.env</code> | 1 | 0 |
+| <code>/database.php.bak</code> | 1 | 0 |
+| <code>/database_backup.sql</code> | 1 | 0 |
+| <code>/includes/config.php</code> | 1 | 0 |
+| <code>/lib/config.php</code> | 1 | 0 |
+| <code>/mail/.env</code> | 1 | 0 |
+| <code>/old/.git/config</code> | 1 | 0 |
+| <code>/old/.git/HEAD</code> | 1 | 0 |
+| <code>/postmark/.env</code> | 1 | 0 |
+| <code>/public/.git/HEAD</code> | 1 | 0 |
+| <code>/qa/.env</code> | 1 | 0 |
+| <code>/site/wp-admin/</code> | 1 | 0 |
+| <code>/sites/default/settings.php</code> | 1 | 0 |
+| <code>/sites/default/{redacted}</code> | 1 | 0 |
+| <code>/static/app/.env</code> | 1 | 0 |
+| <code>/v3/.env</code> | 1 | 0 |
+| <code>/var/www/{redacted}/.env</code> | 1 | 0 |
+| <code>/workspace/.env</code> | 1 | 0 |
+| <code>/wp-admin/user/wp-login.php</code> | 1 | 0 |
+| <code>/wp-content/</code> | 1 | 0 |
+| <code>/wp-includes/images/wp-login.php</code> | 1 | 0 |
+| <code>/wp-json/</code> | 1 | 0 |
+| <code>/www/phpinfo.php</code> | 1 | 0 |
+| <code>/xmlrpc.php</code> | 1 | 0 |
+| <code>/{redacted}/</code> | 0 | 1 |
+| <code>/{redacted}/.env.dev</code> | 1 | 0 |
+| <code>/{redacted}/.env.local</code> | 1 | 0 |
+| <code>/{redacted}/.env.staging</code> | 1 | 0 |
+| <code>/{redacted}/.git/HEAD</code> | 1 | 0 |
+| <code>/{redacted}/_profiler</code> | 1 | 0 |
+| <code>/{redacted}/admin/.env</code> | 1 | 0 |
+| <code>/{redacted}/cache/.env.php</code> | 1 | 0 |
+| <code>/{redacted}/HEAD</code> | 0 | 1 |
+
+</details>
+
 ## Unexpected-port probes
 
 A separately investigated 30-hour window, **10 November 2026, 14:08 UTC–11 November 2026, 20:08 UTC**, recorded six requests addressed to unexpected web ports.
@@ -648,9 +937,10 @@ These are controls used or developed during the reported period. Their existence
 
 ## Collection quality and limitations
 
-- The retained archive contains **6,110 adjacent collection intervals** (6,070 five-minute intervals and 40 ten-minute catch-up intervals), with **no duplicate or overlapping intervals**, **no missing interval**, and **no archive-read error** in the extraction.
+- The historical archive through 12 November at 18:00 UTC contains **6,110 adjacent collection intervals** (6,070 five-minute intervals and 40 ten-minute catch-up intervals), with **no duplicate or overlapping intervals**, **no missing interval**, and **no archive-read error** in the extraction.
 - **599 intervals** reported adaptive sampling above a sample interval of one. Counts are the provider-reported values. They have not been independently scaled or extrapolated.
 - **Six intervals** hit either the summary-query or diagnostic-query result limit. Results in those intervals can omit groups or examples.
+- The supplemental direct query covers six adjacent, non-overlapping UTC intervals from the archive cutoff through 18 November at 00:00 UTC. All six action intervals were sampled; none reached the action-group limit. The path results are bounded separately.
 - Collection continuity describes the retained records. It does not prove exhaustive Cloudflare telemetry or complete delivery of every underlying event.
 - The diagnostic collection is capped at the provider query and further deduplicated and bounded per source, action and rule. Filtered path counts cannot be used as a percentage breakdown of all blocked requests.
 - This dataset is security-event telemetry. It is not a full HTTP access log, a count of readers, or an estimate of unique visitors.
@@ -662,6 +952,6 @@ These are controls used or developed during the reported period. Their existence
 
 This public export contains aggregate counts, a filtered scanner-target register with opaque identifiers replaced. It omits source addresses, network identifiers, provider rule identifiers, request identifiers, resource identifier values, User-Agent strings, query strings, cookies, request bodies, credentials and internal infrastructure details. The path register discloses selected technical probe paths and their aggregate sample counts; ordinary website routes are omitted.
 
-The extraction reads compressed records on the collector and emits aggregate counters and a sanitized scanner-target register. It groups non-overlapping intervals, excludes Skip actions from threat totals and filters diagnostic paths to technical scanner targets. Raw evidence and the mapping of opaque placeholders remain access-controlled.
+The original extraction reads compressed records on the collector and emits aggregate counters and a sanitized scanner-target register. The update requests bounded Cloudflare aggregates and exports only counts and predefined path-family labels. It groups non-overlapping intervals, excludes Skip actions from threat totals and filters diagnostic paths to technical scanner targets. Raw evidence and the mapping of opaque placeholders remain access-controlled.
 
 The totals are a fixed snapshot through the stated cutoff. Later events and later corrections require a new extraction and review.
