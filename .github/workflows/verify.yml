@@ -64,6 +64,13 @@ jobs:
       - name: Export control evidence
         shell: bash
         run: node enterprise/evidence/cli.mjs export "$GITHUB_WORKSPACE" "$RUNNER_TEMP/kit-ci/all-local.json" "$RUNNER_TEMP/control-evidence"
+      - name: Verify Redis and PostgreSQL admission
+        shell: bash
+        run: |
+          output="$RUNNER_TEMP/distributed-admission"
+          expected=$(node enterprise/distributed/integration.mjs --plan "$output" | node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(0, "utf8")).etag)')
+          node enterprise/distributed/integration.mjs "$output" "$expected"
+          cp "$RUNNER_TEMP/distributed-admission/report.json" "$RUNNER_TEMP/control-evidence/distributed-admission.json"
       - name: Record the declared lab image inventory
         shell: bash
         run: |

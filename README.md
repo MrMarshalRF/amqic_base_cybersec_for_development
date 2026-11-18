@@ -30,7 +30,7 @@ AI-assisted development, testing, and review — **[OpenAI Codex](https://openai
 
 ## Enterprise security profile
 
-Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
+Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The profile includes distributed admission, cloud KMS and identity federation references, plus operating playbooks and SIEM export. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
 
 ## One command for people and AI agents
 

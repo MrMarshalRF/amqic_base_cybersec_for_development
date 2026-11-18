@@ -2,6 +2,14 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.6.0
+
+- Add PostgreSQL and Redis admission references with concurrent accounting, datastore time, replay handling and explicit failover requirements.
+- Add AWS KMS, Google Cloud KMS and Azure Key Vault adapters with workload identity guidance.
+- Add multi-provider OIDC and SAML federation, tenant-bound JIT provisioning and explicit role mapping.
+- Add monitoring, retention, incident response and cloud key rotation playbooks with a versioned SIEM export.
+- Expand policy property and bounded burst tests, component threat models, weekly Dependabot updates and CI dependency review.
+
 ## v1.5.0
 
 - Add Rust tool, migration and endpoint-protection references to README.

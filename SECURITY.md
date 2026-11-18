@@ -160,6 +160,17 @@ The portable origin model evaluates protected-path predicates at server rewrite 
 
 These measures support the existing NIST SP 800-53 `AC-3`/`SC-7` boundary goals and SSDF `PS.2`/`PS.3` release-integrity practices; they are implementation examples, not certification or complete traversal/exposure prevention. Git ignore rules, tracked-file review, deployment-artifact inspection and HTTP denial serve separate purposes. A user-agent name, isolated 4xx response or sampled edge event is not evidence of a compromise. Public incident summaries must exclude raw per-source operational evidence and private infrastructure identifiers.
 
+## v1.6.0 distributed and operational controls
+
+| Area | Control objectives and reference | Deployment check |
+| --- | --- | --- |
+| Distributed admission | AC-3, SC-5 and SC-23. [PostgreSQL and Redis reference](enterprise/distributed/README.md). | Test primary fencing, durability, clock discontinuity and replay retention before reopening traffic after failover. |
+| Cloud key custody | AC-6 and SC-12. [Cloud KMS adapters](enterprise/cloud-kms/README.md). | Pin provider resources and enforce workload IAM. Verify unwrap of existing records across rollout and key rotation. |
+| Federation | IA-2 and AC-3. [Federation reference](enterprise/federation/README.md). | Review each tenant/issuer binding, key rollover, replay state, role mapping and deprovisioning. |
+| Operational records | AU-6, AU-9, AU-11, AU-12 and IR-4. [Operational playbooks and SIEM export](enterprise/operations/README.md). | Establish checkpoint custody, transport authentication, retention ownership, alerts and incident exercises. |
+
+See the [component threat models](enterprise/THREAT-MODELS.md) and [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) for the applicable control objectives.
+
 ## v1.5.0 enterprise security controls
 
 The [enterprise profile](enterprise/README.md) maps the new references to local tests and deployment checks. See the [scenario catalogue](lab/scenarios.json), [claims](verification/claims.json) and [validation guide](docs/VALIDATION.md) for the executable scope. The references below are control objectives from [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) and [SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final).

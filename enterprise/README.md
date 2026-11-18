@@ -11,9 +11,20 @@ This profile adds executable references to the public starter kit. The examples 
 | Short-lived credentials and key rotation | [Secrets and rotation](rotation/README.md) | Use workload identity, enforce provider scope and expiry, and verify rotation plus old-key decryption and revocation in the target environment. |
 | Runtime and infrastructure | [Runtime hardening](runtime/README.md) | Inventory running JVMs and container runtimes. Verify the active security profile and workload identity after roll-out. |
 
+## Distributed services, cloud keys and federation
+
+| Integration | Entry point | Target verification |
+| --- | --- | --- |
+| Distributed admission | [PostgreSQL and Redis](distributed/README.md) | Verify primary fencing, replay retention, failover and datastore time against the target topology. |
+| Cloud KMS | [AWS, Google Cloud and Azure adapters](cloud-kms/README.md) | Test workload credentials and resource-level permissions. Confirm rotation and decryption of existing data on each platform. |
+| Federation | [Multi-provider identity](federation/README.md) | Validate provider keys, assertion audience and recipient, one-time state, and provisioning against the tenant's actual IdPs. |
+| Operations and SIEM | [Playbooks and export](operations/README.md) | Verify authenticated delivery, checkpoint custody, retention and response drills. |
+
+See the [component threat models](THREAT-MODELS.md) for the assumptions that keep these integrations valid.
+
 ## Collect evidence
 
-Run the standard laboratory in a disposable local environment with its documented prerequisites. Pass its completed report and the exact repository root to the evidence exporter. The GitHub verification workflow checks the source inventory, runs the laboratory and uploads the generated JSON and Markdown. It includes a CycloneDX inventory of the declared lab images. The run diagnostics remain available from the workflow.
+Run the standard laboratory in a disposable local environment with its documented prerequisites. Pass its completed report and the exact repository root to the evidence exporter. The GitHub verification workflow checks the source inventory, runs the laboratory and uploads the generated JSON and Markdown. It includes a CycloneDX inventory of the declared lab images. The workflow also runs isolated PostgreSQL and Redis admission checks and includes their report as a separate file. The run diagnostics remain available from the workflow.
 
 ```sh
 node scripts/verify.mjs --all --prepare --output /absolute/external/all-local.json

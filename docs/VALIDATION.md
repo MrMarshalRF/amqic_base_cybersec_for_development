@@ -1,5 +1,13 @@
 # Verification results and scope
 
+## Distributed enterprise references
+
+The baseline includes deterministic policy permutations, generated invalid inputs and a 256-request synthetic burst on the same-host policy fixture. The checks exercise canonical identity, denial and quota conservation. The runtime adapter suites use synthetic provider inputs and exercise the documented fail-closed boundary.
+
+The separate distributed admission command exercises concurrent calls against pinned Redis and PostgreSQL containers, PostgreSQL restart with persisted state, and Redis state loss. The CI workflow saves its report alongside control evidence. Replication, promotion and split-brain recovery must be exercised on the target topology.
+
+GitHub Actions includes PR dependency review with a pinned action. Dependabot proposes weekly GitHub Actions and Dockerfile updates. These checks cover their supported dependency graph and update inputs. Validate provider SDKs, workload identities, datastore failover and the IdP environment before deployment.
+
 ## Enterprise references
 
 The fixed baseline runs the policy, evidence, supply-chain, rotation and runtime suites. The corresponding scenarios appear in the laboratory report, where their scope is limited to the named local tests. Hosted CI exports evidence after a successful full laboratory run. Test output records actual outcomes for each source revision.

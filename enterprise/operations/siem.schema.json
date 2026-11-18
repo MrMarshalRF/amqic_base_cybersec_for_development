@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMQIC SIEM record v1",
+  "description": "One NDJSON line. Batch checkpoint and audit-chain verification are performed by the exporter.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "streamRef",
+    "eventId",
+    "category",
+    "record"
+  ],
+  "properties": {
+    "schema": {
+      "const": "amqic.siem.record.v1"
+    },
+    "streamRef": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{32}$",
+      "minLength": 32,
+      "maxLength": 32
+    },
+    "eventId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "category": {
+      "enum": [
+        "authentication",
+        "authorization",
+        "data-access",
+        "key-management",
+        "recovery",
+        "administration"
+      ]
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "sequence",
+        "previous",
+        "event",
+        "hash"
+      ],
+      "properties": {
+        "schema": {
+          "const": "amqic.audit.v1"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "previous": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "event": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "at",
+            "action",
+            "outcome",
+            "correlationId",
+            "actorRef",
+            "tenantRef"
+          ],
+          "properties": {
+            "at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$",
+              "minLength": 24,
+              "maxLength": 24
+            },
+            "action": {
+              "enum": [
+                "login",
+                "access-change",
+                "sensitive-read",
+                "key-rotation",
+                "backup-restore",
+                "admin-action"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "allow",
+                "deny",
+                "error"
+              ]
+            },
+            "correlationId": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            },
+            "actorRef": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            },
+            "tenantRef": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            }
+          }
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      }
+    }
+  }
+}

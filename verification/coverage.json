@@ -12,6 +12,24 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": ".github/dependabot.yml",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
+      "path": ".github/workflows/dependency-review.yml",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
       "path": ".github/workflows/verify.yml",
       "category": "configuration",
       "checks": [
@@ -364,6 +382,92 @@
       "scope": "Reviewed deployment and verification guidance with the stated scope limits."
     },
     {
+      "path": "enterprise/THREAT-MODELS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/cloud-kms/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/cloud-kms/cloud-kms.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/cloud-kms/cloud-kms.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/distributed/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/distributed/admission.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/distributed/admission.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/distributed/integration.mjs",
+      "category": "executable",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Fixed isolated Redis and PostgreSQL integration command. The dedicated hosted CI step runs and exports the result separately from all-local."
+    },
+    {
+      "path": "enterprise/distributed/postgres.sql",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
+      "path": "enterprise/distributed/redis.lua",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
       "path": "enterprise/evidence/README.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -405,6 +509,81 @@
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
     },
     {
+      "path": "enterprise/federation/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/federation/adapters.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/federation/federation.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/federation/federation.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/operations/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/operations/siem-cli.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/operations/siem.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/operations/siem.schema.json",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
+      "path": "enterprise/operations/siem.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
       "path": "enterprise/policy/README.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -424,6 +603,14 @@
     },
     {
       "path": "enterprise/policy/policy-cli.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/policy/policy-properties.test.mjs",
       "category": "executable",
       "checks": [
         "node-tests"

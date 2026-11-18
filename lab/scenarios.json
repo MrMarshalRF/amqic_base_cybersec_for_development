@@ -900,6 +900,113 @@
       "operational_scope": "Static reference profiles and synthetic inventory records. Validate actual Helm/OpenTofu rendering, kernel behavior, Falco support and running JVM inventory for the target.",
       "external_manual_integration": "Static reference profiles and synthetic inventory records. Validate actual Helm/OpenTofu rendering, kernel behavior, Falco support and running JVM inventory for the target.",
       "required": true
+    },
+    {
+      "id": "distributed-admission",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5",
+        "NIST SP 800-53 SC-23"
+      ],
+      "expected_result": "Atomic admission, server time, finite budgets and one-time operation identity.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Local fixtures and documented adapter guarantees. Verify actual primary fencing, recovery and durability in the deployment.",
+      "external_manual_integration": "Local fixtures and documented adapter guarantees. Verify actual primary fencing, recovery and durability in the deployment.",
+      "required": true
+    },
+    {
+      "id": "cloud-kms-adapters",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-12"
+      ],
+      "expected_result": "Exact provider key and context binding.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic SDK clients. Live cloud access, IAM and key availability are deployment checks.",
+      "external_manual_integration": "Synthetic SDK clients. Live cloud access, IAM and key availability are deployment checks.",
+      "required": true
+    },
+    {
+      "id": "identity-federation",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 IA-2",
+        "NIST SP 800-53 AC-3"
+      ],
+      "expected_result": "Reject mismatched identity scope and enforce login replay policy.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic responses and trusted verifier adapters. Verify actual IdP protocol and library configuration before deployment.",
+      "external_manual_integration": "Synthetic responses and trusted verifier adapters. Verify actual IdP protocol and library configuration before deployment.",
+      "required": true
+    },
+    {
+      "id": "siem-export",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AU-6",
+        "NIST SP 800-53 AU-9",
+        "NIST SP 800-53 AU-11"
+      ],
+      "expected_result": "Keep audit exports bound to trusted checkpoints and redacted records.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Offline event checks and export. Validate delivery, retention, incident response and loss detection in the target environment.",
+      "external_manual_integration": "Offline event checks and export. Validate delivery, retention, incident response and loss detection in the target environment.",
+      "required": true
+    },
+    {
+      "id": "policy-properties",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "expected_result": "Check seeded policy invariants, generated denial cases and bounded admission burst.",
+      "prerequisites": [
+        "baseline runtimes"
+      ],
+      "operational_scope": "Synthetic same-host fixture. Throughput, distributed quotas and service latency require separate performance evaluation.",
+      "external_manual_integration": "Synthetic same-host fixture. Throughput, distributed quotas and service latency require separate performance evaluation.",
+      "required": true
     }
   ],
   "tool_build": {

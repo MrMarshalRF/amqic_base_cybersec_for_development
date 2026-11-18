@@ -571,6 +571,98 @@
       "lab_scenarios": [
         "enterprise-runtime"
       ]
+    },
+    {
+      "id": "distributed-admission",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/distributed/admission.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5",
+        "NIST SP 800-53 SC-23"
+      ],
+      "limits": "Local fixtures and documented adapter guarantees. Verify actual primary fencing, recovery and durability in the deployment.",
+      "lab_scenarios": [
+        "distributed-admission"
+      ]
+    },
+    {
+      "id": "cloud-kms-adapters",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/cloud-kms/cloud-kms.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-12"
+      ],
+      "limits": "Synthetic SDK clients. Live cloud access, IAM and key availability are deployment checks.",
+      "lab_scenarios": [
+        "cloud-kms-adapters"
+      ]
+    },
+    {
+      "id": "identity-federation",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/federation/federation.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 IA-2",
+        "NIST SP 800-53 AC-3"
+      ],
+      "limits": "Synthetic responses and trusted verifier adapters. Verify actual IdP protocol and library configuration before deployment.",
+      "lab_scenarios": [
+        "identity-federation"
+      ]
+    },
+    {
+      "id": "siem-export",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/operations/siem.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AU-6",
+        "NIST SP 800-53 AU-9",
+        "NIST SP 800-53 AU-11"
+      ],
+      "limits": "Offline event checks and export. Validate delivery, retention, incident response and loss detection in the target environment.",
+      "lab_scenarios": [
+        "siem-export"
+      ]
+    },
+    {
+      "id": "policy-properties",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/policy/policy-properties.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 SC-5"
+      ],
+      "limits": "Synthetic same-host fixture. Throughput, distributed quotas and service latency require separate performance evaluation.",
+      "lab_scenarios": [
+        "policy-properties"
+      ]
     }
   ]
 }
