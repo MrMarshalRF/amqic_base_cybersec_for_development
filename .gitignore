@@ -177,6 +177,8 @@ pnpm-debug.log*
 .claude/
 .cursor/
 .windsurf/
+.dsh/
+prompt-inject.md
 .aider*
 .graphify/
 graphify-out/

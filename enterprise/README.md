@@ -42,3 +42,11 @@ Keep the exact source revision and report with the evidence. Follow the signing 
 | Release integrity and runtime updates | SOC 2 CC8.1, ISO/IEC 27001:2022 Annex A 8.32, PCI DSS v4.0.1 requirement 6 | Approved changes, builder identity, artifact authentication and evidence that the patched image or JVM is running. |
 
 These mappings identify potential evidence for selected requirements. Applicability and effectiveness depend on system boundaries, the assessed period, people and procedures. Record the owner, scope, observation period, decision and gaps for each mapping. Confirm identifiers and requirements against the applicable official editions. [AICPA Trust Services Criteria](https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022) · [ISO/IEC 27001](https://www.iso.org/standard/27001) · [PCI SSC document library](https://www.pcisecuritystandards.org/document_library/)
+
+## Agent runtime references
+
+Use the [agent runtime reference](agent-runtime/README.md) for fixed tools, exact approval binding, supported policy narrowing, generation revocation and conservative offline egress plans. Its [deployment guide](../docs/AI-AGENT-RUNTIME.md) covers separate OS/sandbox enforcement, credentials, supply chain and emergency operations. This complements resource policy and distributed admission; it does not install an autonomous agent, network proxy or sandbox.
+
+## Automated-probing references
+
+The [probe-defense reference](probe-defense/README.md) supplies same-host atomic multi-dimension request admission, safe denial responses, an inert canary handler and a conservative security.txt generator. The [defense guide](../docs/AUTOMATED-PROBING-DEFENSE.md) connects these to existing origin, identity, database and incident controls. No offensive agent, live testing or automatic visitor retaliation is part of this profile.

@@ -21,6 +21,10 @@ The application has no published ports. Only HTTPS/HTTP and explicitly allowed h
 
 The container shares the host kernel. Removing the shell removes a ready-made command interpreter, but a vulnerable binary can execute its own code, make permitted system calls, and read its own memory. Default seccomp, a separate PID namespace, and the absence of `SYS_PTRACE`, core dumps, and host `/proc` reduce opportunities to read other processes. They do not prove that leakage is impossible. Keep the kernel and runtime updated. For a stronger boundary, use a separate VM or a separately verified gVisor/Kata configuration. This kit neither installs them nor verifies their protection.
 
+## Proxy patch and protocol policy
+
+Follow the [Nginx patch procedure](NGINX-EDGE-SECURITY.md) before opening ingress. Keep the server's HTTP/2 policy explicit, close QUIC listeners and remove legacy enabling parameters from includes. Verify the patched binary and all master/worker instances after rollout.
+
 ## 2. Expose only the required HTTP routes
 
 Administrative source maps and private technical files need an explicit pre-location guard even when you later add a permissive `^~` static-assets location. The existing server-level `$protected_uri` path retains that boundary; keep it ahead of location dispatch. See the [edge/origin matching and acceptance procedure](CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps). The canonical JSON list remains literal-only; class predicates live in the template and require their own distinguishing tests. Ordinary published JS/CSS is not a credential or authorization bypass.
@@ -43,7 +47,7 @@ Matching uses the normalized `$uri`, without the query string. Case variants, de
 
 ### Maintain the protected-path and Git policies separately
 
-The current registry contains 158 reviewed canonical URI entries, including private mail/cloud configuration, secret manifests, framework caches, database runtime state and source/deployment artifacts. It retains the renderer's strict path grammar, literal escaping and suffix/descendant boundaries. Adding observations from a request log is a review step: a requested path does not establish that a file exists, that the response exposed it or that a compromise occurred.
+The current registry contains 160 reviewed canonical URI entries, including private mail/cloud configuration, secret manifests, framework caches, database runtime state and source/deployment artifacts. It retains the renderer's strict path grammar, literal escaping and suffix/descendant boundaries. Adding observations from a request log is a review step: a requested path does not establish that a file exists, that the response exposed it or that a compromise occurred.
 
 Do not blindly turn every observed name into a deny or ignore rule. `robots.txt` and `/.well-known/security.txt` are excluded from the new registry additions and Git ignores because they can be intentional public resources. The baseline template still allows only its reviewed public routes, and its generic hidden-segment policy denies security.txt; publishing that resource needs an explicit route and a deliberate policy exception. The observed encoded source form `/app/api/%5B...%5D/route.ts` is tested as deny-by-default: after URI decoding its brackets do not prove a residual-percent map match, and it is not inserted into the canonical registry.
 
@@ -143,3 +147,7 @@ Use [UPLOAD-ISOLATION.md](UPLOAD-ISOLATION.md) and the separate [uploads Compose
 The primary nginx, OpenSSH, and Docker guides were checked on November 12, 2026. Verify the applicability of specific parameters against the installed versions. The presence of an example does not establish installation or protection of a particular server.
 
 The rate values are starting defaults. Tune API/MCP throughput, website throughput, and burst capacity to the actual workload and shared-IP/proxy policy, then rerun the checks. The Docker test harness bounds each CLI call to 30 seconds. Its cleanup records exact owned resources, attempts independent removal and absence checks, and retains `cleanup_pending` when the result is unknown. The daemon-free regression command is `python -B infra/nginx/test_harness.py`.
+
+## Public disclosure contact exception
+
+The default dot-path guard denies `/.well-known/security.txt`. The [defense guide](AUTOMATED-PROBING-DEFENSE.md#disclosure-and-securitytxt) explains generation and the separate deployment decision: a narrowly reviewed guard exception plus an exact GET/HEAD route, HTTPS UTF-8 text/plain, valid expiry and regression tests for sibling/encoded/traversal paths. Merely adding a location does not bypass the earlier guard. This update does not change the default Nginx exposure.

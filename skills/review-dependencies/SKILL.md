@@ -1,6 +1,6 @@
 ---
 name: review-dependencies
-description: Review quarantined dependency artifacts using bounded offline inventory and exact-hash approval.
+description: Review quarantined dependencies and agent extensions using bounded offline inventory and exact-hash approval.
 ---
 
 # Review dependencies before use
@@ -15,3 +15,9 @@ Work only with a separately quarantined artifact and the `infra/container/quaran
 6. Return a report with the name/version, artifact SHA-256, checks performed, findings, unreviewed parts, and a verdict of `reject`, `hold`, or `approve-exact-hash`. `approve-exact-hash` requires resolution of material questions and an explicit owner decision for that hash. The AI provides an assessment; there is no automatic transfer into a trusted build.
 
 On approval, transfer only the bytes whose SHA-256 matches the reviewed artifact. A new version, repackaging, or different hash requires a new review. Do not mount secrets, the original working project, the Docker socket, or host directories into quarantine. Keep the offline report separate from the payload.
+
+## Agent plugins, skills and MCP servers
+
+Apply this review to agent extensions before admission. Verify artifact, repository and registry publisher identity; review initialization hooks, vendor/launcher writes, persistent instruction overrides, local web control endpoints and tools that change their own permissions. Unknown provenance or unexplained privilege expansion leaves the artifact on hold. Keywords and popularity are review signals, not proof of behavior.
+
+A routine extension approval does not authorize patching another package, changing launchers or expanding the agent's own sandbox/approval authority. A legitimate administrative updater needs a separate explicit operator-reviewed scope. Preserve supported user configuration and do not modify an installed agent while reviewing an artifact. Use [runtime integrity](../../docs/AGENT-RUNTIME-INTEGRITY.md) to distinguish artifact hashes, installed-file baselines and externally enforced effective policy. This skill supplies no third-party installer or automatic repair workflow.

@@ -1,5 +1,9 @@
 # Verification results and scope
 
+## Nginx protocol-parser security profile
+
+The baseline includes synthetic per-replica rollout tests. The pinned Nginx integration exercises protocol defaults and benign ALPN alongside existing TLS, Host/SNI, CSP, route, limiter and whitelist checks. Real provider settings, worker drain and ingress behavior require target observations. [Edge response guide](NGINX-EDGE-SECURITY.md)
+
 ## Distributed enterprise references
 
 The baseline includes deterministic policy permutations, generated invalid inputs and a 256-request synthetic burst on the same-host policy fixture. The checks exercise canonical identity, denial and quota conservation. The runtime adapter suites use synthetic provider inputs and exercise the documented fail-closed boundary.
@@ -102,3 +106,15 @@ The recorded environment is the environment actually tested. A Windows host can 
 No production Cloudflare zone, VPN, real-secret consumer, running application database, public origin, account or firewall is configured by these tests. Compiler/obfuscator guidance and provider-specific deployment steps retain their stated platform limits. Earlier release tests of unchanged infrastructure remain historical evidence, not a claim that this release activated those systems.
 
 To deploy, follow [DEPLOYMENT.md](DEPLOYMENT.md) with target authorization, backups, restore proof, actual TLS/network policy, real enrollment/recovery and rollback. To authenticate the final package, follow [RELEASE-VERIFICATION.md](RELEASE-VERIFICATION.md).
+
+## Agent runtime reference checks
+
+The fixed baseline includes `enterprise/agent-runtime/agent-runtime.test.mjs`. The local scenario records the supported tool/argument, approval, generation, admission and offline egress checks. These tests use synthetic trusted adapters. They do not exercise OpenShell, kernel confinement, real secret injection, connect-time DNS/socket pinning, external token revocation or a SIEM collector. Keep these target checks distinct from the local completion result.
+
+## Automated-probing reference checks
+
+The fixed baseline runs `enterprise/probe-defense/probe-defense.test.mjs` with synthetic identities, temporary local SQLite databases and bounded concurrent workers. It checks combined limits, state continuity, ordinary denial semantics, inert canary delivery metadata and a conservative security.txt content profile. It does not run third-party scanners, identify an AI visitor, publish a contact endpoint, install a multi-host limiter or establish production detection effectiveness. The current Nginx path guard is preserved.
+
+## Agent homes and standing overrides
+
+The current protected-path registry contains 160 canonical entries. Production tests reject `.dsh` directories and `prompt-inject.md` override files before source reads, including nested/case variants and forged staging manifests. The offline harness checks the generated literal boundaries and actual Git ignore behavior; isolated Nginx validates every current registry entry. Runtime-integrity and third-party-reference guidance is source-reviewed only. No external plugin, installed-agent state or host FIM is executed or inferred as verified.

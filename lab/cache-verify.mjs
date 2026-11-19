@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash, randomBytes } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 
-export const NGINX_IMAGE = 'nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10';
+export const NGINX_IMAGE = 'nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598';
 const root = await realpath(fileURLToPath(new URL('..', import.meta.url)));
 const args = process.argv.slice(2);
 if (args.length !== 2 || args[0] !== '--output' || !isAbsolute(args[1])) throw new Error('Use --output ABSOLUTE_EXTERNAL_NEW.json');
@@ -55,9 +55,11 @@ try {
   const proxy = state.containers.find(c => c.role === 'proxy');
   assert.ok(Object.values(proxy.ports).every(bindings => bindings === null || bindings.length === 0));
   const origin = 'http://127.0.0.1:8080'; // Loopback inside the proxy container; no host port.
-  const version = spawnSync('docker', ['exec', proxy.id, 'nginx', '-v'], { encoding: 'utf8', timeout: 10000, windowsHide: true });
+  const version = spawnSync('docker', ['exec', proxy.id, 'nginx', '-V'], { encoding: 'utf8', timeout: 10000, windowsHide: true });
   if (version.error || version.status !== 0) throw new Error('Cannot observe Nginx version');
-  report.nginx_version = version.stderr.trim() || version.stdout.trim();
+  report.nginx_build = [version.stdout.trim(), version.stderr.trim()].filter(Boolean).join('\n');
+  report.nginx_version = report.nginx_build.match(/nginx version: nginx\/([0-9]+\.[0-9]+\.[0-9]+)/)?.[1];
+  assert.ok(report.nginx_version, 'Cannot parse observed Nginx version');
   async function request(path, headers = {}) {
     if (cancelled) throw new Error('Cancelled');
     const command = ['exec', proxy.id, 'wget', '-S', '-T', '3', '-O', '-'];

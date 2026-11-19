@@ -54,3 +54,7 @@ Exit code 0 means the limited currency check is ready. Code 2 means an update to
 Node uses the official [release index](https://nodejs.org/dist/index.json) and [support schedule](https://github.com/nodejs/Release). Python uses the [release list](https://www.python.org/doc/versions/) and [branch status](https://devguide.python.org/versions/). npm obtains latest and exact-version metadata from registry.npmjs.org. PyPI uses exact-version JSON and the release list at pypi.org. The snapshot retains exact URLs, retrieval time, and response SHA-256. Unsupported official-page markup results in uncertainty.
 
 For npm, `latest` corresponds to the publisher's tag of that name, rather than the highest version number across all tags. Compatibility of a new version with the current application is checked separately.
+
+## Proxy runtime inventory
+
+Inventory the running Nginx binary/package as well as the image digest. Plus, forks and distributor backports require their own advisory dispositions. Keep these components in host/image SBOMs and follow the [Nginx guide](NGINX-EDGE-SECURITY.md).

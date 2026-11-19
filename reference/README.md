@@ -120,3 +120,7 @@ Use [billing-offer.mjs](billing-offer.mjs) as a server-side reference for trial 
 - Apply campaign provisioning limits and record redacted denials and issuance events. Keep payment credentials at the payment provider. Restrict diagnostics to the minimum needed to investigate abuse.
 
 The local fixture uses synthetic purchase records and no provider credentials. Run it with `node --experimental-sqlite --test reference/billing-offer.test.mjs`. For Google Play, see [Fight fraud and abuse](https://developer.android.com/google/play/billing/security) and the [verified subscription resource](https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.subscriptionsv2).
+
+## MCP client and agent runtime boundaries
+
+The [runtime guide](../docs/AI-AGENT-RUNTIME.md) complements this server-side core with agent/client-side controls. Authenticate MCP servers and reviewed versions, review changed descriptions, and treat responses as untrusted data. Use audience-bound authorization; never pass an MCP client token through to an upstream API. OAuth discovery URLs require independent SSRF protection. See the official [MCP authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization) and [security best practices](https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices). No complete MCP transport is added here.

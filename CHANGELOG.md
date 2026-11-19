@@ -2,6 +2,21 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.7.0
+
+- Add optional external agent-integrity reference guidance, extension-review criteria and code-owner mapping; exclude `.dsh` and standing override files from production staging and origin exposure.
+
+- Add automated-probing defense guidance, atomic multi-dimension admission, inert canary signals, generic denials and a tested security.txt content generator.
+- Add disclosure scope and evidence requirements, with updated standards mappings and laboratory coverage.
+
+- Add the AI agent runtime threat model, containment and credential-broker guidance, fixed tool-guard references and regression tests.
+
+- Pin the Nginx lab to the patched 1.30.7 Alpine image and preserve the reviewed Node 22 Bookworm baseline.
+- Make HTTP/2-off explicit, suppress upstream Alt-Svc and test benign ALPN negotiation.
+- Confirm opaque Python/OpenSSL TLS errors through independent ALPN alert evidence while keeping unrelated failures closed.
+- Add a per-replica rollout gate for exact vendor/CVE findings, artifacts, master/worker replacement, fresh protocol observations and ETags.
+- Add the edge parser response guide and update infrastructure, version inventory and security mappings.
+
 ## v1.6.0
 
 - Add PostgreSQL and Redis admission references with concurrent accounting, datastore time, replay handling and explicit failover requirements.

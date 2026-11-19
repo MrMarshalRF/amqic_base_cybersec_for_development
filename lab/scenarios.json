@@ -12,7 +12,7 @@
     },
     {
       "id": "nginx",
-      "reference": "nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10"
+      "reference": "nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598"
     },
     {
       "id": "node-tool-base",
@@ -1006,6 +1006,104 @@
       ],
       "operational_scope": "Synthetic same-host fixture. Throughput, distributed quotas and service latency require separate performance evaluation.",
       "external_manual_integration": "Synthetic same-host fixture. Throughput, distributed quotas and service latency require separate performance evaluation.",
+      "required": true
+    },
+    {
+      "id": "nginx-parser-response",
+      "category": "local",
+      "test_checks": [
+        "node-tests",
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "stages": [
+        "baseline",
+        "nginx-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 SI-2",
+        "NIST SP 800-53 CM-6",
+        "NIST SP 800-53 CM-8",
+        "Nginx 2026-11-18 security advisories"
+      ],
+      "expected_result": "Exact patched-image and benign protocol-policy tests pass with stable sources and cleanup.",
+      "prerequisites": [
+        "fixed lab prerequisites"
+      ],
+      "operational_scope": "Synthetic rollout snapshots and benign ALPN with pinned patched Nginx. Real vendor inventory, CDN protocols and old-worker drain require target verification.",
+      "external_manual_integration": "Synthetic rollout snapshots and benign ALPN with pinned patched Nginx. Real vendor inventory, CDN protocols and old-worker drain require target verification.",
+      "required": true
+    },
+    {
+      "id": "agent-runtime-boundary",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7",
+        "NIST SP 800-53 IR-4",
+        "OWASP LLM01 and LLM06"
+      ],
+      "expected_result": "Fixed catalog, binding, narrowing, lifetime/replay/admission and conservative egress regressions pass.",
+      "prerequisites": [
+        "Node.js 22 or later"
+      ],
+      "operational_scope": "Synthetic trusted-adapter tests and offline IPv4-only egress planning. Kernel containment, real DNS/socket pinning, secret brokers, external stop and distributed replay require target verification.",
+      "external_manual_integration": "Synthetic trusted-adapter tests and offline IPv4-only egress planning. Kernel containment, real DNS/socket pinning, secret brokers, external stop and distributed replay require target verification.",
+      "required": true
+    },
+    {
+      "id": "automated-probing-defense",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "OWASP ASVS 5.0.0 2.3.2 and 2.4.1",
+        "OWASP API4:2023 and API6:2023",
+        "NIST SP 800-53 SC-5 and SI-4",
+        "RFC 9116 and RFC 6585"
+      ],
+      "expected_result": "Atomic combined budgets, identity isolation, generic denial semantics, inert signals and conservative security.txt tests pass.",
+      "prerequisites": [
+        "Node.js 22 or later"
+      ],
+      "operational_scope": "Synthetic same-host atomic budgets, generic denials, inert canary events and generated contact content. Multi-host state, real disclosure HTTP serving, SIEM delivery and deployment effectiveness require target checks.",
+      "external_manual_integration": "Synthetic same-host atomic budgets, generic denials, inert canary events and generated contact content. Multi-host state, real disclosure HTTP serving, SIEM delivery and deployment effectiveness require target checks.",
+      "required": true
+    },
+    {
+      "id": "agent-config-exclusions",
+      "category": "local",
+      "test_checks": [
+        "production",
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "stages": [
+        "baseline",
+        "nginx-runtime"
+      ],
+      "standards": [
+        "NIST SP 800-53 SI-7 and CM-6",
+        "NIST SSDF PS.1.1 and PW.4.4",
+        "OWASP LLM03 and LLM06"
+      ],
+      "expected_result": "Agent-home/override exclusions and all current canonical protected-path checks pass.",
+      "prerequisites": [
+        "fixed lab prerequisites"
+      ],
+      "operational_scope": "Kit-owned exclusions and current path registry are executable checks. Optional third-party material, installed runtime FIM, effective host permissions and GitHub ruleset activation remain external/source-reviewed.",
+      "external_manual_integration": "Kit-owned exclusions and current path registry are executable checks. Optional third-party material, installed runtime FIM, effective host permissions and GitHub ruleset activation remain external/source-reviewed.",
       "required": true
     }
   ],

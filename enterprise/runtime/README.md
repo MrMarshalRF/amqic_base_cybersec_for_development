@@ -2,6 +2,10 @@
 
 The runtime gate compares a rollout record with an inventory of the JVM instances that actually serve the workload. It checks vendor, package, full build, architecture, replacement instance and deployed artifact digest. Keep both inputs under operator or CI control and retain the original evidence independently.
 
+## Reverse proxy advisories
+
+The [Nginx gate and response guide](../../docs/NGINX-EDGE-SECURITY.md) extends runtime evidence to proxies and ingress replicas. It checks exact vendor/CVE findings and artifact, master/worker replacement and restrictive protocol observations. Include the terminator binary/package in runtime inventory and SBOMs.
+
 ## Respond to a Java runtime advisory
 
 CVE-2026-114938 affects the Java runtime. Review every deployed copy of the JVM, including bundled runtimes, worker images and dormant replicas that may be reactivated. Identify the running executable and version using approved host or container inventory. Use the vendor's security advisory for the exact distribution and package. Published versions may use distributor-specific backports. Sources checked on 18 November 2026: [Red Hat advisory RHSB-2026-018](https://access.redhat.com/security/vulnerabilities/RHSB-2026-018), [Amazon Linux security tracker](https://explore.alas.aws.amazon.com/CVE-2026-114938.html), [OpenJDK advisory index](https://openjdk.org/groups/vulnerability/advisories/).

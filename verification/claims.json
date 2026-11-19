@@ -663,6 +663,96 @@
       "lab_scenarios": [
         "policy-properties"
       ]
+    },
+    {
+      "id": "nginx-parser-response",
+      "kind": "executable",
+      "checks": [
+        "node-tests",
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "files": [
+        "enterprise/runtime/nginx-rollout.mjs",
+        "infra/nginx/nginx.conf.template"
+      ],
+      "references": [
+        "NIST SP 800-53 SI-2",
+        "NIST SP 800-53 CM-6",
+        "NIST SP 800-53 CM-8",
+        "Nginx 2026-11-18 security advisories"
+      ],
+      "limits": "Synthetic rollout snapshots and benign ALPN with pinned patched Nginx. Real vendor inventory, CDN protocols and old-worker drain require target verification.",
+      "lab_scenarios": [
+        "nginx-parser-response"
+      ]
+    },
+    {
+      "id": "agent-runtime-boundary",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/agent-runtime/agent-runtime.mjs",
+        "enterprise/agent-runtime/agent-runtime.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 AC-3",
+        "NIST SP 800-53 AC-6",
+        "NIST SP 800-53 SC-7",
+        "NIST SP 800-53 IR-4",
+        "OWASP LLM01 and LLM06"
+      ],
+      "limits": "Synthetic trusted-adapter tests and offline IPv4-only egress planning. Kernel containment, real DNS/socket pinning, secret brokers, external stop and distributed replay require target verification.",
+      "lab_scenarios": [
+        "agent-runtime-boundary"
+      ]
+    },
+    {
+      "id": "automated-probing-defense",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/probe-defense/probe-defense.mjs",
+        "enterprise/probe-defense/probe-defense.test.mjs"
+      ],
+      "references": [
+        "OWASP ASVS 5.0.0 2.3.2 and 2.4.1",
+        "OWASP API4:2023 and API6:2023",
+        "NIST SP 800-53 SC-5 and SI-4",
+        "RFC 9116 and RFC 6585"
+      ],
+      "limits": "Synthetic same-host atomic budgets, generic denials, inert canary events and generated contact content. Multi-host state, real disclosure HTTP serving, SIEM delivery and deployment effectiveness require target checks.",
+      "lab_scenarios": [
+        "automated-probing-defense"
+      ]
+    },
+    {
+      "id": "agent-config-exclusions",
+      "kind": "executable",
+      "checks": [
+        "production",
+        "nginx-harness",
+        "nginx-runtime"
+      ],
+      "files": [
+        "scripts/prepare_production.py",
+        "scripts/test_prepare_production.py",
+        "infra/protected-paths.json",
+        "infra/nginx/test_harness.py"
+      ],
+      "references": [
+        "NIST SP 800-53 SI-7 and CM-6",
+        "NIST SSDF PS.1.1 and PW.4.4",
+        "OWASP LLM03 and LLM06"
+      ],
+      "limits": "Kit-owned exclusions and current path registry are executable checks. Optional third-party material, installed runtime FIM, effective host permissions and GitHub ruleset activation remain external/source-reviewed.",
+      "lab_scenarios": [
+        "agent-config-exclusions"
+      ]
     }
   ]
 }

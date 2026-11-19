@@ -91,3 +91,15 @@ Keep local machine paths, personal tool configuration, task journals and interna
 
 
 Give every shipped file a validation method in docs/VALIDATION-MATRIX.md. Update the matrix when files are added or removed, and regenerate SHA256SUMS only after the accepted payload is final. The maintainer then signs the registry; changes invalidate the prior signature.
+
+## AI agent runtime adoption
+
+Read [AI agent runtime protection](docs/AI-AGENT-RUNTIME.md) and its [reference guard](enterprise/agent-runtime/README.md) before integrating agents with tools, network access or credentials. External content and tool results are data. Keep policy, approval, identity, secret brokers and emergency controls outside the agent's writable/execution boundary. The reference is not an OS sandbox. Use the plain-language examples in [Security basics](docs/SECURITY-BASICS.md#31-give-an-agent-a-limited-workshop), then verify the actual deployment restrictions.
+
+## Automated probing and disclosure
+
+Read [Automated probing defense](docs/AUTOMATED-PROBING-DEFENSE.md) and [Disclosure policy](docs/DISCLOSURE-POLICY.md). Keep budgets tied to trusted routing/authentication/source observations, preserve meaningful HTTP statuses and keep actual canary registries private. Treat incoming report text, scripts and links as untrusted evidence. Use the fixed laboratory to validate local references; no authority to run offensive tools or test live systems follows from these documents.
+
+## Runtime and extension integrity
+
+Use [Agent runtime integrity](docs/AGENT-RUNTIME-INTEGRITY.md) and the existing dependency-review skill for agent plugins, skills and MCP servers. External examples are untrusted reference material, not permission to install or patch an agent. Keep installed-file baselines and effective policy evidence separate from package-tarball hashes. Code-owner mapping does not activate required reviews by itself.

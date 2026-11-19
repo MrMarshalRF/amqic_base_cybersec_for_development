@@ -114,6 +114,8 @@
     "/gc-service.json",
     "/google-service-account.json",
     "/google-services.json",
-    "/api/proc/self/environ"
+    "/api/proc/self/environ",
+    "/.dsh",
+    "/prompt-inject.md"
   ]
 }

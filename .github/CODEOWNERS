@@ -1,0 +1,10 @@
+# Review ownership only. Configure required code-owner reviews in GitHub rulesets separately.
+/AGENTS.md @MrMarshalRF
+/skills/ @MrMarshalRF
+/.github/ @MrMarshalRF
+/infra/ @MrMarshalRF
+/scripts/ @MrMarshalRF
+/reference/ @MrMarshalRF
+/enterprise/ @MrMarshalRF
+/SECURITY.md @MrMarshalRF
+/SHA256SUMS @MrMarshalRF

@@ -12,6 +12,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": ".github/CODEOWNERS",
+      "category": "configuration",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
       "path": ".github/dependabot.yml",
       "category": "configuration",
       "checks": [
@@ -148,6 +157,24 @@
       "scope": "Static image bytes are covered by integrity; no visual or browser validation is implied."
     },
     {
+      "path": "docs/AGENT-RUNTIME-INTEGRITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "docs/AI-AGENT-RUNTIME.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
       "path": "docs/ALL-LAB.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -155,6 +182,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
+    },
+    {
+      "path": "docs/AUTOMATED-PROBING-DEFENSE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
     },
     {
       "path": "docs/BINARY-OBFUSCATION.md",
@@ -193,6 +229,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "docs/DISCLOSURE-POLICY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
       "path": "docs/GITHUB-RELEASES.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -227,6 +272,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/NGINX-EDGE-SECURITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
     },
     {
       "path": "docs/OPERATIONS.md",
@@ -389,6 +443,31 @@
         "sha256-registry"
       ],
       "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/agent-runtime/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/agent-runtime/agent-runtime.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic trusted-adapter tool authorization, approval binding, policy narrowing, generation/admission and offline egress tests; no OS sandbox, network transport or external broker execution."
+    },
+    {
+      "path": "enterprise/agent-runtime/agent-runtime.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic trusted-adapter tool authorization, approval binding, policy narrowing, generation/admission and offline egress tests; no OS sandbox, network transport or external broker execution."
     },
     {
       "path": "enterprise/cloud-kms/README.md",
@@ -634,6 +713,31 @@
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
     },
     {
+      "path": "enterprise/probe-defense/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/probe-defense/probe-defense.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic same-host atomic multi-dimension admission, generic denial, inert canary and conservative security.txt content tests; no live probing, HTTP deployment or multi-host performance claim."
+    },
+    {
+      "path": "enterprise/probe-defense/probe-defense.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic same-host atomic multi-dimension admission, generic denial, inert canary and conservative security.txt content tests; no live probing, HTTP deployment or multi-host performance claim."
+    },
+    {
       "path": "enterprise/rotation/README.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -721,6 +825,22 @@
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
     },
     {
+      "path": "enterprise/runtime/nginx-rollout.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/runtime/nginx-rollout.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
       "path": "enterprise/runtime/profiles/java-shell.falco.yaml",
       "category": "configuration",
       "checks": [
@@ -728,6 +848,16 @@
         "sha256-registry"
       ],
       "scope": "Exact source inventory and reviewed configuration. Execute and verify platform-specific configuration in the intended target."
+    },
+    {
+      "path": "enterprise/runtime/profiles/nginx-shell.falco.yaml",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed."
     },
     {
       "path": "enterprise/runtime/runtime.test.mjs",
