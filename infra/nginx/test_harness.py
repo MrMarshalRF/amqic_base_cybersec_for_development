@@ -1,5 +1,6 @@
 """Docker harness failure handling, using mocks without a Docker daemon."""
 import copy
+import io
 import json
 import os
 from pathlib import Path
@@ -16,6 +17,125 @@ from render import load_paths, render
 
 
 class HarnessTests(unittest.TestCase):
+    @staticmethod
+    def opaque_error():
+        error = ssl.SSLError(ssl.SSL_ERROR_SSL, "[SSL] unknown error (_ssl.c:1011)")
+        error.library = "SSL"
+        return error
+
+    @staticmethod
+    def alert_output():
+        return (b"Verification: OK\nNo ALPN negotiated\nVerify return code: 0 (ok)\n"
+                b"123:error:0A000460:SSL routines:ssl3_read_bytes:reason(1120):../ssl/record/rec_layer_s3.c:1600:SSL alert number 120\n")
+
+    def confirm_cli(self, output=None, code=1):
+        child = MagicMock()
+        child.stdout = io.BytesIO(self.alert_output() if output is None else output)
+        child.wait.return_value = code
+        child.poll.return_value = code
+        with patch.object(harness.shutil, "which", return_value="/reviewed/openssl"), \
+                patch.object(harness.subprocess, "Popen", return_value=child) as launch:
+            proof = harness.confirm_h2_alert(49152, Path("synthetic/fullchain.pem"))
+        return proof, launch, child
+
+    def test_opaque_python_error_requires_independent_proof(self):
+        proof, _, _ = self.confirm_cli()
+        confirm = MagicMock(return_value=proof)
+        result = harness.probe_alpn(MagicMock(side_effect=self.opaque_error()), ["h2"], None, confirm)
+        self.assertEqual(result["python_observation"], "opaque_ssl_unknown_error")
+        self.assertEqual(result["independent_confirmation"]["alert_number"], 120)
+        self.assertNotIn("certificate_verified", result["independent_confirmation"])
+        confirm.assert_called_once_with()
+        for callback in (None, MagicMock(return_value={}), MagicMock(side_effect=OSError("unavailable"))):
+            with self.subTest(callback=callback), self.assertRaises((ssl.SSLError, AssertionError, OSError)):
+                harness.probe_alpn(MagicMock(side_effect=self.opaque_error()), ["h2"], None, callback)
+
+    def test_opaque_confirmation_is_not_used_for_other_failures_or_offers(self):
+        for offered, expected, error in ((["h2", "http/1.1"], "http/1.1", self.opaque_error()),
+                                         (["h2"], None, ssl.SSLError("unrelated"))):
+            callback = MagicMock()
+            with self.assertRaises(ssl.SSLError):
+                harness.probe_alpn(MagicMock(side_effect=error), offered, expected, callback)
+            callback.assert_not_called()
+        for field, value in (("library", "OTHER"), ("reason", "CERTIFICATE_VERIFY_FAILED"),
+                             ("errno", ssl.SSL_ERROR_EOF), ("strerror", "[SSL] unknown error (_ssl.c:1011) suffix")):
+            error = self.opaque_error()
+            setattr(error, field, value)
+            callback = MagicMock()
+            with self.subTest(field=field), self.assertRaises(ssl.SSLError):
+                harness.probe_alpn(MagicMock(side_effect=error), ["h2"], None, callback)
+            callback.assert_not_called()
+
+    def test_known_python_alpn_path_needs_no_cli(self):
+        error = ssl.SSLError("known alert")
+        error.reason = "TLSV1_ALERT_NO_APPLICATION_PROTOCOL"
+        callback = MagicMock(side_effect=AssertionError("CLI must not run"))
+        self.assertEqual(harness.probe_alpn(MagicMock(side_effect=error), ["h2"], None, callback)["handshake"],
+                         "no_application_protocol")
+        callback.assert_not_called()
+
+    def test_cli_confirmation_uses_fixed_verified_loopback_argv_and_bounded_output(self):
+        proof, launch, child = self.confirm_cli()
+        self.assertEqual(proof["alert_number"], 120)
+        self.assertEqual(proof["output_bytes"], len(self.alert_output()))
+        self.assertNotIn("output", proof)
+        self.assertEqual(launch.call_args.args[0], ["/reviewed/openssl", "s_client", "-connect", "127.0.0.1:49152",
+                         "-servername", "kit.example.test", "-verify_hostname", "kit.example.test",
+                         "-CAfile", str(Path("synthetic/fullchain.pem")), "-verify_return_error", "-alpn", "h2"])
+        self.assertIs(launch.call_args.kwargs["shell"], False)
+        child.wait.assert_called_once_with(timeout=5)
+        child.kill.assert_not_called()
+
+    def test_cli_confirmation_rejects_incomplete_conflicting_or_oversized_proof(self):
+        valid = self.alert_output()
+        variants = [b"", valid.replace(b"No ALPN negotiated\n", b""),
+                    valid.replace(b"No ALPN negotiated", b"ALPN protocol: h2"),
+                    valid.replace(b"120", b"40"), valid.replace(b"reason(1120)", b"unrelated"),
+                    valid.replace(b"Verification: OK", b"Verification error: bad certificate"),
+                    valid + b"verify error:num=20:unable to get local issuer certificate\n",
+                    valid + b"123:error:0A000126:SSL routines:unexpected EOF\n",
+                    valid + b"connect:errno=111\n",
+                    valid + b"SSL alert number 40\n", b"x" * 65537]
+        for output in variants:
+            with self.subTest(output=output[:60]), self.assertRaises(AssertionError):
+                self.confirm_cli(output)
+        with self.assertRaises(AssertionError):
+            self.confirm_cli(valid, code=0)
+
+    def test_cli_missing_timeout_and_invalid_port_fail_closed(self):
+        with patch.object(harness.shutil, "which", return_value=None), self.assertRaises(AssertionError):
+            harness.confirm_h2_alert(49152, Path("synthetic.pem"))
+        for port in (0, 65536, True, "49152"):
+            with self.subTest(port=port), patch.object(harness.subprocess, "Popen") as launch, self.assertRaises(AssertionError):
+                harness.confirm_h2_alert(port, Path("synthetic.pem"))
+            launch.assert_not_called()
+        child = MagicMock()
+        child.stdout = io.BytesIO(self.alert_output())
+        child.wait.side_effect = [subprocess.TimeoutExpired("openssl", 5), 1]
+        child.poll.return_value = None
+        with patch.object(harness.shutil, "which", return_value="/reviewed/openssl"), \
+                patch.object(harness.subprocess, "Popen", return_value=child), self.assertRaises(subprocess.TimeoutExpired):
+            harness.confirm_h2_alert(49152, Path("synthetic.pem"))
+        child.kill.assert_called_once()
+
+    def test_cli_confirmation_rejects_conflicting_or_unknown_verification_diagnostics(self):
+        for extra in (b"Verify return code: 20 (unable to get local issuer certificate)\n",
+                      b"Verify return code: unknown\n", b"Verify return code: -1 (unknown)\n",
+                      b"Verify return code\n", b"verify return code : 20 (bad)\n",
+                      b"Verify return code: 0 (ok)\n", b"Verification: FAILED\n",
+                      b"Verification: OK\n"):
+            with self.subTest(extra=extra), self.assertRaises(AssertionError):
+                self.confirm_cli(self.alert_output() + extra)
+
+    def test_cli_output_overflow_kills_owned_process(self):
+        child = MagicMock()
+        child.stdout = io.BytesIO(b"x" * 65537)
+        child.wait.return_value = 1
+        child.poll.side_effect = [None, 1]
+        with patch.object(harness.shutil, "which", return_value="/reviewed/openssl"), \
+                patch.object(harness.subprocess, "Popen", return_value=child), self.assertRaises(AssertionError):
+            harness.confirm_h2_alert(49152, Path("synthetic.pem"))
+        child.kill.assert_called_once()
     def test_observed_nginx_build_records_version_and_modules(self):
         observed = harness.nginx_build("nginx version: nginx/1.30.7\nconfigure arguments: --with-http_v2_module --with-http_v3_module\n")
         self.assertEqual(observed["version"], "1.30.7")

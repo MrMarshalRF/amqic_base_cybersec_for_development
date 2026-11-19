@@ -13,6 +13,7 @@ This file records user-visible additions, changes and validation notes by versio
 
 - Pin the Nginx lab to the patched 1.30.7 Alpine image and preserve the reviewed Node 22 Bookworm baseline.
 - Make HTTP/2-off explicit, suppress upstream Alt-Svc and test benign ALPN negotiation.
+- Confirm opaque Python/OpenSSL TLS errors through independent ALPN alert evidence while keeping unrelated failures closed.
 - Add a per-replica rollout gate for exact vendor/CVE findings, artifacts, master/worker replacement, fresh protocol observations and ETags.
 - Add the edge parser response guide and update infrastructure, version inventory and security mappings.
 

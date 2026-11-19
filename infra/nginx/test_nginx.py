@@ -10,6 +10,7 @@ import shutil
 import socket
 import ssl
 import subprocess
+import threading
 import time
 import uuid
 
@@ -90,7 +91,61 @@ def protocol_config(config):
     return {"http2": "off", "quic_udp_listeners": False, "alt_svc": "suppressed"}
 
 
-def probe_alpn(connect, offered, expected):
+def confirm_h2_alert(port, ca_file):
+    """Independent, bounded CLI evidence for one opaque Python/OpenSSL alert only."""
+    require(type(port) is int and 1 <= port <= 65535, "Invalid synthetic TLS port")
+    executable = shutil.which("openssl")
+    require(executable is not None, "OpenSSL confirmation unavailable")
+    command = [executable, "s_client", "-connect", f"127.0.0.1:{port}",
+               "-servername", "kit.example.test", "-verify_hostname", "kit.example.test",
+               "-CAfile", str(ca_file), "-verify_return_error", "-alpn", "h2"]
+    # Read at most 64 KiB + one overflow byte, without logging certificates/output.
+    output = []
+    child = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT, shell=False)
+    def read_output():
+        try:
+            output.append(child.stdout.read(65537))
+            if len(output[0]) > 65536 and child.poll() is None:
+                child.kill()
+        except OSError:
+            output.append(None)
+    reader = threading.Thread(target=read_output, daemon=True)
+    reader.start()
+    try:
+        code = child.wait(timeout=5)
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.wait(timeout=5)
+        reader.join(timeout=1)
+        if not reader.is_alive():
+            child.stdout.close()
+    require(not reader.is_alive() and len(output) == 1 and output[0] is not None,
+            "OpenSSL confirmation output unavailable")
+    raw = output[0]
+    require(len(raw) <= 65536, "OpenSSL confirmation output exceeded limit")
+    text = raw.decode("utf-8", errors="replace").replace("\r\n", "\n")
+    require(code == 1, "OpenSSL confirmation did not reject h2")
+    for marker in (r"^Verification: OK$", r"^Verify return code: 0 \(ok\)$", r"^No ALPN negotiated$"):
+        require(re.search(marker, text, re.M), "OpenSSL confirmation lacks expected diagnostic status/ALPN markers")
+    lines = [line.strip() for line in text.splitlines()]
+    statuses = [line for line in lines if re.match(r"^Verification\b", line, re.I)]
+    codes = [line for line in lines if re.match(r"^Verify\s+return\s+code\b", line, re.I)]
+    require(statuses == ["Verification: OK"] and codes == ["Verify return code: 0 (ok)"],
+            "OpenSSL confirmation contains duplicate, conflicting or unknown verification status")
+    alert = r"^[^\r\n]*:error:0A000460:SSL routines:ssl3_read_bytes:(?:reason\(1120\)|tlsv1 alert no application protocol):[^\r\n]*:SSL alert number 120$"
+    require(re.search(alert, text, re.M), "OpenSSL confirmation lacks explicit fatal ALPN alert 120")
+    require(not re.search(r"ALPN protocol:|verify error:|Verification error:|connect:errno=|Connection refused|SSL alert number (?!120\b)|:error:(?!0A000460:)", text),
+            "OpenSSL confirmation contains conflicting failure or protocol")
+    return {"method": "openssl_s_client", "alert_number": 120, "selected": None,
+            # A fatal pre-certificate alert cannot itself authenticate the peer.
+            # Verified Python HTTP/1.1 controls before/after own that evidence.
+            "verification_status": "ok", "exit_code": code,
+            "output_sha256": hashlib.sha256(raw).hexdigest(), "output_bytes": len(raw)}
+
+
+def probe_alpn(connect, offered, expected, confirm_opaque=None):
     """Benign TLS negotiation only: never send HTTP/2 frames or stress inputs."""
     try:
         with connect(offered) as connection:
@@ -105,6 +160,17 @@ def probe_alpn(connect, offered, expected):
                          and re.fullmatch(r"\[SSL\] tlsv1 alert no application protocol \(_ssl\.c:\d+\)", str(error)) is not None)
         if offered == ["h2"] and expected is None and (reason == "TLSV1_ALERT_NO_APPLICATION_PROTOCOL" or generic_alert):
             return {"offered": offered, "selected": None, "handshake": "no_application_protocol"}
+        opaque = (offered == ["h2"] and expected is None and error.errno == ssl.SSL_ERROR_SSL
+                  and getattr(error, "library", None) == "SSL" and reason in (None, "SSL")
+                  and re.fullmatch(r"\[SSL\] unknown error \(_ssl\.c:\d+\)", str(error)) is not None)
+        if opaque and confirm_opaque is not None:
+            proof = confirm_opaque()
+            require(isinstance(proof, dict) and proof.get("method") == "openssl_s_client"
+                    and proof.get("alert_number") == 120 and "selected" in proof and proof["selected"] is None
+                    and proof.get("verification_status") == "ok" and proof.get("exit_code") == 1,
+                    "Opaque Python TLS error lacks independent confirmation")
+            return {"offered": offered, "selected": None, "handshake": "independently_confirmed_alert_120",
+                    "python_observation": "opaque_ssl_unknown_error", "independent_confirmation": proof}
         raise
 
 
@@ -365,7 +431,12 @@ def main():
         require(codes == [200], ("HTTP/1.1 ALPN allowed root", codes))
         state["results"]["alpn_http11_root_200_with_security_headers"] = True
         state["results"]["alpn_h2_only"] = probe_alpn(
-            lambda offered: connect(True, alpn=offered), ["h2"], None)
+            lambda offered: connect(True, alpn=offered), ["h2"], None,
+            confirm_opaque=lambda: confirm_h2_alert(mapped_port(state["ports"], True), base / "fullchain.pem"))
+        # Recheck the same live process after the refused offer; no restart can mask failure.
+        codes, _, _ = burst(["/"], alpn=["http/1.1"])
+        require(codes == [200], ("HTTP/1.1 root after h2 refusal", codes))
+        state["results"]["http11_root_after_h2_refusal_200_with_security_headers"] = True
         require(set(state["ports"]) <= {"80/tcp", "443/tcp"}, "Unexpected non-TCP publisher")
         state["results"]["http3_disabled"] = {
             "tcp_only_published_ports": True,
