@@ -4,6 +4,10 @@ This example places Cloudflare in front of the website's existing origin protect
 
 The intended path is: **visitor → Cloudflare edge → restricted origin/Nginx → private application container → private data services**. Administrative VPN access has its own narrowly allowed path. The origin still enforces hostname/TLS checks, allowed routes, safe input handling, authentication, rate limits and least privilege.
 
+## Protocol-parser patching
+
+Confirm protocols independently on visitor-to-edge and edge-to-origin connections. During mitigation keep the origin on its reviewed HTTP/1.1 profile, patch the affected binary and verify old-worker exit. Check certificates and restricted ingress through the change. [Nginx procedure](NGINX-EDGE-SECURITY.md) · [Cloudflare origin HTTP/2](https://developers.cloudflare.com/speed/optimization/protocol/http2-to-origin/)
+
 ## How DDoS works
 
 Denial of service means making a service unavailable or too slow for legitimate users. A distributed attack uses many traffic sources. The sources may be compromised machines, coordinated clients, proxies or traffic from systems abused to reflect responses. Source count alone is not proof of an attack.

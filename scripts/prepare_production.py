@@ -27,7 +27,7 @@ DENIED_PARTS = {
     "private-evidence", "api-delegations", ".dpapi",
     "amqic-protected-input", ".codex", ".agents", "state", "debug", "tmp", "temp", ".kube",
     ".graphify", "graphify-out", "graphify-output", ".internal", "receipts", "checkpoints", "plans",
-    ".github", ".gitlab", ".devcontainer", ".claude", ".cursor", ".windsurf",
+    ".github", ".gitlab", ".devcontainer", ".claude", ".cursor", ".windsurf", ".dsh",
 }
 DENIED_SUFFIXES = {".key", ".keyx", ".pem", ".p12", ".pfx", ".kdbx", ".secret", ".dpapi", ".log", ".bak", ".old", ".pyc", ".map", ".zip", ".gz", ".tar", ".sqlite", ".db"}
 TEXT_SUFFIXES = {".js", ".mjs", ".cjs", ".jsx", ".ts", ".tsx", ".py", ".json", ".yaml", ".yml", ".toml", ".ini", ".conf", ".txt", ".md", ".html", ".css", ".sh", ".sql", ".xml", ".svg"}
@@ -36,7 +36,7 @@ INTERNAL_FILES = {
     "agents.md", "agents.override.md", "claude.md", "gemini.md", ".cursorrules", ".windsurfrules", "config.local.toml", ".mcp.json", "mcp.json", "mcp.local.json",
     ".graphifyignore", "graphify.json", "graphify.config.json", "graphify.config.yaml", "graphify.config.yml",
     "graphify.config.toml", "graphify-index.json", "graphify.index.json", "graphify-index.sqlite",
-    ".gitignore", ".gitattributes", ".editorconfig", ".dockerignore",
+    ".gitignore", ".gitattributes", ".editorconfig", ".dockerignore", "prompt-inject.md",
 }
 CREDENTIAL_NAME = r"(?:password|passwd|secret|token|api[_-]?key|private[_-]?key)"
 QUOTED_VALUE = r'''["'][^"'\r\n]+["']'''

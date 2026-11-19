@@ -75,3 +75,15 @@ The runnable example is in `infra/container/quarantine.compose.yaml`. Preparatio
 5. After admission, build and verify a new image in a separate build environment without operational secrets. In `infra/container/compose.yaml`, pass the approved `APP_IMAGE_REPOSITORY` and `APP_IMAGE_SHA256`. The operational Compose runs the application and does not perform quarantine downloads. Changing a tag without checking the digest does not promote admitted bytes.
 
 This describes the quarantine process. A network downloader, proxy, registry, and signing infrastructure are not installed automatically. Assign an owner and exact cleanup resources to each temporary environment beforehand. Preserve the report and approved hashes, then remove only the disposable resources owned by this operation after independent authorization of the required destructive steps.
+
+## Privileged AI agent sessions
+
+Use the [agent runtime guide](AI-AGENT-RUNTIME.md) for separate run identities, mediated egress, credential brokers, exact approvals and emergency revocation. A protected terminal keeps new input out of chat; it does not make a same-user unrestricted agent unable to read local credentials. Inventory each generation and test operator-controlled stop and issuer-side token revocation. Keep distributed replay state and expiration consistent across instances.
+
+## Automated probing and report handling
+
+Use the [defense playbook](AUTOMATED-PROBING-DEFENSE.md) to correlate trusted identity/source activity, distinguish denied probes from completed effects, and apply scoped containment. Keep canary route mappings private and alert-only. Protect HMAC state and quota continuity; resetting counters or downgrading failed authentication is not recovery. Inspect incoming reports and reproduce only in an isolated environment; never auto-run their scripts or grant privileged agent actions from report text.
+
+## Installed coding-agent integrity
+
+Follow the [runtime integrity guide](AGENT-RUNTIME-INTEGRITY.md) for package/launcher/configuration inventories, approved maintenance windows, independently protected file baselines and effective permission checks. Preserve unexplained-drift evidence before authorized remediation. Artifact SRI, current installed files and actual containment are separate observations. No installed agent or host permission mode is inspected or changed by this repository's local verification.

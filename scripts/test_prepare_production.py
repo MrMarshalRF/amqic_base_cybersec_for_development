@@ -88,6 +88,28 @@ class ProductionTests(unittest.TestCase):
                     production.prepare(self.source, self.target, [name])
         self.assertFalse(self.target.exists())
 
+    def test_agent_home_and_override_blocked_before_source_inspection(self):
+        names = [".dsh/config.json", "nested/.dsh/config.json",
+                 ".DSH/settings.json", "nested/.DsH/rules.md",
+                 "prompt-inject.md", "nested/prompt-inject.md",
+                 "PROMPT-INJECT.MD", "nested/Prompt-Inject.Md"]
+        with patch.object(production, "inspect_file", side_effect=AssertionError("must not inspect")), \
+             patch.object(production, "read_scanned", side_effect=AssertionError("must not read")):
+            for name in names:
+                with self.subTest(name=name), self.assertRaises(production.Blocked) as failure:
+                    production.prepare(self.source, self.target, [name])
+                self.assertEqual(failure.exception.finding,
+                                 {"path": name, "rule": "excluded-file-or-directory"})
+        self.assertFalse(self.target.exists())
+
+    def test_agent_home_and_override_manifest_is_rejected(self):
+        self.target.mkdir()
+        for name in ("nested/.DSH/settings.json", "nested/PROMPT-INJECT.MD"):
+            document = production.manifest_for([{"path": name, "size": 0, "sha256": "0" * 64}])
+            (self.target / production.MANIFEST).write_text(json.dumps(document), encoding="utf-8")
+            with self.subTest(name=name), patch.object(production, "read_scanned", side_effect=AssertionError("must not read")), self.assertRaises(production.Blocked):
+                production.validate(self.target)
+
     def test_tracked_private_artifact_is_still_rejected(self):
         name = ".agent-work/task.json"
         path = self.source / name
@@ -117,7 +139,8 @@ class ProductionTests(unittest.TestCase):
                 production.validate(self.target)
 
     def test_ordinary_source_names_are_not_private_artifacts(self):
-        names = ["app/evidence.json", "app/agent-workflow.mjs", "package-lock.json", "deploy/compose.yaml"]
+        names = ["app/evidence.json", "app/agent-workflow.mjs", "package-lock.json", "deploy/compose.yaml",
+                 "app/prompt-inject-public.md", "app/dsh-client.mjs", ".dsh-public/config.json"]
         for name in names:
             path = self.source / name
             path.parent.mkdir(parents=True, exist_ok=True)

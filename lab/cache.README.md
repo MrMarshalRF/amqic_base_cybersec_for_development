@@ -5,7 +5,7 @@ Node.js 22+ and Docker with the fixed local image below are required. The ALL la
 preparation step can fetch this exact digest; this individual verifier never
 selects a mutable tag or downloads an alternative image.
 
-`nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10`
+`nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598`
 
 The verifier starts two actual Nginx containers on one dedicated internal Docker
 network. One serves only synthetic responses; the other performs real proxy
@@ -34,7 +34,7 @@ content on public asset URLs. In production, public fingerprinted assets should
 be invariant and private data should use separate routes.
 
 An exclusive external JSON report contains source hashes, observed image ID and
-Nginx version, named assertions, and cleanup results. The adjacent
+Nginx version and `nginx -V` build output, named assertions, and cleanup results. The adjacent
 `.resources.json` records launch intent, exact container/network IDs, observed
 start times and lifecycle state. Exit 0 means all assertions and cleanup passed;
 exit 1 means failure. Cleanup discovers only the exact random ownership label,

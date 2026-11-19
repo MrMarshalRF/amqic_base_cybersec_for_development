@@ -6,6 +6,11 @@ error_log /dev/stderr crit;
 events { worker_connections 512; }
 http {
     server_tokens off;
+    # Requires ngx_http_v2_module and nginx >= 1.25.1. Keep client HTTP/2 disabled.
+    http2 off;
+    # HTTP/3 stays disabled: no QUIC/UDP listeners or Alt-Svc advertisement.
+    # Do not add http3 directives to builds without ngx_http_v3_module.
+    proxy_hide_header Alt-Svc;
     merge_slashes on;
     client_max_body_size 1m;
     client_body_timeout 15s;

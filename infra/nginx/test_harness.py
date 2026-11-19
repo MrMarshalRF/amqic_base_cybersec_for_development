@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import ssl
 import tempfile
 import subprocess
 import unittest
@@ -15,6 +16,73 @@ from render import load_paths, render
 
 
 class HarnessTests(unittest.TestCase):
+    def test_observed_nginx_build_records_version_and_modules(self):
+        observed = harness.nginx_build("nginx version: nginx/1.30.7\nconfigure arguments: --with-http_v2_module --with-http_v3_module\n")
+        self.assertEqual(observed["version"], "1.30.7")
+        self.assertTrue(observed["http_v2_module"])
+        self.assertTrue(observed["http_v3_module"])
+        self.assertFalse(harness.nginx_build("nginx version: nginx/1.30.7")["http_v3_module"])
+        with self.assertRaises(AssertionError):
+            harness.nginx_build("unknown binary")
+
+    def test_alpn_rejects_h2_selection_and_accepts_http11(self):
+        connection = MagicMock()
+        connection.__enter__.return_value = connection
+        connection.selected_alpn_protocol.return_value = "http/1.1"
+        connect = MagicMock(return_value=connection)
+        result = harness.probe_alpn(connect, ["h2", "http/1.1"], "http/1.1")
+        self.assertEqual(result["selected"], "http/1.1")
+        connection.sendall.assert_not_called()
+        connection.selected_alpn_protocol.return_value = "h2"
+        with self.assertRaises(AssertionError):
+            harness.probe_alpn(connect, ["h2"], None)
+        connection.selected_alpn_protocol.return_value = None
+        self.assertIsNone(harness.probe_alpn(connect, ["h2"], None)["selected"])
+        connection.__exit__.assert_called()
+
+    def test_alpn_does_not_misclassify_unrelated_tls_failures(self):
+        connect = MagicMock(side_effect=ssl.SSLError("unrelated TLS failure"))
+        with self.assertRaises(ssl.SSLError):
+            harness.probe_alpn(connect, ["h2"], None)
+        error = ssl.SSLError("no application protocol")
+        error.reason = "TLSV1_ALERT_NO_APPLICATION_PROTOCOL"
+        connect.side_effect = error
+        self.assertEqual(harness.probe_alpn(connect, ["h2"], None)["handshake"], "no_application_protocol")
+        with self.assertRaises(ssl.SSLError):
+            harness.probe_alpn(connect, ["h2", "http/1.1"], "http/1.1")
+
+    def test_alpn_accepts_exact_windows_generic_ssl_alert_only_for_h2_only(self):
+        for reason in (None, "SSL"):
+            error = ssl.SSLError(ssl.SSL_ERROR_SSL,
+                                 "[SSL] tlsv1 alert no application protocol (_ssl.c:1028)")
+            if reason is not None:
+                error.reason = reason
+            connect = MagicMock(side_effect=error)
+            with self.subTest(reason=reason):
+                self.assertEqual(harness.probe_alpn(connect, ["h2"], None)["handshake"], "no_application_protocol")
+                for offered, expected in ((["h2", "http/1.1"], "http/1.1"),
+                                          (["http/1.1"], None), (["h2", "http/1.1"], None)):
+                    with self.assertRaises(ssl.SSLError):
+                        harness.probe_alpn(connect, offered, expected)
+
+    def test_alpn_rejects_other_ssl_alerts_and_near_matches(self):
+        messages = ["[SSL] tlsv1 alert handshake failure (_ssl.c:1028)",
+                    "[SSL] certificate verify failed (_ssl.c:1028)",
+                    "[SSL] EOF occurred in violation of protocol (_ssl.c:1028)",
+                    "[SSL] tlsv1 alert no application protocol (_ssl.c:1028) extra",
+                    "prefix [SSL] tlsv1 alert no application protocol (_ssl.c:1028)"]
+        for message in messages:
+            error = ssl.SSLError(ssl.SSL_ERROR_SSL, message)
+            error.reason = "SSL"
+            with self.subTest(message=message), self.assertRaises(ssl.SSLError):
+                harness.probe_alpn(MagicMock(side_effect=error), ["h2"], None)
+        for number, reason in ((ssl.SSL_ERROR_EOF, "SSL"),
+                               (ssl.SSL_ERROR_SSL, "CERTIFICATE_VERIFY_FAILED")):
+            error = ssl.SSLError(number, "[SSL] tlsv1 alert no application protocol (_ssl.c:1028)")
+            error.reason = reason
+            with self.subTest(number=number, reason=reason), self.assertRaises(ssl.SSLError):
+                harness.probe_alpn(MagicMock(side_effect=error), ["h2"], None)
+
     def test_missing_published_ports_are_transient(self):
         for ports in (None, {}, {"80/tcp": []}, {"80/tcp": None}):
             with self.subTest(ports=ports), self.assertRaises(ConnectionRefusedError):
@@ -125,6 +193,23 @@ class HarnessTests(unittest.TestCase):
 class RegistryPolicyTests(unittest.TestCase):
     root = Path(__file__).resolve().parents[2]
 
+    def test_protocol_policy_rejects_enabled_protocols_or_advertisement(self):
+        config = render("kit.example.test", "192.168.240.2:8080",
+                        self.root / "infra/protected-paths.json",
+                        self.root / "infra/nginx/nginx.conf.template")
+        self.assertEqual(harness.protocol_config(config), {
+            "http2": "off", "quic_udp_listeners": False, "alt_svc": "suppressed"})
+        self.assertLess(config.index("http2 off;"), config.index("    server {"))
+        for changed in (config.replace("http2 off;", "http2 on;"),
+                        config.replace("http2 off;", ""),
+                        config.replace("listen 443 ssl;", "listen 443 ssl http2;"),
+                        config.replace("listen 443 ssl;", "listen 443 quic;"),
+                        config.replace("http2 off;", "http2 off; http3 on;"),
+                        config.replace("proxy_hide_header Alt-Svc;", ""),
+                        config.replace("http2 off;", 'http2 off; add_header Alt-Svc \'h3=":443"\';')):
+            with self.subTest(candidate=changed[:80]), self.assertRaises(AssertionError):
+                harness.protocol_config(changed)
+
     def test_actual_rendered_registry_literals_and_boundaries(self):
         paths = load_paths(self.root / "infra/protected-paths.json")
         config = render("kit.example.test", "192.168.240.2:8080",
@@ -177,9 +262,9 @@ class RegistryPolicyTests(unittest.TestCase):
                     "/ssl/server.key", "/ssl/localhost.key", "/backend/settings.py",
                     "/config/custom-environment-variables.json", "/config/database.json",
                     "/gc-service.json", "/google-service-account.json", "/google-services.json",
-                    "/api/proc/self/environ"}
+                    "/api/proc/self/environ", "/.dsh", "/prompt-inject.md"}
         self.assertTrue(expected.issubset(paths))
-        self.assertEqual(len(paths), 158)
+        self.assertEqual(len(paths), 160)
         self.assertNotIn("/assets/admin/*.map", paths)
         self.assertFalse(any(".." in path.split("/") for path in paths))
 
@@ -218,7 +303,9 @@ class RegistryPolicyTests(unittest.TestCase):
                      "dump.sql", "private.sql.gz",
                      ".agent-work/task.json", "nested/.agent-work/task.md",
                      "private-evidence/check.md", "api-delegations/task.json",
-                     ".dpapi/store.json", "nested/session.dpapi"]
+                     ".dpapi/store.json", "nested/session.dpapi",
+                     ".dsh/config.json", "nested/.dsh/settings.json",
+                     "prompt-inject.md", "nested/prompt-inject.md"]
         negatives = [".env.example", ".env.prod.example", "nested/.env.worker.example",
                      "env.example", "env.sample", "envs/staging.example", "envs/staging.sample",
                      "terraform.tfvars.example", "schema.sql", "db/schema.rb", "db/seeds.rb",
@@ -236,7 +323,9 @@ class RegistryPolicyTests(unittest.TestCase):
                      "reference/core.mjs", "release-public-key.pem", "release-public-key.gpg",
                      "app/evidence.json", "app/agent-workflow.mjs",
                      "config.local.toml.example", ".env.production.example",
-                     "deploy/compose.yaml", "trust/public.crt", "trust/public.cer"]
+                     "deploy/compose.yaml", "trust/public.crt", "trust/public.cer",
+                     ".dsh-public/config.json", "nested/prompt-inject-public.md",
+                     "app/dsh-client.mjs"]
         # Git subprocesses must not inherit a caller's repository/index redirects
         # or machine-global ignore policies. A hostile synthetic parent environment
         # exercises isolation without referencing any real repository or secret.

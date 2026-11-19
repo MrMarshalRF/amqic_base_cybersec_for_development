@@ -28,6 +28,18 @@ Quantum Information, Artificial Intelligence, Mathematical Physics Scientist | C
 
 AI-assisted development, testing, and review — **[OpenAI Codex](https://openai.com/codex/)**, under the direction of the project maintainer.
 
+## Nginx protocol-parser security
+
+The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.
+
+## AI agent runtime protection
+
+The [agent runtime guide](docs/AI-AGENT-RUNTIME.md) explains how to separate an agent from secrets and privileged actions, constrain tools and network access, review policy changes and stop a run externally. The [tested reference guard](enterprise/agent-runtime/README.md) covers exact tool/argument approvals, per-generation revocation, local admission and conservative egress planning. Operating-system isolation and actual egress enforcement require deployment-specific checks.
+
+## Defense against automated probing
+
+The [defense guide](docs/AUTOMATED-PROBING-DEFENSE.md) combines minimal exposure, layered request budgets, generic errors, inert canary signals and evidence-based disclosure handling. Its [working reference](enterprise/probe-defense/README.md) includes atomic same-host multi-dimension admission, safe denial responses and a conservative security.txt generator. These controls apply to unauthorized automation broadly; no client-name detector or third-party pentest tool is installed.
+
 ## Enterprise security profile
 
 Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The profile includes distributed admission, cloud KMS and identity federation references, plus operating playbooks and SIEM export. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
@@ -50,6 +62,10 @@ The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and
 ## Recommended security resources
 
 Independent projects for additional security review and AI-agent protection. Review each project's current documentation and applicability to your environment.
+
+### Agent runtime integrity — optional external reference
+
+The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) discusses installed-file monitoring, external permission policy and extension review. [dsh-purge](https://github.com/ZiPengWei/dsh-purge) is linked as optional external material illustrating guardrail-modification risks. Review its exact source and intended effects before considering use; this kit provides no installation, copied logic or integration.
 
 ### SandHive
 

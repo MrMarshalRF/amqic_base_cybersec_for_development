@@ -8,6 +8,8 @@ Include the affected file and commit or release, the expected and observed behav
 
 Keep exploit details out of public issues while the report is being assessed. A public issue can point to this policy without including sensitive details. Reports should stay within authorized, non-disruptive source review and isolated testing.
 
+See the [disclosure scope and evidence policy](docs/DISCLOSURE-POLICY.md). This repository provides no live testing service and grants no permission to scan maintainer or third-party systems. Reports are assessed on evidence and impact, including reports prepared with AI assistance.
+
 ## Response targets
 
 We aim to acknowledge reports within **three business days** and provide an initial assessment within **seven business days**. For an accepted report, we aim to send a progress update at least every **14 calendar days** while work continues. These are best-effort targets rather than a guaranteed service level. If an acknowledgement has not arrived, please follow up on the same email thread.
@@ -160,6 +162,19 @@ The portable origin model evaluates protected-path predicates at server rewrite 
 
 These measures support the existing NIST SP 800-53 `AC-3`/`SC-7` boundary goals and SSDF `PS.2`/`PS.3` release-integrity practices; they are implementation examples, not certification or complete traversal/exposure prevention. Git ignore rules, tracked-file review, deployment-artifact inspection and HTTP denial serve separate purposes. A user-agent name, isolated 4xx response or sampled edge event is not evidence of a compromise. Public incident summaries must exclude raw per-source operational evidence and private infrastructure identifiers.
 
+## v1.7.0 edge protocol-parser controls
+
+The [Nginx guide](docs/NGINX-EDGE-SECURITY.md) covers CVE-2026-123007, CVE-2026-123633 and the need to review other fixes in the vendor release. The lab uses a patched pinned image and tests its restrictive protocol policy with benign TLS/HTTP. The [offline gate](enterprise/runtime/nginx-rollout.mjs) checks supplied per-replica evidence against trusted vendor findings, expected artifacts, process replacement and ETags.
+
+| Measure | NIST SP 800-53 Rev. 5 objectives | Verification |
+| --- | --- | --- |
+| Patch and inventory each proxy product, package and image. | SI-2, CM-8 | Check exact vendor dispositions for every relevant CVE and the artifact actually running. |
+| Keep protocol settings explicit and close QUIC ingress. | CM-6, SC-7 | Local ALPN tests verify HTTP/1.1. Verify effective CDN/origin settings and network ingress on deployment. |
+| Confirm previous masters and workers exited. | CM-6, SI-2 | Gate validates supplied identities and timestamps. The deployment collector authenticates underlying observations. |
+| Monitor worker failures and unexpected process behavior. | SI-4, IR-4 | Validate alerts, diagnostic custody and incident procedures in the target environment. |
+
+[Nginx advisories](https://nginx.org/en/security_advisories.html) · [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)
+
 ## v1.6.0 distributed and operational controls
 
 | Area | Control objectives and reference | Deployment check |
@@ -201,3 +216,39 @@ The [billing offer reference](reference/README.md#subscription-offer-eligibility
 | Limit campaign provisioning and monitor repeated denials or unusual issuance. | [OWASP API6:2023](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/), [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) SI-4, AU-6 and AU-12 | Deployment responsibility. Set quotas and alert thresholds for the campaign. Use minimal redacted audit data and keep raw purchase tokens and payment credentials out of logs. |
 
 The [billing tests](reference/billing-offer.test.mjs) use synthetic provider responses. Live provider and entitlement lifecycle behavior requires target-specific verification.
+
+## AI agent runtime and control-plane boundaries
+
+The [agent runtime guide](docs/AI-AGENT-RUNTIME.md) covers prompt injection, tool/MCP misuse, credential exposure, SSRF, extension supply chain, privilege drift and external revocation. The [reference guard](enterprise/agent-runtime/README.md) tests exact catalog/argument authorization, approval binding, supported-policy narrowing and single-instance admission/replay. Its offline egress plan does not open or bind a network connection, enforce a firewall or install a sandbox. Trusted handlers, authenticated identity, broker isolation and an external kill switch remain deployment responsibilities.
+
+| Measure | Primary standards/reference | Evidence boundary |
+| --- | --- | --- |
+| Constrain tools and arguments; bind approval to the exact actor, generation and request. | [OWASP LLM Top 10](https://genai.owasp.org/llm-top-10/) LLM01/LLM06; [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) AC-3, AC-6 | Synthetic positive/negative tests. A model assertion or correlation ID cannot establish authorization. |
+| Mediate egress and credentials outside the agent. | NIST SP 800-53 SC-7; [MCP security best practices](https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices); [CWE-918](https://cwe.mitre.org/data/definitions/918.html) | Conservative IPv4-only URL/address tests. Target transport must pin checked DNS results and preserve TLS identity; a real broker must prevent response leakage. |
+| Review policy widening and record protected decisions. | NIST SP 800-53 CM-3, CM-6, AU-3, AU-9; [MITRE ATLAS](https://atlas.mitre.org/) | Schema-limited subset checks and sanitized metadata. No formal verification, OCSF conformance or automatic SIEM delivery claimed. |
+| Stop/revoke, monitor and recover independently of the agent. | NIST SP 800-53 SI-4, IR-4; [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework), [NIST AI 600-1](https://doi.org/10.6028/NIST.AI.600-1) | Local generation/expiry/revocation regressions; deployment-specific stop, distributed state, token revocation and recovery drills remain required. |
+
+OpenShell is linked as an optional documented architecture. No OpenShell component is installed or executed by this kit. Its product-specific defaults, supported policy dimensions and release behavior must be checked for the exact deployed version. These mappings identify selected control relationships, not full standards coverage or certification.
+
+The [OWASP Agentic Top 10](https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/) ASI01/02/03/04/05/09/10 and MITRE ATLAS AML.T0051, AML.M0028, AML.M0029, AML.M0032 and AML.M0037 supply related threat/control categories. Their identifiers were checked against primary sources on 19 November 2026. They do not establish complete technique coverage.
+
+## Automated probing, admission and disclosure
+
+The [defense guide](docs/AUTOMATED-PROBING-DEFENSE.md) covers exposure reduction, trusted identity limits, error hygiene, minimal telemetry and private report handling. The [reference](enterprise/probe-defense/README.md) tests atomic same-host SQLite budgets, ordinary denial responses, inert canary events and a conservative security.txt profile. No offensive agent or scanner is installed, executed or integrated. A canary signal or client fingerprint does not establish malicious intent; the implementation performs no automatic ban or action against a visitor.
+
+| Measure | Verified primary reference | Scope of evidence |
+| --- | --- | --- |
+| Document and enforce business limits; resist abusive automation. | [OWASP ASVS 5.0.0](https://github.com/OWASP/ASVS/tree/v5.0.0) 2.1.3, 2.3.2, 2.4.1; [OWASP API4:2023](https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/) and [API6:2023](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/) | Synthetic identity/source rotation, atomic limits, concurrent SQLite connections, capacity and time tests. Multi-host atomicity, business authorization and production load remain target responsibilities. |
+| Restrict unintended exposure and sensitive error details. | ASVS 5.0.0 13.4.1, 13.4.2, 13.4.5, 16.5.1; [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) CM-7, CM-8, SC-7(5), SI-11 | Generic-response tests and existing origin controls; intentionally public documentation/discovery remains an operator decision. Actual deployed exposure needs inventory and target checks. |
+| Detect suspicious behavior and contain confirmed abuse. | NIST SP 800-53 SC-5, SI-4, AU-3, AU-6(3), AU-9, SC-26, IR-4; [FBI FLASH-20261113-001](https://www.ic3.gov/CSA/2026/261113.pdf) | Inert alert-only canary tests and an operations runbook. Correlation, alert delivery, triage and containment require deployed controls; no timing-equivalence or detection-effectiveness benchmark is claimed. |
+| Publish a disclosure contact and preserve HTTP semantics. | [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html), [RFC 6585 section 4](https://www.rfc-editor.org/rfc/rfc6585.html#section-4), NIST SP 800-53 RA-5(11) | Content-generation and 403/404/429 tests. security.txt conveys contact/policy, not authorization. The default Nginx dot-path guard still denies its well-known path until a deployment adds and tests an exact exception. |
+
+The FBI advisory is a dated defensive source, not attribution of legitimate research tools or their authors. ASVS references use the stable 5.0.0 edition; its logging requirements do not by themselves certify operational alerting/SIEM effectiveness. These selected mappings are not certification or a claim that every probe, exploit or vulnerability-discovery method is prevented.
+
+## Installed agent integrity and extension policy
+
+The [integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) distinguishes authenticated artifact bytes, installed-file state, effective permissions and external enforcement. The optional dsh-purge reference supplies no copied code, installer, launcher change or execution workflow. Neither a tool name nor an approval-mode label establishes compromise; assess changes against the operator's approved policy and exact product semantics.
+
+The existing production/ignore/origin rules now cover `.dsh` and `prompt-inject.md`; tests validate nested/case staging rejection, Git ignore behavior and the canonical protected-path boundaries. The current registry has 160 entries. [CODEOWNERS](.github/CODEOWNERS) records review ownership, while required review/ruleset activation remains a separate GitHub configuration step.
+
+Selected mappings are [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) CM-3, CM-5, CM-6, SI-7, AC-6, SC-39 and AU-2/AU-9/AU-12; [SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final) PS.1.1, PS.2.1 and PW.4.4; [OWASP LLM03](https://genai.owasp.org/llmrisk/llm032025-supply-chain/), [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) and MITRE ATLAS AML.T0081/AML.M0037. These support artifact/source protection, extension review and detection of unauthorized changes. No local installed-agent inspection, deployed FIM, host permission enforcement, new SIEM schema or branch protection is claimed.

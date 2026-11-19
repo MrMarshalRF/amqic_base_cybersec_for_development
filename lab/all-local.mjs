@@ -40,7 +40,7 @@ for (let i = 0; i < argv.length; i++) {
 const fixedImages = [
   { id: 'clamav', reference: 'clamav/clamav@sha256:64ca916618842ba469ef38a501e6c2f42a68281c064c03749b0126c0fb085ce5' },
   { id: 'redis', reference: 'redis@sha256:02f2cc4882f8bf87c79a220ac958f58c700bdec0dfb9b9ea61b62fb0e8f1bfcf' },
-  { id: 'nginx', reference: 'nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10' },
+  { id: 'nginx', reference: 'nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598' },
   { id: 'node-tool-base', reference: 'node:22-bookworm@sha256:e13726ca604184d7a91fcacab1fc09eefd642dc28e79ac34e85540dd93b78cfb' },
   { id: 'python-tool-base', reference: 'python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7' },
   { id: 'upload-python', reference: 'python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704' },

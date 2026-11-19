@@ -69,6 +69,45 @@ def require(condition, detail):
         raise AssertionError(detail)
 
 
+def nginx_build(version_output):
+    """Record observed binary version/modules; no inference of vulnerability clearance."""
+    match = re.search(r"nginx version: nginx/(\d+\.\d+\.\d+)", version_output)
+    require(match is not None, "Cannot parse observed nginx -V version")
+    return {"version": match.group(1), "nginx_V": version_output,
+            "http_v2_module": "--with-http_v2_module" in version_output.split(),
+            "http_v3_module": "--with-http_v3_module" in version_output.split()}
+
+
+def protocol_config(config):
+    active = "\n".join(line.split("#", 1)[0] for line in config.splitlines())
+    require(re.findall(r"\bhttp2\s+([^;]+);", active) == ["off"], "HTTP/2 must be explicitly off")
+    listeners = re.findall(r"\blisten\s+([^;]+);", active)
+    require(listeners and all(not ({"quic", "udp", "http2"} & set(line.split()))
+                              for line in listeners), "Unexpected HTTP/2 or QUIC/UDP listener")
+    require(not re.search(r"\bhttp3\s+on\s*;", active), "HTTP/3 enabled")
+    require(not re.search(r"\badd_header\s+Alt-Svc\b", active, re.I), "Alt-Svc configured")
+    require(re.search(r"\bproxy_hide_header\s+Alt-Svc\s*;", active, re.I), "Upstream Alt-Svc not suppressed")
+    return {"http2": "off", "quic_udp_listeners": False, "alt_svc": "suppressed"}
+
+
+def probe_alpn(connect, offered, expected):
+    """Benign TLS negotiation only: never send HTTP/2 frames or stress inputs."""
+    try:
+        with connect(offered) as connection:
+            selected = connection.selected_alpn_protocol()
+            require(selected == expected, ("Unexpected ALPN protocol", offered, selected))
+            return {"offered": offered, "selected": selected, "handshake": "accepted"}
+    except ssl.SSLError as error:
+        # A strict server may refuse an h2-only offer instead of negotiating no ALPN.
+        reason = getattr(error, "reason", None)
+        # Some Windows OpenSSL builds expose this exact alert under generic SSL.
+        generic_alert = (reason in (None, "SSL") and error.errno == ssl.SSL_ERROR_SSL
+                         and re.fullmatch(r"\[SSL\] tlsv1 alert no application protocol \(_ssl\.c:\d+\)", str(error)) is not None)
+        if offered == ["h2"] and expected is None and (reason == "TLSV1_ALERT_NO_APPLICATION_PROTOCOL" or generic_alert):
+            return {"offered": offered, "selected": None, "handshake": "no_application_protocol"}
+        raise
+
+
 def mapped_port(ports, secure):
     bindings = ports.get("443/tcp" if secure else "80/tcp") if isinstance(ports, dict) else None
     if not bindings:
@@ -155,6 +194,8 @@ def main():
     server {
         listen 18080;
         add_header Content-Security-Policy $synthetic_upstream_csp always;
+        # The public proxy must suppress even an upstream HTTP/3 advertisement.
+        add_header Alt-Svc 'h3=":443"; ma=60' always;
         location / { return 200 "synthetic upstream"; }
     }
 }
@@ -164,6 +205,9 @@ def main():
         result = result.replace("192.168.240.2:8080", "127.0.0.1:18080")
         return add_static_bypass_fixture(result).rsplit("}", 1)[0] + upstream_fixture
 
+    # Check the portable render before adding the deliberately advertising upstream.
+    protocol_policy = protocol_config(render("kit.example.test", "192.168.240.2:8080",
+                                            here.parent / "protected-paths.json", here / "nginx.conf.template"))
     config = make_config()
     (base / "nginx.conf").write_text(config, encoding="utf-8")
     (base / "nginx.conf").chmod(0o444)
@@ -173,6 +217,7 @@ def main():
         "intent": "create and remove one isolated test bridge and loopback-only nginx container",
         "source_sha256": source_hashes,
         "rendered_config_sha256": hashlib.sha256(config.encode("utf-8")).hexdigest(),
+        "protocol_policy": protocol_policy,
         "starts": [], "results": {},
     }
     report = base / "report.json"
@@ -220,7 +265,7 @@ def main():
             state["starts"][-1]["listeners_ready"] = True
             save()
 
-        def connect(secure, timeout=5):
+        def connect(secure, timeout=5, alpn=None):
             port = mapped_port(state["ports"], secure)
             deadline = time.monotonic() + timeout
             connection = socket.create_connection(("127.0.0.1", port), timeout=timeout)
@@ -231,7 +276,11 @@ def main():
                 connection.settimeout(remaining)
                 if not secure:
                     return connection
-                return context.wrap_socket(connection, server_hostname="kit.example.test")
+                tls_context = context
+                if alpn is not None:
+                    tls_context = ssl.create_default_context(cafile=str(base / "fullchain.pem"))
+                    tls_context.set_alpn_protocols(alpn)
+                return tls_context.wrap_socket(connection, server_hostname="kit.example.test")
             except BaseException:
                 connection.close()
                 raise
@@ -251,11 +300,14 @@ def main():
                 raise ConnectionRefusedError("Synthetic metadata deadline")
             return connect(secure, timeout=remaining)
 
-        def burst(paths, secure=True, host="kit.example.test", spoof=False, method="GET", additional_csp=None, request_headers=()):
+        def burst(paths, secure=True, host="kit.example.test", spoof=False, method="GET", additional_csp=None, request_headers=(), alpn=None):
             connections = []
             try:
                 for _ in paths:
-                    connections.append(connect(secure))
+                    connection = connect(secure, alpn=alpn)
+                    connections.append(connection)
+                    if alpn is not None:
+                        require(connection.selected_alpn_protocol() == "http/1.1", "HTTP/1.1 ALPN positive control")
                 begin = time.monotonic()
                 for index, (connection, path) in enumerate(zip(connections, paths)):
                     forwarded = f"X-Forwarded-For: 198.51.100.{index + 1}\r\n" if spoof else ""
@@ -272,6 +324,8 @@ def main():
                         parts.append(part)
                     responses.append(b"".join(parts).decode("latin1"))
                 for response in responses:
+                    if alpn is not None:
+                        require(response.startswith("HTTP/1.1 "), "Unexpected ALPN HTTP response version")
                     headers = {}
                     for line in response.split("\r\n\r\n", 1)[0].split("\r\n")[1:]:
                         name, separator, value = line.partition(":")
@@ -283,6 +337,7 @@ def main():
                     require(sorted(headers.get("content-security-policy", [])) == sorted(expected_policies), "Missing, duplicate or changed CSP")
                     require(headers.get("x-content-type-options") == ["nosniff"], "Missing nosniff")
                     require(headers.get("referrer-policy") == ["no-referrer"], "Missing Referrer-Policy")
+                    require("alt-svc" not in headers, "Unexpected Alt-Svc advertisement")
                     expected_hsts = ["max-age=31536000"] if secure else None
                     require(headers.get("strict-transport-security") == expected_hsts, "HSTS must occur only on HTTPS")
                 state["results"]["security_headers_all_http_responses"] = True
@@ -302,7 +357,24 @@ def main():
             return responses
 
         start()
+        state["nginx_build"] = nginx_build(docker("exec", container, "nginx", "-V"))
         state["syntax"] = docker("exec", container, "nginx", "-t")
+        state["results"]["alpn_h2_and_http11"] = probe_alpn(
+            lambda offered: connect(True, alpn=offered), ["h2", "http/1.1"], "http/1.1")
+        codes, _, _ = burst(["/"], alpn=["h2", "http/1.1"])
+        require(codes == [200], ("HTTP/1.1 ALPN allowed root", codes))
+        state["results"]["alpn_http11_root_200_with_security_headers"] = True
+        state["results"]["alpn_h2_only"] = probe_alpn(
+            lambda offered: connect(True, alpn=offered), ["h2"], None)
+        require(set(state["ports"]) <= {"80/tcp", "443/tcp"}, "Unexpected non-TCP publisher")
+        state["results"]["http3_disabled"] = {
+            "tcp_only_published_ports": True,
+            "quic_listener_configured": False,
+            "module_available": state["nginx_build"]["http_v3_module"],
+            "udp_handshake": "not_run; no UDP/QUIC listener is configured",
+        }
+        save()
+        start(True)
         check_burst("website_protected", "/.env?token=QUERY_MARKER_ONLY", 403)
         check_burst("api_protected", "/api/.env?token=QUERY_MARKER_ONLY", 403)
         codes, _, _ = burst(["/api/.env"] * 3, spoof=True)

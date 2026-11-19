@@ -155,3 +155,7 @@ Keep [CHANGELOG.md](../CHANGELOG.md) as the durable user-visible history. Record
 State the release purpose, supported targets, notable changes and compatibility/migration requirements. Link verification instructions, SECURITY policy and validation results. Identify untested integrations and known limitations. Do not include confidential incident details, secrets or production logs. An initial baseline-security release should not promise complete protection or certified compliance.
 
 Confirm the published tag/commit, asset names, downloaded hashes, signature verification path and expected visibility. Check README links and badges and the release page without relying solely on the maintainer's authenticated view. Record what was actually published and deployed separately. Keep signed previous releases and a recovery path; deleting them is a separate retention decision.
+
+## Review ownership and instruction changes
+
+The supplied [CODEOWNERS](../.github/CODEOWNERS) covers instruction files, skills, workflows and security-sensitive source/metadata. Set the appropriate owner for a fork and configure required code-owner reviews and bypass restrictions through repository rulesets separately. The file alone neither enforces reviews nor prevents direct pushes. Review instructions and workflow changes as supply-chain changes before signing a new registry; this update does not alter remote rulesets.

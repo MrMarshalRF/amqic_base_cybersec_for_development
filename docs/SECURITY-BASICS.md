@@ -239,3 +239,33 @@ The service still needs permission before opening an envelope. The encryption al
 A signed request can be copied. A nonce is its one-use ticket number. If two servers each keep a separate used-ticket list, both may accept the same copied request.
 
 All servers need one authoritative register that atomically accepts the first use and rejects the second. They also need consistent time and expiration: a fast server must not remove a ticket while a slower server still considers it valid. Restoring an old register can make used tickets appear new. The [database laboratory](../lab/database.README.md) tests shared-state examples; production failover needs its own checks.
+
+## 31. Give an agent a limited workshop
+
+Think of an AI coding agent as a helpful contractor reading papers delivered by strangers. A paper might tell the contractor to open your safe. A warning on the wall helps, but the safer arrangement is a separate workshop with only the tools and material needed for the job. Keep the safe, master keys and workshop controls elsewhere. A separate OS identity and a tested sandbox provide that boundary; a prompt alone does not.
+
+## 32. Approve the exact job, not a blank cheque
+
+If you approve shipping one parcel to one address, that approval should not also allow a different parcel or destination. The tool guard snapshots the exact job and binds the approval to it. It rejects an altered job, repeated ticket or old run. Its local register works in one process; multiple servers need shared authoritative state. See the [agent runtime reference](../enterprise/agent-runtime/README.md).
+
+## 33. Keep a receptionist and an outside stop button
+
+A network mediator is a receptionist who connects only approved destinations and checks the actual address before connecting. The outer firewall prevents bypassing that receptionist. A credential broker can add a narrowly scoped credential without handing it directly to the agent, but an allowed service might still echo it back, so responses also need care.
+
+Keep the stop button outside the workshop. Stopping a new call is different from undoing an already-sent parcel. Revoke the run, block new traffic, check completed effects and revoke tokens at their issuer. The [runtime guide](AI-AGENT-RUNTIME.md) separates these steps and their verification.
+
+## 34. Share the allowance across several doors
+
+A request limit per IP is like a queue rule at one door. Someone using another door gets a new queue unless the service also counts the same account, session, tenant and overall route. Apply those limits together before accepting work. The server decides who is asking; a name written by the visitor is not verified identity. Keep anonymous routes explicit rather than treating failed login as a fresh anonymous allowance. The [admission example](../enterprise/probe-defense/README.md) tests these combined decisions on one host.
+
+## 35. Use a harmless tripwire and a clear reporting address
+
+An inert canary is like an alarm on a cupboard nobody needs to open. It records a signal and returns an ordinary denial; it contains no valuable secret and does not attack the visitor. An authorized inspector or configuration mistake may still trigger it, so a human reviews the context.
+
+A security.txt file is a sign giving the right contact and policy. It does not give permission to test a building. Its expiry needs renewal, and a protected website must deliberately allow that exact public contact file while keeping other hidden files closed. See the [defense and disclosure guide](AUTOMATED-PROBING-DEFENSE.md).
+
+## 36. Check the installed workshop, not just the delivery box
+
+A package checksum is like checking that a delivered box matches its shipping label. It does not tell you whether somebody later changed the tools inside your workshop. Installed-file monitoring needs a separately trusted list of expected files plus checks for extra/missing files, permissions and approved changes.
+
+Keep that list and its checker outside the workshop's own write authority. A tool claiming it is safe cannot supply independent proof. Broad access may be an explicitly approved choice for an isolated task; verify the actual boundary instead of guessing from a permission label. See [Agent runtime integrity](AGENT-RUNTIME-INTEGRITY.md).
