@@ -42,6 +42,8 @@ Thanks to **Orvar Odd**, a cybersecurity researcher, for feedback on this toolki
 
 The [database-engine guide](docs/DATABASE-ENGINE-PATCHING.md) separates vendor patching from RLS, column permissions and object-creation restrictions. The PostgreSQL lab pins a reviewed 17.12 image and verifies the actual server version. [Application boundaries](docs/APPLICATION-BOUNDARIES.md) connect a fixed outbound HTTPS transport, allowlisted local return routes and one-use recovery-token references to their tests and deployment requirements.
 
+Host-level adoption guidance covers [SSH trust-file integrity](docs/SSH-KEY-INTEGRITY.md), [host/container egress](docs/HOST-EGRESS-MONITORING.md), [indicator expiry](docs/INDICATOR-HANDLING.md) and [federated identity review](docs/IDENTITY-MONITORING.md). Source-reviewed [Node/PostgreSQL child-shell profiles](enterprise/runtime/README.md#runtime-signals) and [additive SIEM records](enterprise/operations/README.md) provide starting contracts; deployed monitoring and detection effectiveness require target verification.
+
 ## Nginx protocol-parser security
 
 The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.

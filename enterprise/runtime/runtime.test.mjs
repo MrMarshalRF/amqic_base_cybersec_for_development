@@ -120,3 +120,38 @@ test('OpenTofu guardrails and Falco output have narrow statically checked scope'
   const output = falco.split('\n').find(line => line.includes('output:'));
   assert.doesNotMatch(output, /cmdline|args|env|exepath/);
 });
+
+// Source checks only: no auditd, sshd, login, Falco, kernel or shell execution.
+for (const [profile, parent] of [
+  ['java', 'proc.pname = java'],
+  ['nginx', 'proc.pname = nginx'],
+  ['node', 'proc.pname in (node, nodejs)'],
+  ['postgres', 'proc.pname = postgres'],
+]) {
+  test(`${profile} Falco starting rule keeps successful container exec and bounded output`, () => {
+    const falco = fixture(`./profiles/${profile}-shell.falco.yaml`);
+    assert.match(falco, /desc:.*successful shell exec/);
+    assert.match(falco, /evt\.type in \(execve, execveat\) and evt\.dir = < and evt\.rawres >= 0/);
+    assert.match(falco, /container\.id != host/);
+    const condition = falco.split('condition:')[1].split('output:')[0];
+    assert.equal(condition.match(/proc\.pname (?:= \w+|in \([^)]+\))/g)?.join(''), parent);
+    assert.match(condition, /proc\.name in \(sh, bash, dash, ash, zsh, ksh\)/);
+    assert.match(falco, /^  source: syscall$/m);
+    assert.match(falco, /^  priority: WARNING$/m);
+    const outputs = falco.split('\n').filter(line => /^\s*output:/.test(line));
+    assert.equal(outputs.length, 1);
+    assert.doesNotMatch(outputs[0], /cmdline|args|env|exepath/);
+    assert.deepEqual(outputs[0].match(/%[a-zA-Z0-9_.]+/g), [
+      '%container.id', '%proc.pname', '%proc.name', '%proc.pid',
+    ]);
+  });
+}
+
+test('SSH integrity watch template names the file class without live fingerprints', () => {
+  const template = fixture('../../infra/ssh/authorized-keys-integrity.audit.rules.template');
+  assert.match(template, /@@ADMIN_USER@@/);
+  assert.match(template, /authorized_keys/);
+  assert.match(template, /\.ssh/);
+  assert.match(template, /sshd_config\.d\/00-security\.conf/);
+  assert.doesNotMatch(template, /SHA256:[A-Za-z0-9+/]{20,}={0,2}|(?:[0-9a-f]{2}:){15}[0-9a-f]{2}/i);
+});

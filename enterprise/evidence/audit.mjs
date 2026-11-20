@@ -4,9 +4,14 @@ const GENESIS = '0'.repeat(64);
 const HEX = /^[a-f0-9]{64}$/;
 const REF = /^[a-f0-9]{32}$/;
 const MAX_EVENTS = 100000;
-const actions = new Set(['login', 'access-change', 'sensitive-read', 'key-rotation', 'backup-restore', 'admin-action']);
+const actions = new Set(['login', 'access-change', 'sensitive-read', 'key-rotation', 'backup-restore', 'admin-action',
+  'process-exec', 'config-integrity', 'egress-decision', 'indicator-review', 'consent-change',
+  'principal-change', 'campaign-note']);
 const outcomes = new Set(['allow', 'deny', 'error']);
 const fields = ['at', 'action', 'outcome', 'correlationId', 'actorRef', 'tenantRef'];
+const optionalFields = ['caseRef', 'signalClass', 'technique'];
+const signalClasses = new Set(['host-process', 'ssh-key-integrity', 'egress-unapproved', 'indicator',
+  'identity-grant', 'campaign-correlation']);
 
 function exactFields(value, names) {
   return value !== null && typeof value === 'object' && !Array.isArray(value) &&
@@ -14,14 +19,23 @@ function exactFields(value, names) {
 }
 
 function project(event) {
-  if (!exactFields(event, fields) || typeof event.at !== 'string' ||
+  if (event === null || typeof event !== 'object' || Array.isArray(event) ||
+      !fields.every(field => Object.hasOwn(event, field)) ||
+      !Object.keys(event).every(field => fields.includes(field) || optionalFields.includes(field)) ||
+      typeof event.at !== 'string' ||
       !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(event.at) ||
       !Number.isFinite(Date.parse(event.at)) || new Date(event.at).toISOString() !== event.at ||
       !actions.has(event.action) || !outcomes.has(event.outcome) ||
-      ![event.correlationId, event.actorRef, event.tenantRef].every(value => typeof value === 'string' && REF.test(value))) {
+      ![event.correlationId, event.actorRef, event.tenantRef].every(value => typeof value === 'string' && REF.test(value)) ||
+      (Object.hasOwn(event, 'caseRef') && (typeof event.caseRef !== 'string' || event.caseRef.length !== 32 || !REF.test(event.caseRef))) ||
+      (Object.hasOwn(event, 'signalClass') && !signalClasses.has(event.signalClass)) ||
+      (Object.hasOwn(event, 'technique') && (typeof event.technique !== 'string' ||
+        ![5, 9].includes(event.technique.length) || !/^T[0-9]{4}(\.[0-9]{3})?$/.test(event.technique)))) {
     throw new Error('Invalid structured audit event');
   }
-  return Object.fromEntries(fields.map(field => [field, event[field]]));
+  // Preserve legacy bytes; append present optionals in a fixed, additive order.
+  return Object.fromEntries([...fields, ...optionalFields.filter(field => Object.hasOwn(event, field))]
+    .map(field => [field, event[field]]));
 }
 
 function entryFor(sequence, previous, event) {

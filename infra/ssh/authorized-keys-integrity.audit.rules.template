@@ -1,0 +1,20 @@
+# SOURCE-REVIEWED STARTING TEMPLATE ONLY: not installed or auditd-validated.
+# Replace @@ADMIN_USER@@ using the same marker as 00-security.conf.template.
+# Resolve each AllowUsers account, actual home, Match/AuthorizedKeysFile overrides,
+# and the installed sshd drop-in path before loading any candidate.
+# Integrity file class: authorized_keys content/owner/mode, .ssh owner/mode,
+# and the installed drop-in derived from 00-security.conf.template.
+# Paths must exist on the target. The directory watch can include child activity;
+# calibrate it to the intended integrity class rather than broad home-tree logging.
+-w /home/@@ADMIN_USER@@/.ssh/authorized_keys -p wa -k ssh_trust_integrity
+-w /home/@@ADMIN_USER@@/.ssh -p a -k ssh_trust_integrity
+-w /etc/ssh/sshd_config.d/00-security.conf -p wa -k ssh_trust_integrity
+# Review write and attribute changes; retain successful events as review signals.
+# These watches do NOT select successes only or enforce a safe raw field set.
+# Raw audit records may include paths, command lines/arguments and related
+# PROCTITLE/EXECVE records: restrict access and retention to raw collection.
+# A separate trusted allowlisted projection must filter successful events and
+# export ONLY time, account, path class, process identity (opaque where required).
+# NEVER export private keys, raw public-key bodies, command lines, arguments,
+# or environment to SIEM. No parser/sanitizer or automatic lockout is supplied.
+# Keep fingerprints, host names and site-specific account lists out of this file.

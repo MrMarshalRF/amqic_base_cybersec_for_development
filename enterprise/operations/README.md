@@ -68,8 +68,24 @@ Verify backup restore and any remaining dependencies before retirement. Keep an 
 node --test enterprise/operations/siem.test.mjs
 ```
 
-Tests cover a non-genesis segment, repeatable event identifiers, stale ETag and tampering rejection, and offline CLI output. Cloud operations, alerting policies, retention enforcement, legal holds and SIEM connectivity are deployment checks.
+Tests cover a non-genesis segment, repeatable event identifiers, stale ETag and tampering rejection, offline CLI output, additive event fields and legacy byte compatibility. Cloud operations, alerting policies, retention enforcement, legal holds and SIEM connectivity are deployment checks.
 
 ## Database changes and delayed probing
 
-Follow the [engine patch runbook](../../docs/DATABASE-ENGINE-PATCHING.md) for version/exposure evidence and the [campaign correlation procedure](../../docs/AUTOMATED-PROBING-DEFENSE.md#multi-source-and-delayed-campaigns) for multi-origin/multi-day investigation. The current exporter has a closed schema; map operator changes to supported administration records with opaque case references and keep detailed context privately. No new engine/listener/campaign event type or operational detection is activated here.
+Follow the [engine patch runbook](../../docs/DATABASE-ENGINE-PATCHING.md) for version/exposure evidence and the [campaign correlation procedure](../../docs/AUTOMATED-PROBING-DEFENSE.md#multi-source-and-delayed-campaigns) for multi-origin/multi-day investigation. The closed schema supports operator-authored runtime, egress, campaign and identity records with opaque references. Writing a record does not detect the underlying behavior: this offline exporter does not collect process events, detect campaigns or activate a listener or sensor.
+
+The following mapping is intended use, not a category/action constraint on existing v1 records. The original six event fields remain required. Optional `caseRef` is exactly 32 lowercase hex characters, `signalClass` is one of the six values below, and `technique` is an ATT&CK identifier in `Tdddd` or `Tdddd.ddd` form. Present optional fields are validated; omit unused fields. Canonical events retain the original field order, followed by present `caseRef`, `signalClass` and `technique` in that order.
+
+| Signal | category | action | signalClass | technique (optional) |
+| --- | --- | --- | --- | --- |
+| Service-account child shell review | `runtime` | `process-exec` | `host-process` | `T1059.004` |
+| SSH trust-file change review | `runtime` | `config-integrity` | `ssh-key-integrity` | `T1098.004` |
+| Unapproved host egress review | `egress` | `egress-decision` | `egress-unapproved` | `T1567.004` |
+| Indicator match or expiry review | `campaign` | `indicator-review` | `indicator` | omitted |
+| Multi-source campaign note | `campaign` | `campaign-note` | `campaign-correlation` | omitted |
+| Consent or permission change | `identity` | `consent-change` | `identity-grant` | omitted |
+| Service principal or credential change | `identity` | `principal-change` | `identity-grant` | omitted |
+
+Use the [SSH integrity guide](../../docs/SSH-KEY-INTEGRITY.md), [runtime profiles](../runtime/README.md), [host egress guide](../../docs/HOST-EGRESS-MONITORING.md), [indicator handling procedure](../../docs/INDICATOR-HANDLING.md) and [identity monitoring guide](../../docs/IDENTITY-MONITORING.md) for the operator's collection and review responsibilities. Indicator values and their provenance/expiry live in a restricted operator-private store, never in Git or exported event details. Expired or withdrawn indicators must not generate new alerts; matches are human-review enrichment, not attribution or automatic blocking.
+
+Keep raw URLs, command lines, arguments, environment, key material, indicator values and directory display names out of records. All object levels remain closed to extra fields. Host sensors and provider audit logs, authenticated delivery, alert routing, retention and analyst workflows require separate operator integration and target verification; these synthetic tests establish no deployed detection quality.

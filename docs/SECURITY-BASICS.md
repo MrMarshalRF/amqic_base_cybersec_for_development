@@ -38,6 +38,8 @@ Example: a deployment machine signs a request with its Ed25519 private key. The 
 
 SSH can also use Ed25519 keys for administrator access. Machine API signatures and SSH are separate protocols: a key in one system does not automatically grant access to the other. Never send a private key to the server as proof or paste it into a chat. See [machine requests](../reference/README.md) and [initial deployment](INITIAL-DEPLOYMENT.md).
 
+Key-only SSH checks who may enter; it does not notice someone later adding another accepted key. Keep an approved fingerprint inventory and review changes to the trust files and their permissions using [SSH key integrity](SSH-KEY-INTEGRITY.md), while preserving a recovery console.
+
 ## 5. Keep passwords and other secrets out of source code
 
 A secret is information such as a database password, API token or private key. Your application should obtain it through a protected runtime mechanism, not from public code.

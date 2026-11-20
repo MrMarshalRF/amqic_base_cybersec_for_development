@@ -2,7 +2,7 @@
 
 ## v1.8 database and application references
 
-The fixed runner includes synthetic outbound transport/return-route and real local SQLite recovery tests. The PostgreSQL fixture records actual server_version and server_version_num, requires the reviewed17branch fixed minimum, and tests effective TEMP/public-schema denial under runtime roles while retaining allowed CRUD/replay. Distributed admission separately records its actual version and fixed-minimum result. No CVE triggers or external offensive tooling are executed.
+The fixed runner includes synthetic outbound transport/return-route and real local SQLite recovery tests. The PostgreSQL fixture records actual server_version and server_version_num, requires the reviewed 17-branch fixed minimum, and tests effective TEMP/public-schema denial under runtime roles while retaining allowed CRUD/replay. Distributed admission separately records its actual version and fixed-minimum result. No CVE triggers or external offensive tooling are executed.
 
 The outbound suite validates checked-address lookup/TLS options and bounded event/cleanup behavior using synthetic trusted transports; live external TLS endpoints are not probed. Recovery tests do not mutate real credentials, prove delivery or revoke an external session. Oracle, campaign correlation, monitoring and cluster/provider integrations retain their documented operational scope. Current completion evidence must be generated against the final source snapshot; an earlier release's report is not reused as a new run.
 
@@ -125,3 +125,9 @@ The fixed baseline runs `enterprise/probe-defense/probe-defense.test.mjs` with s
 ## Agent homes and standing overrides
 
 The current protected-path registry contains 160 canonical entries. Production tests reject `.dsh` directories and `prompt-inject.md` override files before source reads, including nested/case variants and forged staging manifests. The offline harness checks the generated literal boundaries and actual Git ignore behavior; isolated Nginx validates every current registry entry. Runtime-integrity and third-party-reference guidance is source-reviewed only. No external plugin, installed-agent state or host FIM is executed or inferred as verified.
+
+## v1.8.1 host telemetry references
+
+The shared runtime suite statically checks the SSH integrity watch template and Java, Nginx, Node and PostgreSQL Falco profiles. Operations and audit tests exercise the additive SIEM categories, actions and optional opaque fields, including compatibility with existing v1 records. These checks do not execute auditd, sshd, Falco, kernel probes or live egress/identity sensors. The [SSH](SSH-KEY-INTEGRITY.md), [host egress](HOST-EGRESS-MONITORING.md), [indicator](INDICATOR-HANDLING.md) and [identity](IDENTITY-MONITORING.md) guides remain source-reviewed procedures; operators must verify their deployed collectors, privacy projection, alert routing and response.
+
+The local HTTP fixture checks Fetch-standard blocked ports before publishing its origin, closes rejected OS-assigned listeners before bounded reallocation, and rejects explicit blocked ports. Synthetic tests cover allocation failures and concurrent start/close cleanup; no HTTP action is replayed and host firewall settings are unchanged.

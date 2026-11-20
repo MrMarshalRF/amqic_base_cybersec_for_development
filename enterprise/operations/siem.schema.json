@@ -34,7 +34,11 @@
         "data-access",
         "key-management",
         "recovery",
-        "administration"
+        "administration",
+        "runtime",
+        "egress",
+        "campaign",
+        "identity"
       ]
     },
     "record": {
@@ -88,7 +92,14 @@
                 "sensitive-read",
                 "key-rotation",
                 "backup-restore",
-                "admin-action"
+                "admin-action",
+                "process-exec",
+                "config-integrity",
+                "egress-decision",
+                "indicator-review",
+                "consent-change",
+                "principal-change",
+                "campaign-note"
               ]
             },
             "outcome": {
@@ -115,6 +126,30 @@
               "pattern": "^[a-f0-9]{32}$",
               "minLength": 32,
               "maxLength": 32
+            },
+            "caseRef": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            },
+            "signalClass": {
+              "enum": [
+                "host-process",
+                "ssh-key-integrity",
+                "egress-unapproved",
+                "indicator",
+                "identity-grant",
+                "campaign-correlation"
+              ]
+            },
+            "technique": {
+              "type": "string",
+              "pattern": "^T[0-9]{4}(\\.[0-9]{3})?$",
+              "oneOf": [
+                { "minLength": 5, "maxLength": 5 },
+                { "minLength": 9, "maxLength": 9 }
+              ]
             }
           }
         },

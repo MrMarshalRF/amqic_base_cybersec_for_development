@@ -4,10 +4,102 @@ import { request as httpRequest } from 'node:http';
 import { mkdtemp, rm, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createLabApp } from './web-app.mjs';
+import { EventEmitter } from 'node:events';
+import { createLabApp, startLoopbackListener } from './web-app.mjs';
 
 // These verdicts are intentionally synthetic: real ClamAV evidence is separate.
 const syntheticScanner = async ({ path }) => ({ status: (await readFile(path)).includes(Buffer.from('SYNTHETIC-INFECTED')) ? 'infected' : 'clean', engine: 'synthetic-test', version: '1' });
+
+// Deterministic allocation seam: no sockets, host configuration, or HTTP action retries.
+class AllocatedServer extends EventEmitter {
+  constructor(allocations, { holdClose = false } = {}) {
+    super(); this.allocations = [...allocations]; this.calls = []; this.listening = false; this.holdClose = holdClose;
+  }
+  listen(port, host) {
+    assert.equal(this.listening, false, 'previous allocation must be closed before retry');
+    this.calls.push(['listen', port, host]);
+    const allocation = this.allocations.shift();
+    queueMicrotask(() => {
+      if (allocation instanceof Error) return this.emit('error', allocation);
+      this.port = allocation; this.listening = true; this.emit('listening');
+    });
+  }
+  address() { return this.listening ? { port: this.port } : null; }
+  close(callback) {
+    this.calls.push(['close', this.port]);
+    this.finishClose = () => { this.listening = false; callback(); };
+    if (!this.holdClose) queueMicrotask(this.finishClose);
+  }
+}
+
+test('allocation closes a Fetch-blocked ephemeral port before retrying and publishing a safe origin', async () => {
+  const server = new AllocatedServer([1719, 49152], { holdClose: true });
+  const pending = startLoopbackListener(server);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(server.calls, [['listen', 0, '127.0.0.1'], ['close', 1719]]);
+  server.finishClose();
+  assert.deepEqual(await pending, { origin: 'http://127.0.0.1:49152', port: 49152, host: '127.0.0.1' });
+  assert.equal(server.listenerCount('error'), 0); assert.equal(server.listenerCount('listening'), 0);
+});
+
+test('blocked allocation exhaustion is bounded and leaves no listener or event handlers', async () => {
+  const server = new AllocatedServer(Array(8).fill(1719));
+  await assert.rejects(startLoopbackListener(server), /allocation exhausted/);
+  assert.equal(server.calls.filter(([action]) => action === 'listen').length, 8);
+  assert.equal(server.calls.filter(([action]) => action === 'close').length, 8);
+  assert.equal(server.listening, false);
+  assert.equal(server.listenerCount('error'), 0); assert.equal(server.listenerCount('listening'), 0);
+});
+
+test('explicit blocked ports are rejected before listen; a permitted explicit port is preserved', async () => {
+  const server = new AllocatedServer([49152]);
+  for (const port of [1, 22, 1719, 6000, 10080]) await assert.rejects(startLoopbackListener(server, { port }), /Fetch-blocked/);
+  for (const options of [{ host: '0.0.0.0' }, { port: -1 }, { port: 65536 }, { port: 1.5 }]) {
+    await assert.rejects(startLoopbackListener(server, options), /loopback/);
+  }
+  assert.deepEqual(server.calls, []);
+  assert.equal((await startLoopbackListener(server, { port: 49152 })).port, 49152);
+  assert.deepEqual(server.calls, [['listen', 49152, '127.0.0.1']]);
+});
+
+test('listen errors are propagated without retry and temporary handlers are removed', async () => {
+  const cause = Object.assign(new Error('synthetic address in use'), { code: 'EADDRINUSE' });
+  const server = new AllocatedServer([cause]);
+  await assert.rejects(startLoopbackListener(server), error => error === cause);
+  assert.equal(server.calls.length, 1); assert.equal(server.listening, false);
+  assert.equal(server.listenerCount('error'), 0); assert.equal(server.listenerCount('listening'), 0);
+  server.listen = () => { throw cause; };
+  await assert.rejects(startLoopbackListener(server), error => error === cause);
+  assert.equal(server.listenerCount('error'), 0); assert.equal(server.listenerCount('listening'), 0);
+});
+
+test('startup cancellation closes an allocated listener and never retries or publishes it', async () => {
+  for (const port of [1719, 49152]) {
+    const server = new AllocatedServer([port]); let closing = false;
+    const pending = startLoopbackListener(server, {}, () => closing);
+    closing = true;
+    await assert.rejects(pending, /cancelled/);
+    assert.deepEqual(server.calls, [['listen', 0, '127.0.0.1'], ['close', port]]);
+    assert.equal(server.listening, false);
+  }
+  const server = new AllocatedServer([]);
+  await assert.rejects(startLoopbackListener(server, {}, () => true), /cancelled/);
+  assert.deepEqual(server.calls, []);
+});
+
+test('concurrent app start is rejected and close during startup waits for complete owned cleanup', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'security-web-start-close-'));
+  await writeFile(join(root, 'listener-lifecycle.json'), JSON.stringify({ owner: 'web-app.test', pid: process.pid, state: 'launch-intent', root }));
+  const app = await createLabApp({ dataRoot: root, scanner: syntheticScanner });
+  t.after(async () => { await app.close(); await rm(root, { recursive: true, force: true }); });
+  const pending = app.start();
+  const rejectedStart = assert.rejects(pending, /cancelled/);
+  const duplicateStart = assert.rejects(app.start(), /one loopback/);
+  const closed = app.close();
+  assert.equal(app.close(), closed, 'all close callers await the same cleanup');
+  await Promise.all([rejectedStart, duplicateStart, closed]);
+  await assert.rejects(app.start(), /one loopback/);
+});
 
 async function setup(t, options = {}) {
   const root = await mkdtemp(join(tmpdir(), 'security-web-test-'));

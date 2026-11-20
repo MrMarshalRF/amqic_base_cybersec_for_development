@@ -1,0 +1,10 @@
+- rule: Shell started by Node in a container
+  desc: A successful shell exec with a Node parent needs investigation.
+  condition: >
+    evt.type in (execve, execveat) and evt.dir = < and evt.rawres >= 0 and
+    container.id != host and proc.pname in (node, nodejs) and
+    proc.name in (sh, bash, dash, ash, zsh, ksh)
+  output: "Node child shell (container=%container.id parent=%proc.pname process=%proc.name pid=%proc.pid)"
+  priority: WARNING
+  source: syscall
+  tags: [container, node, runtime]

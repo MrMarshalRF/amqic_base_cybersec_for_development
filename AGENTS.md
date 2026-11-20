@@ -107,3 +107,8 @@ Use [Agent runtime integrity](docs/AGENT-RUNTIME-INTEGRITY.md) and the existing 
 ## Database-engine and application-boundary changes
 
 Read [database-engine patching](docs/DATABASE-ENGINE-PATCHING.md) before changing database pins or describing CVE coverage. Preserve actual observed fixed-branch version assertions and effective object-creation tests; RLS/grants are not native-engine patches. Read [application boundaries](docs/APPLICATION-BOUNDARIES.md) and module contracts before adapting outbound HTTPS, return paths or recovery tokens. Do not replace fixed transport/identity adapters with caller-selected URLs, credentials or epochs. No third-party ledger or proof-of-concept execution is authorized by these materials.
+
+
+## Host-integrity and telemetry changes
+
+Read [SSH key integrity](docs/SSH-KEY-INTEGRITY.md), [host egress monitoring](docs/HOST-EGRESS-MONITORING.md), [indicator handling](docs/INDICATOR-HANDLING.md) and [identity monitoring](docs/IDENTITY-MONITORING.md) before changing those areas. Keep live fingerprints, destination allowlists and indicator values in operator-private stores, outside the public tree. Validation of these additions stays static: no auditd/Falco/kernel execution, SSH login trials or third-party offensive fixtures are added. Existing isolated infrastructure scenarios retain their separately documented scope. Preserve SIEM v1 compatibility and the distinction between operator-authored records and event detection.

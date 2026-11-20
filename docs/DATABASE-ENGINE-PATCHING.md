@@ -46,7 +46,7 @@ Patch the applicable product set, not just one row: adjacent Oracle Text/RDBMS i
 
 Monitor unexpected database-account interactive use, new public listeners, privilege/credential changes, unusual service-account children and egress not required by the workload. A process name or a single denied connection is an investigation lead, not attribution. Backup helpers and legitimate extensions can create children; calibrate detections to the actual runtime.
 
-The existing SIEM schema is fixed. Map a configuration change deliberately to its supported administration action with an opaque case reference; do not add arbitrary engine-specific fields and assume the exporter accepts them. Protect detailed evidence separately. This update does not deploy a database EDR/Falco rule, Oracle audit collector or a new SIEM event schema.
+The [closed SIEM schema](../enterprise/operations/README.md) now supports operator-authored `config-integrity` and `process-exec` records with optional opaque references. Do not add arbitrary engine-specific fields or treat an exported record as a detector. Protect detailed evidence separately. A source-reviewed [PostgreSQL child-shell starting rule](../enterprise/runtime/profiles/postgres-shell.falco.yaml) now exists; kernel capture, dropped events and operational alerting remain target verification. It is not deployed database EDR or an Oracle audit collector.
 
 ## Standards and evidence scope
 

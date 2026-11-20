@@ -2,6 +2,8 @@
 
 This Node.js 22/24 standard-library reference makes a real HTTPS GET using a host-authored endpoint catalog. Callers select an endpoint ID; they cannot supply a URL, host, method, path, query, body, credentials or headers. This adds a connect-time implementation beyond the agent-runtime reference's offline egress decision. It is a bounded IPv4 profile, not a universal SSRF solution or an OS network sandbox.
 
+This application catalog is not host or container egress enforcement. A process can initiate connections outside the catalog; use the separate [host egress monitoring guide](../../docs/HOST-EGRESS-MONITORING.md) for default-deny network policy, approved destination classes and minimal decision telemetry at the host/container boundary. Neither document activates that deployment layer.
+
 Trusted application startup can construct a client:
 
 ```js

@@ -15,6 +15,13 @@ const categories = new Map([
   ['key-rotation', 'key-management'],
   ['backup-restore', 'recovery'],
   ['admin-action', 'administration'],
+  ['process-exec', 'runtime'],
+  ['config-integrity', 'runtime'],
+  ['egress-decision', 'egress'],
+  ['indicator-review', 'campaign'],
+  ['consent-change', 'identity'],
+  ['principal-change', 'identity'],
+  ['campaign-note', 'campaign'],
 ]);
 
 function exactFields(value, names) {
