@@ -7,13 +7,13 @@
   },
   "engine_category_totals": {
     "confirmed-timeout": 0,
-    "failure": 23,
+    "failure": 22,
     "harmless": 0,
     "malicious": 0,
     "suspicious": 0,
     "timeout": 46,
     "type-unsupported": 2789,
-    "undetected": 12490
+    "undetected": 12491
   },
   "file_count": 209,
   "files": [
@@ -4176,9 +4176,9 @@
       "status": "completed"
     },
     {
-      "analysis_date": 1795092751,
+      "analysis_date": 1795132537,
       "analysis_id": null,
-      "analysis_time": "2026-11-19T12:52:31+00:00",
+      "analysis_time": "2026-11-19T23:55:37+00:00",
       "engines": [
         {
           "category": "undetected",
@@ -4291,7 +4291,7 @@
         {
           "category": "undetected",
           "engine_name": "Bkav",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "8.2.40(8338)",
           "id": "Bkav",
           "method": "blacklist",
@@ -4300,7 +4300,7 @@
         {
           "category": "undetected",
           "engine_name": "CAT-QuickHeal",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "22.00",
           "id": "CAT-QuickHeal",
           "method": "blacklist",
@@ -4309,7 +4309,7 @@
         {
           "category": "undetected",
           "engine_name": "CMC",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "2.4.2022.1",
           "id": "CMC",
           "method": "blacklist",
@@ -4427,7 +4427,7 @@
           "category": "undetected",
           "engine_name": "GData",
           "engine_update": "20261119",
-          "engine_version": "GD:27.46774AVA:64.32240",
+          "engine_version": "GD:27.46779AVA:64.32241",
           "id": "GData",
           "method": "blacklist",
           "result": null
@@ -4436,7 +4436,7 @@
           "category": "undetected",
           "engine_name": "Google",
           "engine_update": "20261119",
-          "engine_version": "1795087869",
+          "engine_version": "1795129287",
           "id": "Google",
           "method": "blacklist",
           "result": null
@@ -4462,7 +4462,7 @@
         {
           "category": "undetected",
           "engine_name": "Jiangmin",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "16.0.100",
           "id": "Jiangmin",
           "method": "blacklist",
@@ -4472,7 +4472,7 @@
           "category": "undetected",
           "engine_name": "K7AntiVirus",
           "engine_update": "20261119",
-          "engine_version": "14.94.61530",
+          "engine_version": "14.94.61539",
           "id": "K7AntiVirus",
           "method": "blacklist",
           "result": null
@@ -4481,7 +4481,7 @@
           "category": "undetected",
           "engine_name": "K7GW",
           "engine_update": "20261119",
-          "engine_version": "14.94.61532",
+          "engine_version": "14.94.61539",
           "id": "K7GW",
           "method": "blacklist",
           "result": null
@@ -4579,7 +4579,7 @@
         {
           "category": "undetected",
           "engine_name": "Panda",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "4.6.4.2",
           "id": "Panda",
           "method": "blacklist",
@@ -4751,7 +4751,7 @@
           "category": "undetected",
           "engine_name": "ViRobot",
           "engine_update": "20261119",
-          "engine_version": "2026-11-19.03",
+          "engine_version": "2026-11-20.00",
           "id": "ViRobot",
           "method": "blacklist",
           "result": null
@@ -4759,8 +4759,8 @@
         {
           "category": "undetected",
           "engine_name": "VirIT",
-          "engine_update": "20261118",
-          "engine_version": "9.5.1342",
+          "engine_update": "20261119",
+          "engine_version": "9.5.1343",
           "id": "VirIT",
           "method": "blacklist",
           "result": null
@@ -4786,7 +4786,7 @@
         {
           "category": "undetected",
           "engine_name": "Yandex",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "5.5.2.24",
           "id": "Yandex",
           "method": "blacklist",
@@ -4795,8 +4795,8 @@
         {
           "category": "undetected",
           "engine_name": "Zillya",
-          "engine_update": "20261118",
-          "engine_version": "2.0.0.5732",
+          "engine_update": "20261119",
+          "engine_version": "2.0.0.5733",
           "id": "Zillya",
           "method": "blacklist",
           "result": null
@@ -4805,7 +4805,7 @@
           "category": "undetected",
           "engine_name": "ZoneAlarm",
           "engine_update": "20261119",
-          "engine_version": "6.28-119762544",
+          "engine_version": "6.29-121127020",
           "id": "ZoneAlarm",
           "method": "blacklist",
           "result": null
@@ -4847,11 +4847,11 @@
           "result": null
         }
       ],
-      "link": "https://www.virustotal.com/gui/file/8e2bfe5e3c5b911c6d1a4f04afe4940f4cc8edc82131d3b4363a2db0dab77023",
+      "link": "https://www.virustotal.com/gui/file/d0f707482aa6fce5194bd59c4eb50561277965e0434752109d7cf75f5b032df2",
       "path": "CHANGELOG.md",
-      "retrieved_at": "2026-11-19T12:53:46.664550+00:00",
-      "sha256": "8e2bfe5e3c5b911c6d1a4f04afe4940f4cc8edc82131d3b4363a2db0dab77023",
-      "size": 12806,
+      "retrieved_at": "2026-11-19T23:56:14.843813+00:00",
+      "sha256": "d0f707482aa6fce5194bd59c4eb50561277965e0434752109d7cf75f5b032df2",
+      "size": 12926,
       "source": "file-hash-reconciliation",
       "stats": {
         "confirmed-timeout": 0,
@@ -62022,9 +62022,9 @@
       "status": "completed"
     },
     {
-      "analysis_date": 1795085699,
+      "analysis_date": 1795132557,
       "analysis_id": null,
-      "analysis_time": "2026-11-19T10:54:59+00:00",
+      "analysis_time": "2026-11-19T23:55:57+00:00",
       "engines": [
         {
           "category": "undetected",
@@ -62137,7 +62137,7 @@
         {
           "category": "undetected",
           "engine_name": "Bkav",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "8.2.40(8338)",
           "id": "Bkav",
           "method": "blacklist",
@@ -62146,7 +62146,7 @@
         {
           "category": "undetected",
           "engine_name": "CAT-QuickHeal",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "22.00",
           "id": "CAT-QuickHeal",
           "method": "blacklist",
@@ -62155,7 +62155,7 @@
         {
           "category": "undetected",
           "engine_name": "CMC",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "2.4.2022.1",
           "id": "CMC",
           "method": "blacklist",
@@ -62191,7 +62191,7 @@
         {
           "category": "type-unsupported",
           "engine_name": "Cylance",
-          "engine_update": "20261112",
+          "engine_update": "20261119",
           "engine_version": "3.0.0.0",
           "id": "Cylance",
           "method": "blacklist",
@@ -62273,7 +62273,7 @@
           "category": "undetected",
           "engine_name": "GData",
           "engine_update": "20261119",
-          "engine_version": "GD:27.46774AVA:64.32240",
+          "engine_version": "GD:27.46779AVA:64.32241",
           "id": "GData",
           "method": "blacklist",
           "result": null
@@ -62282,7 +62282,7 @@
           "category": "undetected",
           "engine_name": "Google",
           "engine_update": "20261119",
-          "engine_version": "1795075310",
+          "engine_version": "1795129287",
           "id": "Google",
           "method": "blacklist",
           "result": null
@@ -62318,7 +62318,7 @@
           "category": "undetected",
           "engine_name": "K7AntiVirus",
           "engine_update": "20261119",
-          "engine_version": "14.94.61530",
+          "engine_version": "14.94.61539",
           "id": "K7AntiVirus",
           "method": "blacklist",
           "result": null
@@ -62327,7 +62327,7 @@
           "category": "undetected",
           "engine_name": "K7GW",
           "engine_update": "20261119",
-          "engine_version": "14.94.61528",
+          "engine_version": "14.94.61539",
           "id": "K7GW",
           "method": "blacklist",
           "result": null
@@ -62425,7 +62425,7 @@
         {
           "category": "undetected",
           "engine_name": "Panda",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "4.6.4.2",
           "id": "Panda",
           "method": "blacklist",
@@ -62468,10 +62468,10 @@
           "result": null
         },
         {
-          "category": "failure",
+          "category": "undetected",
           "engine_name": "Skyhigh",
-          "engine_update": "20261118",
-          "engine_version": null,
+          "engine_update": "20261119",
+          "engine_version": "v2021.2.0+4045",
           "id": "Skyhigh",
           "method": "blacklist",
           "result": null
@@ -62533,7 +62533,7 @@
         {
           "category": "undetected",
           "engine_name": "TrellixENS",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "6.0.6.653",
           "id": "TrellixENS",
           "method": "blacklist",
@@ -62578,7 +62578,7 @@
         {
           "category": "undetected",
           "engine_name": "VIPRE",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "6.0.0.35",
           "id": "VIPRE",
           "method": "blacklist",
@@ -62597,7 +62597,7 @@
           "category": "undetected",
           "engine_name": "ViRobot",
           "engine_update": "20261119",
-          "engine_version": "2026-11-19.02",
+          "engine_version": "2026-11-20.00",
           "id": "ViRobot",
           "method": "blacklist",
           "result": null
@@ -62605,8 +62605,8 @@
         {
           "category": "undetected",
           "engine_name": "VirIT",
-          "engine_update": "20261118",
-          "engine_version": "9.5.1342",
+          "engine_update": "20261119",
+          "engine_version": "9.5.1343",
           "id": "VirIT",
           "method": "blacklist",
           "result": null
@@ -62632,7 +62632,7 @@
         {
           "category": "undetected",
           "engine_name": "Yandex",
-          "engine_update": "20261118",
+          "engine_update": "20261119",
           "engine_version": "5.5.2.24",
           "id": "Yandex",
           "method": "blacklist",
@@ -62641,8 +62641,8 @@
         {
           "category": "undetected",
           "engine_name": "Zillya",
-          "engine_update": "20261118",
-          "engine_version": "2.0.0.5732",
+          "engine_update": "20261119",
+          "engine_version": "2.0.0.5733",
           "id": "Zillya",
           "method": "blacklist",
           "result": null
@@ -62650,8 +62650,8 @@
         {
           "category": "undetected",
           "engine_name": "ZoneAlarm",
-          "engine_update": "20261118",
-          "engine_version": "6.28-119762544",
+          "engine_update": "20261119",
+          "engine_version": "6.29-121127020",
           "id": "ZoneAlarm",
           "method": "blacklist",
           "result": null
@@ -62677,8 +62677,8 @@
         {
           "category": "undetected",
           "engine_name": "huorong",
-          "engine_update": "20261118",
-          "engine_version": "1abee3f:1abee3f:f4abf26:f4abf26",
+          "engine_update": "20261119",
+          "engine_version": "26a2b32:26a2b32:cf25dae:cf25dae",
           "id": "huorong",
           "method": "blacklist",
           "result": null
@@ -62693,21 +62693,21 @@
           "result": null
         }
       ],
-      "link": "https://www.virustotal.com/gui/file/bdebd1d5f8bcc1d1204c91b83af75c09f1ec5b266fdb9c03ca966b1ed02a43f9",
+      "link": "https://www.virustotal.com/gui/file/76a150b0a6474edd47557d8eed1971f8528b846ec0900fa6638d4c3723e13e98",
       "path": "README.md",
-      "retrieved_at": "2026-11-19T11:09:40.298657+00:00",
-      "sha256": "bdebd1d5f8bcc1d1204c91b83af75c09f1ec5b266fdb9c03ca966b1ed02a43f9",
-      "size": 36560,
+      "retrieved_at": "2026-11-19T23:56:33.946174+00:00",
+      "sha256": "76a150b0a6474edd47557d8eed1971f8528b846ec0900fa6638d4c3723e13e98",
+      "size": 38304,
       "source": "file-hash-reconciliation",
       "stats": {
         "confirmed-timeout": 0,
-        "failure": 1,
+        "failure": 0,
         "harmless": 0,
         "malicious": 0,
         "suspicious": 0,
         "timeout": 0,
         "type-unsupported": 13,
-        "undetected": 60
+        "undetected": 61
       },
       "status": "completed"
     },
@@ -143115,7 +143115,7 @@
       "status": "completed"
     }
   ],
-  "generated_at": "2026-11-19T12:58:44.480704+00:00",
+  "generated_at": "2026-11-19T23:58:24.323337+00:00",
   "interpretation": "Completed analysis on file does not mean every engine passed. Unsupported types are not successful checks. Undetected is not proof of safety or a source-code security audit. Per-file dates identify cached observations.",
   "metadata_integrity": "Generated reports are hashed by SHA256SUMS; the registry excludes itself and requires maintainer authentication after changes. No recursive antivirus self-scan is asserted.",
   "schema": "vt-current-register/v1",
