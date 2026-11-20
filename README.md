@@ -20,6 +20,14 @@
 
 **This is a reusable toolkit, not a standalone application.** It contains independent cybersecurity measures, runnable examples, infrastructure templates, release tools, and AI skills. They are not tied to one product or architecture: select the relevant parts and integrate them into different applications, services, or individual components. You may copy, adapt, and modify them for your own requirements under the MIT license. Match each example to your target runtime and integration contracts; adopting one component does not require adopting the entire kit.
 
+## Press coverage and technical publication
+
+**The Qubit Report covered Aleksei Musienko's scientific and technical work on 18 November 2026.** The [article](https://thequbitreport.com/software-algorithms/2026/11/18/amqic-publishes-foundations-of-programming-document-for-quantonia-and-qrace/), credited to The Qubit Report Staff, links to the author's [full English paper](https://amqic.ai/assets/public/signed-abstracts/53ce4951974d5277d11a2f7377eb24e3edd790a02513778e121955b11f1fad85/en/03eced4b-a094-433b-acf8-70e4120c8cf6/AMQIC-Quantonia-QRACE-EN.pdf#page=9).
+
+**Section 15, "Our contribution to accessible cybersecurity" (pages 9–12), is dedicated to this repository.** It describes the MIT-licensed toolkit, authorization and Ed25519 machine identity, database and field protection, origin/container controls, upload isolation, secrets and backups, release verification, the laboratory and AI skills. References 40–49 link to a pinned repository revision and its technical documentation. The paper records the toolkit at the time of writing; later releases extend that snapshot.
+
+The Qubit Report was founded by **Robert Clifford**. His [published biography](https://thequbitreport.com/software-algorithms/2024/04/21/new-set-of-quantum-programming-tools-coming-by-way-of-horizon-quantum-computing/) lists a Master of Science in Cybersecurity from the University of Maryland Global Campus and the CISSP credential. The news article and the author's technical paper provide publication context; the kit's security evidence remains its [tests and validation records](docs/VALIDATION.md), [CI](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/actions) and [release verification](docs/RELEASE-VERIFICATION.md).
+
 Repository copyright holder — **amqic.ai**. License — [MIT](LICENSE).
 
 Developer — **Aleksei Musienko**

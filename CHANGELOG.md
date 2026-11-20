@@ -2,6 +2,10 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## Unreleased
+
+- Update README with press coverage, the linked technical paper and its repository-specific Section 15.
+
 ## v1.7.0
 
 - Add optional external agent-integrity reference guidance, extension-review criteria and code-owner mapping; exclude `.dsh` and standing override files from production staging and origin exposure.
