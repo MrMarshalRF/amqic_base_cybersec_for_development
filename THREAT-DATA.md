@@ -84,528 +84,633 @@ The tracked maintenance rule produced 2,450 denials on November 2, 5,630 on Nove
 This register retains only requests targeting credential files, configuration and diagnostics, database exports, backups, development artifacts, or endpoints associated with unsupported software stacks. Ordinary pages, SEO endpoints, public APIs, published media, fonts, brand assets and routine authentication navigation have been removed. Ambiguous clean navigation paths are omitted.
 The historical filtered register (through 12 November at 18:00 UTC) contains **514 distinct path strings and 1,680 stored records**: **1,537 Block records** and **143 Managed Challenge records**. These figures describe the retained diagnostic sample. They do not alter the full security-action totals above.
 
-Paths preserve observed spelling, case, encoding and repeated separators. Opaque identifiers remain replaced. Entry IDs retain their source-snapshot numbering, so gaps are intentional. Appearance here identifies the type of probe; it does not identify its operator or establish successful access.
+Paths preserve observed spelling, case, encoding and repeated separators. Opaque identifiers remain replaced. Appearance here identifies the type of probe; it does not identify its operator or establish successful access.
+
+The consolidated register contains **617 distinct public path strings or aliases**: 514 from the historical register and 235 spellings retained from the earlier update, with 132 shared entries shown only once. The current hourly replacement counts are reported below; earlier observed spellings are preserved. Historical sample counts and supplemental provider-reported counts remain in separate columns. Zero means no count in that column’s retained query result, not that the path was never requested. Previously observed spellings remain in the register even if a later sampled query does not return them.
 
 <details>
-<summary>Expand all 514 scanner and sensitive-target paths</summary>
+<summary>Expand all 617 distinct observed probe paths and public aliases</summary>
 
-| Entry | Observed probe path | Block sample records | Managed Challenge sample records | Total sample records |
-|---|---|---:|---:|---:|
-| P004 | <code>/.env</code> | 69 | 5 | 74 |
-| P005 | <code>/.git/config</code> | 56 | 11 | 67 |
-| P008 | <code>/.env.local</code> | 39 | 2 | 41 |
-| P009 | <code>/.env.prod</code> | 29 | 3 | 32 |
-| P010 | <code>/.env.dev</code> | 28 | 1 | 29 |
-| P013 | <code>/wp-json/batch/v1</code> | 21 | 0 | 21 |
-| P014 | <code>/.git/HEAD</code> | 18 | 1 | 19 |
-| P016 | <code>/config.json</code> | 18 | 0 | 18 |
-| P017 | <code>/wp-login.php</code> | 15 | 3 | 18 |
-| P019 | <code>/phpinfo.php</code> | 17 | 0 | 17 |
-| P020 | <code>/.svn/wc.db</code> | 16 | 0 | 16 |
-| P024 | <code>/.aws/credentials</code> | 15 | 0 | 15 |
-| P025 | <code>/index.php</code> | 15 | 0 | 15 |
-| P028 | <code>/wp-config.php</code> | 14 | 0 | 14 |
-| P032 | <code>/.svn/entries</code> | 12 | 0 | 12 |
-| P033 | <code>/actuator/env</code> | 12 | 0 | 12 |
-| P034 | <code>/gcp-credentials.json</code> | 12 | 0 | 12 |
-| P035 | <code>/wp/</code> | 12 | 0 | 12 |
-| P036 | <code>/.env.production</code> | 10 | 1 | 11 |
-| P041 | <code>/wordpress/</code> | 11 | 0 | 11 |
-| P042 | <code>/wp-json/</code> | 11 | 0 | 11 |
-| P044 | <code>/credentials.json</code> | 10 | 0 | 10 |
-| P046 | <code>/xmlrpc.php</code> | 9 | 1 | 10 |
-| P047 | <code>/.aws/config</code> | 9 | 0 | 9 |
-| P048 | <code>/.vscode/sftp.json</code> | 9 | 0 | 9 |
-| P049 | <code>//cms/wp-includes/wlwmanifest.xml</code> | 9 | 0 | 9 |
-| P050 | <code>/cms/wp-json/</code> | 9 | 0 | 9 |
-| P051 | <code>/database.sql</code> | 9 | 0 | 9 |
-| P052 | <code>/info.php</code> | 9 | 0 | 9 |
-| P053 | <code>/livewire/update</code> | 9 | 0 | 9 |
-| P054 | <code>/wordpress/wp-json/</code> | 9 | 0 | 9 |
-| P055 | <code>/.docker/config.json</code> | 8 | 0 | 8 |
-| P056 | <code>/.hg/store/requires</code> | 8 | 0 | 8 |
-| P057 | <code>//site/wp-includes/wlwmanifest.xml</code> | 8 | 0 | 8 |
-| P058 | <code>//wp1/wp-includes/wlwmanifest.xml</code> | 8 | 0 | 8 |
-| P059 | <code>//xmlrpc.php</code> | 4 | 4 | 8 |
-| P060 | <code>/api/.env</code> | 8 | 0 | 8 |
-| P061 | <code>/appsettings.json</code> | 8 | 0 | 8 |
-| P062 | <code>/news/wp-json/</code> | 8 | 0 | 8 |
-| P064 | <code>/wp-config.php.bak</code> | 8 | 0 | 8 |
-| P065 | <code>/.env.backup</code> | 6 | 1 | 7 |
-| P066 | <code>/.env.bak</code> | 7 | 0 | 7 |
-| P067 | <code>/.hg/requires</code> | 7 | 0 | 7 |
-| P068 | <code>/.ssh/id_ed25519</code> | 7 | 0 | 7 |
-| P069 | <code>/admin/login/livewire/update</code> | 5 | 2 | 7 |
-| P070 | <code>/application_default_credentials.json</code> | 7 | 0 | 7 |
-| P071 | <code>/backup.sql</code> | 7 | 0 | 7 |
-| P072 | <code>/backup.tar.gz</code> | 7 | 0 | 7 |
-| P073 | <code>/dump.sql</code> | 7 | 0 | 7 |
-| P074 | <code>/firebase-adminsdk.json</code> | 7 | 0 | 7 |
-| P075 | <code>/press/wp-json/</code> | 7 | 0 | 7 |
-| P076 | <code>/server-status</code> | 0 | 7 | 7 |
-| P077 | <code>/wp/wp-json/</code> | 7 | 0 | 7 |
-| P078 | <code>/.config/gcloud/application_default_credentials.json</code> | 6 | 0 | 6 |
-| P079 | <code>/.ssh/id_rsa</code> | 6 | 0 | 6 |
-| P080 | <code>//2019/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 6 |
-| P081 | <code>//sito/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 6 |
-| P082 | <code>//wordpress/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 6 |
-| P083 | <code>//wp2/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 6 |
-| P085 | <code>/_profiler/phpinfo</code> | 6 | 0 | 6 |
-| P086 | <code>/backend/.env</code> | 4 | 2 | 6 |
-| P087 | <code>/backup.zip</code> | 6 | 0 | 6 |
-| P088 | <code>/config.yaml</code> | 6 | 0 | 6 |
-| P089 | <code>/config/.env</code> | 4 | 2 | 6 |
-| P090 | <code>/db.sql</code> | 6 | 0 | 6 |
-| P091 | <code>/gcp-key.json</code> | 6 | 0 | 6 |
-| P092 | <code>/google-credentials.json</code> | 6 | 0 | 6 |
-| P093 | <code>/keyfile.json</code> | 6 | 0 | 6 |
-| P095 | <code>/secrets.json</code> | 6 | 0 | 6 |
-| P096 | <code>/wp-admin/</code> | 5 | 1 | 6 |
-| P097 | <code>/.DS_Store</code> | 5 | 0 | 5 |
-| P098 | <code>/.env.example</code> | 4 | 1 | 5 |
-| P099 | <code>/.env.staging</code> | 5 | 0 | 5 |
-| P100 | <code>/.env.test</code> | 5 | 0 | 5 |
-| P101 | <code>//assets/images/images/cache.php</code> | 5 | 0 | 5 |
-| P102 | <code>//blog/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 5 |
-| P103 | <code>//blogs/media/media/cache.php</code> | 5 | 0 | 5 |
-| P104 | <code>//cache/cache/cache.php</code> | 5 | 0 | 5 |
-| P105 | <code>//images/images/images/images/cache.php</code> | 5 | 0 | 5 |
-| P106 | <code>//images/images/images/images/images/cache.php</code> | 5 | 0 | 5 |
-| P107 | <code>//images/images/images/images/images/images/cache.php</code> | 5 | 0 | 5 |
-| P108 | <code>//images/images/images/images/images/images/images/cache.php</code> | 5 | 0 | 5 |
-| P109 | <code>//images/images/images/images/images/images/images/images/cache.php</code> | 5 | 0 | 5 |
-| P110 | <code>//media/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 5 |
-| P111 | <code>//news/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 5 |
-| P112 | <code>//shop/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 5 |
-| P113 | <code>//test/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 5 |
-| P114 | <code>//wp-content/plugins/plugins/cache.php</code> | 5 | 0 | 5 |
-| P117 | <code>/app/.env</code> | 4 | 1 | 5 |
-| P119 | <code>/includes/phpinfo.php</code> | 5 | 0 | 5 |
-| P120 | <code>/register/livewire/update</code> | 5 | 0 | 5 |
-| P121 | <code>/sa.json</code> | 5 | 0 | 5 |
-| P122 | <code>/server.key</code> | 5 | 0 | 5 |
-| P123 | <code>/site/phpinfo.php</code> | 5 | 0 | 5 |
-| P124 | <code>/web.config</code> | 5 | 0 | 5 |
-| P125 | <code>/wp-config.php.save</code> | 5 | 0 | 5 |
-| P126 | <code>/wp/v2/blocks</code> | 5 | 0 | 5 |
-| P127 | <code>/wp/v2/template-parts</code> | 5 | 0 | 5 |
-| P128 | <code>/wp/v2/templates</code> | 5 | 0 | 5 |
-| P129 | <code>/.aws/credentials.bak</code> | 4 | 0 | 4 |
-| P130 | <code>/.bash_history</code> | 4 | 0 | 4 |
-| P131 | <code>/.env.old</code> | 3 | 1 | 4 |
-| P132 | <code>/.env.production.local</code> | 4 | 0 | 4 |
-| P133 | <code>/.git/logs/HEAD</code> | 4 | 0 | 4 |
-| P134 | <code>/.gitmodules</code> | 0 | 4 | 4 |
-| P135 | <code>/.npmrc</code> | 4 | 0 | 4 |
-| P136 | <code>/.pypirc</code> | 4 | 0 | 4 |
-| P137 | <code>//images/images/images/cache.php</code> | 4 | 0 | 4 |
-| P138 | <code>//web/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 4 |
-| P139 | <code>//website/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 4 |
-| P140 | <code>//wp/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 4 |
-| P141 | <code>/actuator/heapdump</code> | 4 | 0 | 4 |
-| P147 | <code>/blog/wp-json/</code> | 4 | 0 | 4 |
-| P148 | <code>/config.php</code> | 4 | 0 | 4 |
-| P149 | <code>/docker-compose.yml</code> | 4 | 0 | 4 |
-| P150 | <code>/docs/phpinfo.php</code> | 4 | 0 | 4 |
-| P151 | <code>/firebase-key.json</code> | 4 | 0 | 4 |
-| P152 | <code>/key.json</code> | 4 | 0 | 4 |
-| P153 | <code>/php_info.php</code> | 4 | 0 | 4 |
-| P154 | <code>/phpinfo.php.old</code> | 4 | 0 | 4 |
-| P155 | <code>/qa/phpinfo.php</code> | 4 | 0 | 4 |
-| P156 | <code>/server-status.php</code> | 2 | 2 | 4 |
-| P157 | <code>/service-account.json</code> | 4 | 0 | 4 |
-| P159 | <code>/site/wp-json/</code> | 4 | 0 | 4 |
-| P160 | <code>/storage/logs/laravel.log</code> | 4 | 0 | 4 |
-| P161 | <code>/wp-admin/setup-config.php</code> | 4 | 0 | 4 |
-| P162 | <code>/.env.development</code> | 3 | 0 | 3 |
-| P163 | <code>/.env.txt</code> | 1 | 2 | 3 |
-| P164 | <code>/.git-credentials</code> | 2 | 1 | 3 |
-| P165 | <code>/.github/workflows/deploy.yml</code> | 0 | 3 | 3 |
-| P166 | <code>/.gitlab-ci.yml</code> | 0 | 3 | 3 |
-| P167 | <code>/.hg/dirstate</code> | 3 | 0 | 3 |
-| P168 | <code>/.htpasswd</code> | 3 | 0 | 3 |
-| P169 | <code>/.kube/config</code> | 3 | 0 | 3 |
-| P171 | <code>//2018/wp-includes/wlwmanifest.xml</code> | 3 | 0 | 3 |
-| P172 | <code>/_profiler/open</code> | 3 | 0 | 3 |
-| P173 | <code>/admin/.git/config</code> | 2 | 1 | 3 |
-| P174 | <code>/admin/config.php</code> | 0 | 3 | 3 |
-| P176 | <code>/admin/phpinfo.php</code> | 1 | 2 | 3 |
-| P178 | <code>/administrator/phpinfo.php</code> | 3 | 0 | 3 |
-| P180 | <code>/api/shared/config/config.env</code> | 3 | 0 | 3 |
-| P184 | <code>/appsettings.Production.json</code> | 3 | 0 | 3 |
-| P188 | <code>/beta/.env</code> | 1 | 2 | 3 |
-| P190 | <code>/blog/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P191 | <code>/config.php.bak</code> | 3 | 0 | 3 |
-| P192 | <code>/config.xml</code> | 3 | 0 | 3 |
-| P193 | <code>/config.yml</code> | 3 | 0 | 3 |
-| P194 | <code>/core/phpinfo.php</code> | 3 | 0 | 3 |
-| P195 | <code>/deploy/.env</code> | 2 | 1 | 3 |
-| P196 | <code>/error.log</code> | 3 | 0 | 3 |
-| P197 | <code>/gcp-sa.json</code> | 3 | 0 | 3 |
-| P198 | <code>/google-key.json</code> | 3 | 0 | 3 |
-| P199 | <code>/htdocs/phpinfo.php</code> | 3 | 0 | 3 |
-| P202 | <code>/new/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P203 | <code>/old/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P204 | <code>/phpinfo</code> | 3 | 0 | 3 |
-| P205 | <code>/phpinfo.php.bak</code> | 3 | 0 | 3 |
-| P206 | <code>/phpversion.php</code> | 3 | 0 | 3 |
-| P207 | <code>/preview/.env</code> | 1 | 2 | 3 |
-| P208 | <code>/preview/phpinfo.php</code> | 3 | 0 | 3 |
-| P209 | <code>/public_html/phpinfo.php</code> | 3 | 0 | 3 |
-| P210 | <code>/s/{opaque-002}/_/;/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties</code> | 3 | 0 | 3 |
-| P211 | <code>/service_account.json</code> | 3 | 0 | 3 |
-| P212 | <code>/settings.json</code> | 3 | 0 | 3 |
-| P213 | <code>/settings.php</code> | 3 | 0 | 3 |
-| P214 | <code>/settings.py</code> | 3 | 0 | 3 |
-| P215 | <code>/site.zip</code> | 3 | 0 | 3 |
-| P217 | <code>/test.php</code> | 3 | 0 | 3 |
-| P218 | <code>/test/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P219 | <code>/var/www/.env</code> | 1 | 2 | 3 |
-| P220 | <code>/wordpress/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P221 | <code>/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P222 | <code>/wp/v2/comments</code> | 3 | 0 | 3 |
-| P223 | <code>/wp/wp-includes/js/json2.js</code> | 3 | 0 | 3 |
-| P224 | <code>/www/phpinfo.php</code> | 3 | 0 | 3 |
-| P225 | <code>/.auth.json</code> | 2 | 0 | 2 |
-| P226 | <code>/.aws/cli/cache</code> | 2 | 0 | 2 |
-| P227 | <code>/.aws/credentials.old</code> | 2 | 0 | 2 |
-| P228 | <code>/.aws/credentials~</code> | 2 | 0 | 2 |
-| P229 | <code>/.aws/sso/cache.json</code> | 2 | 0 | 2 |
-| P230 | <code>/.aws/sso/cache/</code> | 2 | 0 | 2 |
-| P231 | <code>/.azure/accessTokens.json</code> | 2 | 0 | 2 |
-| P232 | <code>/.azure/azureProfile.json</code> | 2 | 0 | 2 |
-| P233 | <code>/.azure/config.json</code> | 2 | 0 | 2 |
-| P234 | <code>/.boto</code> | 2 | 0 | 2 |
-| P235 | <code>/.claude/settings.json</code> | 2 | 0 | 2 |
-| P236 | <code>/.env.development.local</code> | 2 | 0 | 2 |
-| P237 | <code>/.env.php.bak</code> | 1 | 1 | 2 |
-| P238 | <code>/.env.sample</code> | 2 | 0 | 2 |
-| P239 | <code>/.env.save</code> | 2 | 0 | 2 |
-| P240 | <code>/.env.tmp</code> | 1 | 1 | 2 |
-| P241 | <code>/.env_copy</code> | 1 | 1 | 2 |
-| P242 | <code>/.git/logs/refs/heads/main</code> | 2 | 0 | 2 |
-| P243 | <code>/.git/refs/heads/main</code> | 2 | 0 | 2 |
-| P244 | <code>/.github/workflows/ci.yml</code> | 0 | 2 | 2 |
-| P245 | <code>/.gitignore</code> | 0 | 2 | 2 |
-| P246 | <code>/.hg/hgrc</code> | 2 | 0 | 2 |
-| P247 | <code>/.htaccess</code> | 2 | 0 | 2 |
-| P248 | <code>/.netrc</code> | 2 | 0 | 2 |
-| P249 | <code>/.s3cfg</code> | 2 | 0 | 2 |
-| P250 | <code>/.svn/format</code> | 2 | 0 | 2 |
-| P253 | <code>/.windsurf/mcp.json</code> | 2 | 0 | 2 |
-| P254 | <code>//2020/wp-includes/wlwmanifest.xml</code> | 2 | 0 | 2 |
-| P255 | <code>//test/.env</code> | 2 | 0 | 2 |
-| P256 | <code>/@vite/env</code> | 2 | 0 | 2 |
-| P257 | <code>/_profiler/phpinfo.php</code> | 2 | 0 | 2 |
-| P258 | <code>/_vti_pvt/service.pwd</code> | 2 | 0 | 2 |
-| P259 | <code>/actuator//env</code> | 2 | 0 | 2 |
-| P260 | <code>/actuator/configprops</code> | 2 | 0 | 2 |
-| P262 | <code>/admin/debug</code> | 0 | 2 | 2 |
-| P266 | <code>/adminer.php</code> | 2 | 0 | 2 |
-| P268 | <code>/api/.git/config</code> | 2 | 0 | 2 |
-| P269 | <code>/api/config.php</code> | 2 | 0 | 2 |
-| P276 | <code>/app/.git/config</code> | 2 | 0 | 2 |
-| P277 | <code>/assets../.git/config</code> | 1 | 1 | 2 |
-| P279 | <code>/aws.env</code> | 2 | 0 | 2 |
-| P280 | <code>/aws/credentials</code> | 2 | 0 | 2 |
-| P281 | <code>/azure-config.json</code> | 2 | 0 | 2 |
-| P282 | <code>/azure.json</code> | 2 | 0 | 2 |
-| P283 | <code>/backend/.git/config</code> | 2 | 0 | 2 |
-| P284 | <code>/backend/phpinfo.php</code> | 2 | 0 | 2 |
-| P290 | <code>/config/application.yml</code> | 2 | 0 | 2 |
-| P291 | <code>/config/azure.json</code> | 2 | 0 | 2 |
-| P292 | <code>/config/secrets.json</code> | 2 | 0 | 2 |
-| P293 | <code>/configuration.php</code> | 2 | 0 | 2 |
-| P294 | <code>/css../.git/config</code> | 1 | 1 | 2 |
-| P295 | <code>/database.php.bak</code> | 2 | 0 | 2 |
-| P296 | <code>/database_backup.sql</code> | 2 | 0 | 2 |
-| P297 | <code>/debug/default/view</code> | 2 | 0 | 2 |
-| P298 | <code>/demo/.env</code> | 2 | 0 | 2 |
-| P299 | <code>/development/.env</code> | 1 | 1 | 2 |
-| P300 | <code>/dump.sql.gz</code> | 2 | 0 | 2 |
-| P301 | <code>/events../.git/config</code> | 1 | 1 | 2 |
-| P302 | <code>/frontend/.git/config</code> | 2 | 0 | 2 |
-| P303 | <code>/hosting/phpinfo.php</code> | 2 | 0 | 2 |
-| P304 | <code>/id_rsa</code> | 2 | 0 | 2 |
-| P306 | <code>/info.php.bak</code> | 2 | 0 | 2 |
-| P310 | <code>/js../.git/config</code> | 1 | 1 | 2 |
-| P311 | <code>/kafka/.env</code> | 1 | 1 | 2 |
-| P312 | <code>/laravel/.env</code> | 2 | 0 | 2 |
-| P313 | <code>/local.settings.json</code> | 2 | 0 | 2 |
-| P314 | <code>/logs/error.log</code> | 2 | 0 | 2 |
-| P315 | <code>/mail/phpinfo.php</code> | 2 | 0 | 2 |
-| P316 | <code>/main/wp-login.php</code> | 2 | 0 | 2 |
-| P318 | <code>/old/phpinfo.php</code> | 2 | 0 | 2 |
-| P319 | <code>/old_phpinfo.php</code> | 2 | 0 | 2 |
-| P321 | <code>/php/login.php</code> | 2 | 0 | 2 |
-| P322 | <code>/private.key</code> | 2 | 0 | 2 |
-| P323 | <code>/production/.env</code> | 1 | 1 | 2 |
-| P326 | <code>/qa/.env</code> | 1 | 1 | 2 |
-| P327 | <code>/rabbitmq/.env</code> | 1 | 1 | 2 |
-| P328 | <code>/redis/.env</code> | 0 | 2 | 2 |
-| P330 | <code>/s/{opaque-005}/_/;/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties</code> | 2 | 0 | 2 |
-| P331 | <code>/server/.git/config</code> | 2 | 0 | 2 |
-| P332 | <code>/site/wp-login.php</code> | 2 | 0 | 2 |
-| P336 | <code>/staging/phpinfo.php</code> | 2 | 0 | 2 |
-| P338 | <code>/stripe/.env</code> | 1 | 1 | 2 |
-| P339 | <code>/studioserver/.git/config</code> | 2 | 0 | 2 |
-| P341 | <code>/telescope/requests</code> | 2 | 0 | 2 |
-| P342 | <code>/test/.env</code> | 1 | 1 | 2 |
-| P343 | <code>/test/phpinfo.php</code> | 2 | 0 | 2 |
-| P344 | <code>/trace.axd</code> | 2 | 0 | 2 |
-| P345 | <code>/var/log/nginx/error.log</code> | 2 | 0 | 2 |
-| P346 | <code>/vite.config.js</code> | 2 | 0 | 2 |
-| P347 | <code>/vite.config.ts</code> | 2 | 0 | 2 |
-| P348 | <code>/web/.git/config</code> | 2 | 0 | 2 |
-| P349 | <code>/webroot/index.php/_environment</code> | 2 | 0 | 2 |
-| P350 | <code>/worker/.env</code> | 1 | 1 | 2 |
-| P351 | <code>/wp-config.php-backup</code> | 2 | 0 | 2 |
-| P352 | <code>/wp-config.php-save</code> | 2 | 0 | 2 |
-| P353 | <code>/wp-config.php.dist</code> | 2 | 0 | 2 |
-| P354 | <code>/wp-config.php.old</code> | 2 | 0 | 2 |
-| P355 | <code>/wp-config.php.orig</code> | 2 | 0 | 2 |
-| P356 | <code>/wp-config.php.zip</code> | 2 | 0 | 2 |
-| P357 | <code>/wp-config.php~</code> | 2 | 0 | 2 |
-| P358 | <code>/wp-content/plugins/easy-google-fonts/error_log</code> | 2 | 0 | 2 |
-| P359 | <code>/wp-includes/</code> | 2 | 0 | 2 |
-| P360 | <code>/wp-includes/style.php</code> | 2 | 0 | 2 |
-| P361 | <code>/wp-includes/version.php</code> | 2 | 0 | 2 |
-| P362 | <code>/wp/v2/users</code> | 2 | 0 | 2 |
-| P363 | <code>/wp/v2/widgets</code> | 2 | 0 | 2 |
-| P364 | <code>/www/.git/config</code> | 2 | 0 | 2 |
-| P367 | <code>/%2564b.php</code> | 1 | 0 | 1 |
-| P368 | <code>/%2570hpinfo.php</code> | 1 | 0 | 1 |
-| P369 | <code>/%2eenv</code> | 1 | 0 | 1 |
-| P370 | <code>/%2f%2eaws%2fcredentials</code> | 1 | 0 | 1 |
-| P371 | <code>/%2f%2eenv</code> | 1 | 0 | 1 |
-| P372 | <code>/.aws/.env</code> | 1 | 0 | 1 |
-| P373 | <code>/.aws/credentials.txt</code> | 1 | 0 | 1 |
-| P374 | <code>/.azure/credentials.json</code> | 1 | 0 | 1 |
-| P375 | <code>/.azure/msal.json</code> | 1 | 0 | 1 |
-| P376 | <code>/.claude/settings.local.json</code> | 1 | 0 | 1 |
-| P377 | <code>/.config.php.swp</code> | 1 | 0 | 1 |
-| P378 | <code>/.cursor/mcp.json</code> | 1 | 0 | 1 |
-| P379 | <code>/.env-example</code> | 1 | 0 | 1 |
-| P380 | <code>/.env.</code> | 0 | 1 | 1 |
-| P381 | <code>/.env.1</code> | 0 | 1 | 1 |
-| P382 | <code>/.env.aws</code> | 1 | 0 | 1 |
-| P383 | <code>/.env.ci</code> | 1 | 0 | 1 |
-| P384 | <code>/.env.dev.local</code> | 1 | 0 | 1 |
-| P385 | <code>/.env.dist</code> | 0 | 1 | 1 |
-| P386 | <code>/.env.docker</code> | 1 | 0 | 1 |
-| P387 | <code>/.env.orig</code> | 0 | 1 | 1 |
-| P388 | <code>/.env.php</code> | 0 | 1 | 1 |
-| P389 | <code>/.env.preview</code> | 1 | 0 | 1 |
-| P390 | <code>/.env.prod.local</code> | 1 | 0 | 1 |
-| P391 | <code>/.env.qa</code> | 1 | 0 | 1 |
-| P392 | <code>/.env.testing</code> | 1 | 0 | 1 |
-| P393 | <code>/.env.uat</code> | 1 | 0 | 1 |
-| P394 | <code>/.env1</code> | 0 | 1 | 1 |
-| P395 | <code>/.env2</code> | 0 | 1 | 1 |
-| P396 | <code>/.env~</code> | 1 | 0 | 1 |
-| P397 | <code>/.gitconfig</code> | 0 | 1 | 1 |
-| P398 | <code>/.github/copilot-instructions.md</code> | 0 | 1 | 1 |
-| P399 | <code>/.github/workflows/build.yml</code> | 0 | 1 | 1 |
-| P400 | <code>/.github/workflows/main.yml</code> | 0 | 1 | 1 |
-| P401 | <code>/.idea/workspace.xml</code> | 1 | 0 | 1 |
-| P402 | <code>/.ssh/authorized_keys</code> | 1 | 0 | 1 |
-| P403 | <code>/.ssh/config</code> | 1 | 0 | 1 |
-| P404 | <code>/.ssh/id_rsa.pub</code> | 1 | 0 | 1 |
-| P405 | <code>/.well-known/gcp-keys.json</code> | 1 | 0 | 1 |
-| P408 | <code>/.windsurf/auth.json</code> | 1 | 0 | 1 |
-| P409 | <code>//app//etc//local.xml.gz</code> | 1 | 0 | 1 |
-| P410 | <code>//blog/.env</code> | 1 | 0 | 1 |
-| P411 | <code>//cgi-bin/cgi-bin/cgi-bin/cgi-bin/cache.php</code> | 1 | 0 | 1 |
-| P412 | <code>//php_info.php</code> | 1 | 0 | 1 |
-| P413 | <code>//server/.env</code> | 1 | 0 | 1 |
-| P414 | <code>//src/.env</code> | 1 | 0 | 1 |
-| P415 | <code>//storage/.env</code> | 1 | 0 | 1 |
-| P416 | <code>//system/.env</code> | 1 | 0 | 1 |
-| P417 | <code>//vpnapp/.env</code> | 1 | 0 | 1 |
-| P418 | <code>//web/.env</code> | 1 | 0 | 1 |
-| P419 | <code>//wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P420 | <code>//www/.env</code> | 1 | 0 | 1 |
-| P421 | <code>/2019/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P422 | <code>/CONFIG.JSON.bak</code> | 1 | 0 | 1 |
-| P428 | <code>/_phpinfo.php</code> | 1 | 0 | 1 |
-| P429 | <code>/access.log</code> | 1 | 0 | 1 |
-| P431 | <code>/admin/.env</code> | 0 | 1 | 1 |
-| P432 | <code>/admin/.env.production</code> | 0 | 1 | 1 |
-| P438 | <code>/api/phpinfo.php</code> | 1 | 0 | 1 |
-| P448 | <code>/app.py</code> | 1 | 0 | 1 |
-| P449 | <code>/app/config/parameters.yml</code> | 1 | 0 | 1 |
-| P450 | <code>/application.yml</code> | 1 | 0 | 1 |
-| P451 | <code>/appsettings.Development.json</code> | 1 | 0 | 1 |
-| P453 | <code>/assets/credentials.json</code> | 1 | 0 | 1 |
-| P457 | <code>/auth.json</code> | 1 | 0 | 1 |
-| P459 | <code>/backup.bak</code> | 1 | 0 | 1 |
-| P460 | <code>/backup.env</code> | 1 | 0 | 1 |
-| P461 | <code>/backup.sql.gz</code> | 1 | 0 | 1 |
-| P462 | <code>/backup/.env</code> | 1 | 0 | 1 |
-| P473 | <code>/blog/wp-login.php</code> | 1 | 0 | 1 |
-| P477 | <code>/buildkite/.env</code> | 0 | 1 | 1 |
-| P478 | <code>/cgi-bin/phpinfo.php</code> | 1 | 0 | 1 |
-| P479 | <code>/client/.env</code> | 1 | 0 | 1 |
-| P480 | <code>/cms/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P481 | <code>/cms/wp-json/batch/v1</code> | 1 | 0 | 1 |
-| P482 | <code>/config.bak</code> | 1 | 0 | 1 |
-| P483 | <code>/config.env</code> | 1 | 0 | 1 |
-| P484 | <code>/config.php.old</code> | 1 | 0 | 1 |
-| P485 | <code>/config.py</code> | 1 | 0 | 1 |
-| P486 | <code>/config/app/.env</code> | 0 | 1 | 1 |
-| P487 | <code>/config/bootstrap.properties</code> | 1 | 0 | 1 |
-| P488 | <code>/config/bootstrap.yml</code> | 1 | 0 | 1 |
-| P489 | <code>/config/config.yml</code> | 1 | 0 | 1 |
-| P490 | <code>/config/credentials.json</code> | 1 | 0 | 1 |
-| P491 | <code>/config/grafana.ini</code> | 1 | 0 | 1 |
-| P492 | <code>/config/kibana.yml</code> | 1 | 0 | 1 |
-| P493 | <code>/config/log4j.properties</code> | 1 | 0 | 1 |
-| P494 | <code>/config/log4j2.xml</code> | 1 | 0 | 1 |
-| P495 | <code>/config/logstash.yml</code> | 1 | 0 | 1 |
-| P496 | <code>/config/mongod.conf</code> | 1 | 0 | 1 |
-| P497 | <code>/config/nginx.conf</code> | 1 | 0 | 1 |
-| P498 | <code>/config/tomcat-users.xml</code> | 1 | 0 | 1 |
-| P500 | <code>/content../.git/config</code> | 0 | 1 | 1 |
-| P501 | <code>/credentials.ini</code> | 1 | 0 | 1 |
-| P502 | <code>/crm/.env</code> | 1 | 0 | 1 |
-| P503 | <code>/data/credentials.json</code> | 1 | 0 | 1 |
-| P504 | <code>/db.php</code> | 1 | 0 | 1 |
-| P505 | <code>/debug.log</code> | 1 | 0 | 1 |
-| P506 | <code>/debug.php</code> | 1 | 0 | 1 |
-| P507 | <code>/debug/phpinfo.php</code> | 1 | 0 | 1 |
-| P508 | <code>/dev/.env</code> | 1 | 0 | 1 |
-| P509 | <code>/dev/phpinfo.php</code> | 1 | 0 | 1 |
-| P510 | <code>/env</code> | 1 | 0 | 1 |
-| P511 | <code>/error_log</code> | 1 | 0 | 1 |
-| P514 | <code>/frontend/.env</code> | 0 | 1 | 1 |
-| P515 | <code>/functions.php</code> | 1 | 0 | 1 |
-| P516 | <code>/gcp-service-account.json</code> | 1 | 0 | 1 |
-| P517 | <code>/htdocs/.env</code> | 0 | 1 | 1 |
-| P518 | <code>/id_dsa</code> | 1 | 0 | 1 |
-| P519 | <code>/img../.git/config</code> | 0 | 1 | 1 |
-| P524 | <code>/job/.env</code> | 0 | 1 | 1 |
-| P525 | <code>/lab/.env</code> | 1 | 0 | 1 |
-| P526 | <code>/laravel/.env.backup</code> | 1 | 0 | 1 |
-| P527 | <code>/laravel/api-keys</code> | 1 | 0 | 1 |
-| P528 | <code>/laravel/cadastro</code> | 1 | 0 | 1 |
-| P529 | <code>/laravel/painel</code> | 1 | 0 | 1 |
-| P530 | <code>/laravel/setup</code> | 1 | 0 | 1 |
-| P531 | <code>/laravel/subscription</code> | 1 | 0 | 1 |
-| P532 | <code>/laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P533 | <code>/laravel/webhooks</code> | 1 | 0 | 1 |
-| P534 | <code>/laravel/welcome</code> | 1 | 0 | 1 |
-| P535 | <code>/laravel/workspace</code> | 1 | 0 | 1 |
-| P536 | <code>/lib../.git/config</code> | 1 | 0 | 1 |
-| P537 | <code>/lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P541 | <code>/logs/</code> | 1 | 0 | 1 |
-| P543 | <code>/main/wp-json/batch/v1</code> | 1 | 0 | 1 |
-| P544 | <code>/media../.git/config</code> | 0 | 1 | 1 |
-| P546 | <code>/mongodb/.env</code> | 0 | 1 | 1 |
-| P547 | <code>/mysql/.env</code> | 0 | 1 | 1 |
-| P548 | <code>/mysql/config.json</code> | 1 | 0 | 1 |
-| P549 | <code>/new/wp-json/</code> | 1 | 0 | 1 |
-| P550 | <code>/new/wp-json/batch/v1</code> | 1 | 0 | 1 |
-| P551 | <code>/news/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P552 | <code>/next.config.js</code> | 1 | 0 | 1 |
-| P553 | <code>/old/.env</code> | 0 | 1 | 1 |
-| P564 | <code>/old/wp-json/</code> | 1 | 0 | 1 |
-| P566 | <code>/p.php</code> | 1 | 0 | 1 |
-| P572 | <code>/php-info.php</code> | 1 | 0 | 1 |
-| P573 | <code>/phpinfo/index.php</code> | 1 | 0 | 1 |
-| P574 | <code>/phpinfo/test.php</code> | 1 | 0 | 1 |
-| P575 | <code>/phpmyadmin/</code> | 0 | 1 | 1 |
-| P576 | <code>/postgres/config.json</code> | 1 | 0 | 1 |
-| P577 | <code>/postmark/.env</code> | 1 | 0 | 1 |
-| P578 | <code>/ppinfo.php</code> | 1 | 0 | 1 |
-| P580 | <code>/public/config.js</code> | 1 | 0 | 1 |
-| P581 | <code>/public/phpinfo.php</code> | 1 | 0 | 1 |
-| P582 | <code>/queue/.env</code> | 1 | 0 | 1 |
-| P583 | <code>/react/config.json</code> | 1 | 0 | 1 |
-| P584 | <code>/secret/config.json</code> | 1 | 0 | 1 |
-| P585 | <code>/secrets/config.json</code> | 1 | 0 | 1 |
-| P586 | <code>/secrets/credentials.json</code> | 1 | 0 | 1 |
-| P587 | <code>/sender/.env</code> | 1 | 0 | 1 |
-| P588 | <code>/server-info.php</code> | 1 | 0 | 1 |
-| P589 | <code>/server/.env</code> | 1 | 0 | 1 |
-| P590 | <code>/server/credentials.json</code> | 1 | 0 | 1 |
-| P591 | <code>/server_info.php</code> | 1 | 0 | 1 |
-| P593 | <code>/site/.env</code> | 0 | 1 | 1 |
-| P594 | <code>/site/wp-json/batch/v1</code> | 1 | 0 | 1 |
-| P595 | <code>/sitemaps/.env</code> | 1 | 0 | 1 |
-| P596 | <code>/sites/default/config.php</code> | 1 | 0 | 1 |
-| P597 | <code>/sites/default/settings.php</code> | 1 | 0 | 1 |
-| P598 | <code>/sito/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P599 | <code>/smtp/phpinfo.php</code> | 1 | 0 | 1 |
-| P603 | <code>/src/config.json</code> | 1 | 0 | 1 |
-| P604 | <code>/stage/.env</code> | 1 | 0 | 1 |
-| P605 | <code>/static/config.json</code> | 1 | 0 | 1 |
-| P606 | <code>/storage/credentials.json</code> | 1 | 0 | 1 |
-| P607 | <code>/store/.env</code> | 0 | 1 | 1 |
-| P608 | <code>/system-info.php</code> | 1 | 0 | 1 |
-| P609 | <code>/telescope/api/requests</code> | 1 | 0 | 1 |
-| P610 | <code>/tmp/phpinfo.php</code> | 1 | 0 | 1 |
-| P611 | <code>/uat/.env</code> | 0 | 1 | 1 |
-| P612 | <code>/uat/phpinfo.php</code> | 1 | 0 | 1 |
-| P613 | <code>/user_secrets.yml</code> | 1 | 0 | 1 |
-| P614 | <code>/v2/.env</code> | 1 | 0 | 1 |
-| P615 | <code>/v2/api-docs</code> | 1 | 0 | 1 |
-| P616 | <code>/v3/api-docs</code> | 1 | 0 | 1 |
-| P618 | <code>/vendor/phpunit/phpunit/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P619 | <code>/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P621 | <code>/vertex-key.json</code> | 1 | 0 | 1 |
-| P622 | <code>/vue.config.js</code> | 1 | 0 | 1 |
-| P623 | <code>/vue/config.json</code> | 1 | 0 | 1 |
-| P624 | <code>/web.config.bak</code> | 1 | 0 | 1 |
-| P625 | <code>/web/.env</code> | 1 | 0 | 1 |
-| P626 | <code>/web/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P627 | <code>/webmail/phpinfo.php</code> | 1 | 0 | 1 |
-| P628 | <code>/webpack.config.js</code> | 1 | 0 | 1 |
-| P629 | <code>/website/.env</code> | 1 | 0 | 1 |
-| P630 | <code>/website/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P631 | <code>/webstats/awstats.pl</code> | 1 | 0 | 1 |
-| P632 | <code>/wp-admin/css/</code> | 0 | 1 | 1 |
-| P633 | <code>/wp-admin/images/</code> | 0 | 1 | 1 |
-| P634 | <code>/wp-admin/includes/</code> | 0 | 1 | 1 |
-| P635 | <code>/wp-admin/index.php</code> | 1 | 0 | 1 |
-| P636 | <code>/wp-admin/js/</code> | 0 | 1 | 1 |
-| P637 | <code>/wp-admin/maint/</code> | 0 | 1 | 1 |
-| P638 | <code>/wp-admin/network/</code> | 0 | 1 | 1 |
-| P639 | <code>/wp-admin/phpinfo.php</code> | 1 | 0 | 1 |
-| P640 | <code>/wp-admin/user/</code> | 0 | 1 | 1 |
-| P641 | <code>/wp-config.bak</code> | 1 | 0 | 1 |
-| P642 | <code>/wp-config.old</code> | 1 | 0 | 1 |
-| P643 | <code>/wp-config.php.gz</code> | 1 | 0 | 1 |
-| P644 | <code>/wp-config.php.swp</code> | 1 | 0 | 1 |
-| P645 | <code>/wp-config.txt</code> | 1 | 0 | 1 |
-| P646 | <code>/wp-content/mysql.bak</code> | 1 | 0 | 1 |
-| P647 | <code>/wp-content/plugins/newsletter/error_log</code> | 1 | 0 | 1 |
-| P648 | <code>/wp-content/plugins/wordpress-importer/error_log</code> | 1 | 0 | 1 |
-| P649 | <code>/wp-content/plugins/wps-hide-login/classes/error_log</code> | 1 | 0 | 1 |
-| P650 | <code>/wp-content/uploads/credentials.json</code> | 1 | 0 | 1 |
-| P651 | <code>/wp-content/uploads/dump.bak</code> | 1 | 0 | 1 |
-| P652 | <code>/wp-includes/js/wp-emoji-release.min.js</code> | 1 | 0 | 1 |
-| P653 | <code>/wp-json/batch%2fv1</code> | 1 | 0 | 1 |
-| P654 | <code>/wp-json/gravitysmtp/v1/tests/mock-data</code> | 1 | 0 | 1 |
-| P655 | <code>/wp-json/mcp/v1</code> | 1 | 0 | 1 |
-| P656 | <code>/wp-json/wp/v2/pages</code> | 1 | 0 | 1 |
-| P657 | <code>/wp-json/wp/v2/posts</code> | 1 | 0 | 1 |
-| P658 | <code>/wp-json/wp/v2/users</code> | 1 | 0 | 1 |
-| P659 | <code>/wp/v2/categories</code> | 1 | 0 | 1 |
-| P660 | <code>/wp/v2/media</code> | 1 | 0 | 1 |
-| P661 | <code>/wp/v2/pages</code> | 1 | 0 | 1 |
-| P662 | <code>/wp/v2/posts/999999</code> | 1 | 0 | 1 |
-| P663 | <code>/wp/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P664 | <code>/wp/wp-json/batch/v1</code> | 1 | 0 | 1 |
-| P665 | <code>/wp1/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 1 |
-| P666 | <code>/wrangler.json</code> | 1 | 0 | 1 |
-| P667 | <code>/wrangler.toml</code> | 1 | 0 | 1 |
-| P668 | <code>/www.zip</code> | 1 | 0 | 1 |
-| P669 | <code>/www/.env</code> | 0 | 1 | 1 |
-| P670 | <code>/yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P671 | <code>/zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 1 |
-| P672 | <code>/zipkin/config.json</code> | 1 | 0 | 1 |
-| P675 | <code>/~/.aws/config</code> | 1 | 0 | 1 |
-| **Total** | | **1,537** | **143** | **1,680** |
+| Observed probe path or public alias | Historical Block sample | Historical Challenge sample | Update Block count | Update Challenge count |
+|---|---:|---:|---:|---:|
+| <code>/%252eenv</code> | 0 | 0 | 1 | 0 |
+| <code>/%2564b.php</code> | 1 | 0 | 0 | 0 |
+| <code>/%2570hpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/%2eenv</code> | 1 | 0 | 7 | 0 |
+| <code>/%2eenv.local</code> | 0 | 0 | 2 | 0 |
+| <code>/%2f%2eaws%2fcredentials</code> | 1 | 0 | 0 | 0 |
+| <code>/%2f%2eenv</code> | 1 | 0 | 0 | 0 |
+| <code>/.DS_Store</code> | 5 | 0 | 0 | 0 |
+| <code>/.ENV</code> | 0 | 0 | 2 | 0 |
+| <code>/.Env</code> | 0 | 0 | 1 | 0 |
+| <code>/.auth.json</code> | 2 | 0 | 0 | 0 |
+| <code>/.aws/.env</code> | 1 | 0 | 0 | 0 |
+| <code>/.aws/cli/cache</code> | 2 | 0 | 0 | 0 |
+| <code>/.aws/config</code> | 9 | 0 | 7 | 0 |
+| <code>/.aws/credentials</code> | 15 | 0 | 11 | 0 |
+| <code>/.aws/credentials.bak</code> | 4 | 0 | 2 | 0 |
+| <code>/.aws/credentials.json</code> | 0 | 0 | 1 | 0 |
+| <code>/.aws/credentials.old</code> | 2 | 0 | 0 | 0 |
+| <code>/.aws/credentials.txt</code> | 1 | 0 | 0 | 0 |
+| <code>/.aws/credentials~</code> | 2 | 0 | 0 | 0 |
+| <code>/.aws/sso/cache.json</code> | 2 | 0 | 0 | 0 |
+| <code>/.aws/sso/cache/</code> | 2 | 0 | 0 | 0 |
+| <code>/.azure/accessTokens.json</code> | 2 | 0 | 0 | 0 |
+| <code>/.azure/azureProfile.json</code> | 2 | 0 | 0 | 0 |
+| <code>/.azure/config.json</code> | 2 | 0 | 0 | 0 |
+| <code>/.azure/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.azure/msal.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.bash_history</code> | 4 | 0 | 0 | 0 |
+| <code>/.boto</code> | 2 | 0 | 0 | 0 |
+| <code>/.claude/settings.json</code> | 2 | 0 | 4 | 0 |
+| <code>/.claude/settings.local.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.config.php.swp</code> | 1 | 0 | 0 | 0 |
+| <code>/.config/gcloud/application_default_credentials.json</code> | 6 | 0 | 0 | 0 |
+| <code>/.cursor/mcp.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.docker/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/.docker/config.json</code> | 8 | 0 | 10 | 0 |
+| <code>/.env</code> | 69 | 5 | 28 | 0 |
+| <code>/.env-example</code> | 1 | 0 | 4 | 0 |
+| <code>/.env.</code> | 0 | 1 | 0 | 0 |
+| <code>/.env.1</code> | 0 | 1 | 2 | 0 |
+| <code>/.env.aws</code> | 1 | 0 | 0 | 0 |
+| <code>/.env.backup</code> | 6 | 1 | 12 | 0 |
+| <code>/.env.bak</code> | 7 | 0 | 15 | 0 |
+| <code>/.env.ci</code> | 1 | 0 | 0 | 0 |
+| <code>/.env.dev</code> | 28 | 1 | 8 | 0 |
+| <code>/.env.dev.local</code> | 1 | 0 | 0 | 0 |
+| <code>/.env.development</code> | 3 | 0 | 14 | 0 |
+| <code>/.env.development.local</code> | 2 | 0 | 9 | 0 |
+| <code>/.env.dist</code> | 0 | 1 | 9 | 0 |
+| <code>/.env.docker</code> | 1 | 0 | 12 | 0 |
+| <code>/.env.example</code> | 4 | 1 | 13 | 0 |
+| <code>/.env.local</code> | 39 | 2 | 22 | 0 |
+| <code>/.env.old</code> | 3 | 1 | 16 | 0 |
+| <code>/.env.orig</code> | 0 | 1 | 5 | 0 |
+| <code>/.env.php</code> | 0 | 1 | 0 | 0 |
+| <code>/.env.php.bak</code> | 1 | 1 | 12 | 0 |
+| <code>/.env.preview</code> | 1 | 0 | 0 | 0 |
+| <code>/.env.prod</code> | 29 | 3 | 6 | 0 |
+| <code>/.env.prod.local</code> | 1 | 0 | 2 | 0 |
+| <code>/.env.production</code> | 10 | 1 | 19 | 0 |
+| <code>/.env.production.local</code> | 4 | 0 | 12 | 0 |
+| <code>/.env.qa</code> | 1 | 0 | 0 | 0 |
+| <code>/.env.sample</code> | 2 | 0 | 4 | 0 |
+| <code>/.env.save</code> | 2 | 0 | 17 | 0 |
+| <code>/.env.staging</code> | 5 | 0 | 14 | 0 |
+| <code>/.env.test</code> | 5 | 0 | 12 | 0 |
+| <code>/.env.testing</code> | 1 | 0 | 6 | 0 |
+| <code>/.env.tmp</code> | 1 | 1 | 0 | 0 |
+| <code>/.env.txt</code> | 1 | 2 | 0 | 0 |
+| <code>/.env.uat</code> | 1 | 0 | 0 | 0 |
+| <code>/.env/</code> | 0 | 0 | 2 | 0 |
+| <code>/.env1</code> | 0 | 1 | 0 | 0 |
+| <code>/.env2</code> | 0 | 1 | 0 | 0 |
+| <code>/.env_copy</code> | 1 | 1 | 6 | 0 |
+| <code>/.env~</code> | 1 | 0 | 0 | 0 |
+| <code>/.git-credentials</code> | 2 | 1 | 0 | 0 |
+| <code>/.git/HEAD</code> | 18 | 1 | 27 | 0 |
+| <code>/.git/config</code> | 56 | 11 | 24 | 0 |
+| <code>/.git/logs/HEAD</code> | 4 | 0 | 0 | 0 |
+| <code>/.git/logs/refs/heads/main</code> | 2 | 0 | 0 | 0 |
+| <code>/.git/refs/heads/main</code> | 2 | 0 | 0 | 0 |
+| <code>/.git/{redacted}</code> | 0 | 0 | 3 | 0 |
+| <code>/.gitconfig</code> | 0 | 1 | 0 | 0 |
+| <code>/.github/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/.github/copilot-instructions.md</code> | 0 | 1 | 0 | 0 |
+| <code>/.github/workflows/build.yml</code> | 0 | 1 | 0 | 0 |
+| <code>/.github/workflows/ci.yml</code> | 0 | 2 | 0 | 0 |
+| <code>/.github/workflows/deploy.yml</code> | 0 | 3 | 0 | 0 |
+| <code>/.github/workflows/main.yml</code> | 0 | 1 | 0 | 0 |
+| <code>/.gitignore</code> | 0 | 2 | 0 | 0 |
+| <code>/.gitlab-ci.yml</code> | 0 | 3 | 0 | 0 |
+| <code>/.gitmodules</code> | 0 | 4 | 0 | 0 |
+| <code>/.hg/dirstate</code> | 3 | 0 | 0 | 0 |
+| <code>/.hg/hgrc</code> | 2 | 0 | 5 | 0 |
+| <code>/.hg/requires</code> | 7 | 0 | 0 | 0 |
+| <code>/.hg/store/requires</code> | 8 | 0 | 0 | 0 |
+| <code>/.htaccess</code> | 2 | 0 | 0 | 0 |
+| <code>/.htpasswd</code> | 3 | 0 | 0 | 0 |
+| <code>/.idea/workspace.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/.kube/config</code> | 3 | 0 | 0 | 0 |
+| <code>/.kube/config.bak</code> | 0 | 0 | 1 | 0 |
+| <code>/.netrc</code> | 2 | 0 | 0 | 0 |
+| <code>/.npmrc</code> | 4 | 0 | 0 | 0 |
+| <code>/.pypirc</code> | 4 | 0 | 0 | 0 |
+| <code>/.s3cfg</code> | 2 | 0 | 0 | 0 |
+| <code>/.ssh/authorized_keys</code> | 1 | 0 | 0 | 0 |
+| <code>/.ssh/config</code> | 1 | 0 | 0 | 0 |
+| <code>/.ssh/id_ed25519</code> | 7 | 0 | 0 | 0 |
+| <code>/.ssh/id_rsa</code> | 6 | 0 | 2 | 0 |
+| <code>/.ssh/id_rsa.pub</code> | 1 | 0 | 0 | 0 |
+| <code>/.ssh/{redacted}</code> | 0 | 0 | 3 | 0 |
+| <code>/.svn/entries</code> | 12 | 0 | 3 | 0 |
+| <code>/.svn/format</code> | 2 | 0 | 0 | 0 |
+| <code>/.svn/wc.db</code> | 16 | 0 | 12 | 0 |
+| <code>/.vscode/sftp.json</code> | 9 | 0 | 0 | 0 |
+| <code>/.well-known/gcp-keys.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.well-known/wp-login.php</code> | 0 | 0 | 1 | 0 |
+| <code>/.windsurf/auth.json</code> | 1 | 0 | 0 | 0 |
+| <code>/.windsurf/mcp.json</code> | 2 | 0 | 0 | 0 |
+| <code>//2018/wp-includes/wlwmanifest.xml</code> | 3 | 0 | 0 | 0 |
+| <code>//2019/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 0 | 0 |
+| <code>//2020/wp-includes/wlwmanifest.xml</code> | 2 | 0 | 0 | 0 |
+| <code>//app//etc//local.xml.gz</code> | 1 | 0 | 0 | 0 |
+| <code>//assets/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//blog/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//blog/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 0 | 0 |
+| <code>//blogs/media/media/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//cache/cache/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//cgi-bin/cgi-bin/cgi-bin/cgi-bin/cache.php</code> | 1 | 0 | 0 | 0 |
+| <code>//cms/wp-includes/wlwmanifest.xml</code> | 9 | 0 | 0 | 0 |
+| <code>//images/images/images/cache.php</code> | 4 | 0 | 0 | 0 |
+| <code>//images/images/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//images/images/images/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//images/images/images/images/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//images/images/images/images/images/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//images/images/images/images/images/images/images/images/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//media/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 0 | 0 |
+| <code>//news/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 0 | 0 |
+| <code>//php_info.php</code> | 1 | 0 | 0 | 0 |
+| <code>//server/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//shop/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 0 | 0 |
+| <code>//site/wp-includes/wlwmanifest.xml</code> | 8 | 0 | 0 | 0 |
+| <code>//sito/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 0 | 0 |
+| <code>//src/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//storage/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//system/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//test/.env</code> | 2 | 0 | 0 | 0 |
+| <code>//test/wp-includes/wlwmanifest.xml</code> | 5 | 0 | 0 | 0 |
+| <code>//vpnapp/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//web/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//web/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 0 | 0 |
+| <code>//website/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 0 | 0 |
+| <code>//wordpress/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 0 | 0 |
+| <code>//wp-content/plugins/plugins/cache.php</code> | 5 | 0 | 0 | 0 |
+| <code>//wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>//wp/wp-includes/wlwmanifest.xml</code> | 4 | 0 | 0 | 0 |
+| <code>//wp1/wp-includes/wlwmanifest.xml</code> | 8 | 0 | 0 | 0 |
+| <code>//wp2/wp-includes/wlwmanifest.xml</code> | 6 | 0 | 0 | 0 |
+| <code>//www/.env</code> | 1 | 0 | 0 | 0 |
+| <code>//xmlrpc.php</code> | 4 | 4 | 6 | 0 |
+| <code>/2019/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/@vite/env</code> | 2 | 0 | 0 | 0 |
+| <code>/CONFIG.JSON.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/_phpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/_profiler/open</code> | 3 | 0 | 0 | 0 |
+| <code>/_profiler/phpinfo</code> | 6 | 0 | 0 | 0 |
+| <code>/_profiler/phpinfo.php</code> | 2 | 0 | 0 | 0 |
+| <code>/_vti_pvt/service.pwd</code> | 2 | 0 | 0 | 0 |
+| <code>/access.log</code> | 1 | 0 | 0 | 0 |
+| <code>/actuator//env</code> | 2 | 0 | 0 | 0 |
+| <code>/actuator/configprops</code> | 2 | 0 | 6 | 0 |
+| <code>/actuator/env</code> | 12 | 0 | 4 | 0 |
+| <code>/actuator/heapdump</code> | 4 | 0 | 4 | 0 |
+| <code>/actuator/{redacted}</code> | 0 | 0 | 4 | 0 |
+| <code>/admin/.env</code> | 0 | 1 | 15 | 0 |
+| <code>/admin/.env.production</code> | 0 | 1 | 0 | 0 |
+| <code>/admin/.git/config</code> | 2 | 1 | 2 | 0 |
+| <code>/admin/config.json</code> | 0 | 0 | 0 | 6 |
+| <code>/admin/config.php</code> | 0 | 3 | 0 | 1 |
+| <code>/admin/debug</code> | 0 | 2 | 0 | 0 |
+| <code>/admin/login/livewire/update</code> | 5 | 2 | 0 | 0 |
+| <code>/admin/phpinfo.php</code> | 1 | 2 | 7 | 0 |
+| <code>/adminer.php</code> | 2 | 0 | 0 | 0 |
+| <code>/administrator/.env</code> | 0 | 0 | 4 | 0 |
+| <code>/administrator/phpinfo.php</code> | 3 | 0 | 3 | 0 |
+| <code>/api/.env</code> | 8 | 0 | 15 | 0 |
+| <code>/api/.env.bak</code> | 0 | 0 | 2 | 0 |
+| <code>/api/.env/public/.env</code> | 0 | 0 | 6 | 0 |
+| <code>/api/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/api/config.php</code> | 2 | 0 | 2 | 0 |
+| <code>/api/phpinfo.php</code> | 1 | 0 | 4 | 0 |
+| <code>/api/shared/config/config.env</code> | 3 | 0 | 0 | 0 |
+| <code>/api/v1/.env</code> | 0 | 0 | 7 | 0 |
+| <code>/api/v2/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/api/v3/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/app.py</code> | 1 | 0 | 0 | 0 |
+| <code>/app/.env</code> | 4 | 1 | 10 | 0 |
+| <code>/app/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/app/config.php</code> | 0 | 0 | 1 | 0 |
+| <code>/app/config/parameters.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/application.yml</code> | 1 | 0 | 2 | 0 |
+| <code>/application_default_credentials.json</code> | 7 | 0 | 0 | 0 |
+| <code>/appsettings.Development.json</code> | 1 | 0 | 0 | 0 |
+| <code>/appsettings.Production.json</code> | 3 | 0 | 0 | 0 |
+| <code>/appsettings.json</code> | 8 | 0 | 0 | 0 |
+| <code>/assets../.git/config</code> | 1 | 1 | 0 | 0 |
+| <code>/assets/.env</code> | 0 | 0 | 9 | 0 |
+| <code>/assets/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/auth.json</code> | 1 | 0 | 0 | 0 |
+| <code>/aws.env</code> | 2 | 0 | 0 | 0 |
+| <code>/aws/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/aws/credentials</code> | 2 | 0 | 0 | 0 |
+| <code>/azure-config.json</code> | 2 | 0 | 0 | 0 |
+| <code>/azure.json</code> | 2 | 0 | 0 | 0 |
+| <code>/backend/%2eenv</code> | 0 | 0 | 1 | 0 |
+| <code>/backend/.%65nv</code> | 0 | 0 | 1 | 0 |
+| <code>/backend/.env</code> | 4 | 2 | 9 | 0 |
+| <code>/backend/.env.production</code> | 0 | 0 | 1 | 0 |
+| <code>/backend/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/backend//.env</code> | 0 | 0 | 1 | 0 |
+| <code>/backend/phpinfo.php</code> | 2 | 0 | 0 | 0 |
+| <code>/backend/{redacted}/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/backup.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/backup.env</code> | 1 | 0 | 0 | 0 |
+| <code>/backup.sql</code> | 7 | 0 | 7 | 0 |
+| <code>/backup.sql.gz</code> | 1 | 0 | 0 | 0 |
+| <code>/backup.tar.gz</code> | 7 | 0 | 2 | 0 |
+| <code>/backup.zip</code> | 6 | 0 | 2 | 0 |
+| <code>/backup/.env</code> | 1 | 0 | 6 | 0 |
+| <code>/backup/.git/HEAD</code> | 0 | 0 | 2 | 0 |
+| <code>/backup/.git/config</code> | 0 | 0 | 1 | 0 |
+| <code>/beta/.env</code> | 1 | 2 | 4 | 0 |
+| <code>/blog/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/blog/wp-json/</code> | 4 | 0 | 0 | 0 |
+| <code>/blog/wp-login.php</code> | 1 | 0 | 0 | 0 |
+| <code>/buildkite/.env</code> | 0 | 1 | 3 | 0 |
+| <code>/cache/{redacted}/{redacted}/{redacted}/.env</code> | 0 | 0 | 6 | 0 |
+| <code>/cgi-bin/phpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/cgi-bin/wp-login.php</code> | 0 | 0 | 1 | 0 |
+| <code>/client/.env</code> | 1 | 0 | 5 | 0 |
+| <code>/cms/.env</code> | 0 | 0 | 15 | 0 |
+| <code>/cms/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/cms/wp-json/</code> | 9 | 0 | 0 | 0 |
+| <code>/cms/wp-json/batch/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/config.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/config.env</code> | 1 | 0 | 0 | 0 |
+| <code>/config.json</code> | 18 | 0 | 8 | 0 |
+| <code>/config.php</code> | 4 | 0 | 5 | 0 |
+| <code>/config.php.bak</code> | 3 | 0 | 9 | 0 |
+| <code>/config.php.old</code> | 1 | 0 | 0 | 0 |
+| <code>/config.py</code> | 1 | 0 | 0 | 0 |
+| <code>/config.xml</code> | 3 | 0 | 0 | 0 |
+| <code>/config.yaml</code> | 6 | 0 | 2 | 0 |
+| <code>/config.yml</code> | 3 | 0 | 7 | 0 |
+| <code>/config/.env</code> | 4 | 2 | 12 | 0 |
+| <code>/config/.env.dev</code> | 0 | 0 | 2 | 0 |
+| <code>/config/.env.local</code> | 0 | 0 | 2 | 0 |
+| <code>/config/app/.env</code> | 0 | 1 | 0 | 0 |
+| <code>/config/application.yml</code> | 2 | 0 | 0 | 0 |
+| <code>/config/azure.json</code> | 2 | 0 | 0 | 0 |
+| <code>/config/bootstrap.properties</code> | 1 | 0 | 0 | 0 |
+| <code>/config/bootstrap.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/config/config.json</code> | 0 | 0 | 3 | 0 |
+| <code>/config/config.php</code> | 0 | 0 | 1 | 0 |
+| <code>/config/config.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/config/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/config/gcp-credentials.json</code> | 0 | 0 | 7 | 0 |
+| <code>/config/grafana.ini</code> | 1 | 0 | 0 | 0 |
+| <code>/config/kibana.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/config/log4j.properties</code> | 1 | 0 | 0 | 0 |
+| <code>/config/log4j2.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/config/logstash.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/config/mongod.conf</code> | 1 | 0 | 0 | 0 |
+| <code>/config/nginx.conf</code> | 1 | 0 | 0 | 0 |
+| <code>/config/secrets.json</code> | 2 | 0 | 0 | 0 |
+| <code>/config/tomcat-users.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/configuration.php</code> | 2 | 0 | 0 | 0 |
+| <code>/content../.git/config</code> | 0 | 1 | 0 | 0 |
+| <code>/core/.env</code> | 0 | 0 | 15 | 0 |
+| <code>/core/app/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/core/phpinfo.php</code> | 3 | 0 | 0 | 0 |
+| <code>/credentials.ini</code> | 1 | 0 | 0 | 0 |
+| <code>/credentials.json</code> | 10 | 0 | 7 | 0 |
+| <code>/crm/.env</code> | 1 | 0 | 1 | 0 |
+| <code>/css../.git/config</code> | 1 | 1 | 0 | 0 |
+| <code>/data/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/data/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/database.php.bak</code> | 2 | 0 | 1 | 0 |
+| <code>/database.sql</code> | 9 | 0 | 4 | 0 |
+| <code>/database_backup.sql</code> | 2 | 0 | 1 | 0 |
+| <code>/db.php</code> | 1 | 0 | 0 | 0 |
+| <code>/db.sql</code> | 6 | 0 | 4 | 0 |
+| <code>/debug.log</code> | 1 | 0 | 0 | 0 |
+| <code>/debug.php</code> | 1 | 0 | 0 | 0 |
+| <code>/debug/default/view</code> | 2 | 0 | 0 | 0 |
+| <code>/debug/phpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/demo/.env</code> | 2 | 0 | 2 | 0 |
+| <code>/deploy/.env</code> | 2 | 1 | 6 | 0 |
+| <code>/dev/.env</code> | 1 | 0 | 8 | 0 |
+| <code>/dev/phpinfo.php</code> | 1 | 0 | 4 | 0 |
+| <code>/development/.env</code> | 1 | 1 | 0 | 0 |
+| <code>/docker-compose.yml</code> | 4 | 0 | 0 | 0 |
+| <code>/docs/phpinfo.php</code> | 4 | 0 | 2 | 0 |
+| <code>/dump.sql</code> | 7 | 0 | 6 | 0 |
+| <code>/dump.sql.gz</code> | 2 | 0 | 0 | 0 |
+| <code>/email/.env</code> | 0 | 0 | 6 | 0 |
+| <code>/env</code> | 1 | 0 | 0 | 0 |
+| <code>/error.log</code> | 3 | 0 | 0 | 0 |
+| <code>/error_log</code> | 1 | 0 | 0 | 0 |
+| <code>/events../.git/config</code> | 1 | 1 | 0 | 0 |
+| <code>/firebase-adminsdk.json</code> | 7 | 0 | 0 | 0 |
+| <code>/firebase-key.json</code> | 4 | 0 | 0 | 0 |
+| <code>/frontend/.env</code> | 0 | 1 | 9 | 0 |
+| <code>/frontend/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/functions.php</code> | 1 | 0 | 0 | 0 |
+| <code>/gcp-credentials.json</code> | 12 | 0 | 9 | 0 |
+| <code>/gcp-key.json</code> | 6 | 0 | 0 | 0 |
+| <code>/gcp-sa.json</code> | 3 | 0 | 0 | 0 |
+| <code>/gcp-service-account.json</code> | 1 | 0 | 0 | 0 |
+| <code>/google-credentials.json</code> | 6 | 0 | 0 | 0 |
+| <code>/google-key.json</code> | 3 | 0 | 0 | 0 |
+| <code>/hosting/phpinfo.php</code> | 2 | 0 | 3 | 0 |
+| <code>/htdocs/.env</code> | 0 | 1 | 2 | 0 |
+| <code>/htdocs/phpinfo.php</code> | 3 | 0 | 3 | 0 |
+| <code>/id_dsa</code> | 1 | 0 | 0 | 0 |
+| <code>/id_rsa</code> | 2 | 0 | 0 | 0 |
+| <code>/img../.git/config</code> | 0 | 1 | 0 | 0 |
+| <code>/includes/config.php</code> | 0 | 0 | 1 | 0 |
+| <code>/includes/phpinfo.php</code> | 5 | 0 | 3 | 0 |
+| <code>/index.php</code> | 15 | 0 | 0 | 0 |
+| <code>/info.php</code> | 9 | 0 | 0 | 0 |
+| <code>/info.php.bak</code> | 2 | 0 | 2 | 0 |
+| <code>/job/.env</code> | 0 | 1 | 0 | 0 |
+| <code>/js../.git/config</code> | 1 | 1 | 0 | 0 |
+| <code>/kafka/.env</code> | 1 | 1 | 0 | 0 |
+| <code>/key.json</code> | 4 | 0 | 0 | 0 |
+| <code>/keyfile.json</code> | 6 | 0 | 0 | 0 |
+| <code>/lab/.env</code> | 1 | 0 | 9 | 0 |
+| <code>/laravel/.env</code> | 2 | 0 | 10 | 0 |
+| <code>/laravel/.env.backup</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/api-keys</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/cadastro</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/painel</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/setup</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/subscription</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/laravel/webhooks</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/welcome</code> | 1 | 0 | 0 | 0 |
+| <code>/laravel/workspace</code> | 1 | 0 | 0 | 0 |
+| <code>/lib../.git/config</code> | 1 | 0 | 0 | 0 |
+| <code>/lib/.env</code> | 0 | 0 | 13 | 0 |
+| <code>/lib/config.php</code> | 0 | 0 | 1 | 0 |
+| <code>/lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/livewire/update</code> | 9 | 0 | 0 | 0 |
+| <code>/local.settings.json</code> | 2 | 0 | 0 | 0 |
+| <code>/logs/</code> | 1 | 0 | 0 | 0 |
+| <code>/logs/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/logs/error.log</code> | 2 | 0 | 0 | 0 |
+| <code>/mail/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/mail/phpinfo.php</code> | 2 | 0 | 2 | 0 |
+| <code>/main/wp-json/batch/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/main/wp-login.php</code> | 2 | 0 | 0 | 0 |
+| <code>/media../.git/config</code> | 0 | 1 | 0 | 0 |
+| <code>/media/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/mongodb/.env</code> | 0 | 1 | 0 | 0 |
+| <code>/mysql/.env</code> | 0 | 1 | 4 | 0 |
+| <code>/mysql/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/new/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/new/wp-json/</code> | 1 | 0 | 0 | 0 |
+| <code>/new/wp-json/batch/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/news/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/news/wp-json/</code> | 8 | 0 | 0 | 0 |
+| <code>/newsletter/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/next.config.js</code> | 1 | 0 | 0 | 0 |
+| <code>/old/.env</code> | 0 | 1 | 2 | 0 |
+| <code>/old/.git/HEAD</code> | 0 | 0 | 1 | 0 |
+| <code>/old/.git/config</code> | 0 | 0 | 1 | 0 |
+| <code>/old/phpinfo.php</code> | 2 | 0 | 0 | 0 |
+| <code>/old/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/old/wp-json/</code> | 1 | 0 | 0 | 0 |
+| <code>/old_phpinfo.php</code> | 2 | 0 | 0 | 0 |
+| <code>/p.php</code> | 1 | 0 | 0 | 0 |
+| <code>/php-info.php</code> | 1 | 0 | 0 | 0 |
+| <code>/php/login.php</code> | 2 | 0 | 0 | 0 |
+| <code>/php_info.php</code> | 4 | 0 | 0 | 0 |
+| <code>/phpinfo</code> | 3 | 0 | 0 | 0 |
+| <code>/phpinfo.php</code> | 17 | 0 | 19 | 0 |
+| <code>/phpinfo.php.bak</code> | 3 | 0 | 0 | 0 |
+| <code>/phpinfo.php.old</code> | 4 | 0 | 0 | 0 |
+| <code>/phpinfo/index.php</code> | 1 | 0 | 0 | 0 |
+| <code>/phpinfo/test.php</code> | 1 | 0 | 0 | 0 |
+| <code>/phpmyadmin/</code> | 0 | 1 | 0 | 0 |
+| <code>/phpversion.php</code> | 3 | 0 | 0 | 0 |
+| <code>/postgres/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/postgres/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/postmark/.env</code> | 1 | 0 | 1 | 0 |
+| <code>/ppinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/press/wp-json/</code> | 7 | 0 | 0 | 0 |
+| <code>/preview/.env</code> | 1 | 2 | 0 | 0 |
+| <code>/preview/phpinfo.php</code> | 3 | 0 | 0 | 0 |
+| <code>/private.key</code> | 2 | 0 | 0 | 0 |
+| <code>/production/.env</code> | 1 | 1 | 5 | 0 |
+| <code>/public/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/public/.git/HEAD</code> | 0 | 0 | 1 | 0 |
+| <code>/public/.git/config</code> | 0 | 0 | 2 | 0 |
+| <code>/public/config.js</code> | 1 | 0 | 0 | 0 |
+| <code>/public/phpinfo.php</code> | 1 | 0 | 3 | 0 |
+| <code>/public_html/.env</code> | 0 | 0 | 3 | 0 |
+| <code>/public_html/phpinfo.php</code> | 3 | 0 | 0 | 0 |
+| <code>/qa/.env</code> | 1 | 1 | 1 | 0 |
+| <code>/qa/phpinfo.php</code> | 4 | 0 | 0 | 0 |
+| <code>/queue/.env</code> | 1 | 0 | 0 | 0 |
+| <code>/rabbitmq/.env</code> | 1 | 1 | 2 | 0 |
+| <code>/react/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/redis/.env</code> | 0 | 2 | 0 | 0 |
+| <code>/register/livewire/update</code> | 5 | 0 | 0 | 0 |
+| <code>/s/{opaque-002}/_/;/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties</code> | 3 | 0 | 0 | 0 |
+| <code>/s/{opaque-005}/_/;/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties</code> | 2 | 0 | 0 | 0 |
+| <code>/sa.json</code> | 5 | 0 | 0 | 0 |
+| <code>/secret/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/secrets.json</code> | 6 | 0 | 0 | 0 |
+| <code>/secrets/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/secrets/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/sender/.env</code> | 1 | 0 | 0 | 0 |
+| <code>/server-info.php</code> | 1 | 0 | 0 | 0 |
+| <code>/server-status</code> | 0 | 7 | 0 | 3 |
+| <code>/server-status.php</code> | 2 | 2 | 0 | 0 |
+| <code>/server.key</code> | 5 | 0 | 0 | 0 |
+| <code>/server/.env</code> | 1 | 0 | 7 | 0 |
+| <code>/server/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/server/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/server_info.php</code> | 1 | 0 | 0 | 0 |
+| <code>/service-account.json</code> | 4 | 0 | 0 | 0 |
+| <code>/service_account.json</code> | 3 | 0 | 0 | 0 |
+| <code>/settings.json</code> | 3 | 0 | 2 | 0 |
+| <code>/settings.php</code> | 3 | 0 | 2 | 0 |
+| <code>/settings.py</code> | 3 | 0 | 0 | 0 |
+| <code>/shared/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/shop/.env</code> | 0 | 0 | 3 | 0 |
+| <code>/site.zip</code> | 3 | 0 | 0 | 0 |
+| <code>/site/.env</code> | 0 | 1 | 5 | 0 |
+| <code>/site/phpinfo.php</code> | 5 | 0 | 2 | 0 |
+| <code>/site/wp-admin/</code> | 0 | 0 | 1 | 0 |
+| <code>/site/wp-json/</code> | 4 | 0 | 0 | 0 |
+| <code>/site/wp-json/batch/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/site/wp-login.php</code> | 2 | 0 | 0 | 0 |
+| <code>/sitemaps/.env</code> | 1 | 0 | 2 | 0 |
+| <code>/sites/default/config.php</code> | 1 | 0 | 0 | 0 |
+| <code>/sites/default/settings.php</code> | 1 | 0 | 1 | 0 |
+| <code>/sites/default/{redacted}</code> | 0 | 0 | 1 | 0 |
+| <code>/sito/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/smtp/phpinfo.php</code> | 1 | 0 | 4 | 0 |
+| <code>/src/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/src/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/stage/.env</code> | 1 | 0 | 4 | 0 |
+| <code>/staging/.env</code> | 0 | 0 | 10 | 0 |
+| <code>/staging/phpinfo.php</code> | 2 | 0 | 0 | 0 |
+| <code>/static/.env</code> | 0 | 0 | 6 | 0 |
+| <code>/static/app/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/static/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/storage/.env</code> | 0 | 0 | 5 | 0 |
+| <code>/storage/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/storage/logs/laravel.log</code> | 4 | 0 | 0 | 0 |
+| <code>/store/.env</code> | 0 | 1 | 6 | 0 |
+| <code>/stripe/.env</code> | 1 | 1 | 0 | 0 |
+| <code>/studioserver/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/system-info.php</code> | 1 | 0 | 0 | 0 |
+| <code>/telescope/api/requests</code> | 1 | 0 | 0 | 0 |
+| <code>/telescope/requests</code> | 2 | 0 | 0 | 0 |
+| <code>/test.php</code> | 3 | 0 | 0 | 0 |
+| <code>/test/.env</code> | 1 | 1 | 0 | 0 |
+| <code>/test/phpinfo.php</code> | 2 | 0 | 2 | 0 |
+| <code>/test/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/tmp/.env</code> | 0 | 0 | 4 | 0 |
+| <code>/tmp/phpinfo.php</code> | 1 | 0 | 5 | 0 |
+| <code>/trace.axd</code> | 2 | 0 | 0 | 0 |
+| <code>/uat/.env</code> | 0 | 1 | 0 | 0 |
+| <code>/uat/phpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/uploads/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/user_secrets.yml</code> | 1 | 0 | 0 | 0 |
+| <code>/v1/.env</code> | 0 | 0 | 8 | 0 |
+| <code>/v2/.env</code> | 1 | 0 | 9 | 0 |
+| <code>/v2/api-docs</code> | 1 | 0 | 0 | 0 |
+| <code>/v3/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/v3/api-docs</code> | 1 | 0 | 0 | 0 |
+| <code>/var/log/nginx/error.log</code> | 2 | 0 | 0 | 0 |
+| <code>/var/www/.env</code> | 1 | 2 | 3 | 0 |
+| <code>/var/www/{redacted}/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/vendor/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/vendor/phpunit/phpunit/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/vertex-key.json</code> | 1 | 0 | 0 | 0 |
+| <code>/vite.config.js</code> | 2 | 0 | 0 | 0 |
+| <code>/vite.config.ts</code> | 2 | 0 | 0 | 0 |
+| <code>/vue.config.js</code> | 1 | 0 | 0 | 0 |
+| <code>/vue/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/web.config</code> | 5 | 0 | 4 | 0 |
+| <code>/web.config.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/web/.env</code> | 1 | 0 | 8 | 0 |
+| <code>/web/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/web/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/webmail/phpinfo.php</code> | 1 | 0 | 3 | 0 |
+| <code>/webpack.config.js</code> | 1 | 0 | 0 | 0 |
+| <code>/webroot/index.php/_environment</code> | 2 | 0 | 0 | 0 |
+| <code>/website/.env</code> | 1 | 0 | 0 | 0 |
+| <code>/website/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/webstats/awstats.pl</code> | 1 | 0 | 0 | 0 |
+| <code>/wordpress/</code> | 11 | 0 | 0 | 0 |
+| <code>/wordpress/.env</code> | 0 | 0 | 4 | 0 |
+| <code>/wordpress/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/wordpress/wp-json/</code> | 9 | 0 | 0 | 0 |
+| <code>/worker/.env</code> | 1 | 1 | 0 | 0 |
+| <code>/workspace/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/wp-admin/</code> | 5 | 1 | 2 | 0 |
+| <code>/wp-admin/css/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/css/{redacted}/wp-login.php</code> | 0 | 0 | 2 | 0 |
+| <code>/wp-admin/images/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/includes/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/index.php</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-admin/js/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/maint/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/network/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/phpinfo.php</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-admin/setup-config.php</code> | 4 | 0 | 0 | 0 |
+| <code>/wp-admin/user/</code> | 0 | 1 | 0 | 0 |
+| <code>/wp-admin/user/wp-login.php</code> | 0 | 0 | 1 | 0 |
+| <code>/wp-config.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-config.old</code> | 1 | 0 | 3 | 0 |
+| <code>/wp-config.php</code> | 14 | 0 | 6 | 0 |
+| <code>/wp-config.php-backup</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.php-save</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.php.bak</code> | 8 | 0 | 9 | 0 |
+| <code>/wp-config.php.dist</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.php.gz</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-config.php.old</code> | 2 | 0 | 6 | 0 |
+| <code>/wp-config.php.orig</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.php.save</code> | 5 | 0 | 0 | 0 |
+| <code>/wp-config.php.swp</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-config.php.zip</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.php~</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-config.txt</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/</code> | 0 | 0 | 1 | 0 |
+| <code>/wp-content/mysql.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/plugins/easy-google-fonts/error_log</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-content/plugins/newsletter/error_log</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/plugins/wordpress-importer/error_log</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/plugins/wps-hide-login/classes/error_log</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/uploads/credentials.json</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/uploads/dump.bak</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-content/{redacted}/wp-login.php</code> | 0 | 0 | 2 | 0 |
+| <code>/wp-includes/</code> | 2 | 0 | 2 | 0 |
+| <code>/wp-includes/images/wp-login.php</code> | 0 | 0 | 1 | 0 |
+| <code>/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/wp-includes/js/wp-emoji-release.min.js</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-includes/style.php</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-includes/version.php</code> | 2 | 0 | 0 | 0 |
+| <code>/wp-includes/{redacted}/wp-login.php</code> | 0 | 0 | 2 | 0 |
+| <code>/wp-json</code> | 0 | 0 | 2 | 0 |
+| <code>/wp-json/</code> | 11 | 0 | 1 | 0 |
+| <code>/wp-json/batch%2fv1</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-json/batch/v1</code> | 21 | 0 | 0 | 0 |
+| <code>/wp-json/gravitysmtp/v1/tests/mock-data</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-json/mcp/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-json/wp/v2/pages</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-json/wp/v2/posts</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-json/wp/v2/users</code> | 1 | 0 | 0 | 0 |
+| <code>/wp-login.php</code> | 15 | 3 | 7 | 0 |
+| <code>/wp/</code> | 12 | 0 | 0 | 0 |
+| <code>/wp/.env</code> | 0 | 0 | 10 | 0 |
+| <code>/wp/v2/blocks</code> | 5 | 0 | 0 | 0 |
+| <code>/wp/v2/categories</code> | 1 | 0 | 0 | 0 |
+| <code>/wp/v2/comments</code> | 3 | 0 | 0 | 0 |
+| <code>/wp/v2/media</code> | 1 | 0 | 0 | 0 |
+| <code>/wp/v2/pages</code> | 1 | 0 | 0 | 0 |
+| <code>/wp/v2/posts/999999</code> | 1 | 0 | 0 | 0 |
+| <code>/wp/v2/template-parts</code> | 5 | 0 | 0 | 0 |
+| <code>/wp/v2/templates</code> | 5 | 0 | 0 | 0 |
+| <code>/wp/v2/users</code> | 2 | 0 | 0 | 0 |
+| <code>/wp/v2/widgets</code> | 2 | 0 | 0 | 0 |
+| <code>/wp/wp-includes/js/json2.js</code> | 3 | 0 | 0 | 0 |
+| <code>/wp/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/wp/wp-json/</code> | 7 | 0 | 0 | 0 |
+| <code>/wp/wp-json/batch/v1</code> | 1 | 0 | 0 | 0 |
+| <code>/wp1/wp-includes/wlwmanifest.xml</code> | 1 | 0 | 0 | 0 |
+| <code>/wrangler.json</code> | 1 | 0 | 0 | 0 |
+| <code>/wrangler.toml</code> | 1 | 0 | 0 | 0 |
+| <code>/www.zip</code> | 1 | 0 | 0 | 0 |
+| <code>/www/.env</code> | 0 | 1 | 4 | 0 |
+| <code>/www/.git/config</code> | 2 | 0 | 2 | 0 |
+| <code>/www/phpinfo.php</code> | 3 | 0 | 1 | 0 |
+| <code>/xmlrpc.php</code> | 9 | 1 | 1 | 0 |
+| <code>/yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php</code> | 0 | 1 | 0 | 0 |
+| <code>/zipkin/config.json</code> | 1 | 0 | 0 | 0 |
+| <code>/{redacted}</code> | 0 | 0 | 194 | 0 |
+| <code>/{redacted}/</code> | 0 | 0 | 0 | 1 |
+| <code>/{redacted}/.env</code> | 0 | 0 | 362 | 0 |
+| <code>/{redacted}/.env.dev</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/.env.local</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/.env.staging</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/.git/HEAD</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/HEAD</code> | 0 | 0 | 0 | 1 |
+| <code>/{redacted}/_profiler</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/admin/.env</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/api/.env</code> | 0 | 0 | 9 | 0 |
+| <code>/{redacted}/cache/.env.php</code> | 0 | 0 | 1 | 0 |
+| <code>/{redacted}/cache/config.php</code> | 0 | 0 | 2 | 0 |
+| <code>/{redacted}/config.json</code> | 0 | 0 | 2 | 0 |
+| <code>/{redacted}/config.php</code> | 0 | 0 | 2 | 0 |
+| <code>/{redacted}/config.yml</code> | 0 | 0 | 3 | 0 |
+| <code>/{redacted}/docs/.env</code> | 0 | 0 | 3 | 0 |
+| <code>/{redacted}/phpinfo.php</code> | 0 | 0 | 2 | 0 |
+| <code>/{redacted}/settings.json</code> | 0 | 0 | 4 | 0 |
+| <code>/{redacted}/web/.env</code> | 0 | 0 | 2 | 0 |
+| <code>/{redacted}/{redacted}</code> | 0 | 0 | 1 | 2 |
+| <code>/{redacted}/{redacted}/.env</code> | 0 | 0 | 4 | 0 |
+| <code>/~/.aws/config</code> | 1 | 0 | 0 | 0 |
+| **Total** | **1,537** | **143** | **1,680** | **14** |
 
 </details>
 
@@ -617,7 +722,7 @@ Validate each path against the site's intended public routes before implementing
 
 ## Scanner target update, 12–17 November
 
-The original daily path queries for 15 and 16 November reached the 350-group cap. The table below replaces those two daily results with disjoint six-hour queries. The historical diagnostic register above uses a separate collection method.
+The original daily path queries for 15 and 16 November reached the 350-group cap. The table below replaces those two daily results with 48 disjoint one-hour queries collected on 20 November. These replace the earlier six-hour estimates rather than being added to them. The historical diagnostic register above uses a separate collection method.
 
 | Target family | Reported Block count | Reported Managed Challenge count |
 |---|---:|---:|
@@ -629,271 +734,70 @@ The original daily path queries for 15 and 16 November reached the 350-group cap
 | Cloud or SSH credentials (/.aws/credentials, /.ssh/id_*) | 47 | 0 |
 | WordPress probes (/wp-login.php, /wp-config.php, /wp-json/) | 39 | 0 |
 
-None of the replacement six-hour queries reached the cap; the largest returned 299 groups. Cloudflare reported adaptive sampling in 9 of 12 retained intervals. The independent action totals and daily chart are unchanged. [Cloudflare Security Events sampling](https://developers.cloudflare.com/waf/analytics/security-events/#sampling)
+None of the 48 replacement hourly queries reached the cap; the largest returned 226 groups. Adaptive sampling was reported in 8 of those 48 intervals and 12 of all 52 retained path intervals. Shorter sampled queries can return different estimates and omit paths seen in earlier queries; this is not evidence of a traffic change. The independent action totals and daily chart are unchanged. [Cloudflare Security Events sampling](https://developers.cloudflare.com/waf/analytics/security-events/#sampling)
 
 ### Detailed paths in the returned sample
 
-The table includes every qualifying returned group. **235 distinct public paths or aliases** account for **1,680 Blocks** and **14 Managed Challenges** in this filtered query. Known technical segments preserve their observed case and percent encoding. Other segments appear as `{redacted}`; counts are combined when multiple paths map to the same alias. Routine routes are excluded. Redacted groups account for 622 Blocks and 4 Managed Challenges.
+The consolidated register includes every returned group accepted by the seven-family supplemental filter. **235 distinct public paths or aliases** account for **1,680 Blocks** and **14 Managed Challenges** in this filtered query. Known technical segments preserve their observed case and percent encoding. Other segments appear as `{redacted}`; counts are combined when multiple paths map to the same alias. Routine routes are excluded. Redacted groups account for 622 Blocks and 4 Managed Challenges.
 
 | UTC interval | Returned action/path groups | Distinct qualifying paths in that interval | Query cap reached |
 |---|---:|---:|---|
 | 2026-11-12 18:00–24:00 | 61 | 28 | No |
 | 2026-11-13 00:00–24:00 | 235 | 102 | No |
 | 2026-11-14 00:00–24:00 | 166 | 74 | No |
-| 2026-11-15 00:00–06:00 | 76 | 41 | No |
-| 2026-11-15 06:00–12:00 | 1 | 0 | No |
-| 2026-11-15 12:00–18:00 | 122 | 38 | No |
-| 2026-11-15 18:00–24:00 | 299 | 104 | No |
-| 2026-11-16 00:00–06:00 | 22 | 3 | No |
-| 2026-11-16 06:00–12:00 | 38 | 5 | No |
-| 2026-11-16 12:00–18:00 | 243 | 132 | No |
-| 2026-11-16 18:00–24:00 | 92 | 46 | No |
+| 2026-11-15 00:00–01:00 | 1 | 0 | No |
+| 2026-11-15 01:00–02:00 | 0 | 0 | No |
+| 2026-11-15 02:00–03:00 | 1 | 0 | No |
+| 2026-11-15 03:00–04:00 | 72 | 40 | No |
+| 2026-11-15 04:00–05:00 | 1 | 1 | No |
+| 2026-11-15 05:00–06:00 | 2 | 1 | No |
+| 2026-11-15 06:00–07:00 | 0 | 0 | No |
+| 2026-11-15 07:00–08:00 | 0 | 0 | No |
+| 2026-11-15 08:00–09:00 | 0 | 0 | No |
+| 2026-11-15 09:00–10:00 | 0 | 0 | No |
+| 2026-11-15 10:00–11:00 | 1 | 0 | No |
+| 2026-11-15 11:00–12:00 | 0 | 0 | No |
+| 2026-11-15 12:00–13:00 | 121 | 38 | No |
+| 2026-11-15 13:00–14:00 | 0 | 0 | No |
+| 2026-11-15 14:00–15:00 | 1 | 0 | No |
+| 2026-11-15 15:00–16:00 | 0 | 0 | No |
+| 2026-11-15 16:00–17:00 | 1 | 0 | No |
+| 2026-11-15 17:00–18:00 | 0 | 0 | No |
+| 2026-11-15 18:00–19:00 | 0 | 0 | No |
+| 2026-11-15 19:00–20:00 | 1 | 1 | No |
+| 2026-11-15 20:00–21:00 | 28 | 17 | No |
+| 2026-11-15 21:00–22:00 | 18 | 1 | No |
+| 2026-11-15 22:00–23:00 | 226 | 89 | No |
+| 2026-11-15 23:00–24:00 | 33 | 1 | No |
+| 2026-11-16 00:00–01:00 | 0 | 0 | No |
+| 2026-11-16 01:00–02:00 | 20 | 2 | No |
+| 2026-11-16 02:00–03:00 | 1 | 0 | No |
+| 2026-11-16 03:00–04:00 | 1 | 1 | No |
+| 2026-11-16 04:00–05:00 | 0 | 0 | No |
+| 2026-11-16 05:00–06:00 | 0 | 0 | No |
+| 2026-11-16 06:00–07:00 | 0 | 0 | No |
+| 2026-11-16 07:00–08:00 | 6 | 3 | No |
+| 2026-11-16 08:00–09:00 | 30 | 1 | No |
+| 2026-11-16 09:00–10:00 | 1 | 0 | No |
+| 2026-11-16 10:00–11:00 | 0 | 0 | No |
+| 2026-11-16 11:00–12:00 | 1 | 1 | No |
+| 2026-11-16 12:00–13:00 | 103 | 90 | No |
+| 2026-11-16 13:00–14:00 | 0 | 0 | No |
+| 2026-11-16 14:00–15:00 | 0 | 0 | No |
+| 2026-11-16 15:00–16:00 | 147 | 51 | No |
+| 2026-11-16 16:00–17:00 | 3 | 1 | No |
+| 2026-11-16 17:00–18:00 | 1 | 0 | No |
+| 2026-11-16 18:00–19:00 | 0 | 0 | No |
+| 2026-11-16 19:00–20:00 | 14 | 0 | No |
+| 2026-11-16 20:00–21:00 | 0 | 0 | No |
+| 2026-11-16 21:00–22:00 | 80 | 46 | No |
+| 2026-11-16 22:00–23:00 | 2 | 2 | No |
+| 2026-11-16 23:00–24:00 | 0 | 0 | No |
 | 2026-11-17 00:00–24:00 | 233 | 145 | No |
 
-A path can appear in multiple intervals. The following register combines identical public paths and aliases across all intervals.
+A path can appear in multiple intervals. The consolidated register above combines identical public paths and aliases across all intervals.
 
-<details>
-<summary>Expand all 235 public paths and aliases from the update</summary>
-
-| Observed path or public alias | Reported Block count | Reported Managed Challenge count |
-|---|---:|---:|
-| <code>/{redacted}/.env</code> | 362 | 0 |
-| <code>/{redacted}</code> | 194 | 0 |
-| <code>/.env</code> | 28 | 0 |
-| <code>/.git/HEAD</code> | 27 | 0 |
-| <code>/.git/config</code> | 24 | 0 |
-| <code>/.env.local</code> | 22 | 0 |
-| <code>/.env.production</code> | 19 | 0 |
-| <code>/phpinfo.php</code> | 19 | 0 |
-| <code>/.env.save</code> | 17 | 0 |
-| <code>/.env.old</code> | 16 | 0 |
-| <code>/.env.bak</code> | 15 | 0 |
-| <code>/admin/.env</code> | 15 | 0 |
-| <code>/api/.env</code> | 15 | 0 |
-| <code>/cms/.env</code> | 15 | 0 |
-| <code>/core/.env</code> | 15 | 0 |
-| <code>/.env.development</code> | 14 | 0 |
-| <code>/.env.staging</code> | 14 | 0 |
-| <code>/.env.example</code> | 13 | 0 |
-| <code>/lib/.env</code> | 13 | 0 |
-| <code>/.env.backup</code> | 12 | 0 |
-| <code>/.env.docker</code> | 12 | 0 |
-| <code>/.env.php.bak</code> | 12 | 0 |
-| <code>/.env.production.local</code> | 12 | 0 |
-| <code>/.env.test</code> | 12 | 0 |
-| <code>/.svn/wc.db</code> | 12 | 0 |
-| <code>/config/.env</code> | 12 | 0 |
-| <code>/.aws/credentials</code> | 11 | 0 |
-| <code>/.docker/config.json</code> | 10 | 0 |
-| <code>/app/.env</code> | 10 | 0 |
-| <code>/laravel/.env</code> | 10 | 0 |
-| <code>/staging/.env</code> | 10 | 0 |
-| <code>/wp/.env</code> | 10 | 0 |
-| <code>/.env.development.local</code> | 9 | 0 |
-| <code>/.env.dist</code> | 9 | 0 |
-| <code>/assets/.env</code> | 9 | 0 |
-| <code>/backend/.env</code> | 9 | 0 |
-| <code>/config.php.bak</code> | 9 | 0 |
-| <code>/frontend/.env</code> | 9 | 0 |
-| <code>/gcp-credentials.json</code> | 9 | 0 |
-| <code>/lab/.env</code> | 9 | 0 |
-| <code>/v2/.env</code> | 9 | 0 |
-| <code>/wp-config.php.bak</code> | 9 | 0 |
-| <code>/{redacted}/api/.env</code> | 9 | 0 |
-| <code>/.env.dev</code> | 8 | 0 |
-| <code>/.github/.env</code> | 8 | 0 |
-| <code>/api/v2/.env</code> | 8 | 0 |
-| <code>/api/v3/.env</code> | 8 | 0 |
-| <code>/config.json</code> | 8 | 0 |
-| <code>/dev/.env</code> | 8 | 0 |
-| <code>/public/.env</code> | 8 | 0 |
-| <code>/src/.env</code> | 8 | 0 |
-| <code>/v1/.env</code> | 8 | 0 |
-| <code>/web/.env</code> | 8 | 0 |
-| <code>/%2eenv</code> | 7 | 0 |
-| <code>/.aws/config</code> | 7 | 0 |
-| <code>/admin/phpinfo.php</code> | 7 | 0 |
-| <code>/api/v1/.env</code> | 7 | 0 |
-| <code>/backup.sql</code> | 7 | 0 |
-| <code>/config.yml</code> | 7 | 0 |
-| <code>/config/gcp-credentials.json</code> | 7 | 0 |
-| <code>/credentials.json</code> | 7 | 0 |
-| <code>/server/.env</code> | 7 | 0 |
-| <code>/wp-login.php</code> | 7 | 0 |
-| <code>/.env.prod</code> | 6 | 0 |
-| <code>/.env.testing</code> | 6 | 0 |
-| <code>/.env_copy</code> | 6 | 0 |
-| <code>//xmlrpc.php</code> | 6 | 0 |
-| <code>/actuator/configprops</code> | 6 | 0 |
-| <code>/admin/config.json</code> | 0 | 6 |
-| <code>/api/.env/public/.env</code> | 6 | 0 |
-| <code>/backup/.env</code> | 6 | 0 |
-| <code>/cache/{redacted}/{redacted}/{redacted}/.env</code> | 6 | 0 |
-| <code>/deploy/.env</code> | 6 | 0 |
-| <code>/dump.sql</code> | 6 | 0 |
-| <code>/email/.env</code> | 6 | 0 |
-| <code>/static/.env</code> | 6 | 0 |
-| <code>/store/.env</code> | 6 | 0 |
-| <code>/wp-config.php</code> | 6 | 0 |
-| <code>/wp-config.php.old</code> | 6 | 0 |
-| <code>/.env.orig</code> | 5 | 0 |
-| <code>/.hg/hgrc</code> | 5 | 0 |
-| <code>/client/.env</code> | 5 | 0 |
-| <code>/config.php</code> | 5 | 0 |
-| <code>/production/.env</code> | 5 | 0 |
-| <code>/site/.env</code> | 5 | 0 |
-| <code>/storage/.env</code> | 5 | 0 |
-| <code>/tmp/phpinfo.php</code> | 5 | 0 |
-| <code>/.claude/settings.json</code> | 4 | 0 |
-| <code>/.env-example</code> | 4 | 0 |
-| <code>/.env.sample</code> | 4 | 0 |
-| <code>/actuator/env</code> | 4 | 0 |
-| <code>/actuator/heapdump</code> | 4 | 0 |
-| <code>/actuator/{redacted}</code> | 4 | 0 |
-| <code>/administrator/.env</code> | 4 | 0 |
-| <code>/api/phpinfo.php</code> | 4 | 0 |
-| <code>/beta/.env</code> | 4 | 0 |
-| <code>/database.sql</code> | 4 | 0 |
-| <code>/db.sql</code> | 4 | 0 |
-| <code>/dev/phpinfo.php</code> | 4 | 0 |
-| <code>/mysql/.env</code> | 4 | 0 |
-| <code>/smtp/phpinfo.php</code> | 4 | 0 |
-| <code>/stage/.env</code> | 4 | 0 |
-| <code>/tmp/.env</code> | 4 | 0 |
-| <code>/web.config</code> | 4 | 0 |
-| <code>/wordpress/.env</code> | 4 | 0 |
-| <code>/www/.env</code> | 4 | 0 |
-| <code>/{redacted}/settings.json</code> | 4 | 0 |
-| <code>/{redacted}/{redacted}/.env</code> | 4 | 0 |
-| <code>/.git/{redacted}</code> | 3 | 0 |
-| <code>/.ssh/{redacted}</code> | 3 | 0 |
-| <code>/.svn/entries</code> | 3 | 0 |
-| <code>/administrator/phpinfo.php</code> | 3 | 0 |
-| <code>/buildkite/.env</code> | 3 | 0 |
-| <code>/config/config.json</code> | 3 | 0 |
-| <code>/hosting/phpinfo.php</code> | 3 | 0 |
-| <code>/htdocs/phpinfo.php</code> | 3 | 0 |
-| <code>/includes/phpinfo.php</code> | 3 | 0 |
-| <code>/public/phpinfo.php</code> | 3 | 0 |
-| <code>/public_html/.env</code> | 3 | 0 |
-| <code>/server-status</code> | 0 | 3 |
-| <code>/shop/.env</code> | 3 | 0 |
-| <code>/var/www/.env</code> | 3 | 0 |
-| <code>/webmail/phpinfo.php</code> | 3 | 0 |
-| <code>/wp-config.old</code> | 3 | 0 |
-| <code>/{redacted}/config.yml</code> | 3 | 0 |
-| <code>/{redacted}/docs/.env</code> | 3 | 0 |
-| <code>/{redacted}/{redacted}</code> | 1 | 2 |
-| <code>/%2eenv.local</code> | 2 | 0 |
-| <code>/.aws/credentials.bak</code> | 2 | 0 |
-| <code>/.ENV</code> | 2 | 0 |
-| <code>/.env.1</code> | 2 | 0 |
-| <code>/.env.prod.local</code> | 2 | 0 |
-| <code>/.env/</code> | 2 | 0 |
-| <code>/.ssh/id_rsa</code> | 2 | 0 |
-| <code>/admin/.git/config</code> | 2 | 0 |
-| <code>/api/.env.bak</code> | 2 | 0 |
-| <code>/api/.git/config</code> | 2 | 0 |
-| <code>/api/config.php</code> | 2 | 0 |
-| <code>/app/.git/config</code> | 2 | 0 |
-| <code>/application.yml</code> | 2 | 0 |
-| <code>/aws/.env</code> | 2 | 0 |
-| <code>/backend/.git/config</code> | 2 | 0 |
-| <code>/backup.tar.gz</code> | 2 | 0 |
-| <code>/backup.zip</code> | 2 | 0 |
-| <code>/backup/.git/HEAD</code> | 2 | 0 |
-| <code>/config.yaml</code> | 2 | 0 |
-| <code>/config/.env.dev</code> | 2 | 0 |
-| <code>/config/.env.local</code> | 2 | 0 |
-| <code>/data/.env</code> | 2 | 0 |
-| <code>/demo/.env</code> | 2 | 0 |
-| <code>/docs/phpinfo.php</code> | 2 | 0 |
-| <code>/frontend/.git/config</code> | 2 | 0 |
-| <code>/htdocs/.env</code> | 2 | 0 |
-| <code>/info.php.bak</code> | 2 | 0 |
-| <code>/logs/.env</code> | 2 | 0 |
-| <code>/mail/phpinfo.php</code> | 2 | 0 |
-| <code>/media/.env</code> | 2 | 0 |
-| <code>/newsletter/.env</code> | 2 | 0 |
-| <code>/old/.env</code> | 2 | 0 |
-| <code>/postgres/.env</code> | 2 | 0 |
-| <code>/public/.git/config</code> | 2 | 0 |
-| <code>/rabbitmq/.env</code> | 2 | 0 |
-| <code>/server/.git/config</code> | 2 | 0 |
-| <code>/settings.json</code> | 2 | 0 |
-| <code>/settings.php</code> | 2 | 0 |
-| <code>/shared/.env</code> | 2 | 0 |
-| <code>/site/phpinfo.php</code> | 2 | 0 |
-| <code>/sitemaps/.env</code> | 2 | 0 |
-| <code>/studioserver/.git/config</code> | 2 | 0 |
-| <code>/test/phpinfo.php</code> | 2 | 0 |
-| <code>/uploads/.env</code> | 2 | 0 |
-| <code>/vendor/.env</code> | 2 | 0 |
-| <code>/web/.git/config</code> | 2 | 0 |
-| <code>/wp-admin/</code> | 2 | 0 |
-| <code>/wp-admin/css/{redacted}/wp-login.php</code> | 2 | 0 |
-| <code>/wp-content/{redacted}/wp-login.php</code> | 2 | 0 |
-| <code>/wp-includes/</code> | 2 | 0 |
-| <code>/wp-includes/{redacted}/wp-login.php</code> | 2 | 0 |
-| <code>/wp-json</code> | 2 | 0 |
-| <code>/www/.git/config</code> | 2 | 0 |
-| <code>/{redacted}/cache/config.php</code> | 2 | 0 |
-| <code>/{redacted}/config.json</code> | 2 | 0 |
-| <code>/{redacted}/config.php</code> | 2 | 0 |
-| <code>/{redacted}/phpinfo.php</code> | 2 | 0 |
-| <code>/{redacted}/web/.env</code> | 2 | 0 |
-| <code>/%252eenv</code> | 1 | 0 |
-| <code>/.aws/credentials.json</code> | 1 | 0 |
-| <code>/.docker/.env</code> | 1 | 0 |
-| <code>/.Env</code> | 1 | 0 |
-| <code>/.kube/config.bak</code> | 1 | 0 |
-| <code>/.well-known/wp-login.php</code> | 1 | 0 |
-| <code>/admin/config.php</code> | 0 | 1 |
-| <code>/app/config.php</code> | 1 | 0 |
-| <code>/backend/%2eenv</code> | 1 | 0 |
-| <code>/backend/.%65nv</code> | 1 | 0 |
-| <code>/backend/.env.production</code> | 1 | 0 |
-| <code>/backend//.env</code> | 1 | 0 |
-| <code>/backend/{redacted}/.env</code> | 1 | 0 |
-| <code>/backup/.git/config</code> | 1 | 0 |
-| <code>/cgi-bin/wp-login.php</code> | 1 | 0 |
-| <code>/config/config.php</code> | 1 | 0 |
-| <code>/core/app/.env</code> | 1 | 0 |
-| <code>/crm/.env</code> | 1 | 0 |
-| <code>/database.php.bak</code> | 1 | 0 |
-| <code>/database_backup.sql</code> | 1 | 0 |
-| <code>/includes/config.php</code> | 1 | 0 |
-| <code>/lib/config.php</code> | 1 | 0 |
-| <code>/mail/.env</code> | 1 | 0 |
-| <code>/old/.git/config</code> | 1 | 0 |
-| <code>/old/.git/HEAD</code> | 1 | 0 |
-| <code>/postmark/.env</code> | 1 | 0 |
-| <code>/public/.git/HEAD</code> | 1 | 0 |
-| <code>/qa/.env</code> | 1 | 0 |
-| <code>/site/wp-admin/</code> | 1 | 0 |
-| <code>/sites/default/settings.php</code> | 1 | 0 |
-| <code>/sites/default/{redacted}</code> | 1 | 0 |
-| <code>/static/app/.env</code> | 1 | 0 |
-| <code>/v3/.env</code> | 1 | 0 |
-| <code>/var/www/{redacted}/.env</code> | 1 | 0 |
-| <code>/workspace/.env</code> | 1 | 0 |
-| <code>/wp-admin/user/wp-login.php</code> | 1 | 0 |
-| <code>/wp-content/</code> | 1 | 0 |
-| <code>/wp-includes/images/wp-login.php</code> | 1 | 0 |
-| <code>/wp-json/</code> | 1 | 0 |
-| <code>/www/phpinfo.php</code> | 1 | 0 |
-| <code>/xmlrpc.php</code> | 1 | 0 |
-| <code>/{redacted}/</code> | 0 | 1 |
-| <code>/{redacted}/.env.dev</code> | 1 | 0 |
-| <code>/{redacted}/.env.local</code> | 1 | 0 |
-| <code>/{redacted}/.env.staging</code> | 1 | 0 |
-| <code>/{redacted}/.git/HEAD</code> | 1 | 0 |
-| <code>/{redacted}/_profiler</code> | 1 | 0 |
-| <code>/{redacted}/admin/.env</code> | 1 | 0 |
-| <code>/{redacted}/cache/.env.php</code> | 1 | 0 |
-| <code>/{redacted}/HEAD</code> | 0 | 1 |
-
-</details>
+The consolidated register above includes these update paths once, alongside the historical sample. Its separate columns preserve the two collection methods; they must not be added to the headline action totals.
 
 ## Unexpected-port probes
 
@@ -941,6 +845,7 @@ These are controls used or developed during the reported period. Their existence
 - **599 intervals** reported adaptive sampling above a sample interval of one. Counts are the provider-reported values. They have not been independently scaled or extrapolated.
 - **Six intervals** hit either the summary-query or diagnostic-query result limit. Results in those intervals can omit groups or examples.
 - The supplemental direct query covers six adjacent, non-overlapping UTC intervals from the archive cutoff through 18 November at 00:00 UTC. All six action intervals were sampled; none reached the action-group limit. The path results are bounded separately.
+- The supplemental path filter covers seven target families. Other suspicious target types, overlong paths and unsupported decoded characters may be omitted; the register is not an exhaustive inventory of all probing.
 - Collection continuity describes the retained records. It does not prove exhaustive Cloudflare telemetry or complete delivery of every underlying event.
 - The diagnostic collection is capped at the provider query and further deduplicated and bounded per source, action and rule. Filtered path counts cannot be used as a percentage breakdown of all blocked requests.
 - This dataset is security-event telemetry. It is not a full HTTP access log, a count of readers, or an estimate of unique visitors.
@@ -952,6 +857,6 @@ These are controls used or developed during the reported period. Their existence
 
 This public export contains aggregate counts, a filtered scanner-target register with opaque identifiers replaced. It omits source addresses, network identifiers, provider rule identifiers, request identifiers, resource identifier values, User-Agent strings, query strings, cookies, request bodies, credentials and internal infrastructure details. The path register discloses selected technical probe paths and their aggregate sample counts; ordinary website routes are omitted.
 
-The original extraction reads compressed records on the collector and emits aggregate counters and a sanitized scanner-target register. The update requests bounded Cloudflare aggregates and exports only counts and predefined path-family labels. It groups non-overlapping intervals, excludes Skip actions from threat totals and filters diagnostic paths to technical scanner targets. Raw evidence and the mapping of opaque placeholders remain access-controlled.
+The original extraction reads compressed records on the collector and emits aggregate counters and a sanitized scanner-target register. The update requests bounded Cloudflare aggregates and exports counts, filtered probe paths and sanitized aliases. It groups non-overlapping intervals, excludes Skip actions from threat totals and filters diagnostic paths to technical scanner targets. Raw evidence and the mapping of opaque placeholders remain access-controlled.
 
 The totals are a fixed snapshot through the stated cutoff. Later events and later corrections require a new extraction and review.

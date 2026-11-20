@@ -85,3 +85,9 @@ Use the [database lab](../lab/database.README.md) for actual PostgreSQL tests an
 - [NIST SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final): GCM; [NIST SP 800-57 Part 1 Rev. 5](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final): key management; [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final): AC-3/AC-6, SC-12/SC-13/SC-28 and SC-23 control areas.
 
 References describe applicable mechanisms and limits; they are not certification or a complete compliance assessment.
+
+## Engine advisories and object-creation rights
+
+Use [Database-engine patching](DATABASE-ENGINE-PATCHING.md) to inventory and update the actual server binaries, including replicas and dormant images. RLS, narrow columns and parameterized SQL isolate data and query structure; they do not patch native database-engine defects. PostgreSQL CVE-2026-116331 requires the applicable vendor-fixed release even when application roles are narrow.
+
+Review effective database TEMPORARY/CREATE, schema CREATE and CONNECT rights, including PUBLIC and inherited roles. Remove creation rights not required by runtime identities, preserve only needed connections, and test applications that legitimately need temporary objects. These restrictions compensate for exposure and reduce privilege; they are not a documented substitute for an engine fix. The synthetic lab checks the 17.12 minimum and denied creation alongside permitted tenant CRUD/replay.

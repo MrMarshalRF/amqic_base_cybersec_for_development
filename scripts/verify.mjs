@@ -102,7 +102,7 @@ command('node-tests', process.execPath, ['--experimental-sqlite', '--test', '--t
   'enterprise/cloud-kms/cloud-kms.test.mjs',
   'enterprise/federation/federation.test.mjs',
   'enterprise/operations/siem.test.mjs',
-  'enterprise/policy/policy-properties.test.mjs', 'enterprise/agent-runtime/agent-runtime.test.mjs', 'enterprise/probe-defense/probe-defense.test.mjs',
+  'enterprise/policy/policy-properties.test.mjs', 'enterprise/agent-runtime/agent-runtime.test.mjs', 'enterprise/outbound/outbound.test.mjs', 'enterprise/recovery/recovery.test.mjs', 'enterprise/probe-defense/probe-defense.test.mjs',
   'reference/upload-pipeline.test.mjs', 'reference/clamd-client.test.mjs', 'lab/web-app.test.mjs', 'lab/lifecycle.test.mjs', 'lab/all-local.test.mjs', 'lab/run-shell.test.mjs', 'scripts/test_crypto.mjs']);
 command('core-demo', process.execPath, ['--experimental-sqlite', 'reference/demo.mjs']);
 for (const [id, path] of [

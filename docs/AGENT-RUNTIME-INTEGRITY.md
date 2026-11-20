@@ -68,3 +68,9 @@ When an unexplained change is confirmed, use the authorized incident process: pr
 | Protected event custody | NIST SP 800-53 AU-2, AU-9, AU-12 | Deployment event collection/retention requirements; no new SIEM event schema or collector activated |
 
 Local validation covers the kit-owned exclusions, existing supply tests, source review and current artifact registry. No third-party guardrail-removal code, real installed agent, FIM product or host posture was tested or changed.
+
+## Findings ledgers and browser folder access
+
+Review locally hosted findings desks and their agent skills like other untrusted extensions. Offline-first wording does not prove absence of external fonts, optional hosted models or later requests. Treat imported finding Markdown/HTML as data; render safely, isolate it from credentials and do not grant writable folder access merely to view a report. Keep sensitive ledgers private and minimize customer data.
+
+A Git authentication error does not authorize asking for a token in chat. Use the protected human terminal workflow and a fixed reviewed consumer. Review exact artifact/publisher identity and permission requests before enabling browser File System Access or agent write access. No third-party ledger is integrated by this guidance.

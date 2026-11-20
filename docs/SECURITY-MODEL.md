@@ -24,7 +24,7 @@ Separate the machine API signing key, SSH key, TLS key, and human 2FA factor. Re
 
 Audit records retain operation and actor identifiers, time, action type, result, and policy version. Secrets, OTPs, authorization headers, and complete request bodies are excluded. For log integrity and availability, use separately protected storage with restricted write access.
 
-Set update deadlines for the OS, images, and libraries. Retain a component inventory and exact versions. For a revoked key or compromised dependency, plan for revocation, rebuilding, secret replacement, and review of affected operations.
+Set update deadlines for the OS, database-server engines, images, and libraries. Retain a component inventory and exact versions. For a revoked key or compromised dependency, plan for revocation, rebuilding, secret replacement, and review of affected operations.
 
 A backup has a date, contents, a verifiable manifest, AES-256 encryption, and an independent storage location. The recovery key is stored separately. Successful archive creation is confirmed by content verification and restoration of a test copy. A running database requires a consistent dump or snapshot using its own tools.
 
@@ -45,3 +45,7 @@ Obfuscation can slow reverse engineering but cannot make a distributed client a 
 - [MCP authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization)
 - [Docker Engine security](https://docs.docker.com/engine/security/)
 - [KeePassXC](https://keepassxc.org/docs/KeePassXC_UserGuide)
+
+## Application outbound and recovery boundaries
+
+Use [Application boundaries](APPLICATION-BOUNDARIES.md) for the fixed HTTPS transport, allowlisted local returns and standalone recovery-token lifecycle. These references cover their declared profile; they do not automatically protect existing application handlers. Recovery claims do not themselves mutate external account state or revoke sessions. Database-engine patching follows [its own guide](DATABASE-ENGINE-PATCHING.md), independently of application query safety.

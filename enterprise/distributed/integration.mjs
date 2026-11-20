@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
 import { postgresAdmission, redisAdmission } from './admission.mjs';
 
-const postgres = 'docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536';
+const postgres = 'docker.io/library/postgres:17.12-bookworm@sha256:837bed18782820fe967067cb5328b02b0d9992c1be9a37ee0c9c492cfc03af3b';
 const redis = 'redis@sha256:02f2cc4882f8bf87c79a220ac958f58c700bdec0dfb9b9ea61b62fb0e8f1bfcf';
 const root = realpathSync(fileURLToPath(new URL('../../', import.meta.url)));
 const planning = process.argv[2] === '--plan';
@@ -142,6 +142,13 @@ try {
   await ready(() => psql('SELECT 1;'));
   await delay(1500);
   await ready(() => psql('SELECT 1;'));
+  report.postgres_version = await psql('SHOW server_version;');
+  report.postgres_version_num = await psql('SHOW server_version_num;');
+  assert.match(report.postgres_version_num, /^\d{6}$/);
+  const version = Number(report.postgres_version_num);
+  assert.ok(Number.isSafeInteger(version) && version >= 170012 && version < 180000,
+    'Pinned PostgreSQL 17 family requires server_version_num >= 170012');
+  report.checks.postgres_17_fixed_minimum = true;
   await psql(readFileSync(new URL('./postgres.sql', import.meta.url), 'utf8'));
   await psql(`INSERT INTO amqic_quota.tenant_state(tenant,generation,policy_digest,window_ms,normal_cap,elevated_cap)
     VALUES (${sqlLiteral(tenant)},${sqlLiteral(generation)},${sqlLiteral(digest)},${ms},4,2);`);

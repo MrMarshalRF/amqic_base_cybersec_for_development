@@ -753,6 +753,69 @@
       "lab_scenarios": [
         "agent-config-exclusions"
       ]
+    },
+    {
+      "id": "database-engine-patching",
+      "kind": "executable",
+      "checks": [
+        "database-runtime"
+      ],
+      "files": [
+        "lab/database-verify.mjs",
+        "infra/database/schema.sql",
+        "infra/database/test_rls.sql",
+        "enterprise/distributed/integration.mjs"
+      ],
+      "references": [
+        "PostgreSQL CVE-2026-116331",
+        "NIST SP 800-53 SI-2",
+        "NIST SP 800-53 AC-6"
+      ],
+      "limits": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
+      "lab_scenarios": [
+        "database-engine-patching"
+      ]
+    },
+    {
+      "id": "outbound-and-return-boundaries",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/outbound/outbound.mjs",
+        "enterprise/outbound/outbound.test.mjs"
+      ],
+      "references": [
+        "OWASP SSRF and redirect prevention",
+        "CWE-918",
+        "CWE-601",
+        "NIST SP 800-53 SC-7"
+      ],
+      "limits": "Synthetic trusted-resolver/transport tests of realHTTPSimplementation plus localrouteIDmapping. No realremote service probes, OSegress firewall or arbitraryURLfetch supported.",
+      "lab_scenarios": [
+        "outbound-and-return-boundaries"
+      ]
+    },
+    {
+      "id": "recovery-token-lifecycle",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/recovery/recovery.mjs",
+        "enterprise/recovery/recovery.test.mjs"
+      ],
+      "references": [
+        "OWASP forgot-password guidance",
+        "CWE-640",
+        "NIST SP 800-53 IA-5"
+      ],
+      "limits": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
+      "lab_scenarios": [
+        "recovery-token-lifecycle"
+      ]
     }
   ]
 }

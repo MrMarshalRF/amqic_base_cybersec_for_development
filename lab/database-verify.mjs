@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { randomBytes, createHash } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 
-export const DATABASE_IMAGE = 'docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536';
+export const DATABASE_IMAGE = 'docker.io/library/postgres:17.12-bookworm@sha256:837bed18782820fe967067cb5328b02b0d9992c1be9a37ee0c9c492cfc03af3b';
 const root = realpathSync(fileURLToPath(new URL('..', import.meta.url)));
 const argv = process.argv.slice(2);
 const prepare = argv.includes('--prepare');
@@ -74,6 +74,13 @@ try {
   for (let n = 0; n < 30; n++) { if (docker(['exec', id, 'pg_isready', '-h', '/tmp', '-U', 'postgres'], { allow: true }).code === 0) { ready = true; break; } await delay(200); }
   assert.ok(ready, 'PostgreSQL readiness'); state.phase = 'running'; save();
   report.postgres_version = sql('SHOW server_version;').stdout;
+  report.postgres_version_num = sql('SHOW server_version_num;').stdout;
+  check('postgres_17_fixed_minimum', () => {
+    assert.match(report.postgres_version_num, /^\d{6}$/);
+    const version = Number(report.postgres_version_num);
+    assert.ok(Number.isSafeInteger(version) && version >= 170012 && version < 180000,
+      'Pinned PostgreSQL 17 family requires server_version_num >= 170012');
+  });
   sql(readFileSync(join(root, paths[0]), 'utf8'));
   check('tenant_rls_column_grants_crud_and_parameterized_injection', () => assert.match(sql(readFileSync(join(root, paths[1]), 'utf8')).stdout, /rls_checks_passed/));
   check('actual_principal_login_boundary', () => {

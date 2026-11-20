@@ -129,3 +129,7 @@ For your actual website, test direct HTTP requests that bypass browser checks, o
 - [Node.js SQLite](https://nodejs.org/docs/latest-v22.x/api/sqlite.html): prepared statements and value binding for this example.
 
 These are design references, not claims of certification or complete protection of an integrated website. The module is a reusable starting point; the application owns its transport, storage, rendering, privacy and deployment controls.
+
+## Destinations and recovery forms
+
+Validate redirect selections as server-defined local route IDs using the [return-route reference](../enterprise/outbound/README.md); do not write arbitrary form/query URLs into Location. Use its fixed outbound transport for the documented approved-resource profile, not a user-selected fetch service. Recovery forms follow the separate [token lifecycle contract](../enterprise/recovery/README.md), generic responses and independent admission. Field validation does not prove control of an email address or authorize a credential change.

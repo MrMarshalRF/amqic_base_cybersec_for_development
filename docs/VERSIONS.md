@@ -58,3 +58,7 @@ For npm, `latest` corresponds to the publisher's tag of that name, rather than t
 ## Proxy runtime inventory
 
 Inventory the running Nginx binary/package as well as the image digest. Plus, forks and distributor backports require their own advisory dispositions. Keep these components in host/image SBOMs and follow the [Nginx guide](NGINX-EDGE-SECURITY.md).
+
+## Database-server inventory
+
+Record server packages and actual `server_version`/`server_version_num`, distributor, artifact/platform digest and replica identity, separately from the language driver. Follow [database-engine advisories](DATABASE-ENGINE-PATCHING.md) and the [PostgreSQL support policy](https://www.postgresql.org/support/versioning/). The fixed lab profile requires PostgreSQL 17.12 or later within the 17 line; it is not a live scanner for installed database servers. PostgreSQL 14.25 was the final supported release of 14. Review other branches and vendor backports through their own policy.

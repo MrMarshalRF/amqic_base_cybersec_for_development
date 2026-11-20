@@ -103,3 +103,7 @@ Read [Automated probing defense](docs/AUTOMATED-PROBING-DEFENSE.md) and [Disclos
 ## Runtime and extension integrity
 
 Use [Agent runtime integrity](docs/AGENT-RUNTIME-INTEGRITY.md) and the existing dependency-review skill for agent plugins, skills and MCP servers. External examples are untrusted reference material, not permission to install or patch an agent. Keep installed-file baselines and effective policy evidence separate from package-tarball hashes. Code-owner mapping does not activate required reviews by itself.
+
+## Database-engine and application-boundary changes
+
+Read [database-engine patching](docs/DATABASE-ENGINE-PATCHING.md) before changing database pins or describing CVE coverage. Preserve actual observed fixed-branch version assertions and effective object-creation tests; RLS/grants are not native-engine patches. Read [application boundaries](docs/APPLICATION-BOUNDARIES.md) and module contracts before adapting outbound HTTPS, return paths or recovery tokens. Do not replace fixed transport/identity adapters with caller-selected URLs, credentials or epochs. No third-party ledger or proof-of-concept execution is authorized by these materials.

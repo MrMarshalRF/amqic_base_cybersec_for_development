@@ -69,3 +69,7 @@ node --test enterprise/operations/siem.test.mjs
 ```
 
 Tests cover a non-genesis segment, repeatable event identifiers, stale ETag and tampering rejection, and offline CLI output. Cloud operations, alerting policies, retention enforcement, legal holds and SIEM connectivity are deployment checks.
+
+## Database changes and delayed probing
+
+Follow the [engine patch runbook](../../docs/DATABASE-ENGINE-PATCHING.md) for version/exposure evidence and the [campaign correlation procedure](../../docs/AUTOMATED-PROBING-DEFENSE.md#multi-source-and-delayed-campaigns) for multi-origin/multi-day investigation. The current exporter has a closed schema; map operator changes to supported administration records with opaque case references and keep detailed context privately. No new engine/listener/campaign event type or operational detection is activated here.
