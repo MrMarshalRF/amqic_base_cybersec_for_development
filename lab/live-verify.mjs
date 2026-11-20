@@ -23,6 +23,51 @@ async function waitFor(check, timeout = 15000) {
   throw new Error('Integration observation timed out');
 }
 
+// This larger deadline applies only to cold browser startup, never test assertions.
+async function browserStartup(child, profile, privateRoot, diagnostics, timeout = 45000) {
+  const started = Date.now();
+  let stderr = Buffer.alloc(0), recording = true, spawnFailed = false;
+  diagnostics.phase = 'devtools-startup';
+  const onError = () => { spawnFailed = true; };
+  child.once('error', onError);
+  child.stderr.on('data', chunk => {
+    if (!recording) return; // Continue draining without retaining login/upload output.
+    stderr = Buffer.concat([stderr, Buffer.from(chunk).subarray(-8192)]).subarray(-8192);
+  });
+  try {
+    const port = await waitFor(async () => {
+      if (spawnFailed) throw new Error('Browser spawn failed');
+      if (child.exitCode !== null || child.signalCode !== null) throw new Error('Browser exited before readiness');
+      let text;
+      try { text = await readFile(join(profile, 'DevToolsActivePort'), 'utf8'); }
+      catch (error) { if (error.code === 'ENOENT') return null; throw new Error('Browser readiness file unreadable'); }
+      const [port, endpoint] = text.split('\n');
+      // Chrome writes this file asynchronously: do not consume a partial port.
+      if (!/^\/devtools\/browser\/[A-Za-z0-9-]+$/.test(endpoint ?? '')) return null;
+      if (!/^[1-9][0-9]{0,4}$/.test(port) || Number(port) > 65535) throw new Error('Browser readiness port invalid');
+      return Number(port);
+    }, timeout);
+    diagnostics.phase = 'devtools-ready';
+    return port;
+  } catch (error) {
+    diagnostics.phase = 'devtools-startup-failed';
+    throw error;
+  } finally {
+    recording = false;
+    diagnostics.elapsed_ms = Date.now() - started;
+    diagnostics.exit_code = child.exitCode;
+    diagnostics.signal = child.signalCode;
+    diagnostics.stderr_truncated = stderr.length === 8192;
+    // This private report must not expose even the disposable profile/root path.
+    let text = stderr.toString('utf8');
+    for (const path of [profile, privateRoot]) {
+      text = text.split(path).join('[private-temp]').split(path.replaceAll('\\', '/')).join('[private-temp]');
+    }
+    diagnostics.stderr = Buffer.from(text).subarray(0, 8192).toString('utf8').replace(/\uFFFD$/u, '');
+    stderr = Buffer.alloc(0);
+  }
+}
+
 async function browserPath() {
   if (process.env.LAB_BROWSER_PATH) {
     await access(process.env.LAB_BROWSER_PATH);
@@ -117,17 +162,17 @@ try {
     '--remote-debugging-address=127.0.0.1', '--user-data-dir=' + profile,
     '--no-first-run', '--no-default-browser-check', '--disable-extensions',
     '--disable-background-networking', '--disable-component-update', '--disable-sync',
-    '--window-size=1200,900', 'about:blank'], { stdio: 'ignore', windowsHide: true });
+    '--window-size=1200,900', 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
   childExited = new Promise(resolveExit => child.once('exit', resolveExit));
   process.send?.({ type: 'browser-started', pid: child.pid });
-  let spawnError;
-  child.once('error', error => { spawnError = error; });
-  const debugPort = await waitFor(async () => {
-    if (spawnError) throw spawnError;
-    if (child.exitCode !== null) throw new Error('Browser exited before readiness');
-    try { return Number((await readFile(join(profile, 'DevToolsActivePort'), 'utf8')).split('\n')[0]); } catch { return null; }
-  });
-  const version = await (await fetch(`http://127.0.0.1:${debugPort}/json/version`, { signal: AbortSignal.timeout(15000) })).json();
+  report.browser_startup = {};
+  const debugPort = await browserStartup(child, profile, root, report.browser_startup);
+  report.browser_startup.phase = 'version-request';
+  const versionResponse = await fetch(`http://127.0.0.1:${debugPort}/json/version`, { signal: AbortSignal.timeout(15000) });
+  assert.ok(versionResponse.ok);
+  const version = await versionResponse.json();
+  assert.ok(typeof version.Browser === 'string' && version.Browser.length > 0);
+  report.browser_startup.phase = 'version-ready';
   report.browser = version.Browser;
   const pages = await (await fetch(`http://127.0.0.1:${debugPort}/json/list`, { signal: AbortSignal.timeout(15000) })).json();
   const page = pages.find(item => item.type === 'page'); assert.ok(page);
