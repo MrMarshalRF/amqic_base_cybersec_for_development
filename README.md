@@ -36,6 +36,8 @@ Quantum Information, Artificial Intelligence, Mathematical Physics Scientist | C
 
 AI-assisted development, testing, and review — **[OpenAI Codex](https://openai.com/codex/)**, under the direction of the project maintainer.
 
+Thanks to **Orvar Odd**, a cybersecurity researcher, for feedback on this toolkit. [Telegram group](https://t.me/b0ster).
+
 ## Nginx protocol-parser security
 
 The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.
@@ -67,13 +69,13 @@ On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new exter
 
 The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) also covers private technical paths, administrative source maps, terminating edge blocks and Nginx static-location precedence. [Production preparation](docs/PRODUCTION.md#repository-tracking-and-private-operational-material) explains why Git ignore rules, tracked-file review and exact release inventories must be checked separately.
 
+## Agent runtime integrity
+
+The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) covers installed-file monitoring, externally enforced permission policy and review of agent plugins, skills and MCP servers.
+
 ## Recommended security resources
 
 Independent projects for additional security review and AI-agent protection. Review each project's current documentation and applicability to your environment.
-
-### Agent runtime integrity — optional external reference
-
-The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) discusses installed-file monitoring, external permission policy and extension review. [dsh-purge](https://github.com/ZiPengWei/dsh-purge) is linked as optional external material illustrating guardrail-modification risks. Review its exact source and intended effects before considering use; this kit provides no installation, copied logic or integration.
 
 ### SandHive
 

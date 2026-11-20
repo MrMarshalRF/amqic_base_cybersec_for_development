@@ -247,7 +247,7 @@ The FBI advisory is a dated defensive source, not attribution of legitimate rese
 
 ## Installed agent integrity and extension policy
 
-The [integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) distinguishes authenticated artifact bytes, installed-file state, effective permissions and external enforcement. The optional dsh-purge reference supplies no copied code, installer, launcher change or execution workflow. Neither a tool name nor an approval-mode label establishes compromise; assess changes against the operator's approved policy and exact product semantics.
+The [integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) distinguishes authenticated artifact bytes, installed-file state, effective permissions and external enforcement. Neither a tool name nor an approval-mode label establishes compromise; assess changes against the operator's approved policy and exact product semantics.
 
 The existing production/ignore/origin rules now cover `.dsh` and `prompt-inject.md`; tests validate nested/case staging rejection, Git ignore behavior and the canonical protected-path boundaries. The current registry has 160 entries. [CODEOWNERS](.github/CODEOWNERS) records review ownership, while required review/ruleset activation remains a separate GitHub configuration step.
 

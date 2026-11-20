@@ -2,12 +2,6 @@
 
 Agents that read untrusted repositories need controls outside their own writable instruction/configuration files. Treat model refusals as model behavior, not server-side authorization or proof of containment. Use the [runtime guide](AI-AGENT-RUNTIME.md) for separate identities, credentials, egress, exact approvals and an external stop path. The [automated-probing guide](AUTOMATED-PROBING-DEFENSE.md) addresses requests from agents outside your control.
 
-## Optional external review reference
-
-[dsh-purge](https://github.com/ZiPengWei/dsh-purge) is an optional external project for understanding the risks of agent guardrail modification. Its published description advertises refusal removal. The accompanying Blue Team material discusses changes to a local agent's instruction framing, permission defaults and launcher/configuration files. These product-behavior claims were not reproduced by this kit.
-
-Review the exact source, publisher, version and intended security effects before considering any use. This repository includes no copy of that project's code, installer, launcher patch, permission-changing tool or execution workflow. A link does not establish compatibility, safety or suitability for a privileged workstation. Deliberately configuring one's own tool and unauthorized tampering are different findings; neither a name nor repository popularity proves malware or malicious intent.
-
 ## Inventory the installed and effective state separately
 
 Record the exact agent/runtime version, platform, installation identity and artifact digest; package and launcher locations; approved plugins/skills/MCP servers; global instruction/override files; effective permission semantics; and the authority that controls them. Keep real paths, credential exposure and host inventory private. A version label alone cannot establish that installed files still match that version.
