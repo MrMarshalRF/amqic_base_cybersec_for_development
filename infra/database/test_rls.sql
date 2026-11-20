@@ -3,6 +3,40 @@
 INSERT INTO app.contacts VALUES
  ('00000000-0000-0000-0000-000000000001','tenant_alpha','Alpha',decode('aa','hex')),
  ('00000000-0000-0000-0000-000000000002','tenant_beta','Beta',decode('bb','hex'));
+-- Test effective privileges and harmless DDL under each actual runtime principal.
+SET SESSION AUTHORIZATION tenant_alpha;
+DO $$ BEGIN
+ IF has_database_privilege(current_user,current_database(),'TEMPORARY')
+    OR has_database_privilege(current_user,current_database(),'CREATE')
+    OR has_schema_privilege(current_user,'public','CREATE') THEN RAISE EXCEPTION 'tenant DDL privileges'; END IF;
+ BEGIN CREATE TEMP TABLE unauthorized_temp(id int);
+  RAISE EXCEPTION 'tenant TEMP'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ BEGIN CREATE TABLE public.unauthorized(id int);
+  RAISE EXCEPTION 'tenant public DDL'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+END $$;
+RESET SESSION AUTHORIZATION;
+SET SESSION AUTHORIZATION tenant_beta;
+DO $$ BEGIN
+ IF has_database_privilege(current_user,current_database(),'TEMPORARY')
+    OR has_database_privilege(current_user,current_database(),'CREATE')
+    OR has_schema_privilege(current_user,'public','CREATE') THEN RAISE EXCEPTION 'beta DDL privileges'; END IF;
+ BEGIN CREATE TEMP TABLE unauthorized_temp(id int);
+  RAISE EXCEPTION 'beta TEMP'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ BEGIN CREATE TABLE public.unauthorized(id int);
+  RAISE EXCEPTION 'beta public DDL'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+END $$;
+RESET SESSION AUTHORIZATION;
+SET SESSION AUTHORIZATION replay_service;
+DO $$ BEGIN
+ IF has_database_privilege(current_user,current_database(),'TEMPORARY')
+    OR has_database_privilege(current_user,current_database(),'CREATE')
+    OR has_schema_privilege(current_user,'public','CREATE') THEN RAISE EXCEPTION 'replay DDL privileges'; END IF;
+ BEGIN CREATE TEMP TABLE unauthorized_temp(id int);
+  RAISE EXCEPTION 'replay TEMP'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ BEGIN CREATE TABLE public.unauthorized(id int);
+  RAISE EXCEPTION 'replay public DDL'; EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+END $$;
+RESET SESSION AUTHORIZATION;
 SET SESSION AUTHORIZATION tenant_alpha;
 DO $$ BEGIN
  IF (SELECT count(id) FROM app.contacts) <> 1 THEN RAISE EXCEPTION 'row leak'; END IF;

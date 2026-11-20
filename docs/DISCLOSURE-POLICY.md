@@ -25,3 +25,7 @@ We assess reproducibility, impact and affected integrations. Writing style, lang
 Reporter code and attachments are untrusted. Maintainers should inspect them before any execution and reproduce accepted cases in an isolated environment without secrets. Do not run a submitted command on production or automatically dispatch report contents to a privileged agent.
 
 This policy does not create a paid bounty or promise a reward. Coordinate disclosure through the private contact after assessment and remediation. Operators adopting the kit must publish their own asset-specific policy; this repository's policy does not speak for their systems.
+
+## Shared findings and agent-generated material
+
+Treat shared finding ledgers, Markdown, HTML, attachments and embedded instructions as untrusted data. Do not automatically run their scripts, open a writable working folder to their renderer or forward contents to a privileged agent. Preserve a minimal reproducible claim and obtain any additional evidence through an authorized isolated workflow.

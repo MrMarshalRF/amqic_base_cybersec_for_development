@@ -63,15 +63,16 @@ test('exit-zero shaped reports cannot omit actual checks or cleanup', () => {
 });
 
 test('database stage requires real tenant, replay and cleanup checks', () => {
-  const ids = ['tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
+  const ids = ['postgres_17_fixed_minimum', 'tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
     'service_no_direct_store_or_registration_or_clock_access', 'invalid_timestamp_and_unknown_key_fail_closed',
     'two_independent_connections_exactly_one_claim', 'separate_process_replay_denied',
     'transaction_rollback_does_not_pretend_durable_claim', 'committed_nonce_survives_server_restart',
     'future_window_retention_and_expired_proof_after_prune', 'clock_rollback_and_missing_guard_fail_closed', 'owned_sources_unchanged'];
-  const valid = { schema_version: 1, status: 'passed', complete: true,
+  const valid = { schema_version: 1, status: 'passed', complete: true, postgres_version_num: '170012',
     checks: ids.map(id => ({ id, status: 'passed' })),
     cleanup: { status: 'passed', containers_absent: true, no_persistent_volume_or_network_created: true } };
   assert.equal(acceptStage('database-runtime', valid), true);
+  for (const version of [undefined, 170012, ['170012'], '170011', '180000', 'unknown']) assert.equal(!!acceptStage('database-runtime', { ...valid, postgres_version_num: version }), false);
   for (const id of ids) assert.equal(acceptStage('database-runtime', { ...valid,
     checks: valid.checks.filter(check => check.id !== id) }), false, id);
   assert.equal(acceptStage('database-runtime', { ...valid, complete: false }), false);

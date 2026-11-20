@@ -84,3 +84,11 @@ The [FBI FLASH-20261113-001](https://www.ic3.gov/CSA/2026/261113.pdf), dated 13 
 | Disclosure contact | [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html); [RFC 6585](https://www.rfc-editor.org/rfc/rfc6585.html) section 4 | Conservative generated-content tests and meaningful 429 responses; no public security.txt route or testing authorization is created |
 
 Mappings identify selected relationships, not certification or complete coverage. Tool fingerprints, current campaign indicators and product defaults change; use verified current context when investigating an incident.
+
+## Multi-source and delayed campaigns
+
+A campaign can map several assets quietly, then return later from different sources. Correlate approved asset/route classes, time windows, opaque source/session/principal references and confirmed outcomes across days. Preserve timestamps and policy revisions; an individual source limit or short alert window alone will miss cross-source sequences. Compare mapping breadth with subsequent focused requests, authenticated record access and unusual account changes.
+
+Tag an authorized engagement only through an operator-owned registry with scope, expiry and contact. A client-provided testing header is enrichment until verified, and never bypasses authentication, quotas or data isolation. Distinguish authorized testing, monitoring mistakes and unauthorized activity; do not infer malice from cadence, a framework name or a single canary.
+
+Protect pseudonymous linkage keys and retention, deduplicate alerts and have a human review the evidence before consequential blocks. Record what reached origin and what was denied or actually completed. This is an operational playbook, not an installed multi-day detector, a new SIEM action or a measured detection guarantee.

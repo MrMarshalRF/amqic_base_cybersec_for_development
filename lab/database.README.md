@@ -8,9 +8,17 @@ node lab/database-verify.mjs --output /absolute/external/new-database-report.jso
 ```
 
 Node.js 22+, Docker Linux engine and the fixed official image are required:
-`docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536`.
-The digest was observed through Docker Hub's official `library/postgres` tag API
-for `17-bookworm`; the verifier records the actual image identity and server version.
+`docker.io/library/postgres:17.12-bookworm@sha256:837bed18782820fe967067cb5328b02b0d9992c1be9a37ee0c9c492cfc03af3b`.
+This immutable index digest was verified through the official Docker Hub
+`library/postgres` registry metadata for `17.12-bookworm`. The verifier records the
+actual local image identity, `SHOW server_version` and `SHOW server_version_num`,
+and accepts only PostgreSQL 17 at numeric version 170012 or later (17.12 minimum).
+PostgreSQL 10+ encodes this as major × 10000 + minor: 17.12 is 170012.
+The distributed admission lab applies the same version gate and records both values.
+The prior digest represented a different artifact identity; a changed digest alone
+does not establish that its server was vulnerable or unpatched. Review the
+[PostgreSQL security fixes](https://www.postgresql.org/support/security/) and
+[17.12 release notes](https://www.postgresql.org/docs/release/17.12/) for patch context.
 Only `--prepare` permits pulling this dependency (120-second command timeout).
 The whole execution has a 180-second cooperative deadline plus bounded cleanup.
 No existing database/container, real accounts, credentials, signing keys or integrations
@@ -25,7 +33,11 @@ authentication, TLS and secret provisioning are not demonstrated by this lab.
 
 The fixture checks permitted CRUD, denied cross-tenant access, column-level grants,
 FORCE RLS on the owner, constrained principal attributes, role-escape/DDL/TRUNCATE
-denials, GUC spoof resistance and parameterized SQL injection data. Two independent
+denials, effective database CREATE/TEMPORARY and public-schema CREATE denial,
+failed harmless temporary/public table creation by both tenant roles and the replay
+service, GUC spoof resistance and parameterized SQL injection data. Roles needing
+TEMP require separately reviewed grants and regression checks. These privilege
+limits supplement engine patching; they do not fix engine vulnerabilities. Two independent
 psql processes race one nonce against the same PostgreSQL primary; exactly one must
 commit true. Additional tests cover a later process, committed persistence through
 a real PostgreSQL server restart, transaction rollback semantics, stale/future

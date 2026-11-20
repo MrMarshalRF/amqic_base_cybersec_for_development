@@ -38,6 +38,10 @@ AI-assisted development, testing, and review — **[OpenAI Codex](https://openai
 
 Thanks to **Orvar Odd**, a cybersecurity researcher, for feedback on this toolkit. [Telegram group](https://t.me/b0ster).
 
+## Database engines and application boundaries
+
+The [database-engine guide](docs/DATABASE-ENGINE-PATCHING.md) separates vendor patching from RLS, column permissions and object-creation restrictions. The PostgreSQL lab pins a reviewed 17.12 image and verifies the actual server version. [Application boundaries](docs/APPLICATION-BOUNDARIES.md) connect a fixed outbound HTTPS transport, allowlisted local return routes and one-use recovery-token references to their tests and deployment requirements.
+
 ## Nginx protocol-parser security
 
 The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.
@@ -295,7 +299,7 @@ The [billing offer guard](reference/README.md#subscription-offer-eligibility) en
 
 ## Operational threat data
 
-[Vallatum telemetry from AMQIC's public site](THREAT-DATA.md) covers 27 UTC dates, from 22 October through 17 November 2026. Cloudflare reported **21,296 Block decisions** and **968 Managed Challenges**. The Block total includes **8,106** attributed to the tracked maintenance rule and **13,190** from other rules. These counts describe policy decisions on requests. The separate filtered sample for 12–17 November contains **235 distinct public paths or redacted aliases**, with **1,680 Blocks** and **14 Managed Challenges**. Its counts come from returned, adaptively sampled groups. The report also includes the daily chart, a separate origin sample and collection limits.
+[Vallatum telemetry from AMQIC's public site](THREAT-DATA.md) covers 27 UTC dates, from 22 October through 17 November 2026. Cloudflare reported **21,296 Block decisions** and **968 Managed Challenges**. The Block total includes **8,106** attributed to the tracked maintenance rule and **13,190** from other rules. These counts describe policy decisions on requests. The separate filtered sample for 12–17 November contains **235 distinct public paths or redacted aliases**, with **1,680 Blocks** and **14 Managed Challenges**. Its counts come from returned, adaptively sampled groups. The consolidated register now contains **617 distinct public path strings or aliases**, combining 514 historical entries and 235 supplemental entries with 132 overlaps deduplicated. Historical sample counts and supplemental provider-reported counts remain separate; a listed path does not establish successful access or identify an attacker. The report also includes the daily chart, a separate origin sample and collection limits.
 
 ## Verification and readiness boundaries
 

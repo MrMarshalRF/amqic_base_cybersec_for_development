@@ -1,5 +1,12 @@
 # Verification results and scope
 
+## v1.8 database and application references
+
+The fixed runner includes synthetic outbound transport/return-route and real local SQLite recovery tests. The PostgreSQL fixture records actual server_version and server_version_num, requires the reviewed17branch fixed minimum, and tests effective TEMP/public-schema denial under runtime roles while retaining allowed CRUD/replay. Distributed admission separately records its actual version and fixed-minimum result. No CVE triggers or external offensive tooling are executed.
+
+The outbound suite validates checked-address lookup/TLS options and bounded event/cleanup behavior using synthetic trusted transports; live external TLS endpoints are not probed. Recovery tests do not mutate real credentials, prove delivery or revoke an external session. Oracle, campaign correlation, monitoring and cluster/provider integrations retain their documented operational scope. Current completion evidence must be generated against the final source snapshot; an earlier release's report is not reused as a new run.
+
+
 ## Nginx protocol-parser security profile
 
 The baseline includes synthetic per-replica rollout tests. The pinned Nginx integration exercises protocol defaults and benign ALPN alongside existing TLS, Host/SNI, CSP, route, limiter and whitelist checks. Real provider settings, worker drain and ingress behavior require target observations. [Edge response guide](NGINX-EDGE-SECURITY.md)

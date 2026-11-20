@@ -11,8 +11,8 @@ const catalog = JSON.parse(readFileSync(resolve(root, 'lab/scenarios.json'), 'ut
 export function acceptStage(id, child) {
   const cleanup = child?.cleanup;
   const has = ids => Array.isArray(child?.checks) && ids.every(id => child.checks.some(check => check.id === id && check.status === 'passed'));
-  if (id === 'database-runtime') return child?.schema_version === 1 && child.status === 'passed' && child.complete === true &&
-    has(['tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
+  if (id === 'database-runtime') return child?.schema_version === 1 && child.status === 'passed' && child.complete === true && typeof child.postgres_version_num === 'string' && /^\d{6}$/.test(child.postgres_version_num) && Number(child.postgres_version_num) >= 170012 && Number(child.postgres_version_num) < 180000 &&
+    has(['postgres_17_fixed_minimum', 'tenant_rls_column_grants_crud_and_parameterized_injection', 'actual_principal_login_boundary',
       'service_no_direct_store_or_registration_or_clock_access', 'invalid_timestamp_and_unknown_key_fail_closed',
       'two_independent_connections_exactly_one_claim', 'separate_process_replay_denied',
       'transaction_rollback_does_not_pretend_durable_claim', 'committed_nonce_survives_server_restart',
@@ -44,7 +44,7 @@ const fixedImages = [
   { id: 'node-tool-base', reference: 'node:22-bookworm@sha256:e13726ca604184d7a91fcacab1fc09eefd642dc28e79ac34e85540dd93b78cfb' },
   { id: 'python-tool-base', reference: 'python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7' },
   { id: 'upload-python', reference: 'python@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704' },
-  { id: 'postgres', reference: 'docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536' },
+  { id: 'postgres', reference: 'docker.io/library/postgres:17.12-bookworm@sha256:837bed18782820fe967067cb5328b02b0d9992c1be9a37ee0c9c492cfc03af3b' },
 ];
 const stageIds = ['baseline', 'live-consumers', 'nginx-runtime', 'infra-runtime', 'cache-runtime', 'upload-isolation-runtime', 'database-runtime'];
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');

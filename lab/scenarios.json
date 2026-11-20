@@ -28,7 +28,7 @@
     },
     {
       "id": "postgres",
-      "reference": "docker.io/library/postgres@sha256:40865bc877a289da75963d97d72b59633f639fc5af7a4e856bfa3714cae5b536"
+      "reference": "docker.io/library/postgres:17.12-bookworm@sha256:837bed18782820fe967067cb5328b02b0d9992c1be9a37ee0c9c492cfc03af3b"
     }
   ],
   "prerequisites": [
@@ -1104,6 +1104,73 @@
       ],
       "operational_scope": "Kit-owned exclusions and current path registry are executable checks. Optional third-party material, installed runtime FIM, effective host permissions and GitHub ruleset activation remain external/source-reviewed.",
       "external_manual_integration": "Kit-owned exclusions and current path registry are executable checks. Optional third-party material, installed runtime FIM, effective host permissions and GitHub ruleset activation remain external/source-reviewed.",
+      "required": true
+    },
+    {
+      "id": "database-engine-patching",
+      "category": "local",
+      "test_checks": [
+        "database-runtime"
+      ],
+      "stages": [
+        "database-runtime"
+      ],
+      "standards": [
+        "PostgreSQL CVE-2026-116331",
+        "NIST SP 800-53 SI-2",
+        "NIST SP 800-53 AC-6"
+      ],
+      "expected_result": "All declared reference checks pass with stable source and owned-resource cleanup.",
+      "prerequisites": [
+        "fixed lab prerequisites"
+      ],
+      "operational_scope": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
+      "external_manual_integration": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
+      "required": true
+    },
+    {
+      "id": "outbound-and-return-boundaries",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "OWASP SSRF and redirect prevention",
+        "CWE-918",
+        "CWE-601",
+        "NIST SP 800-53 SC-7"
+      ],
+      "expected_result": "All declared reference checks pass with stable source and owned-resource cleanup.",
+      "prerequisites": [
+        "Node.js22or later"
+      ],
+      "operational_scope": "Synthetic trusted-resolver/transport tests of realHTTPSimplementation plus localrouteIDmapping. No realremote service probes, OSegress firewall or arbitraryURLfetch supported.",
+      "external_manual_integration": "Synthetic trusted-resolver/transport tests of realHTTPSimplementation plus localrouteIDmapping. No realremote service probes, OSegress firewall or arbitraryURLfetch supported.",
+      "required": true
+    },
+    {
+      "id": "recovery-token-lifecycle",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "OWASP forgot-password guidance",
+        "CWE-640",
+        "NIST SP 800-53 IA-5"
+      ],
+      "expected_result": "All declared reference checks pass with stable source and owned-resource cleanup.",
+      "prerequisites": [
+        "Node.js22or later"
+      ],
+      "operational_scope": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
+      "external_manual_integration": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
       "required": true
     }
   ],

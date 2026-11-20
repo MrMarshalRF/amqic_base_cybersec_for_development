@@ -5,8 +5,24 @@ installer. It creates dedicated `tenant_alpha` and `tenant_beta` login principal
 a nonlogin migration owner, and a separate trusted `replay_service` principal.
 Production must provision authentication (for example SCRAM over verified TLS),
 database CONNECT policy, connection quotas and credentials outside this repository.
-No passwords, real keys or real records are included. Restrict database TEMP and
-CONNECT as appropriate to that deployment; neither privilege authorizes schema writes.
+No passwords, real keys or real records are included. The fixture targets the
+synthetic `postgres` database: it revokes database `CREATE` and `TEMPORARY` from
+`PUBLIC`, revokes all public-schema privileges from `PUBLIC`, and explicitly grants
+`CONNECT` to the runtime roles. It does not revoke existing public CONNECT.
+Production migrations must name their actual database, review inherited/direct
+grants and connection policy, and verify effective privileges under each login.
+Roles that require temporary tables need a separate reviewed grant and tests.
+
+The lab pins official PostgreSQL `17.12-bookworm` by immutable index digest and
+requires PostgreSQL 17 with `server_version_num >= 170012` (17.12 minimum).
+PostgreSQL 10+ uses major × 10000 + minor, so 17.12 is 170012.
+Both database and distributed labs record the observed server version and numeric
+version; a different major family fails this fixed fixture's acceptance.
+Consult the [PostgreSQL security fixes](https://www.postgresql.org/support/security/)
+and [17.12 release notes](https://www.postgresql.org/docs/release/17.12/) when reviewing
+updates. Least-privilege grants and RLS are compensating boundaries, not patches
+for database-engine vulnerabilities; synthetic isolation checks do not establish
+engine vulnerability clearance.
 
 Use a separate pool authenticated as each tenant principal. Select the pool from
 verified server-side identity; never accept a database role from client input.

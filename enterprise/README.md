@@ -50,3 +50,7 @@ Use the [agent runtime reference](agent-runtime/README.md) for fixed tools, exac
 ## Automated-probing references
 
 The [probe-defense reference](probe-defense/README.md) supplies same-host atomic multi-dimension request admission, safe denial responses, an inert canary handler and a conservative security.txt generator. The [defense guide](../docs/AUTOMATED-PROBING-DEFENSE.md) connects these to existing origin, identity, database and incident controls. No offensive agent, live testing or automatic visitor retaliation is part of this profile.
+
+## Application boundary references
+
+The [outbound module](outbound/README.md) provides a narrow real HTTPS GET transport and fixed local return destinations. [Recovery tokens](recovery/README.md) add one-use purpose/account/epoch state. Read [application boundaries](../docs/APPLICATION-BOUNDARIES.md) and [database-engine patching](../docs/DATABASE-ENGINE-PATCHING.md) for precise adoption requirements, version checks and external account/transport limitations.

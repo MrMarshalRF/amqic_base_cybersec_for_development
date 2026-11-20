@@ -184,6 +184,15 @@
       "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
     },
     {
+      "path": "docs/APPLICATION-BOUNDARIES.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
       "path": "docs/AUTOMATED-PROBING-DEFENSE.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -209,6 +218,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/DATABASE-ENGINE-PATCHING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
     },
     {
       "path": "docs/DATABASE-SECURITY.md",
@@ -663,6 +681,31 @@
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
     },
     {
+      "path": "enterprise/outbound/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/outbound/outbound.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks."
+    },
+    {
+      "path": "enterprise/outbound/outbound.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks."
+    },
+    {
       "path": "enterprise/policy/README.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -736,6 +779,31 @@
         "node-tests"
       ],
       "scope": "Synthetic same-host atomic multi-dimension admission, generic denial, inert canary and conservative security.txt content tests; no live probing, HTTP deployment or multi-host performance claim."
+    },
+    {
+      "path": "enterprise/recovery/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "enterprise/recovery/recovery.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks."
+    },
+    {
+      "path": "enterprise/recovery/recovery.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "scope": "Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks."
     },
     {
       "path": "enterprise/rotation/README.md",
