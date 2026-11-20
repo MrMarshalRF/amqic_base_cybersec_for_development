@@ -77,3 +77,7 @@ OWASP Top 10:2025 is by the OWASP Top 10 Team. The external document is under [C
 ## v1.8 application and engine references
 
 The [outbound/return reference](../enterprise/outbound/README.md) relates to CWE-918/CWE-601 and [OWASP SSRF](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)/[redirect guidance](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html). The [recovery reference](../enterprise/recovery/README.md) relates to CWE-640 and [forgot-password guidance](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html). These scoped implementations do not close every A01/A07 integration requirement. [Native engine patching](DATABASE-ENGINE-PATCHING.md) remains a separate SI-2/CM-8 obligation; grants/RLS do not fix the server engine.
+
+## Host telemetry references
+
+[SSH integrity](SSH-KEY-INTEGRITY.md), [host egress](HOST-EGRESS-MONITORING.md), [indicator handling](INDICATOR-HANDLING.md), [identity review](IDENTITY-MONITORING.md) and [SIEM field support](../enterprise/operations/README.md) complement the application references. Their selected NIST and ATT&CK relationships and evidence limits are recorded in [SECURITY.md](../SECURITY.md#host-integrity-egress-and-identity-review). Static profile/schema tests do not establish an ASVS assessment, deployed collection or detection quality.

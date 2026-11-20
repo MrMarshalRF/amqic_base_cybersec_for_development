@@ -1172,6 +1172,138 @@
       "operational_scope": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
       "external_manual_integration": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
       "required": true
+    },
+    {
+      "id": "ssh-key-integrity",
+      "category": "source-reviewed",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SI-7, AU-2, AU-6, IA-5",
+        "MITRE ATT&CK T1098.004"
+      ],
+      "expected_result": "Source-reviewed/static checks pass; deployed effectiveness is not inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed SSH inventory/watch procedure and static template checks only; no auditd/FIM execution, login trial, deployed detection or automatic lockout. Native records require protected storage and an explicit sanitized projection.",
+      "external_manual_integration": "Source-reviewed SSH inventory/watch procedure and static template checks only; no auditd/FIM execution, login trial, deployed detection or automatic lockout. Native records require protected storage and an explicit sanitized projection.",
+      "required": true
+    },
+    {
+      "id": "service-child-shell-starting-rules",
+      "category": "source-reviewed",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SI-4, AC-6, AU-2, AU-6",
+        "MITRE ATT&CK T1059.004"
+      ],
+      "expected_result": "Source-reviewed/static checks pass; deployed effectiveness is not inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed direct-child container Falco starting rules with static field checks; no Falco or kernel execution claimed. Host daemons, indirect children, dropped events, legitimate maintenance and alert effectiveness require target verification.",
+      "external_manual_integration": "Source-reviewed direct-child container Falco starting rules with static field checks; no Falco or kernel execution claimed. Host daemons, indirect children, dropped events, legitimate maintenance and alert effectiveness require target verification.",
+      "required": true
+    },
+    {
+      "id": "host-egress-monitoring",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-7, SI-4, AU-2, AU-6",
+        "MITRE ATT&CK T1567.004"
+      ],
+      "expected_result": "Source-reviewed/static checks pass; deployed effectiveness is not inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed host/container policy and telemetry guidance only; no live egress enforcement, packet capture, deployed NSM or catch-rate claim. Application catalog checks are separate; IPv6, proxies and tunnels require target policy.",
+      "external_manual_integration": "Source-reviewed host/container policy and telemetry guidance only; no live egress enforcement, packet capture, deployed NSM or catch-rate claim. Application catalog checks are separate; IPv6, proxies and tunnels require target policy.",
+      "required": true
+    },
+    {
+      "id": "indicator-handling",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SI-4, AU-6, AU-9"
+      ],
+      "expected_result": "Source-reviewed/static checks pass; deployed effectiveness is not inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed private-store provenance, expiry and withdrawal procedure only; no indicator feed, scraper, shipped values, automatic blocking or attribution.",
+      "external_manual_integration": "Source-reviewed private-store provenance, expiry and withdrawal procedure only; no indicator feed, scraper, shipped values, automatic blocking or attribution.",
+      "required": true
+    },
+    {
+      "id": "identity-plane-monitoring",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 IA-4, IA-5, AC-6, AU-2, AU-6"
+      ],
+      "expected_result": "Source-reviewed/static checks pass; deployed effectiveness is not inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed procedure conditional on a federated/cloud IdP; no provider connector, live consent-catalog test, production monitoring or AD/Windows hardening. Revocation and rotation occur at the issuer.",
+      "external_manual_integration": "Source-reviewed procedure conditional on a federated/cloud IdP; no provider connector, live consent-catalog test, production monitoring or AD/Windows hardening. Revocation and rotation occur at the issuer.",
+      "required": true
+    },
+    {
+      "id": "host-telemetry-siem-schema",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AU-2, AU-6"
+      ],
+      "expected_result": "Synthetic additive SIEM export and legacy v1 compatibility checks pass.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Offline synthetic export/schema and canonical v1 compatibility tests only. Operator-authored records are not event collection, campaign/process detection, provider connectors, alert delivery or deployed effectiveness.",
+      "external_manual_integration": "Offline synthetic export/schema and canonical v1 compatibility tests only. Operator-authored records are not event collection, campaign/process detection, provider connectors, alert delivery or deployed effectiveness.",
+      "required": true
     }
   ],
   "tool_build": {

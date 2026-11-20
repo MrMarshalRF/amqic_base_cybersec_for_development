@@ -18,6 +18,43 @@ const USERS = Object.freeze([
 ]);
 const SCOPES = ['contacts.read', 'contacts.write', 'uploads.read', 'uploads.write'];
 const fail = status => { const error = new Error('Request denied'); error.status = status; return error; };
+// Fetch Standard port blocking (checked 2026-11-20): https://fetch.spec.whatwg.org/#port-blocking
+// Keep the synthetic HTTP lab reachable by Fetch clients.
+// Port 0 is an allocation request, never a published endpoint.
+const fetchBlockedPorts = new Set([
+  0, 1, 7, 9, 11, 13, 15, 17, 19, 20, 21, 22, 23, 25, 37, 42, 43, 53, 69, 77, 79,
+  87, 95, 101, 102, 103, 104, 109, 110, 111, 113, 115, 117, 119, 123, 135, 137, 139,
+  143, 161, 179, 389, 427, 465, 512, 513, 514, 515, 526, 530, 531, 532, 540, 548,
+  554, 556, 563, 587, 601, 636, 989, 990, 993, 995, 1719, 1720, 1723, 2049, 3659,
+  4045, 4190, 5060, 5061, 6000, 6566, 6665, 6666, 6667, 6668, 6669, 6679, 6697, 10080,
+]);
+function closeListener(server) {
+  return new Promise((resolveClose, reject) => server.close(error => error ? reject(error) : resolveClose()));
+}
+/** Lab-only allocation seam, exported so forced OS allocations can be tested without opening sockets. */
+export async function startLoopbackListener(server, { host = '127.0.0.1', port = 0 } = {}, isClosing = () => false) {
+  if (host !== '127.0.0.1' || !Number.isInteger(port) || port < 0 || port > 65535) throw new TypeError('Only one loopback listener allowed');
+  if (port && fetchBlockedPorts.has(port)) throw new TypeError('Fetch-blocked lab port');
+  for (let attempt = 0; attempt < 8; attempt++) {
+    if (isClosing()) throw new Error('Lab startup cancelled');
+    await new Promise((resolveStart, reject) => {
+      const cleanup = () => { server.removeListener('error', error); server.removeListener('listening', listening); };
+      const error = cause => { cleanup(); reject(cause); };
+      const listening = () => { cleanup(); resolveStart(); };
+      server.once('error', error); server.once('listening', listening);
+      try { server.listen(port, host); } catch (cause) { error(cause); }
+    });
+    const allocated = server.address()?.port;
+    if (isClosing() || !Number.isInteger(allocated) || allocated < 1 || allocated > 65535 || fetchBlockedPorts.has(allocated)) {
+      await closeListener(server);
+      if (isClosing()) throw new Error('Lab startup cancelled');
+      if (port) throw new Error('Fetch-compatible lab port unavailable');
+      continue;
+    }
+    return { origin: `http://127.0.0.1:${allocated}`, port: allocated, host };
+  }
+  throw new Error('Fetch-compatible lab port allocation exhausted');
+}
 function schema(value, required, optional = []) {
   if (!value || typeof value !== 'object' || Array.isArray(value) ||
       required.some(key => !Object.hasOwn(value, key)) ||
@@ -104,7 +141,7 @@ export async function createLabApp({ dataRoot, scanner, clamdHost, clamdPort,
   const setOwner = database.prepare('UPDATE contacts SET owner_id=? WHERE id=?');
   const listContacts = database.prepare('SELECT id,full_name AS fullName,email,phone,message FROM contacts WHERE owner_id=? ORDER BY id LIMIT 100');
   const browsers = new Map(); const rates = new Map();
-  let origin; let closing = false;
+  let origin; let closing = false; let starting; let closePromise;
   const sockets = new Set(); const inFlight = new Set();
   const fixture = Object.freeze({ users: USERS,
     code: (userId = USERS[0].id) => {
@@ -263,19 +300,27 @@ export async function createLabApp({ dataRoot, scanner, clamdHost, clamdPort,
   return {
     core, fixture,
     async start({ host = '127.0.0.1', port = 0 } = {}) {
-      if (host !== '127.0.0.1' || !Number.isInteger(port) || port < 0 || port > 65535 || origin || closing) throw new TypeError('Only one loopback listener allowed');
-      await new Promise((resolveStart, reject) => { server.once('error', reject); server.listen(port, host, () => { server.removeListener('error', reject); resolveStart(); }); });
-      origin = `http://127.0.0.1:${server.address().port}`;
-      return { origin, port: server.address().port, host };
+      if (origin || starting || closing) throw new TypeError('Only one loopback listener allowed');
+      starting = startLoopbackListener(server, { host, port }, () => closing);
+      try {
+        const address = await starting;
+        if (closing) throw new Error('Lab startup cancelled');
+        origin = address.origin;
+        return address;
+      } finally { starting = undefined; }
     },
-    async close() {
-      if (closing) return;
+    close() {
+      if (closePromise) return closePromise;
       closing = true;
-      const closed = server.listening ? new Promise((resolveClose, reject) => server.close(error => error ? reject(error) : resolveClose())) : Promise.resolve();
-      for (const socket of sockets) socket.destroy();
-      await Promise.allSettled([...inFlight]); await closed;
-      browsers.clear(); rates.clear(); proofs.clear();
-      await uploads.close(); database.close(); core.close();
+      closePromise = (async () => {
+        await starting?.catch(() => {});
+        const closed = server.listening ? closeListener(server) : Promise.resolve();
+        for (const socket of sockets) socket.destroy();
+        await Promise.allSettled([...inFlight]); await closed;
+        browsers.clear(); rates.clear(); proofs.clear();
+        await uploads.close(); database.close(); core.close();
+      })();
+      return closePromise;
     },
   };
 }

@@ -76,6 +76,8 @@ For incoming reports, assess evidence and impact rather than prose style or susp
 
 The [FBI FLASH-20261113-001](https://www.ic3.gov/CSA/2026/261113.pdf), dated 13 November 2026, describes abuse of an agentic penetration-testing framework and recommends inventory, management-plane restrictions, identity monitoring, limits on high-impact APIs, error hygiene and evidence preservation. It does not establish that all agent frameworks or security researchers are malicious. This guide uses the defensive recommendations; no offensive framework was installed or executed to validate them.
 
+Use [indicator handling](INDICATOR-HANDLING.md) for dated provenance, a private operator store and mandatory expiry or withdrawal. Do not commit FLASH/feed values or infer attribution from a match. For a federated or cloud IdP, follow [identity monitoring](IDENTITY-MONITORING.md); a local block cannot revoke a token at its issuer.
+
 | Area | Official reference | Evidence boundary |
 | --- | --- | --- |
 | Business limits and automation | [OWASP ASVS 5.0.0](https://github.com/OWASP/ASVS/tree/v5.0.0) 2.1.3, 2.3.2, 2.4.1; [OWASP API4:2023](https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/), [API6:2023](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/) | Synthetic multi-dimension admission tests; target load, fairness, distributed failover and business authorization remain separate |

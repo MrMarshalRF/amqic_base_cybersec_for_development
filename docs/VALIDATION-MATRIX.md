@@ -223,3 +223,15 @@ Platform-specific skips are retained in the test reports. A file can be checked 
 | [enterprise/recovery/README.md](../enterprise/recovery/README.md) | source-reviewed-documentation, `coverage-membership`, `sha256-registry` | Reviewed deployment and verification guidance with the stated scope limits. |
 | [enterprise/recovery/recovery.mjs](../enterprise/recovery/recovery.mjs) | executable, `node-tests` | Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks. |
 | [enterprise/recovery/recovery.test.mjs](../enterprise/recovery/recovery.test.mjs) | executable, `node-tests` | Synthetic outbound transport/return-route or real local SQLite recovery tests. Production identity, endpoint ownership, network policy and external effects remain separate adoption checks. |
+
+## v1.8.1 host telemetry additions
+
+| File | Validation method | Evidence boundary |
+| --- | --- | --- |
+| [docs/HOST-EGRESS-MONITORING.md](../docs/HOST-EGRESS-MONITORING.md) | source-reviewed-documentation, `coverage-membership`, `sha256-registry` | Source-reviewed host/container egress policy and private telemetry guidance; no deployed enforcement, packet capture or detection-rate claim. |
+| [docs/IDENTITY-MONITORING.md](../docs/IDENTITY-MONITORING.md) | source-reviewed-documentation, `coverage-membership`, `sha256-registry` | Source-reviewed conditional IdP review and issuer-response procedure; no live provider connector or AD/Windows hardening. |
+| [docs/INDICATOR-HANDLING.md](../docs/INDICATOR-HANDLING.md) | source-reviewed-documentation, `coverage-membership`, `sha256-registry` | Source-reviewed operator-private provenance, mandatory expiry and withdrawal procedure; no feed or indicator values shipped. |
+| [docs/SSH-KEY-INTEGRITY.md](../docs/SSH-KEY-INTEGRITY.md) | source-reviewed-documentation, `coverage-membership`, `sha256-registry` | Source-reviewed SSH inventory, rotation, watch and sanitized telemetry procedure; no installed FIM/auditd or login execution claimed. |
+| [enterprise/runtime/profiles/node-shell.falco.yaml](../enterprise/runtime/profiles/node-shell.falco.yaml) | configuration, `node-tests`, `coverage-membership`, `sha256-registry` | Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed. |
+| [enterprise/runtime/profiles/postgres-shell.falco.yaml](../enterprise/runtime/profiles/postgres-shell.falco.yaml) | configuration, `node-tests`, `coverage-membership`, `sha256-registry` | Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed. |
+| [infra/ssh/authorized-keys-integrity.audit.rules.template](../infra/ssh/authorized-keys-integrity.audit.rules.template) | configuration, `node-tests`, `coverage-membership`, `sha256-registry` | Source-reviewed auditd starting template with static file-class, placeholder and no-live-fingerprint checks; no auditd execution or deployed FIM effectiveness claimed. |

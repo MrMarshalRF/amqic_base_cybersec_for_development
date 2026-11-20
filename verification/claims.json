@@ -771,7 +771,7 @@
         "NIST SP 800-53 SI-2",
         "NIST SP 800-53 AC-6"
       ],
-      "limits": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
+      "limits": "Real isolated PostgreSQL 17 fixed-minimum and effective-privilege assertions; other vendor products, branches and production patching require target verification.",
       "lab_scenarios": [
         "database-engine-patching"
       ]
@@ -792,7 +792,7 @@
         "CWE-601",
         "NIST SP 800-53 SC-7"
       ],
-      "limits": "Synthetic trusted-resolver/transport tests of realHTTPSimplementation plus localrouteIDmapping. No realremote service probes, OSegress firewall or arbitraryURLfetch supported.",
+      "limits": "Synthetic trusted-resolver/transport tests of real HTTPS implementation plus local route-ID mapping. No real remote service probes, OS egress firewall or arbitrary URL fetch supported.",
       "lab_scenarios": [
         "outbound-and-return-boundaries"
       ]
@@ -812,9 +812,127 @@
         "CWE-640",
         "NIST SP 800-53 IA-5"
       ],
-      "limits": "Real localSQLite one-use/epoch/concurrentworker tests. Actual identityproof,protected delivery,business mutation,sessionrevocation andmulti-host continuity require application integration.",
+      "limits": "Real local SQLite one-use/epoch/concurrent-worker tests. Actual identity proof, protected delivery, business mutation, session revocation and multi-host continuity require application integration.",
       "lab_scenarios": [
         "recovery-token-lifecycle"
+      ]
+    },
+    {
+      "id": "ssh-key-integrity",
+      "kind": "configuration",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "docs/SSH-KEY-INTEGRITY.md",
+        "infra/ssh/authorized-keys-integrity.audit.rules.template",
+        "enterprise/runtime/runtime.test.mjs"
+      ],
+      "references": [
+        "NIST SP 800-53 SI-7, AU-2, AU-6, IA-5",
+        "MITRE ATT&CK T1098.004"
+      ],
+      "limits": "Source-reviewed SSH inventory/watch procedure and static template checks only; no auditd/FIM execution, login trial, deployed detection or automatic lockout. Native records require protected storage and an explicit sanitized projection.",
+      "lab_scenarios": [
+        "ssh-key-integrity"
+      ]
+    },
+    {
+      "id": "service-child-shell-starting-rules",
+      "kind": "configuration",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/runtime/profiles/node-shell.falco.yaml",
+        "enterprise/runtime/profiles/postgres-shell.falco.yaml",
+        "enterprise/runtime/runtime.test.mjs",
+        "enterprise/runtime/README.md"
+      ],
+      "references": [
+        "NIST SP 800-53 SI-4, AC-6, AU-2, AU-6",
+        "MITRE ATT&CK T1059.004"
+      ],
+      "limits": "Source-reviewed direct-child container Falco starting rules with static field checks; no Falco or kernel execution claimed. Host daemons, indirect children, dropped events, legitimate maintenance and alert effectiveness require target verification.",
+      "lab_scenarios": [
+        "service-child-shell-starting-rules"
+      ]
+    },
+    {
+      "id": "host-egress-monitoring",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/HOST-EGRESS-MONITORING.md",
+        "enterprise/outbound/README.md"
+      ],
+      "references": [
+        "NIST SP 800-53 SC-7, SI-4, AU-2, AU-6",
+        "MITRE ATT&CK T1567.004"
+      ],
+      "limits": "Source-reviewed host/container policy and telemetry guidance only; no live egress enforcement, packet capture, deployed NSM or catch-rate claim. Application catalog checks are separate; IPv6, proxies and tunnels require target policy.",
+      "lab_scenarios": [
+        "host-egress-monitoring"
+      ]
+    },
+    {
+      "id": "indicator-handling",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/INDICATOR-HANDLING.md"
+      ],
+      "references": [
+        "NIST SP 800-53 SI-4, AU-6, AU-9"
+      ],
+      "limits": "Source-reviewed private-store provenance, expiry and withdrawal procedure only; no indicator feed, scraper, shipped values, automatic blocking or attribution.",
+      "lab_scenarios": [
+        "indicator-handling"
+      ]
+    },
+    {
+      "id": "identity-plane-monitoring",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/IDENTITY-MONITORING.md"
+      ],
+      "references": [
+        "NIST SP 800-53 IA-4, IA-5, AC-6, AU-2, AU-6"
+      ],
+      "limits": "Source-reviewed procedure conditional on a federated/cloud IdP; no provider connector, live consent-catalog test, production monitoring or AD/Windows hardening. Revocation and rotation occur at the issuer.",
+      "lab_scenarios": [
+        "identity-plane-monitoring"
+      ]
+    },
+    {
+      "id": "host-telemetry-siem-schema",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/operations/siem.schema.json",
+        "enterprise/operations/siem.mjs",
+        "enterprise/operations/siem.test.mjs",
+        "enterprise/evidence/audit.mjs",
+        "enterprise/operations/README.md"
+      ],
+      "references": [
+        "NIST SP 800-53 AU-2, AU-6"
+      ],
+      "limits": "Offline synthetic export/schema and canonical v1 compatibility tests only. Operator-authored records are not event collection, campaign/process detection, provider connectors, alert delivery or deployed effectiveness.",
+      "lab_scenarios": [
+        "host-telemetry-siem-schema"
       ]
     }
   ]

@@ -2,16 +2,23 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.8.1
+
+- Add SSH trust-file integrity guidance and a source-reviewed watch template; key-only login remains a separate preventive control.
+- Add source-reviewed Falco starting rules for container Node and PostgreSQL child shells alongside the Java and Nginx profiles.
+- Add host/container egress guidance, separate from the application outbound catalog, and a private indicator provenance/expiry procedure without shipped indicator values.
+- Add federated identity-plane review guidance and additive SIEM runtime, egress, campaign and identity records with v1 compatibility tests.
+- Keep synthetic HTTP fixtures on Fetch-compatible loopback ports with bounded listener reallocation and concurrent start/close cleanup tests.
+- Correct glued words in validation/claim limits and extra blank lines in the v1.8.0 changelog section. Host sensor deployment and detection effectiveness remain target verification.
+
 ## v1.8.0
 
 - Refresh the consolidated threat-data register to 617 distinct public paths/aliases, preserving historical and supplemental counts separately.
-
 
 - Refresh the reviewed PostgreSQL 17.12 lab image and require observed fixed-branch server versions; test effective TEMP/schema creation restrictions with permitted operations.
 - Add fixed outbound HTTPS GET transport with connect-time address pinning, conservative destination/response bounds and local return-route resolution.
 - Add a one-use recovery-token lifecycle reference with purpose/tenant/account/security-epoch binding, bounded storage and concurrency checks.
 - Add database-engine advisory and optional Oracle patch guidance, multi-source campaign correlation and safe findings-ledger handling; update security mappings and laboratory coverage.
-
 
 - Update README with press coverage, the linked technical paper and its repository-specific Section 15.
 

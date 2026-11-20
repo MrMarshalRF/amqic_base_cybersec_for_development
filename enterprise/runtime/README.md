@@ -47,7 +47,16 @@ The optional OpenTofu module provisions a dedicated namespace with versioned Res
 
 ## Runtime signals
 
-[The Falco rule](profiles/java-shell.falco.yaml) alerts on successful direct child shell execution by a containerized process named `java`. It exports only process identifiers and names. Review legitimate shell use, engine and syscall capture support, dropped events and rule coverage before enabling alerts. Calibrate against benign workload behavior. Treat the alert as an investigation signal. [Falco rule reference](https://falco.org/docs/concepts/rules/basic-elements/)
+The source-reviewed Falco starting profiles signal successful exec of common POSIX shells (`sh`, `bash`, `dash`, `ash`, `zsh`, `ksh`) as direct children of named processes inside containers:
+
+- [Java](profiles/java-shell.falco.yaml): parent `java`.
+- [Nginx](profiles/nginx-shell.falco.yaml): parent `nginx`.
+- [Node](profiles/node-shell.falco.yaml): parent `node` or `nodejs`; package managers and interactive workstation CLIs are not the service identity.
+- [PostgreSQL](profiles/postgres-shell.falco.yaml): parent `postgres` only. Calibrate actual target process names; this profile makes no `postmaster` coverage claim.
+
+Outputs contain only container id, parent name, process name and pid; they exclude command lines, arguments, environment and executable paths. Review legitimate shell use, target Falco/syscall capture support, dropped events and rule coverage before enabling operational alerts. PostgreSQL backup helpers, authorized maintenance and some extensions can create children; review and allowlist required behavior against the target, rather than copying Java exceptions. Calibrate benign backups and entrypoints with an owner and change record.
+
+These rules cover direct children only. Host daemons, shells started through intermediate supervisors and other language runtimes remain outside their scope. A signal is an investigation lead, not proof of compromise. No Falco or kernel capture is executed by the static suite. See the [SIEM `process-exec` action](../operations/README.md) for an opaque review record and the [Falco rule reference](https://falco.org/docs/concepts/rules/basic-elements/).
 
 ## Local verification
 

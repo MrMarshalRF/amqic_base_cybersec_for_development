@@ -24,6 +24,8 @@ Cloudflare's standard web proxy serves specific HTTP/HTTPS ports. It does not au
 
 Follow the verifiable sequence in [INFRASTRUCTURE.md](INFRASTRUCTURE.md) for a separate account, an Ed25519 key, a second SSH session, `sshd -t`, and checking the effective `sshd -T` settings. The selected user's `authorized_keys` must contain only the public part of the authorized key. `PermitRootLogin no`, `PasswordAuthentication no`, `KbdInteractiveAuthentication no`, and `AllowUsers` enforce access on the SSH side. Nginx and DNS do not verify SSH keys.
 
+After establishing key-only access, use the [SSH integrity guide](SSH-KEY-INTEGRITY.md) to inventory approved fingerprints and monitor trust-file content, owner and mode changes. A successful key-only login is not an integrity check.
+
 Origin TLS uses a certificate for the exact domain and strict verification by the proxy. Do not disable certificate verification. To bind the origin more closely to a specific proxy/account, configure provider-supported origin authentication, such as mTLS/authenticated origin pull or a verified tunnel. A provider's shared CIDRs establish the network source, but serve many customers and do not by themselves prove that requests belong to your account. Application authentication continues to operate independently of this boundary.
 
 ## 4. Prepare the local ingress firewall

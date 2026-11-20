@@ -87,3 +87,12 @@ Use the [defense playbook](AUTOMATED-PROBING-DEFENSE.md) to correlate trusted id
 ## Installed coding-agent integrity
 
 Follow the [runtime integrity guide](AGENT-RUNTIME-INTEGRITY.md) for package/launcher/configuration inventories, approved maintenance windows, independently protected file baselines and effective permission checks. Preserve unexplained-drift evidence before authorized remediation. Artifact SRI, current installed files and actual containment are separate observations. No installed agent or host permission mode is inspected or changed by this repository's local verification.
+
+
+## Host and identity review signals
+
+Follow [SSH key integrity](SSH-KEY-INTEGRITY.md) for trust-file baselines, approval-bound changes, rotation and recovery. Export only the sanitized `config-integrity` record; native audit records can contain more detail and require protected collection and an explicit projection.
+
+The [four runtime starting profiles](../enterprise/runtime/README.md#runtime-signals) support source-reviewed direct child-shell rules; an operator can record a review as `process-exec`. They do not install Falco or establish kernel-event coverage.
+
+Use [host egress monitoring](HOST-EGRESS-MONITORING.md), [indicator provenance and expiry](INDICATOR-HANDLING.md) and, for a federated deployment, [identity monitoring](IDENTITY-MONITORING.md). The [SIEM reference](../enterprise/operations/README.md) maps these operator-authored records to the closed schema. Record production signals only after verifying the sensor and privacy projection; schema support is not event collection or automated detection.

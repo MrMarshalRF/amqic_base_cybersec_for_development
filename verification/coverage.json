@@ -265,6 +265,33 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "docs/HOST-EGRESS-MONITORING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed host/container egress policy and private telemetry guidance; no deployed enforcement, packet capture or detection-rate claim."
+    },
+    {
+      "path": "docs/IDENTITY-MONITORING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed conditional IdP review and issuer-response procedure; no live provider connector or AD/Windows hardening."
+    },
+    {
+      "path": "docs/INDICATOR-HANDLING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed operator-private provenance, mandatory expiry and withdrawal procedure; no feed or indicator values shipped."
+    },
+    {
       "path": "docs/INFRASTRUCTURE.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -380,6 +407,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/SSH-KEY-INTEGRITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed SSH inventory, rotation, watch and sanitized telemetry procedure; no installed FIM/auditd or login execution claimed."
     },
     {
       "path": "docs/UPLOAD-ISOLATION.md",
@@ -928,6 +964,26 @@
       "scope": "Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed."
     },
     {
+      "path": "enterprise/runtime/profiles/node-shell.falco.yaml",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed."
+    },
+    {
+      "path": "enterprise/runtime/profiles/postgres-shell.falco.yaml",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed."
+    },
+    {
       "path": "enterprise/runtime/runtime.test.mjs",
       "category": "executable",
       "checks": [
@@ -1189,6 +1245,16 @@
         "sha256-registry"
       ],
       "scope": "Reviewed configuration; validation scope is limited to named checks, no activation claim."
+    },
+    {
+      "path": "infra/ssh/authorized-keys-integrity.audit.rules.template",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed auditd starting template with static file-class, placeholder and no-live-fingerprint checks; no auditd execution or deployed FIM effectiveness claimed."
     },
     {
       "path": "lab/admission.README.md",

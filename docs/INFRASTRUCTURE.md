@@ -104,6 +104,8 @@ The following sequence is for Debian/Ubuntu with OpenSSH, systemd, and UFW. Firs
 7. Run `sshd -t`, then `sshd -T -C user=deployadmin,host=server,addr=YOUR_CLIENT_IP`, and verify the effective values of `permitrootlogin no`, `passwordauthentication no`, `kbdinteractiveauthentication no`, `authenticationmethods publickey`, and `allowusers deployadmin`. Repeat the check for the administrative and root users if `Match` applies. Resolve any discrepancy at its configuration source before reloading.
 8. Run `systemctl reload ssh`. Open another new key-based session and check sudo. Separately verify rejection of root login and password-only login. An already open session does not establish that the new settings work. [OpenSSH sshd_config](https://man.openbsd.org/sshd_config).
 
+Key-only login does not detect a later change to the trust file. Follow [SSH key integrity](SSH-KEY-INTEGRITY.md) to baseline each approved account's `authorized_keys`, `.ssh` ownership/mode and installed sshd drop-in, review changes against an approved record, and rotate or revoke fingerprints in the inventory and live file together. Keep a tested recovery path; the [watch template](../infra/ssh/authorized-keys-integrity.audit.rules.template) is source-reviewed configuration, not an installed monitor.
+
 ## 4. Restrict inbound traffic and test rollback
 
 For initial deployment behind a proxy, use the separate [INITIAL-DEPLOYMENT.md](INITIAL-DEPLOYMENT.md) guide with a verifiable nftables candidate, a cloud firewall, and two nginx whitelist modes. The UFW example below applies to a host where UFW is the chosen manager. Managing the same boundaries through several managers simultaneously requires a separate compatibility check.
