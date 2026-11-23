@@ -281,3 +281,13 @@ These v1.8.1 references separate prevention, integrity observation, private evid
 | Represent review decisions with closed categories/actions and opaque optional fields. | NIST AU-2, AU-6 | [SIEM schema/exporter](enterprise/operations/README.md): synthetic old-record compatibility, optional-field and denial tests. It does not collect host events, detect campaigns or deliver alerts by itself. |
 
 An alert or indicator match is an investigation lead, not proof of compromise or attribution. Sensor deployment, access controls, filtering, retention, alert routing and response remain operator responsibilities.
+
+## Behavior and static review in v1.9.0
+
+| Measure | Existing standards relationship | Evidence boundary |
+| --- | --- | --- |
+| Review process lineage, unusual destination classes, credential breadth and request/egress correlations. | NIST SP 800-53 SI-4, AU-6, SC-7; existing host/identity guidance above | [Behavior guide](docs/AGENTIC-ATTACK-DETECTION.md) and [offline evaluator](enterprise/detection/README.md): bounded synthetic match/near-match fixtures and source-reviewed starting profiles only. No live collector, threat attribution, real-intrusion effectiveness or false-positive rate is claimed. |
+| Review agent permissions, hooks, instructions, MCP definitions and private artifact exclusions before admission. | NIST CM-3, CM-6, AC-6, SI-7; existing OWASP agent/supply-chain relationships above | [Configuration checklist](docs/AGENT-CONFIG-REVIEW.md) and [review contract](enterprise/config-review/README.md): known normalized-profile/static checks with independently scoped exceptions. Unsupported formats and effective deployment permissions require separate review. |
+| Review client-exposed build variables and environment files. | Existing credential/source-protection and least-privilege relationships above | [Client secret guide](docs/CLIENT-SECRET-EXPOSURE.md): pattern/placeholder tests and production-staging integration. Reports omit values; no data-flow analysis or universal secret clearance is claimed. |
+
+No new ATT&CK, D3FEND or ATLAS technique ID is added from the unverified update note. This preparation deliberately did not browse external projects or framework catalogs; confirm current official identifiers and the exact supported relationship before publishing any new numerical mapping. Existing mappings retain their original scope. Synthetic classifications, private baselines and authenticated sensor coverage remain adoption responsibilities.

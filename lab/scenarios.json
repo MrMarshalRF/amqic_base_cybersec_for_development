@@ -1304,6 +1304,90 @@
       "operational_scope": "Offline synthetic export/schema and canonical v1 compatibility tests only. Operator-authored records are not event collection, campaign/process detection, provider connectors, alert delivery or deployed effectiveness.",
       "external_manual_integration": "Offline synthetic export/schema and canonical v1 compatibility tests only. Operator-authored records are not event collection, campaign/process detection, provider connectors, alert delivery or deployed effectiveness.",
       "required": true
+    },
+    {
+      "id": "agentic-behavior-review",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "Existing monitoring, correlation and boundary relationships in SECURITY.md"
+      ],
+      "expected_result": "Declared offline/static expected-findings fixtures pass; target effectiveness remains unverified.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Offline synthetic review of eight behavior families with private trusted classifications, explicit baselines, expiry and bounded opaque events. Match/near-match fixtures are not real-intrusion validation, attribution, automated blocking or deployed sensor coverage.",
+      "external_manual_integration": "Offline synthetic review of eight behavior families with private trusted classifications, explicit baselines, expiry and bounded opaque events. Match/near-match fixtures are not real-intrusion validation, attribution, automated blocking or deployed sensor coverage.",
+      "required": true
+    },
+    {
+      "id": "behavior-starting-profiles",
+      "category": "source-reviewed",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "Existing runtime monitoring relationships in SECURITY.md"
+      ],
+      "expected_result": "Declared offline/static expected-findings fixtures pass; target effectiveness remains unverified.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed agent/host templates and Windows starting specification, statically tested only. No Falco/kernel/Windows collector execution, verified deployment syntax, process-identity attestation or effectiveness claim.",
+      "external_manual_integration": "Source-reviewed agent/host templates and Windows starting specification, statically tested only. No Falco/kernel/Windows collector execution, verified deployment syntax, process-identity attestation or effectiveness claim.",
+      "required": true
+    },
+    {
+      "id": "agent-config-static-review",
+      "category": "local",
+      "test_checks": [
+        "node-tests"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "Existing agent permission, instruction integrity and supply-chain relationships in SECURITY.md"
+      ],
+      "expected_result": "Declared offline/static expected-findings fixtures pass; target effectiveness remains unverified.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Known normalized-profile configuration and narrow instruction-text heuristics with separately trusted scoped exceptions, exact expected findings and incomplete states. No raw vendor configuration parser, semantic prompt-injection proof, effective-permission collector or admission activation.",
+      "external_manual_integration": "Known normalized-profile configuration and narrow instruction-text heuristics with separately trusted scoped exceptions, exact expected findings and incomplete states. No raw vendor configuration parser, semantic prompt-injection proof, effective-permission collector or admission activation.",
+      "required": true
+    },
+    {
+      "id": "client-secret-exposure-review",
+      "category": "local",
+      "test_checks": [
+        "production"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "Existing credential/source protection relationships in SECURITY.md"
+      ],
+      "expected_result": "Declared offline/static expected-findings fixtures pass; target effectiveness remains unverified.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
+      "external_manual_integration": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
+      "required": true
     }
   ],
   "tool_build": {

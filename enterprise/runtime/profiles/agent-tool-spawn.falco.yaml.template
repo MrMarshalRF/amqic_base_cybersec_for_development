@@ -1,0 +1,19 @@
+# Starting template only: replace every OPERATOR_ list using private reviewed
+# executable identities and validate the sensor's ancestry fields on target.
+- list: operator_agent_identities
+  items: [OPERATOR_AGENT_EXECUTABLE_IDENTITY]
+- list: operator_security_utility_classes
+  items: [OPERATOR_SECURITY_UTILITY_IDENTITY]
+- rule: Agent ancestor starts a security utility class
+  desc: Offline starting specification; an investigation lead only.
+  condition: >
+    evt.type in (execve, execveat) and evt.dir = < and evt.rawres >= 0 and
+    proc.aname in (operator_agent_identities) and
+    proc.name in (operator_security_utility_classes)
+  output: "Agent utility-class spawn (event=%evt.num pid=%proc.pid)"
+  priority: WARNING
+  source: syscall
+  tags: [runtime, starting-template]
+# Names alone do not prove executable identity. An operator must bind measured
+# executable/version identity, finite ancestor coverage and scoped engagements.
+# This file is not installed and does not prove Falco syntax or kernel coverage.

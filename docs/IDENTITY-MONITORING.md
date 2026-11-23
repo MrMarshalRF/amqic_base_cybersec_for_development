@@ -31,3 +31,11 @@ Map consent or permission changes to [SIEM export](../enterprise/operations/READ
 ## Limits
 
 The kit does not monitor Entra, Google or Okta in production. Operators must configure collection, alert delivery, permissions and coverage using their provider's official audit logs and APIs. This increment adds procedure and SIEM field support, not a provider connector. Existing synthetic federation tests do not exercise live consent catalogs or establish deployed detection quality.
+
+## Credential velocity and breadth
+
+Review cloud control-plane audit events per opaque credential, source, asset and bounded time window. Compare event rate, distinct services/actions and denied-call ratio with the identity's approved workload baseline. An unusual source and subsequent secret-store or audit-log access can strengthen a lead; no single rate threshold proves credential theft.
+
+Register expected infrastructure-as-code, inventory, posture and backup runs with reviewed source/scope/expiry. A registered run with the same breadth and a high-rate single-action job are near matches. The [behavior specification](AGENTIC-ATTACK-DETECTION.md) and [offline fixture suite](../enterprise/detection/README.md) use synthetic event classes only, without cloud queries or credentials. Production baselines, provider completeness, pagination, latency and clock handling require target validation.
+
+Record the anomaly review as `campaign` / `campaign-note` / `campaign-correlation`. Use `identity` / `principal-change` only for an actual principal or credential-state change. Confirm the finding with the identity owner; any revoke, disable or rotate action occurs at the issuer, and the evaluator performs none of those operations.

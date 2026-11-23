@@ -1,0 +1,20 @@
+# Starting host template only; private lists require scope/owner/expiry review.
+- list: operator_service_parents
+  items: [OPERATOR_SERVICE_EXECUTABLE_IDENTITY]
+- list: operator_shell_download_children
+  items: [OPERATOR_SHELL_OR_DOWNLOAD_IDENTITY]
+- list: operator_maintenance_helpers
+  items: [OPERATOR_REVIEWED_HELPER_IDENTITY]
+- rule: Host service starts shell or download class
+  desc: Successful direct-child execution on a non-container host needs review.
+  condition: >
+    evt.type in (execve, execveat) and evt.dir = < and evt.rawres >= 0 and
+    container.id = host and proc.pname in (operator_service_parents) and
+    proc.name in (operator_shell_download_children) and
+    not proc.name in (operator_maintenance_helpers)
+  output: "Host service child (event=%evt.num pid=%proc.pid)"
+  priority: WARNING
+  source: syscall
+  tags: [runtime, host, starting-template]
+# Resolve identity and helper/service binding privately; names alone are weak.
+# Indirect lineage and web-directory file writes need additional sensor records.

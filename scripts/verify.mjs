@@ -102,6 +102,7 @@ command('node-tests', process.execPath, ['--experimental-sqlite', '--test', '--t
   'enterprise/cloud-kms/cloud-kms.test.mjs',
   'enterprise/federation/federation.test.mjs',
   'enterprise/operations/siem.test.mjs',
+  'enterprise/detection/detection.test.mjs', 'enterprise/config-review/config-review.test.mjs',
   'enterprise/policy/policy-properties.test.mjs', 'enterprise/agent-runtime/agent-runtime.test.mjs', 'enterprise/outbound/outbound.test.mjs', 'enterprise/recovery/recovery.test.mjs', 'enterprise/probe-defense/probe-defense.test.mjs',
   'reference/upload-pipeline.test.mjs', 'reference/clamd-client.test.mjs', 'lab/web-app.test.mjs', 'lab/lifecycle.test.mjs', 'lab/all-local.test.mjs', 'lab/run-shell.test.mjs', 'scripts/test_crypto.mjs']);
 command('core-demo', process.execPath, ['--experimental-sqlite', 'reference/demo.mjs']);
@@ -109,7 +110,9 @@ for (const [id, path] of [
   ['operations', 'scripts/test_operations.py'], ['production', 'scripts/test_prepare_production.py'],
   ['versions', 'scripts/test_check_versions.py'], ['quarantine', 'infra/container/test_quarantine.py'],
   ['nginx-harness', 'infra/nginx/test_harness.py'],
-]) command(id, python, ['-B', path]);
+]) command(id, python, id === 'production'
+  ? ['-B', '-c', "import sys,unittest; sys.path.insert(0,'scripts'); suite=unittest.TestLoader().loadTestsFromNames(['test_prepare_production','test_client_secret_review']); result=unittest.TextTestRunner(verbosity=1).run(suite); sys.exit(not result.wasSuccessful())"]
+  : ['-B', path]);
 command('firewall-render', python, ['-B', '-c', `import sys,json,tempfile,pathlib,unittest
 sys.path.insert(0, 'infra')
 from firewall.render import render

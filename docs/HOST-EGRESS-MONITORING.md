@@ -23,3 +23,11 @@ Correlate the decision with a service-account child-shell signal from the [runti
 ## Limits
 
 The allowlist depends on current operator approvals. This guide installs no NSM sensor, DNS firewall or egress collector and establishes no measured detection rate. No packet-capture lab or live egress enforcement is supplied by this increment. The SIEM exporter records operator-authored evidence; it does not collect connection events or detect campaigns.
+
+## Model APIs and interaction capture
+
+Maintain `model-api` as a private, provider-neutral destination class for inference endpoints and gateways. Entitlement belongs to a specific server workload, owner, scope and review/expiry date. An allowed or denied attempt by an unentitled server is a review signal; an entitled workload or approved package mirror is a near match. This server rule does not classify developer workstations or rank providers or countries.
+
+Maintain `interaction-capture` values privately with provenance and expiry. A classified server DNS lookup or connection deserves review; a workstation lookup or an unusual-looking ordinary service subdomain is not enough. Correlate relevant preceding inbound activity using protected linkage references. A classified match does not prove injection or attribution. The [behavior reference](AGENTIC-ATTACK-DETECTION.md) supplies synthetic match/near-match pairs; resolver/proxy collection and classification remain operator integrations.
+
+Record both families through existing `egress` / `egress-decision` / `egress-unapproved` fields. Destination classes and exact indicators stay in the restricted source case. No provider hostname list, resolver sensor or live egress test is shipped.
