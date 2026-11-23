@@ -81,3 +81,7 @@ The [outbound/return reference](../enterprise/outbound/README.md) relates to CWE
 ## Host telemetry references
 
 [SSH integrity](SSH-KEY-INTEGRITY.md), [host egress](HOST-EGRESS-MONITORING.md), [indicator handling](INDICATOR-HANDLING.md), [identity review](IDENTITY-MONITORING.md) and [SIEM field support](../enterprise/operations/README.md) complement the application references. Their selected NIST and ATT&CK relationships and evidence limits are recorded in [SECURITY.md](../SECURITY.md#host-integrity-egress-and-identity-review). Static profile/schema tests do not establish an ASVS assessment, deployed collection or detection quality.
+
+## v1.9 behavior and pre-admission review
+
+[Behavior detection](AGENTIC-ATTACK-DETECTION.md), [agent configuration review](AGENT-CONFIG-REVIEW.md) and [client-exposed secrets](CLIENT-SECRET-EXPOSURE.md) complement the existing monitoring, excessive-agency, supply-chain and credential-handling relationships. See [SECURITY.md](../SECURITY.md#behavior-and-static-review-in-v190) for evidence boundaries. No new technique identifier is asserted from an unverified source snapshot; current framework identifiers must be checked before adding a publication mapping.

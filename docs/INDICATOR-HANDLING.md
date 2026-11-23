@@ -34,3 +34,9 @@ Restrict store access and assign a retention owner. Include replicas, caches and
 Use [SIEM export](../enterprise/operations/README.md) category `campaign`, action `indicator-review` and signal class `indicator`, with time, outcome and opaque actor, tenant, correlation and case references. The closed schema has no indicator-value or lifecycle-status field: keep the status behind the case reference and do not add undeclared properties. Any public case summary may state the status with an opaque reference only. Expiry review records describe lifecycle work; they must not create fresh indicator-match alerts after expiry or withdrawal.
 
 This is source-reviewed procedure, not an ingest service, scheduled expiry engine, alert connector or tested feed integration. Operators must implement and verify status enforcement, authenticated collection, retention and analyst workflow in their deployment.
+
+## Behavior classification lists
+
+Agent executable identities and reviewed versions, security-testing utility classes, service/child-process classes, `model-api` and `interaction-capture` destinations remain operator-private. The kit carries class labels, closed input contracts and synthetic event fixtures only. A collector must bind classification to trusted executable or destination identity; an untrusted process name or request header cannot self-classify as approved.
+
+Every value and exception needs an owner, source reference, review date, confidence, scope and mandatory expiry or next review. Expired, withdrawn or unknown-lifetime entries must stop matching until approved again. Apply the [agent configuration review](AGENT-CONFIG-REVIEW.md) before admitting configuration and the [behavior guide](AGENTIC-ATTACK-DETECTION.md) before interpreting matches. Public reports retain coarse rule identifiers and opaque case references, not live list values, hashes or arbitrary tool names.

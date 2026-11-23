@@ -157,6 +157,15 @@
       "scope": "Static image bytes are covered by integrity; no visual or browser validation is implied."
     },
     {
+      "path": "docs/AGENT-CONFIG-REVIEW.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
+    },
+    {
       "path": "docs/AGENT-RUNTIME-INTEGRITY.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -164,6 +173,15 @@
         "sha256-registry"
       ],
       "scope": "Reviewed deployment and verification guidance with the stated scope limits."
+    },
+    {
+      "path": "docs/AGENTIC-ATTACK-DETECTION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
     },
     {
       "path": "docs/AI-AGENT-RUNTIME.md",
@@ -209,6 +227,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/CLIENT-SECRET-EXPOSURE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
     },
     {
       "path": "docs/CLOUDFLARE-EDGE.md",
@@ -547,6 +574,64 @@
         "node-tests"
       ],
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
+    },
+    {
+      "path": "enterprise/config-review/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
+    },
+    {
+      "path": "enterprise/config-review/config-review.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Pure bounded synthetic behavior/configuration review with exact expected findings, match/near-match cases and input/result ETags; no sensor, extension execution or live detection claim."
+    },
+    {
+      "path": "enterprise/config-review/config-review.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Pure bounded synthetic behavior/configuration review with exact expected findings, match/near-match cases and input/result ETags; no sensor, extension execution or live detection claim."
+    },
+    {
+      "path": "enterprise/detection/README.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
+    },
+    {
+      "path": "enterprise/detection/detection.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Pure bounded synthetic behavior/configuration review with exact expected findings, match/near-match cases and input/result ETags; no sensor, extension execution or live detection claim."
+    },
+    {
+      "path": "enterprise/detection/detection.test.mjs",
+      "category": "executable",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Pure bounded synthetic behavior/configuration review with exact expected findings, match/near-match cases and input/result ETags; no sensor, extension execution or live detection claim."
     },
     {
       "path": "enterprise/distributed/README.md",
@@ -945,6 +1030,26 @@
       "scope": "Enterprise reference suite with synthetic fixtures. CLI entry points also use the applicable command or workflow documented in the module guide."
     },
     {
+      "path": "enterprise/runtime/profiles/agent-tool-spawn.falco.yaml.template",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed starting profile/template with static field checks only; unresolved private class markers, actual syntax and host/Windows sensor coverage require target verification."
+    },
+    {
+      "path": "enterprise/runtime/profiles/host-service-shell.falco.yaml.template",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed starting profile/template with static field checks only; unresolved private class markers, actual syntax and host/Windows sensor coverage require target verification."
+    },
+    {
       "path": "enterprise/runtime/profiles/java-shell.falco.yaml",
       "category": "configuration",
       "checks": [
@@ -982,6 +1087,16 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed Falco starting rule with static field checks; no Falco or kernel execution claimed."
+    },
+    {
+      "path": "enterprise/runtime/profiles/windows-service-shell.profile.json",
+      "category": "configuration",
+      "checks": [
+        "node-tests",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed starting profile/template with static field checks only; unresolved private class markers, actual syntax and host/Windows sensor coverage require target verification."
     },
     {
       "path": "enterprise/runtime/runtime.test.mjs",
@@ -1772,6 +1887,16 @@
       "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
     },
     {
+      "path": "scripts/client_secret_review.py",
+      "category": "executable",
+      "checks": [
+        "production",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Bounded synthetic client-exposed-secret snapshot/CLI and production-staging tests; values redacted, no data-flow analysis or universal credential clearance."
+    },
+    {
       "path": "scripts/prepare_production.py",
       "category": "executable",
       "checks": [
@@ -1803,6 +1928,16 @@
         "versions"
       ],
       "scope": "Fixed synthetic regression or syntax checks, limited to their assertions; no operational deployment."
+    },
+    {
+      "path": "scripts/test_client_secret_review.py",
+      "category": "executable",
+      "checks": [
+        "production",
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Bounded synthetic client-exposed-secret snapshot/CLI and production-staging tests; values redacted, no data-flow analysis or universal credential clearance."
     },
     {
       "path": "scripts/test_crypto.mjs",

@@ -79,6 +79,14 @@ The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and
 
 The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) covers installed-file monitoring, externally enforced permission policy and review of agent plugins, skills and MCP servers.
 
+## Behavior detection and pre-admission review
+
+[Behavior detection guidance](docs/AGENTIC-ATTACK-DETECTION.md) and the [offline reference](enterprise/detection/README.md) describe eight event families, with explicit match/near-match fixtures and privately maintained classification policies. These starting rules do not install sensors, identify an attacker or establish real-intrusion effectiveness.
+
+[Agent configuration review](docs/AGENT-CONFIG-REVIEW.md) adds a bounded static checklist and executable review contract before configuration or extensions are admitted. Findings require operator interpretation; a documented, scoped exception is not an instruction file granting itself permission.
+
+[Client-exposed secret review](docs/CLIENT-SECRET-EXPOSURE.md) covers public build variables, environment examples and release preparation. Reports omit values; heuristic checks do not trace data flow or certify that a browser bundle contains no secrets.
+
 ## Recommended security resources
 
 Independent projects for additional security review and AI-agent protection. Review each project's current documentation and applicability to your environment.
@@ -100,6 +108,14 @@ At the time of this recommendation, the vendor labels the product pre-release. C
 Where procurement and ongoing updates are supported and permitted, consider installing Kaspersky endpoint protection. For personal devices, evaluate [Kaspersky Standard](https://www.kaspersky.com/standard). For managed endpoints, evaluate [Kaspersky Next EDR Foundations or Optimum](https://www.kaspersky.com/next) using your operating systems, update requirements and incident response needs.
 
 Use official distribution channels and test update delivery, telemetry settings and compatibility on a small group before rollout. For deployments in the United States or involving U.S. persons, consult the [BIS Final Determination and guidance](https://media.bis.gov/Kaspersky) on covered products and updates. Choose a supported alternative where the determination or your organization's procurement policy restricts supply or updates. This is a third-party recommendation. The kit has no Kaspersky dependency or installation step.
+
+### ThreatDefence — Agentic Attack Detections
+
+[Agentic Attack Detections](https://github.com/ThreatDefence/agentic-attack-detections) is an optional external detection-side reading resource. The update's supplied research note identifies the reviewed snapshot as `cf360e5b2d4ae1584f6af677b3f83a2375dbbb8f` and describes synthetic, experimental coverage. Check the current project, license and telemetry applicability before adoption; this kit does not download, execute or redistribute its rules or indicators.
+
+### safe-anything
+
+[safe-anything](https://github.com/erkamyaman/safe-anything) is an optional external static-review resource. The supplied research note identifies snapshot `c0617f5cd0292f7e6c3a670bc77b816ac1b63191`; its pattern-based findings are not a data-flow security proof. Before adoption, verify the exact version, license, checksums, dependency-check network behavior and any MCP permissions. This kit does not install or execute it, and has not independently verified the current external release during this update.
 
 ## Self-hosted AI workflows
 

@@ -934,6 +934,86 @@
       "lab_scenarios": [
         "host-telemetry-siem-schema"
       ]
+    },
+    {
+      "id": "agentic-behavior-review",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/detection/detection.mjs",
+        "enterprise/detection/detection.test.mjs",
+        "docs/AGENTIC-ATTACK-DETECTION.md"
+      ],
+      "references": [
+        "Existing monitoring, correlation and boundary relationships in SECURITY.md"
+      ],
+      "limits": "Offline synthetic review of eight behavior families with private trusted classifications, explicit baselines, expiry and bounded opaque events. Match/near-match fixtures are not real-intrusion validation, attribution, automated blocking or deployed sensor coverage.",
+      "lab_scenarios": [
+        "agentic-behavior-review"
+      ]
+    },
+    {
+      "id": "behavior-starting-profiles",
+      "kind": "configuration",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/runtime/profiles/agent-tool-spawn.falco.yaml.template",
+        "enterprise/runtime/profiles/host-service-shell.falco.yaml.template",
+        "enterprise/runtime/profiles/windows-service-shell.profile.json",
+        "enterprise/detection/detection.test.mjs"
+      ],
+      "references": [
+        "Existing runtime monitoring relationships in SECURITY.md"
+      ],
+      "limits": "Source-reviewed agent/host templates and Windows starting specification, statically tested only. No Falco/kernel/Windows collector execution, verified deployment syntax, process-identity attestation or effectiveness claim.",
+      "lab_scenarios": [
+        "behavior-starting-profiles"
+      ]
+    },
+    {
+      "id": "agent-config-static-review",
+      "kind": "executable",
+      "checks": [
+        "node-tests"
+      ],
+      "files": [
+        "enterprise/config-review/config-review.mjs",
+        "enterprise/config-review/config-review.test.mjs",
+        "docs/AGENT-CONFIG-REVIEW.md",
+        "skills/review-dependencies/SKILL.md"
+      ],
+      "references": [
+        "Existing agent permission, instruction integrity and supply-chain relationships in SECURITY.md"
+      ],
+      "limits": "Known normalized-profile configuration and narrow instruction-text heuristics with separately trusted scoped exceptions, exact expected findings and incomplete states. No raw vendor configuration parser, semantic prompt-injection proof, effective-permission collector or admission activation.",
+      "lab_scenarios": [
+        "agent-config-static-review"
+      ]
+    },
+    {
+      "id": "client-secret-exposure-review",
+      "kind": "executable",
+      "checks": [
+        "production"
+      ],
+      "files": [
+        "scripts/client_secret_review.py",
+        "scripts/test_client_secret_review.py",
+        "scripts/prepare_production.py",
+        "scripts/test_prepare_production.py",
+        "docs/CLIENT-SECRET-EXPOSURE.md"
+      ],
+      "references": [
+        "Existing credential/source protection relationships in SECURITY.md"
+      ],
+      "limits": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
+      "lab_scenarios": [
+        "client-secret-exposure-review"
+      ]
     }
   ]
 }

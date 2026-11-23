@@ -65,3 +65,7 @@ node --test enterprise/runtime/runtime.test.mjs
 ```
 
 The suite exercises the offline inventory gate with synthetic observations and checks constraints in the profile, chart template sources, namespace module and Falco rule. Host process collection, Helm and OpenTofu rendering, cluster deployment, kernel policy enforcement and Falco event capture need separately recorded validation.
+
+## Additional behavior starting profiles
+
+The [agent/host templates and Windows profile contract](../../docs/AGENTIC-ATTACK-DETECTION.md) extend the documented starting scope. Their executable/service classes are operator-private inputs; unresolved template markers must be reviewed and replaced before target validation. Existing named profiles above remain container/direct-child only. The new profiles receive static/synthetic checks, not host or Windows sensor execution, and do not broaden a deployed Falco installation automatically.

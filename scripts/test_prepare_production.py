@@ -160,6 +160,38 @@ class ProductionTests(unittest.TestCase):
         self.assertFalse(self.target.exists())
         self.assertEqual(path.read_text(encoding="utf-8"), fixture)
 
+    def test_public_prefix_secret_staging_and_validation(self):
+        path = self.source / "app" / "main.mjs"
+        for prefix in ("PUBLIC_", "VITE_", "NEXT_PUBLIC_", "NUXT_PUBLIC_", "REACT_APP_"):
+            text = 'export const ' + prefix + 'API_KEY = "INERT_NOT_A_CREDENTIAL_5739";\n'
+            path.write_text(text, encoding="utf-8")
+            with self.subTest(prefix=prefix), self.assertRaises(production.Blocked) as failure:
+                self.prepare()
+            self.assertEqual(failure.exception.finding, {"path": "app/main.mjs", "rule": "client-public-secret-literal"})
+            self.assertFalse(self.target.exists())
+            self.assertEqual(path.read_text(encoding="utf-8"), text)
+        path.write_text('const config = { "VITE_API_KEY": "INERT_NOT_A_CREDENTIAL_5739" };', encoding="utf-8")
+        with self.assertRaises(production.Blocked):
+            self.prepare()
+        # A self-consistent attacker-edited manifest cannot bypass content checks.
+        self.target.mkdir()
+        (self.target / "app").mkdir()
+        payload = path.read_bytes()
+        (self.target / "app/main.mjs").write_bytes(payload)
+        document = production.manifest_for([{"path": "app/main.mjs", "size": len(payload), "sha256": production.hashlib.sha256(payload).hexdigest()}])
+        (self.target / production.MANIFEST).write_text(json.dumps(document), encoding="utf-8")
+        with self.assertRaises(production.Blocked) as failure:
+            production.validate(self.target)
+        self.assertEqual(failure.exception.finding["rule"], "client-public-secret-literal")
+
+    def test_public_placeholder_and_url_still_stage_but_env_never_does(self):
+        (self.source / "app/main.mjs").write_text('export const VITE_API_KEY="<required>";\nexport const PUBLIC_BASE_URL="https://example.invalid/public";\n', encoding="utf-8")
+        self.prepare()
+        self.assertEqual(production.validate(self.target)["files"][0]["path"], "app/main.mjs")
+        for name in (".env", ".env.example", ".env.production"):
+            with patch.object(production, "read_scanned", side_effect=AssertionError("must not read")), self.assertRaises(production.Blocked):
+                production.prepare(self.source, self.root / "env-blocked", [name])
+
     def test_unquoted_and_uri_credentials(self):
         for text in ["password: synthetic-value", "password = synthetic-value", "url = postgres://someone:synthetic-value@localhost/database", "\ufeffpassword: synthetic-value", "\ufeffpassword = synthetic-value"]:
             (self.source / "config.example.json").write_text(text, encoding="utf-8")

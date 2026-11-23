@@ -13,6 +13,7 @@ import tempfile
 import unicodedata
 
 from backup import publish_directory, safe_relative
+from client_secret_review import public_secret_rules
 
 MANIFEST = "PRODUCTION-MANIFEST.json"
 MAX_FILES = 10000
@@ -150,6 +151,8 @@ def read_scanned(root, name, expected):
         raise Blocked(name, "unsupported-encoding-or-binary") from None
     if "\x00" in text:
         raise Blocked(name, "unsupported-encoding-or-binary")
+    for rule in public_secret_rules(text):
+        raise Blocked(name, rule)
     for rule, pattern in RULES.items():
         if pattern.search(text):
             raise Blocked(name, rule)

@@ -74,3 +74,9 @@ Local validation covers the kit-owned exclusions, existing supply tests, source 
 Review locally hosted findings desks and their agent skills like other untrusted extensions. Offline-first wording does not prove absence of external fonts, optional hosted models or later requests. Treat imported finding Markdown/HTML as data; render safely, isolate it from credentials and do not grant writable folder access merely to view a report. Keep sensitive ledgers private and minimize customer data.
 
 A Git authentication error does not authorize asking for a token in chat. Use the protected human terminal workflow and a fixed reviewed consumer. Review exact artifact/publisher identity and permission requests before enabling browser File System Access or agent write access. No third-party ledger is integrated by this guidance.
+
+## Static pre-admission checks
+
+Use the [agent configuration checklist](AGENT-CONFIG-REVIEW.md) and [offline review reference](../enterprise/config-review/README.md) before admitting a configuration, skill, hook or MCP definition and when its snapshot changes. Review approval/shell scope, remote execution, instruction integrity, credential access, MCP pins/transport and artifact exclusions. Pass an explicit normalized snapshot from a trusted collector; these checks neither discover every product's effective configuration nor execute hooks.
+
+Keep exceptions in an independently reviewed policy with owner, exact scope, source-file binding and finite expiry. Documentation describing a risky setting is not the setting itself. Known-pattern findings and clean results require human interpretation; neither establishes installed-tree integrity, a sandbox or absence of prompt injection.

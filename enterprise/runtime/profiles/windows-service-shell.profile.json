@@ -1,0 +1,14 @@
+{
+  "schema": "amqic.windows-service-shell.profile.v1",
+  "status": "starting-specification-not-deployed",
+  "telemetry": ["process-creation-with-trusted-parent-identity", "web-directory-file-write"],
+  "conditions": {
+    "parentClass": "service",
+    "childClasses": ["shell", "download"],
+    "excludeClass": "helper",
+    "companionClass": "web-script",
+    "privateInventory": "OPERATOR_REVIEWED_SCOPED_EXPIRING_IDENTITIES"
+  },
+  "outputFields": ["assetRef", "accountRef", "eventRef", "signalId"],
+  "limits": ["Direct parent linkage depends on sensor integrity and process identity reuse controls.", "No command lines, arguments, environments, file paths or executable names in exported records.", "No Windows event subscription or EDR adapter is supplied or tested."]
+}

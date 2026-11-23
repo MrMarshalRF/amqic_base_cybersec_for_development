@@ -2,6 +2,14 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.9.0
+
+- Add offline behavior-level review examples for eight process, egress, identity and campaign families, with bounded match/near-match fixtures and minimal output.
+- Add static agent-configuration review for approval/shell scope, hooks, instructions, credential access, MCP pins/transport and private artifact exclusions.
+- Add client-exposed secret review and production-staging checks for public build variables and environment material; reports redact values.
+- Add host/Windows service starting profiles, private classification/expiry guidance and mappings to existing SIEM categories without changing v1 records.
+- Update documentation, related-resource recommendations, standards evidence boundaries and per-file validation. Sensor deployment, false-positive rates and real-intrusion effectiveness remain target verification.
+
 ## v1.8.1
 
 - Add SSH trust-file integrity guidance and a source-reviewed watch template; key-only login remains a separate preventive control.
