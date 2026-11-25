@@ -62,3 +62,5 @@ Inventory the running Nginx binary/package as well as the image digest. Plus, fo
 ## Database-server inventory
 
 Record server packages and actual `server_version`/`server_version_num`, distributor, artifact/platform digest and replica identity, separately from the language driver. Follow [database-engine advisories](DATABASE-ENGINE-PATCHING.md) and the [PostgreSQL support policy](https://www.postgresql.org/support/versioning/). The fixed lab profile requires PostgreSQL 17.12 or later within the 17 line; it is not a live scanner for installed database servers. PostgreSQL 14.25 was the final supported release of 14. Review other branches and vendor backports through their own policy.
+
+The existing 17.12 lab floor also matches the [official 17-branch fixed release for CVE-2026-6460](https://www.postgresql.org/support/security/CVE-2026-6460/). Record extension-package build provenance and effective `composite_type_mismatch=error` separately; the lab version assertion does not verify either. Other branches and distributor backports require their own authenticated package/advisory evidence.

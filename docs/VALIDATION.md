@@ -135,3 +135,7 @@ The local HTTP fixture checks Fetch-standard blocked ports before publishing its
 ## v1.9 behavior and static-review tests
 
 The fixed baseline includes offline behavior, agent configuration and client secret review suites. Each family has explicit expected findings, at least one match and two near matches, plus boundary and redaction checks. Runtime starting profiles receive static checks only. Inputs are synthetic records/configuration descriptors; no attack traffic, live provider connection, downloaded framework, kernel sensor or indicator feed is used. Passing fixtures establish their declared cases, not intrusion effectiveness, false-positive rate, attribution or production safety.
+
+## v1.9.1 database advisory documentation
+
+This patch adds [CVE-2026-6460 upgrade guidance](DATABASE-ENGINE-PATCHING.md#postgresql-cve-2026-6460-upgrade-conditions) alongside CVE-2026-116331. The retained PostgreSQL 17.12 image/version floor matches the vendor's fixed 17 branch, but these fixtures do not verify C-extension rebuild provenance or effective `composite_type_mismatch=error`. Both remain explicit target checks. No engine code, image digest, database fixture, detection profile or SIEM schema changes, vulnerability trigger or fresh database runtime execution are supplied by this documentation patch. Earlier runtime evidence remains bound to its original source snapshot.
