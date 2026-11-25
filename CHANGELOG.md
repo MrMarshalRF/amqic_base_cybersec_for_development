@@ -2,6 +2,12 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.9.1
+
+- Document PostgreSQL CVE-2026-6460 separately from CVE-2026-116331, including authenticated object-creator exposure and vendor-fixed branches.
+- Add C-language extension rebuild and `composite_type_mismatch=error` upgrade conditions, protected DDL/error monitoring and inventory/recovery guidance.
+- Clarify that the retained 17.12 lab floor does not verify extension rebuild provenance or the effective setting; update security mappings and existing claim/scenario limits. No new engine pin, detector, schema or vulnerability trigger is added.
+
 ## v1.9.0
 
 - Add offline behavior-level review examples for eight process, egress, identity and campaign families, with bounded match/near-match fixtures and minimal output.

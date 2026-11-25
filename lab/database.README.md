@@ -56,3 +56,7 @@ container identity, removes only that owned container and verifies absence even 
 test failure. Evidence remains external. Failure to verify cleanup reports
 `cleanup_pending`; it never implies resources were removed. A timeout is a failure,
 not permission to retry an operation with an unknown outcome.
+
+## CVE-2026-6460 evidence limits
+
+The retained 17.12 image and numeric floor correspond to the [vendor's fixed PostgreSQL 17 branch](https://www.postgresql.org/support/security/CVE-2026-6460/). Full upgrade guidance in the [engine guide](../docs/DATABASE-ENGINE-PATCHING.md#postgresql-cve-2026-6460-upgrade-conditions) also requires rebuilding C-language extensions against the patched server and keeping effective `composite_type_mismatch=error`. This lab does **not** verify the image's C-extension rebuild provenance or effective value of that setting. They remain unverified target/provenance checks, not implied passes from a version string or digest. No exploit, PoC, mismatch trigger or new runtime test is added for this advisory.

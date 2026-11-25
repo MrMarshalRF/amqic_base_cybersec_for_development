@@ -1117,6 +1117,7 @@
       ],
       "standards": [
         "PostgreSQL CVE-2026-116331",
+        "PostgreSQL CVE-2026-6460",
         "NIST SP 800-53 SI-2",
         "NIST SP 800-53 AC-6"
       ],
@@ -1124,8 +1125,8 @@
       "prerequisites": [
         "fixed lab prerequisites"
       ],
-      "operational_scope": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
-      "external_manual_integration": "Real isolated PostgreSQL17fixedminimum and effectiveprivilege assertions; other vendor products, branches andproduction patching require target verification.",
+      "operational_scope": "Real isolated PostgreSQL 17 fixed-minimum and effective-privilege assertions; CVE-2026-6460 C-extension rebuild provenance and effective composite_type_mismatch=error are not verified by these fixtures. Other vendor products, branches and production patching require target verification.",
+      "external_manual_integration": "Real isolated PostgreSQL 17 fixed-minimum and effective-privilege assertions; CVE-2026-6460 C-extension rebuild provenance and effective composite_type_mismatch=error are not verified by these fixtures. Other vendor products, branches and production patching require target verification.",
       "required": true
     },
     {
