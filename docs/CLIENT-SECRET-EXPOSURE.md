@@ -73,6 +73,17 @@ only explicit `.env` plus `.env.*` (or both root-anchored equivalents), without
 any negation, suppress the hint. Valid complex policies can still require
 manual review. An ignore rule cannot remove an already committed file.
 
+## Assignment boundaries
+
+Environment files and examples use line-oriented assignment review: spaces and
+tabs may surround `=` or `:`, but an empty value cannot consume the next line.
+LF, CRLF and CR line endings are covered by regression cases, including an
+empty value followed by a real public-secret literal. JavaScript/JSON review
+retains multiline assignment support. This is a literal heuristic, not a full
+dotenv or programming-language parser; computed values, escaped literals and
+other syntax still require semantic review. Placeholder-only examples remain
+excluded from runtime production payloads.
+
 ## Production staging and response
 
 The real `scripts/prepare_production.py` content check invokes the same

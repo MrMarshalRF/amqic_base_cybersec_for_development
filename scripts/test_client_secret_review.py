@@ -60,6 +60,29 @@ class ClientReviewTests(unittest.TestCase):
         self.check('SERVER_API_KEY="<required>"', [], ".env.example", True)
         self.check('BASE_URL="https://example.invalid/public"', [], ".env.example", True)
 
+    def test_empty_environment_values_stay_on_their_own_line(self):
+        for newline in ("\n", "\r\n", "\r"):
+            for spacing in ("", " ", "\t", " \t "):
+                for following in ("ZERION_API_KEY=", "# a comment", "SAFE_LABEL=ordinary-value",
+                                  'PUBLIC_API_KEY="<required>"', ""):
+                    with self.subTest(newline=repr(newline), spacing=repr(spacing), following=following):
+                        text = f"DATA_SECRET{spacing}={spacing}{newline}{following}{newline}ETHERSCAN_API_KEY="
+                        self.check(text, [], ".env.example", True)
+                        self.check(f"PUBLIC_SECRET={spacing}{newline}{following}", [], ".env.example", True)
+
+    def test_empty_environment_value_does_not_hide_next_secret(self):
+        for newline in ("\n", "\r\n", "\r"):
+            for spacing in ("", " ", "\t"):
+                text = f'DATA_SECRET={spacing}{newline}PUBLIC_API_KEY="INERT_NOT_A_CREDENTIAL_5739"'
+                self.check(text, [finding(".env.example", "client-public-secret-literal"),
+                                  finding(".env.example", "example-environment-nonplaceholder")], ".env.example", True)
+                self.check(text, [finding(".env.production", "client-public-secret-literal")], ".env.production")
+
+    def test_multiline_javascript_and_json_literals_remain_reviewed(self):
+        for text in ('const PUBLIC_API_KEY =\n "INERT_NOT_A_CREDENTIAL_5739";',
+                     '{"PUBLIC_API_KEY":\n "INERT_NOT_A_CREDENTIAL_5739"}'):
+            self.check(text, [finding("app/config.js", "client-public-secret-literal")])
+
     def test_ignore_omission_match_and_two_nears(self):
         self.check("node_modules/\n", [finding(".gitignore", "environment-ignore-review", "low")], ".gitignore")
         self.check(".env\n.env.*\n", [], ".gitignore")

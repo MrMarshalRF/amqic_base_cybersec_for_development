@@ -43,16 +43,13 @@ if current ~= window then return 'window_changed' end
 if current ~= s.window then
     s.used, s.elevated, s.operations = 0, false, {}
 end
-if s.operations[operation] then
-    if s.operations[operation] == binding then return 'duplicate' end
-    return 'conflict'
-end
-
 s.lastMs, s.window = now, current
 s.elevated = s.elevated or risk == 'elevated'
 local cap = s.elevated and s.elevatedCap or s.normal
 local decision = 'rate_limited'
-if s.used < cap then
+if s.operations[operation] then
+    decision = s.operations[operation] == binding and 'duplicate' or 'conflict'
+elseif s.used < cap then
     s.used = s.used + 1
     s.operations[operation] = binding
     decision = 'granted'

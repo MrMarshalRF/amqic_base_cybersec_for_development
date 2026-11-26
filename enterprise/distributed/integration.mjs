@@ -104,6 +104,32 @@ const ms = 3_600_000;
 const sqlLiteral = value => typeof value === 'number' ? String(value) : "'" + value.replaceAll("'", "''") + "'";
 const projected = result => result.status;
 
+async function exerciseRetryRisk(admit, window, reset, inspect) {
+  const base = { tenant, generation, policyDigest: digest, bindingDigest: binding, risk: 'normal', window };
+  for (const conflicting of [false, true]) {
+    await reset();
+    const original = { ...base, operationId: 'risk_original' };
+    assert.equal(projected(await admit(original)), 'granted');
+    const before = await inspect();
+    await delay(5);
+    const retry = { ...original, risk: 'elevated', bindingDigest: conflicting ? 'c'.repeat(64) : binding };
+    assert.equal(projected(await admit(retry)), conflicting ? 'conflict' : 'duplicate');
+    const after = await inspect();
+    assert.equal(after.elevated, true);
+    assert.equal(after.used, 1);
+    assert.deepEqual(after.operations, before.operations);
+    assert.ok(after.lastMs > before.lastMs);
+    assert.equal(projected(await admit({ ...base, operationId: 'risk_second' })), 'granted');
+    assert.equal(projected(await admit({ ...base, operationId: 'risk_third' })), 'rate_limited');
+    const stable = await inspect();
+    for (const invalid of [{ generation: 'other' }, { window: window - 1 }, { bindingDigest: 'invalid' }]) {
+      assert.equal((await admit({ ...base, operationId: 'invalid_risk', risk: 'elevated', ...invalid })).allowed, false);
+      assert.deepEqual(await inspect(), stable);
+    }
+  }
+  await reset();
+}
+
 async function exercise(admit, window, setFutureClock, replayAfterRestart) {
   const base = { tenant, generation, policyDigest: digest, bindingDigest: binding, risk: 'normal', window };
   const input = operationId => ({ ...base, operationId });
@@ -156,6 +182,10 @@ try {
   const pgAdmit = postgresAdmission({ query: async (_sql, values) => ({
     rows: [{ status: await psql('SELECT amqic_quota.admit(' + values.map(sqlLiteral).join(',') + ');') }]
   }) });
+  await exerciseRetryRisk(pgAdmit, pgWindow,
+    () => psql("UPDATE amqic_quota.tenant_state SET last_ms=0,window_id=0,elevated=false,used=0,operations='{}'::jsonb;"),
+    async () => JSON.parse(await psql(`SELECT json_build_object('lastMs',last_ms,'elevated',elevated,'used',used,'operations',operations) FROM amqic_quota.tenant_state WHERE tenant=${sqlLiteral(tenant)};`)));
+  report.checks.postgres_retry_risk_and_clock = true;
   await exercise(pgAdmit, pgWindow, () => psql('UPDATE amqic_quota.tenant_state SET last_ms=4000000000000;'), async granted => {
     await docker(['restart', pg]);
     const observed = JSON.parse(await docker(['inspect', pg]))[0];
@@ -181,6 +211,11 @@ try {
   const t = (await redisCli('TIME')).split(/\r?\n/).map(Number);
   const redisWindow = Math.floor((t[0] * 1000 + Math.floor(t[1] / 1000)) / ms);
   const redisAdmit = redisAdmission({ eval: (script, args) => redisCli('EVAL', script, '1', ...args.keys, ...args.arguments) });
+  await exerciseRetryRisk(redisAdmit, redisWindow, put, async () => {
+    const value = JSON.parse(await redisCli('GET', key));
+    return { lastMs: value.lastMs, elevated: value.elevated, used: value.used, operations: value.operations };
+  });
+  report.checks.redis_retry_risk_and_clock = true;
   const afterLoss = await exercise(redisAdmit, redisWindow, async () => { state.lastMs = 4_000_000_000_000; await put(); });
   await docker(['restart', rd]);
   const observed = JSON.parse(await docker(['inspect', rd]))[0];

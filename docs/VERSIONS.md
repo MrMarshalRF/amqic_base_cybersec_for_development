@@ -64,3 +64,18 @@ Inventory the running Nginx binary/package as well as the image digest. Plus, fo
 Record server packages and actual `server_version`/`server_version_num`, distributor, artifact/platform digest and replica identity, separately from the language driver. Follow [database-engine advisories](DATABASE-ENGINE-PATCHING.md) and the [PostgreSQL support policy](https://www.postgresql.org/support/versioning/). The fixed lab profile requires PostgreSQL 17.12 or later within the 17 line; it is not a live scanner for installed database servers. PostgreSQL 14.25 was the final supported release of 14. Review other branches and vendor backports through their own policy.
 
 The existing 17.12 lab floor also matches the [official 17-branch fixed release for CVE-2026-6460](https://www.postgresql.org/support/security/CVE-2026-6460/). Record extension-package build provenance and effective `composite_type_mismatch=error` separately; the lab version assertion does not verify either. Other branches and distributor backports require their own authenticated package/advisory evidence.
+
+## Inventory completeness and policy dates
+
+Root/direct npm declarations must match the supported lockfile inventory;
+missing root metadata or direct entries leaves coverage incomplete. This check
+does not authenticate the lockfile or fully resolve npm/workspace semantics.
+Runtime support is evaluated again when reading a snapshot, using its validated
+end-of-support date. A Python policy published only as a month is treated
+conservatively from the start of that month; obtain a more precise current
+vendor disposition before accepting it. A fresh metadata timestamp cannot
+extend a branch's support lifetime.
+
+## Analyst-tool inventory
+
+Inventory tools used on analyst workstations and disposable review images separately from application runtimes. Record the tool version, official asset identity and actual selected runtime, including bundled Java copies. The [analyst-tooling guide](ANALYST-TOOLING-SECURITY.md) uses JADX 1.5.7 as a dated minimum example; review newer official releases and vendor advisories before adoption. The version checker does not discover JADX or authenticate an installed tool.

@@ -291,3 +291,23 @@ An alert or indicator match is an investigation lead, not proof of compromise or
 | Review client-exposed build variables and environment files. | Existing credential/source-protection and least-privilege relationships above | [Client secret guide](docs/CLIENT-SECRET-EXPOSURE.md): pattern/placeholder tests and production-staging integration. Reports omit values; no data-flow analysis or universal secret clearance is claimed. |
 
 No new ATT&CK, D3FEND or ATLAS technique ID is added from the unverified update note. This preparation deliberately did not browse external projects or framework catalogs; confirm current official identifiers and the exact supported relationship before publishing any new numerical mapping. Existing mappings retain their original scope. Synthetic classifications, private baselines and authenticated sensor coverage remain adoption responsibilities.
+
+## Analyst tooling and assignment review in v1.9.2
+
+The [analyst-tooling guide](docs/ANALYST-TOOLING-SECURITY.md) addresses operators already using JADX on untrusted packages. The reviewed minimum is 1.5.7, with a separate check of the Java runtime actually selected by each bundled/system package. No JADX binary, sample, collector or vulnerability trigger is included.
+
+| Measure | Primary reference | Evidence boundary |
+| --- | --- | --- |
+| Inventory and patch analysis tools and their bundled/system runtimes. | [JADX 1.5.7 release](https://github.com/skylot/jadx/releases/tag/v1.5.7), [runtime advisory](https://github.com/skylot/jadx/security/advisories/GHSA-mpx4-q2vm-vgfq); [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) CM-8, SI-2 | Official-source and documentation review only; no installed tool inventory or runtime patch deployment is tested. |
+| Separate sample output, plugins/configuration, credentials and exported builds. | [XAPK advisory](https://github.com/skylot/jadx/security/advisories/GHSA-gpvc-ccw7-744v), [Gradle-export advisory](https://github.com/skylot/jadx/security/advisories/GHSA-w6f5-h4x4-rfpj), [Summary-panel advisory](https://github.com/skylot/jadx/security/advisories/GHSA-jwv3-q635-w9m4); NIST AC-6, SC-7, SI-7, SI-4 | Operator isolation/integrity/monitoring procedure; no sandbox escape resistance, live collector or detection-effectiveness claim. |
+| Keep environment assignment boundaries and secret-review findings accurate. | Existing credential/source-protection relationships above; [client-secret guide](docs/CLIENT-SECRET-EXPOSURE.md) | Synthetic empty-value/next-assignment regressions and production checks; literal heuristics do not establish universal absence of secrets. |
+
+These selected control relationships are not certification or a claim that parsing untrusted packages is safe after a single upgrade.
+
+Feedback-driven validation also exercises sticky elevated risk and trusted clock
+watermarks on duplicate/conflicting distributed admissions, while preserving
+one-operation ledger semantics (existing AC-3, SC-5 and SC-23 relationships).
+Version evidence checks root/direct lockfile coverage and runtime policy dates
+at assessment time (CM-8 and SI-2). These are bounded synthetic/isolated checks;
+complete dependency resolution, deployed failover and vulnerability clearance
+remain outside their guarantees.

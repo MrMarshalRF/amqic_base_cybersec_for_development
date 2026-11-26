@@ -1011,7 +1011,7 @@
       "references": [
         "Existing credential/source protection relationships in SECURITY.md"
       ],
-      "limits": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
+      "limits": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification. Environment examples preserve LF/CRLF/CR line boundaries and subsequent public-secret detection; general JavaScript/JSON assignment review retains multiline support.",
       "lab_scenarios": [
         "client-secret-exposure-review"
       ]

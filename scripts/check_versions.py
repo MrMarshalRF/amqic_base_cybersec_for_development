@@ -89,6 +89,24 @@ def runtime_node(project):
     return None
 
 
+def direct_lock_coverage(packages, manifest=None):
+    """Check root/direct declarations only, not complete npm lock semantics."""
+    root = packages.get("")
+    if not isinstance(root, dict) or manifest is not None and not isinstance(manifest, dict):
+        return False
+    names = set()
+    for field in ("dependencies", "devDependencies", "optionalDependencies", "peerDependencies"):
+        declared = root.get(field, {})
+        if not isinstance(declared, dict) or len(declared) > MAX_RECORDS:
+            return False
+        if manifest is not None and declared != manifest.get(field, {}):
+            return False
+        if any(not isinstance(name, str) or not NPM_NAME.fullmatch(name) or not isinstance(spec, str) or not spec for name, spec in declared.items()):
+            return False
+        names.update(declared)
+    return all(isinstance(packages.get("node_modules/" + name), dict) for name in names)
+
+
 def inventory(project, node_override=None, scope="project"):
     project = project.resolve(strict=True)
     records = [item("node", "node", node_override or runtime_node(project), "fixed-node-version-probe"),
@@ -106,6 +124,12 @@ def inventory(project, node_override=None, scope="project"):
         else:
             if len(document["packages"]) > MAX_RECORDS:
                 raise ValueError("inventory record limit")
+            manifest_path = project / "package.json"
+            manifest_present = manifest_path.exists()
+            manifest = read_json(manifest_path) if manifest_present else None
+            if manifest_present and not isinstance(manifest, dict) or not direct_lock_coverage(document["packages"], manifest):
+                gaps.append("node-lock-direct-coverage-incomplete")
+            coverage.append("npm coverage checks root/direct declarations and listed packages, not complete lockfile semantics or installed dependencies.")
             for index, (path, entry) in enumerate(document["packages"].items()):
                 if path == "":
                     continue
@@ -344,6 +368,18 @@ def validated_inventory(document):
     return result
 
 
+def runtime_eol(value, ecosystem):
+    if not isinstance(value, str):
+        raise ValueError("missing runtime policy date")
+    if re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value):
+        return date.fromisoformat(value), "day", "exact-date"
+    if ecosystem == "python" and re.fullmatch(r"[0-9]{4}-[0-9]{2}", value):
+        # The source omits the day: hold throughout that month rather than
+        # asserting support until an invented final day.
+        return date.fromisoformat(value + "-01"), "month", "hold-from-month-start"
+    raise ValueError("invalid runtime policy date")
+
+
 def assess(records, snapshot, max_age_hours, mode):
     available = {}
     if not isinstance(snapshot.get("records"), list) or len(snapshot["records"]) > MAX_RECORDS:
@@ -372,8 +408,11 @@ def assess(records, snapshot, max_age_hours, mode):
                     raise ValueError("stale or invalid provenance")
             if evidence.get("support") not in {"current", "lts", "maintenance", "bugfix", "security", "end-of-life", "feature", "prerelease", "not-published-by-registry"}:
                 raise ValueError("unknown support metadata")
-            if evidence.get("eol") is not None and not re.fullmatch(r"[0-9]{4}-[0-9]{2}(?:-[0-9]{2})?", evidence["eol"]):
-                raise ValueError("invalid policy date")
+            eol_cutoff = None
+            if record["ecosystem"] in {"node", "python"}:
+                eol_cutoff, eol_precision, eol_policy = runtime_eol(evidence.get("eol"), record["ecosystem"])
+            elif evidence.get("eol") is not None:
+                runtime_eol(evidence["eol"], "node")
             if evidence.get("withdrawn") not in (True, False, None) or evidence.get("deprecated") not in (True, False, None):
                 raise ValueError("invalid package status")
             advisories = evidence.get("advisories", [])
@@ -385,9 +424,13 @@ def assess(records, snapshot, max_age_hours, mode):
             if not version(comparison):
                 raise ValueError("unknown runtime line")
             row.update({key: evidence.get(key) for key in ("latest", "latest_in_line", "support", "eol", "withdrawn", "deprecated", "advisory_status", "advisories", "sources")})
+            if eol_cutoff is not None:
+                row.update(eol_precision=eol_precision, eol_policy=eol_policy)
+                if now.date() >= eol_cutoff and eol_precision == "day":
+                    row["support"] = "end-of-life"
             row["comparison_basis"] = "runtime-line" if record["ecosystem"] in {"node", "python"} else "registry-stable-release"
             row["currency"] = "newer-release" if version(record["observed"]) < version(comparison) else "current" if version(record["observed"]) == version(comparison) else "unknown"
-            if evidence.get("support") in {"end-of-life", "feature", "prerelease"} or evidence.get("withdrawn") or evidence.get("deprecated") or evidence.get("advisory_status") == "reported":
+            if row.get("support") in {"end-of-life", "feature", "prerelease"} or eol_cutoff is not None and now.date() >= eol_cutoff or evidence.get("withdrawn") or evidence.get("deprecated") or evidence.get("advisory_status") == "reported":
                 row["currency"] = "blocked-or-policy-review"
         except (ValueError, KeyError, TypeError):
             row["reason"] = "unresolved-or-stale-metadata"
@@ -453,7 +496,7 @@ def main():
     if incomplete:
         result["currency_ready"] = False
         result["coverage_status"] = "incomplete-project-dependency-inventory"
-    known_gaps = {"flat-requirements-transitive-coverage-unknown", "node-lock-missing", "unsupported-manifest-present", "no-supported-dependency-inventory", "root-manifest-scan-bound"}
+    known_gaps = {"flat-requirements-transitive-coverage-unknown", "node-lock-missing", "node-lock-direct-coverage-incomplete", "unsupported-manifest-present", "no-supported-dependency-inventory", "root-manifest-scan-bound"}
     result["coverage_gaps"] = [gap for gap in inventory_document.get("coverage_gaps", []) if isinstance(gap, str) and gap in known_gaps]
     write_json(args.output, result)
     return 0 if result["currency_ready"] else 2

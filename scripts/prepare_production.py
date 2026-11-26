@@ -48,7 +48,7 @@ RULES = {
     "credential-literal": re.compile(rf"(?:{ASSIGNMENT_LITERAL})|(?:{KEY_LITERAL})", re.IGNORECASE | re.MULTILINE),
     "provider-token": re.compile(r"\b(?:AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b"),
     "bearer-literal": re.compile(r"(?i)\bBearer [A-Za-z0-9._~+/=-]{12,}"),
-    "unquoted-credential-config": re.compile(r"(?im)^\s*(?:password|passwd|secret|token|api[_-]?key|private[_-]?key)\s*[:=]\s*(?![\s#;]|$)[^\r\n]+"),
+    "unquoted-credential-config": re.compile(r"(?i)(?:^|(?<=[\r\n]))[ \t]*(?:password|passwd|secret|token|api[_-]?key|private[_-]?key)[ \t]*[:=][ \t]*(?![\s#;]|$)[^\r\n]+"),
     "uri-password": re.compile(r"(?i)\b[a-z][a-z0-9+.-]*://[^\s/:@]+:[^\s/@]+@"),
 }
 
