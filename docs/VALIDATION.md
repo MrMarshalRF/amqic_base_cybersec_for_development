@@ -139,3 +139,16 @@ The fixed baseline includes offline behavior, agent configuration and client sec
 ## v1.9.1 database advisory documentation
 
 This patch adds [CVE-2026-6460 upgrade guidance](DATABASE-ENGINE-PATCHING.md#postgresql-cve-2026-6460-upgrade-conditions) alongside CVE-2026-116331. The retained PostgreSQL 17.12 image/version floor matches the vendor's fixed 17 branch, but these fixtures do not verify C-extension rebuild provenance or effective `composite_type_mismatch=error`. Both remain explicit target checks. No engine code, image digest, database fixture, detection profile or SIEM schema changes, vulnerability trigger or fresh database runtime execution are supplied by this documentation patch. Earlier runtime evidence remains bound to its original source snapshot.
+
+## v1.9.2 analyst tooling and line-boundary checks
+
+The [analyst-tooling guide](ANALYST-TOOLING-SECURITY.md) is source-reviewed operational guidance. Membership, local links and registry integrity are checked; no JADX install, execution, sample analysis or host collector is supplied. The client-secret and production regression suites distinguish empty line-oriented values from subsequent assignments for LF, CRLF and CR, with spaces/tabs, comments, actual subsequent secret literals and retained multiline JavaScript/JSON detection. These fixtures validate their stated patterns, not full language parsing or credential clearance.
+
+The isolated distributed-admission exercise also checks elevated duplicate and
+conflicting retries against actual PostgreSQL and Redis: no extra grant or
+ledger entry, a persisted risk latch and clock watermark, a reduced subsequent
+cap, and nonmutating invalid requests. Its fixed report records source identity
+and owned-resource cleanup. Version fixtures check incomplete root/direct npm
+inventory and runtime support at assessment time, including policy-date
+precision. These checks do not establish production failover, cloud integration
+or exhaustive vulnerability clearance.

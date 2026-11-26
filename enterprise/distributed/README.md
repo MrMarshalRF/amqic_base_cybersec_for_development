@@ -61,6 +61,13 @@ PostgreSQL serializes each tenant via a row lock and samples `clock_timestamp()`
 
 The per-tenant budget is bounded to 1,000 accepted operations per window. Elevated risk is sticky within the active window. If the cap falls below usage, subsequent requests are refused. Accepted operations record their bindings for that window. An exact retry returns `duplicate`, a changed binding under the same ID returns `conflict`, and both deny a fresh grant. Prior-window replays fail the window comparison. Rate-limit denials are not persisted per operation because reaching the cap leaves it exhausted until the window ends. A `duplicate` proves an admission reservation exists in the current store, but any business action requires its own durable result reconciliation.
 
+Valid same-window duplicate and conflicting retries still persist the trusted
+clock watermark and latch an elevated risk observation. They do not consume
+another slot or change the original binding. Later normal-risk requests remain
+subject to the reduced cap for that window. Invalid requests, policy mismatches
+and stale windows cannot mutate this state. The isolated integration exercise
+checks these sequences against both stores.
+
 ## Recovery and failover
 
 A timeout or ambiguous response returns `unknown` and yields no grant. Persist and reconcile the original intent. Never switch stores or renew its identifiers or window just to force another allowance. Keep admission separate from durable business fulfillment unless the two are atomically joined within the same authorized storage transaction.

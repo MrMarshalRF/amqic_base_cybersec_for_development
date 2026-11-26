@@ -202,6 +202,15 @@
       "scope": "Source-reviewed guidance or AI workflow; integrity and membership only, no runtime feature or deployment claim."
     },
     {
+      "path": "docs/ANALYST-TOOLING-SECURITY.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed analyst-tool inventory and isolation guidance; no decompiler, installed runtime, detector or sandbox execution."
+    },
+    {
       "path": "docs/APPLICATION-BOUNDARIES.md",
       "category": "source-reviewed-documentation",
       "checks": [

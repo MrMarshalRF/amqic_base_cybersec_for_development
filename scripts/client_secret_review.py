@@ -19,6 +19,9 @@ ASSIGNMENTS = re.compile(
     r'''(?<![\w])(?P<quote>["']?)(?P<name>[A-Za-z_][A-Za-z0-9_]*)'''
     r'''(?P=quote)\s*(?:=|:)\s*(?:"(?P<double>[^"\r\n]*)"|'(?P<single>[^'\r\n]*)'|(?P<bare>[^\s,;}#\r\n]+))'''
 )
+# Environment assignments are line-oriented. Unlike JavaScript/JSON, a newline
+# after an empty value must not consume the next variable or hide its finding.
+ENV_ASSIGNMENTS = re.compile(ASSIGNMENTS.pattern.replace(r"\s*", r"[ \t]*"))
 SECRET_NAME = re.compile(r"(?:^|_)(?:PASSWORD|PASSWD|SECRET|TOKEN|API_?KEY|PRIVATE_?KEY|ACCESS_?KEY|AUTH_?KEY)(?:_|$)", re.I)
 PLACEHOLDER = re.compile(r"(?:|<[^<>]+>|\$\{[^{}]+\}|(?:YOUR|REPLACE|CHANGE|INSERT|EXAMPLE|PLACEHOLDER)(?:[_ -].*)?|CHANGEME|REDACTED|NONE|NULL|UNSET|TODO|X{3,})", re.I)
 REFERENCE = re.compile(r"(?:process\.env\.|import\.meta\.env\.|\$[A-Za-z_{]|os\.environ|env\[)")
@@ -41,13 +44,13 @@ def secret_like(name, value):
                 and not REFERENCE.match(value))
 
 
-def public_secret_rules(text):
+def public_secret_rules(text, *, line_oriented=False):
     """Return rule IDs only; callers retain ownership of text and paths."""
     return ["client-public-secret-literal"] if any(
         re.fullmatch(PUBLIC_NAME, match["name"], re.I)
         and secret_like(match["name"], next(value for value in
             (match["double"], match["single"], match["bare"]) if value is not None))
-        for match in ASSIGNMENTS.finditer(text)) else []
+        for match in (ENV_ASSIGNMENTS if line_oriented else ASSIGNMENTS).finditer(text)) else []
 
 
 def checked_snapshot(document):
@@ -83,16 +86,16 @@ def review(document, expected_input_etag=None):
         findings.append({"path": path, "rule": rule, "severity": severity})
     for item in files:
         path, text = item["path"], item["text"]
-        for rule in public_secret_rules(text):
-            add(path, rule, "high")
         name = path.rsplit("/", 1)[-1].lower()
         example = bool(re.fullmatch(r"\.env(?:\.[a-z0-9_-]+)*\.(?:example|sample|template)|(?:example|sample)\.env", name))
         environment = name == ".env" or name.startswith(".env.") or example
+        for rule in public_secret_rules(text, line_oriented=environment):
+            add(path, rule, "high")
         if environment and item["committed"] and not example:
             add(path, "committed-environment-file", "high")
         if example and any(secret_like(match["name"], next(value for value in
                 (match["double"], match["single"], match["bare"]) if value is not None))
-                for match in ASSIGNMENTS.finditer(text)):
+                for match in ENV_ASSIGNMENTS.finditer(text)):
             add(path, "example-environment-nonplaceholder", "high")
         if path == ".gitignore":
             # Deliberately conservative: only these two unconditional root rules

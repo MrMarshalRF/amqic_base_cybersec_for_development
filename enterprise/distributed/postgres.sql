@@ -64,18 +64,18 @@ BEGIN
         s.elevated := false;
     END IF;
     prior_binding := s.operations ->> p_operation;
-    IF prior_binding IS NOT NULL THEN
-        RETURN CASE WHEN prior_binding = p_binding THEN 'duplicate' ELSE 'conflict' END;
-    END IF;
-
     s.elevated := s.elevated OR p_risk = 'elevated';
-    cap := CASE WHEN s.elevated THEN s.elevated_cap ELSE s.normal_cap END;
-    IF s.used < cap THEN
-        s.used := s.used + 1;
-        s.operations := s.operations || jsonb_build_object(p_operation, p_binding);
-        decision := 'granted';
+    IF prior_binding IS NOT NULL THEN
+        decision := CASE WHEN prior_binding = p_binding THEN 'duplicate' ELSE 'conflict' END;
     ELSE
-        decision := 'rate_limited';
+        cap := CASE WHEN s.elevated THEN s.elevated_cap ELSE s.normal_cap END;
+        IF s.used < cap THEN
+            s.used := s.used + 1;
+            s.operations := s.operations || jsonb_build_object(p_operation, p_binding);
+            decision := 'granted';
+        ELSE
+            decision := 'rate_limited';
+        END IF;
     END IF;
     UPDATE amqic_quota.tenant_state SET last_ms = now_ms, window_id = current_window,
         elevated = s.elevated, used = s.used, operations = s.operations

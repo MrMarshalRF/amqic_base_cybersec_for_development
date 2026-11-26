@@ -199,6 +199,19 @@ class ProductionTests(unittest.TestCase):
                 self.prepare()
             self.assertNotIn("synthetic-value", str(failure.exception.finding))
 
+    def test_unquoted_config_empty_values_do_not_consume_next_line(self):
+        pattern = production.RULES["unquoted-credential-config"]
+        for newline in ("\n", "\r\n", "\r"):
+            for spacing in ("", " ", "\t"):
+                for delimiter in ("=", ":"):
+                    text = f"password{spacing}{delimiter}{spacing}{newline}SAFE_LABEL=ordinary-value"
+                    self.assertIsNone(pattern.search(text), repr(text))
+                    real = f"password{spacing}{delimiter}{spacing}SYNTHETIC_ONLY"
+                    self.assertIsNotNone(pattern.search(real), repr(real))
+                    self.assertIsNotNone(pattern.search(f"SAFE_LABEL=ordinary-value{newline}{real}"))
+        for text in ("const password =\n 'SYNTHETIC_ONLY';", '{"password":\n "SYNTHETIC_ONLY"}'):
+            self.assertIsNotNone(production.RULES["credential-literal"].search(text))
+
     def test_ternary_and_credential_literal_contexts(self):
         path = self.source / "app" / "main.mjs"
         path.write_text("const input = valid ? password : 'invalid-password-input';\n", encoding="utf-8")

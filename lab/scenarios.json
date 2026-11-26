@@ -1386,8 +1386,8 @@
         "Node.js 22 or later",
         "Python 3.12 or later"
       ],
-      "operational_scope": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
-      "external_manual_integration": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification.",
+      "operational_scope": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification. Environment examples preserve LF/CRLF/CR line boundaries and subsequent public-secret detection; general JavaScript/JSON assignment review retains multiline support.",
+      "external_manual_integration": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification. Environment examples preserve LF/CRLF/CR line boundaries and subsequent public-secret detection; general JavaScript/JSON assignment review retains multiline support.",
       "required": true
     }
   ],

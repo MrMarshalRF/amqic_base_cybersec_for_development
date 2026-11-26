@@ -2,6 +2,11 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.9.2
+
+- Add analyst-tooling guidance using JADX as an optional worked example: reviewed 1.5.7 floor, bundled/system Java inventory, isolated input/output, plugin review and untrusted Gradle exports. No decompiler, sample or detector is shipped.
+- Optimize the toolkit based on received feedback and expand regression validation.
+
 ## v1.9.1
 
 - Document PostgreSQL CVE-2026-6460 separately from CVE-2026-116331, including authenticated object-creator exposure and vendor-fixed branches.

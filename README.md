@@ -44,6 +44,10 @@ The [database-engine guide](docs/DATABASE-ENGINE-PATCHING.md) separates vendor p
 
 Host-level adoption guidance covers [SSH trust-file integrity](docs/SSH-KEY-INTEGRITY.md), [host/container egress](docs/HOST-EGRESS-MONITORING.md), [indicator expiry](docs/INDICATOR-HANDLING.md) and [federated identity review](docs/IDENTITY-MONITORING.md). Source-reviewed [Node/PostgreSQL child-shell profiles](enterprise/runtime/README.md#runtime-signals) and [additive SIEM records](enterprise/operations/README.md) provide starting contracts; deployed monitoring and detection effectiveness require target verification.
 
+## Analyst tooling and untrusted packages
+
+The [analyst-tooling guide](docs/ANALYST-TOOLING-SECURITY.md) covers JADX version/runtime inventory, isolated APK/XAPK/JAR review, plugin integrity and untrusted Gradle exports. It is operational guidance for teams already using those tools; the kit does not install or execute JADX. Patch both the tool and the Java runtime actually selected by each package.
+
 ## Nginx protocol-parser security
 
 The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.

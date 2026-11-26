@@ -69,6 +69,95 @@ class VersionTests(unittest.TestCase):
         self.assertEqual(result["records"][0]["latest"], "24.0.0")
         self.assertEqual(result["records"][0]["advisory_status"], "not_assessed")
 
+    def test_root_and_direct_lock_coverage(self):
+        dependencies = {"example": "1.0.0", "other-example": "2.0.0"}
+        (self.root / "package.json").write_text(json.dumps({"dependencies": dependencies}))
+        entries = {"node_modules/" + name: {"version": value, "resolved": "https://registry.npmjs.org/" + name + "/-/fixture.tgz"} for name, value in dependencies.items()}
+        cases = [({}, False), ({"": {}}, False),
+                 ({"": {"dependencies": dependencies}, "node_modules/example": entries["node_modules/example"]}, False),
+                 ({"": {"dependencies": {"example": "0.9.0"}}, **entries}, False),
+                 ({"": {"dependencies": dependencies}, **entries}, True)]
+        for lock_version in (2, 3):
+            for packages, complete in cases:
+                with self.subTest(lock_version=lock_version, packages=packages):
+                    (self.root / "package-lock.json").write_text(json.dumps({"lockfileVersion": lock_version, "packages": packages}))
+                    result = versions.inventory(self.root, node_override="22.1.0")
+                    self.assertEqual(result["coverage_complete"], complete)
+                    self.assertEqual("node-lock-direct-coverage-incomplete" in result["coverage_gaps"], not complete)
+                    self.assertNotIn("other-example", json.dumps(result["coverage_gaps"]))
+        # An actual dependency-free project is a valid neighbor.
+        (self.root / "package.json").write_text("{}")
+        (self.root / "package-lock.json").write_text('{"lockfileVersion":3,"packages":{"":{}}}')
+        self.assertTrue(versions.inventory(self.root, node_override="22.1.0")["coverage_complete"])
+        (self.root / "package.json").write_text("null")
+        self.assertFalse(versions.inventory(self.root, node_override="22.1.0")["coverage_complete"])
+
+    def test_direct_lock_dependency_groups_and_absent_manifest(self):
+        package = {"version": "1.0.0", "resolved": "https://registry.npmjs.org/example/-/fixture.tgz"}
+        for group in ("dependencies", "devDependencies", "optionalDependencies", "peerDependencies"):
+            root = {group: {"example": "^1.0.0"}}
+            self.assertFalse(versions.direct_lock_coverage({"": root}, root))
+            self.assertTrue(versions.direct_lock_coverage({"": root, "node_modules/example": package}, root))
+            self.assertFalse(versions.direct_lock_coverage({"": root, "node_modules/example": None}, root))
+        self.assertFalse(versions.direct_lock_coverage({}))
+        self.assertTrue(versions.direct_lock_coverage({"": {}}))
+
+    def test_direct_lock_gap_propagates_through_cli(self):
+        (self.root / "package.json").write_text('{"dependencies":{"example":"1.0.0"}}')
+        (self.root / "package-lock.json").write_text('{"lockfileVersion":3,"packages":{"":{}}}')
+        with patch.object(versions, "runtime_node", return_value="22.2.0"):
+            inventory = versions.inventory(self.root)
+        source, snapshot = self.root / "inventory.json", self.root / "snapshot.json"
+        source.write_text(json.dumps(inventory))
+        evidence = []
+        for record in inventory["records"]:
+            row = {"ecosystem": record["ecosystem"], "name": record["name"], "observed": record["observed"], "latest": record["observed"], "latest_in_line": record["observed"], "support": "maintenance", "eol": "2099-01-01", "advisory_status": "not_assessed", "advisories": [], "sources": [{"url": url, "retrieved_at": versions.timestamp(), "sha256": "a" * 64} for url in versions.expected_urls(record)]}
+            evidence.append(row)
+        self.assertTrue(versions.assess(inventory["records"], {"records": evidence}, 24, "offline")["currency_ready"])
+        snapshot.write_text(json.dumps({"format": 1, "records": evidence}))
+        output = io.StringIO()
+        with patch.object(sys, "argv", ["check_versions.py", "check", "--inventory", str(source), "--snapshot", str(snapshot)]), contextlib.redirect_stdout(output):
+            self.assertEqual(versions.main(), 2)
+        result = json.loads(output.getvalue())
+        self.assertFalse(result["currency_ready"])
+        self.assertFalse(result["coverage_complete"])
+        self.assertEqual(result["coverage_gaps"], ["node-lock-direct-coverage-incomplete"])
+
+    def test_assessment_rechecks_eol_after_fresh_snapshot(self):
+        record = versions.item("node", "node", "22.2.0", "fixture")
+        evidence = versions.collect(record, node_fixture())
+        today = datetime.now(timezone.utc).date()
+        for offset, ready in ((-1, False), (0, False), (1, True)):
+            with self.subTest(offset=offset):
+                evidence["eol"] = (today + timedelta(days=offset)).isoformat()
+                evidence["support"] = "maintenance"
+                result = versions.assess([record], {"records": [evidence]}, 24, "offline")
+                self.assertEqual(result["currency_ready"], ready)
+                self.assertEqual(result["records"][0]["eol_precision"], "day")
+                if not ready:
+                    self.assertEqual(result["records"][0]["support"], "end-of-life")
+
+    def test_runtime_eol_calendar_and_python_month_precision(self):
+        for ecosystem, observed in (("node", "22.2.0"), ("python", "3.13.1")):
+            record = versions.item(ecosystem, ecosystem, observed, "fixture")
+            evidence = versions.collect(versions.item("node", "node", "22.2.0", "fixture"), node_fixture())
+            evidence.update(ecosystem=ecosystem, name=ecosystem, observed=observed, latest=observed, latest_in_line=observed, support="security", sources=[{"url": url, "retrieved_at": versions.timestamp(), "sha256": "a" * 64} for url in versions.expected_urls(record)])
+            for invalid in ("2099-02-29", "2099-13-01", "0000-01-01", "2099-01-00", "2099-01-01\n", None):
+                evidence["eol"] = invalid
+                result = versions.assess([record], {"records": [evidence]}, 24, "offline")
+                self.assertFalse(result["currency_ready"])
+                self.assertEqual(result["records"][0]["currency"], "unknown")
+            evidence["eol"] = "2096-02-29"
+            self.assertTrue(versions.assess([record], {"records": [evidence]}, 24, "offline")["currency_ready"])
+            today = datetime.now(timezone.utc).date()
+            for month, ready in ((today.strftime("%Y-%m"), False), ("2099-12", True), ("2099-13", False)):
+                evidence["eol"] = month
+                result = versions.assess([record], {"records": [evidence]}, 24, "offline")
+                self.assertEqual(result["currency_ready"], ready if ecosystem == "python" else False)
+                if ecosystem == "python" and month != "2099-13":
+                    self.assertEqual(result["records"][0]["eol_precision"], "month")
+                    self.assertEqual(result["records"][0]["eol_policy"], "hold-from-month-start")
+
     def test_older_runtime_patch(self):
         record = versions.item("node", "node", "22.1.0", "fixture")
         result = versions.assess([record], {"records": [versions.collect(record, node_fixture())]}, 24, "offline")
