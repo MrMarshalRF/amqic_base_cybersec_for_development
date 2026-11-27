@@ -2142,6 +2142,24 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/EXTERNAL-RECON-DEGRADATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Primary-source and semantic review, manual acceptance cases and relative-link/integrity checks. Operational effectiveness and actual target enforcement remain separately verified."
+    },
+    {
+      "path": "docs/LLM-JAILBREAK-RESILIENCE.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Primary-source and semantic review, manual acceptance cases and relative-link/integrity checks. Operational effectiveness and actual target enforcement remain separately verified."
     }
   ]
 }

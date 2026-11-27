@@ -187,3 +187,11 @@ state/report pins and engine-category counts before editing. Only unchanged
 bytes can retain those observations; later modified files await matching fresh
 results. Errors, timeouts and unsupported types remain non-results. The final
 registry is generated only after accepted content and reports are complete.
+
+## v1.9.4 exposure and agent-resilience guidance
+
+[External reconnaissance guidance](EXTERNAL-RECON-DEGRADATION.md) and [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) are registered as source-reviewed procedures. Their manual case tables distinguish ordinary, refused and unknown expectations. Primary-reference, source-contract, local-link and inventory checks validate the documentation; case tables are not newly executed scanner or model-evaluation tests.
+
+The additions cover owned public inventory, CT/DNS lifecycle, deployed patch evidence, origin restrictions, authorized scanner/controller custody, independent tool/output authority and restricted incident records. Public banner reduction is not patch evidence. Local model hosting is not automatic egress/privacy isolation. Current OWASP 2026 mappings are edition-qualified; earlier dated 2025 mappings retain their own context.
+
+Existing executable detector families, normalized configuration rules, audit/SIEM schemas, lab images and runtime contracts are unchanged. They keep their prior evidence and deployment limits. No offensive tool, raw corpus, prompt payload, public scan, cloud-account action or production policy change is executed by this documentation update. Target reachability, false positives, effective permissions, failover, model behavior and recovery require separately authorized evidence. The public file matrix and claim/scenario catalogs identify the static checks without manufacturing a runtime pass.

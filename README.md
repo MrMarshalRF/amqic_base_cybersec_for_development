@@ -196,6 +196,10 @@ The [Cloudflare edge guide](docs/CLOUDFLARE-EDGE.md) explains network/applicatio
 
 Use the [VPN guide](docs/VPN-TUNNELS.md) for WireGuard with WireSock on Windows or Tailscale, including subnet-router access. Keep SSH and private administrative endpoints restricted by tunnel policy, host firewall and application authorization. A tunnel does not automatically configure Nginx, anonymize an origin, or close public listeners.
 
+#### External discovery and fingerprint exposure
+
+The [external-reconnaissance guide](docs/EXTERNAL-RECON-DEGRADATION.md) connects public asset, certificate and DNS inventory with origin restrictions and deployed patch evidence. It covers distributed observations, legitimate crawlers, owned inventory workers, outbound tunnels and bounded inert deception. Reducing optional public version details does not remove an exposure; effective access, patch, monitoring and recovery checks remain operator work.
+
 ### Host, container and dependency isolation
 
 Use [initial deployment](docs/INITIAL-DEPLOYMENT.md) for administrative
@@ -213,6 +217,10 @@ Host-level adoption guidance covers [SSH trust-file integrity](docs/SSH-KEY-INTE
 #### AI agent runtime protection
 
 The [agent runtime guide](docs/AI-AGENT-RUNTIME.md) explains how to separate an agent from secrets and privileged actions, constrain tools and network access, review policy changes and stop a run externally. The [tested reference guard](enterprise/agent-runtime/README.md) covers exact tool/argument approvals, per-generation revocation, local admission and conservative egress planning. Operating-system isolation and actual egress enforcement require deployment-specific checks.
+
+#### Jailbreak and untrusted-content resilience
+
+The [LLM resilience guide](docs/LLM-JAILBREAK-RESILIENCE.md) separates persona claims and retrieved instructions from trusted tool authority. It covers scoped dispatch, output handling, credentials, tenant boundaries, minimal incident records and harmless offline acceptance cases. Ordinary authorized work must remain usable; missing evidence stays unresolved. The guide does not install a semantic detector or an OS sandbox.
 
 #### Agent runtime integrity
 

@@ -149,3 +149,7 @@ authorization and independent tool boundaries as the root protections. A decoy,
 slower response, generic denial or blocked callback cannot repair an injection
 or authorization defect. Request- and cost-pressure limits complement those
 controls; parser and anti-automation examples do not certify a production app.
+
+## Public diagnostics and model-facing data
+
+Review optional headers, build/debug details and source maps through [external reconnaissance guidance](EXTERNAL-RECON-DEGRADATION.md). Preserve required notices, protocol semantics, monitoring and healthy/unhealthy responses. Treat inbound text and any model-produced response in its actual output context; [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) requires independent action and disclosure checks rather than assuming text filtering establishes authority.

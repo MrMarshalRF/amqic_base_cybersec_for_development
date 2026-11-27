@@ -164,3 +164,7 @@ starting point. Keep real authorization, meaningful statuses, cache validators,
 CSP, cookie/token rules and idempotency stable. Any response variation belongs
 only on isolated inert decoys after review; no prompt-based retaliation or
 off-estate action is supplied.
+
+## External reconnaissance and fleet context
+
+Use [external reconnaissance guidance](EXTERNAL-RECON-DEGRADATION.md) to connect low-rate distributed breadth with an authorized-scanner inventory, actual edge/origin dispositions and coverage gaps. IP, ASN, client fingerprints and canary contact are leads; approved crawlers and shared networks need near-match handling. This procedure does not add an identity resolver, new detector family or automatic shared-network ban.

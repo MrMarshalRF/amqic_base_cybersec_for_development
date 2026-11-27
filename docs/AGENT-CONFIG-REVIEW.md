@@ -81,3 +81,7 @@ pin/provenance and exact approval scope privately. See the
 [countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md) for endpoint context and
 response limits. This remains manual coverage: the ten-rule reference does not
 discover harness directories or implement new capability classifications.
+
+## Persona and retrieval trust outside static patterns
+
+[LLM resilience](LLM-JAILBREAK-RESILIENCE.md) covers independent host authorization, output handling, minimal evidence and harmless offline cases. Instruction-shaped strings can occur in legitimate code, incident text or quoted material; the current ten-rule normalized-profile review is not a semantic jailbreak detector. The reviewed snapshot, role claims or exceptions cannot grant themselves runtime authority. Review [external inventory tooling](EXTERNAL-RECON-DEGRADATION.md#govern-your-own-inventory-tooling) before granting scanner/controller, MCP or model-analysis access.

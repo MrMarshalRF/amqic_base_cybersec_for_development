@@ -147,3 +147,7 @@ not a tool recommendation or proof that this kit reproduced, prevents or is
 affected by that issue. No advisory control strings, procedures or third-party
 implementation are copied. Hosted and self-hosted endpoints each require their
 actual boundary to be evaluated.
+
+## Independent resilience acceptance
+
+Use [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) to review identity, delegated scope, exact dispatch and output boundaries with ordinary, disallowed and unknown offline cases. Prompt delimiters, a persona claim or a tool result do not supply approval; standing low-risk authority and high-impact step-up retain their independently verified scopes. Shared state across replicas, OS isolation and actual network/credential enforcement remain deployment responsibilities. The [external reconnaissance guide](EXTERNAL-RECON-DEGRADATION.md) covers custody of inventory and captured service data supplied to a model.
