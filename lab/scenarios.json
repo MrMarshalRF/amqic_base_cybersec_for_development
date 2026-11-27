@@ -1389,6 +1389,99 @@
       "operational_scope": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification. Environment examples preserve LF/CRLF/CR line boundaries and subsequent public-secret detection; general JavaScript/JSON assignment review retains multiline support.",
       "external_manual_integration": "Pattern-based explicit snapshot review and production-staging integration with redacted findings and synthetic public-variable/environment fixtures. No secret validity test, whole-Git-history scan, data-flow analysis or clean-bundle certification. Environment examples preserve LF/CRLF/CR line boundaries and subsequent public-secret detection; general JavaScript/JSON assignment review retains multiline support.",
       "required": true
+    },
+    {
+      "id": "directory-identity-review",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AU-2, AU-6, AC-6",
+        "MITRE ATT&CK T1558, T1649, T1003.006, T1484.001"
+      ],
+      "expected_result": "Sources, trust assumptions and manual review examples checked; no executable detector result inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed directory/Kerberos/certificate audit prerequisites and manual review examples. No collector, domain hardening, live logs or detection-effectiveness test.",
+      "external_manual_integration": "Source-reviewed directory/Kerberos/certificate audit prerequisites and manual review examples. No collector, domain hardening, live logs or detection-effectiveness test.",
+      "required": true
+    },
+    {
+      "id": "c2-behavior-review",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 SC-7, SI-4(4), SI-4(13)",
+        "MITRE ATT&CK T1071.001, T1071.004, T1573"
+      ],
+      "expected_result": "Sources, trust assumptions and manual review examples checked; no executable detector result inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed workload-aware callback/channel procedure and manual near matches. No packet parser, deployed sensor, new evaluator family or real-traffic detection test.",
+      "external_manual_integration": "Source-reviewed workload-aware callback/channel procedure and manual near matches. No packet parser, deployed sensor, new evaluator family or real-traffic detection test.",
+      "required": true
+    },
+    {
+      "id": "multistage-agent-boundaries",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "NIST SP 800-53 AU-6(3), AC-3, AC-6",
+        "OWASP LLM01:2025 and LLM06:2025"
+      ],
+      "expected_result": "Sources, trust assumptions and manual review examples checked; no executable detector result inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed correlation, scoped high-risk admission and model-input composition requirements. Existing eight-family/ten-rule/schema contracts unchanged; no new detector, serializer, sanitizer or enforcing gate is implemented.",
+      "external_manual_integration": "Source-reviewed correlation, scoped high-risk admission and model-input composition requirements. Existing eight-family/ten-rule/schema contracts unchanged; no new detector, serializer, sanitizer or enforcing gate is implemented.",
+      "required": true
+    },
+    {
+      "id": "agentic-probing-countermeasures",
+      "category": "source-reviewed",
+      "test_checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "stages": [
+        "baseline"
+      ],
+      "standards": [
+        "OWASP API4:2023, API6:2023 and API7:2023",
+        "OWASP ASVS v5.0.0 2.4.1, 2.4.2, 6.1.1, 6.3.1, 6.6.3, 6.6.4",
+        "MITRE Engage Expose/Affect goals"
+      ],
+      "expected_result": "Primary sources, manual semantics, scope and file integrity reviewed; no new executable enforcement result inferred.",
+      "prerequisites": [
+        "Node.js 22 or later",
+        "Python 3.12 or later"
+      ],
+      "operational_scope": "Source-reviewed operation-level limiter boundaries, bounded selective responses, monitored inert decoys and manual triage examples. No new limiter, normalizer, tarpit, deception service, detector or demonstrated effectiveness; existing executable contracts unchanged.",
+      "external_manual_integration": "Source-reviewed operation-level limiter boundaries, bounded selective responses, monitored inert decoys and manual triage examples. No new limiter, normalizer, tarpit, deception service, detector or demonstrated effectiveness; existing executable contracts unchanged.",
+      "required": true
     }
   ],
   "tool_build": {

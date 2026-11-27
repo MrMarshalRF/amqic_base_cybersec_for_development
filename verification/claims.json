@@ -1015,6 +1015,89 @@
       "lab_scenarios": [
         "client-secret-exposure-review"
       ]
+    },
+    {
+      "id": "directory-identity-review",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/DIRECTORY-IDENTITY-MONITORING.md"
+      ],
+      "references": [
+        "NIST SP 800-53 AU-2, AU-6, AC-6",
+        "MITRE ATT&CK T1558, T1649, T1003.006, T1484.001"
+      ],
+      "limits": "Source-reviewed directory/Kerberos/certificate audit prerequisites and manual review examples. No collector, domain hardening, live logs or detection-effectiveness test.",
+      "lab_scenarios": [
+        "directory-identity-review"
+      ]
+    },
+    {
+      "id": "c2-behavior-review",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/COMMAND-AND-CONTROL-MONITORING.md"
+      ],
+      "references": [
+        "NIST SP 800-53 SC-7, SI-4(4), SI-4(13)",
+        "MITRE ATT&CK T1071.001, T1071.004, T1573"
+      ],
+      "limits": "Source-reviewed workload-aware callback/channel procedure and manual near matches. No packet parser, deployed sensor, new evaluator family or real-traffic detection test.",
+      "lab_scenarios": [
+        "c2-behavior-review"
+      ]
+    },
+    {
+      "id": "multistage-agent-boundaries",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/AGENTIC-ATTACK-DETECTION.md",
+        "docs/AUTOMATED-PROBING-DEFENSE.md",
+        "docs/AGENT-CONFIG-REVIEW.md",
+        "docs/AI-AGENT-RUNTIME.md"
+      ],
+      "references": [
+        "NIST SP 800-53 AU-6(3), AC-3, AC-6",
+        "OWASP LLM01:2025 and LLM06:2025"
+      ],
+      "limits": "Source-reviewed correlation, scoped high-risk admission and model-input composition requirements. Existing eight-family/ten-rule/schema contracts unchanged; no new detector, serializer, sanitizer or enforcing gate is implemented.",
+      "lab_scenarios": [
+        "multistage-agent-boundaries"
+      ]
+    },
+    {
+      "id": "agentic-probing-countermeasures",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/AGENTIC-OFFENSE-DEGRADATION.md",
+        "docs/AUTOMATED-PROBING-DEFENSE.md",
+        "docs/SERVICE-PROTECTION.md",
+        "docs/WEB-INPUT-PROTECTION.md"
+      ],
+      "references": [
+        "OWASP API4:2023, API6:2023 and API7:2023",
+        "OWASP ASVS v5.0.0 2.4.1, 2.4.2, 6.1.1, 6.3.1, 6.6.3, 6.6.4",
+        "MITRE Engage Expose/Affect goals"
+      ],
+      "limits": "Source-reviewed operation-level limiter boundaries, bounded selective responses, monitored inert decoys and manual triage examples. No new limiter, normalizer, tarpit, deception service, detector or demonstrated effectiveness; existing executable contracts unchanged.",
+      "lab_scenarios": [
+        "agentic-probing-countermeasures"
+      ]
     }
   ]
 }

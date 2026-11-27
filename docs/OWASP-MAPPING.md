@@ -85,3 +85,39 @@ The [outbound/return reference](../enterprise/outbound/README.md) relates to CWE
 ## v1.9 behavior and pre-admission review
 
 [Behavior detection](AGENTIC-ATTACK-DETECTION.md), [agent configuration review](AGENT-CONFIG-REVIEW.md) and [client-exposed secrets](CLIENT-SECRET-EXPOSURE.md) complement the existing monitoring, excessive-agency, supply-chain and credential-handling relationships. See [SECURITY.md](../SECURITY.md#behavior-and-static-review-in-v190) for evidence boundaries. No new technique identifier is asserted from an unverified source snapshot; current framework identifiers must be checked before adding a publication mapping.
+
+## v1.9.3 identity, channel and model-input boundaries
+
+[Directory review](DIRECTORY-IDENTITY-MONITORING.md),
+[C2-like channel review](COMMAND-AND-CONTROL-MONITORING.md) and
+[multi-stage correlation](AGENTIC-ATTACK-DETECTION.md#multi-stage-bursts-and-persistence-follow-on)
+are source-reviewed operator procedures. Selected NIST and confirmed ATT&CK
+relationships are dated and bounded in [SECURITY.md](../SECURITY.md#directory-c2-and-agent-boundaries-in-v193).
+Neither timing nor encrypted transport by itself establishes a technique.
+
+[OWASP LLM01:2025](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)
+supports treating tool/browser/crawl output as untrusted data with layered,
+backend-aware message handling and an independent action boundary.
+[LLM06:2025](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
+supports least capability/privilege and separate downstream authorization for
+high-impact tools. The [manual capability gate](AGENT-CONFIG-REVIEW.md#manual-admission-for-high-risk-capabilities)
+and [runtime procedure](AI-AGENT-RUNTIME.md#untrusted-tool-output-and-role-boundaries)
+describe those adoption requirements. No new executable gate, sanitizer or
+ASVS-conformance assertion follows from these mappings.
+
+## Operation budgets and selective-response guidance
+
+The [countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md) adds source-reviewed
+design guidance, not new enforcement. Its dated source table in
+[SECURITY.md](../SECURITY.md#operation-budgets-and-monitored-decoys) distinguishes
+OWASP Top 10:2025, API Top 10:2023 and the fixed ASVS v5.0.0 tag. Earlier mapping
+editions retain their original context; numbers must not be translated between
+editions by position.
+
+API4/6 address resource/sensitive-flow abuse and API7 SSRF. ASVS 2.4.1/2.4.2 and
+6.1.1/6.3.1 provide selected anti-automation/authentication relationships; 6.6.3
+and 6.6.4 apply specifically to out-of-band codes and push MFA. They do not
+mandate this document's counter-reset algorithm or certify generic CAPTCHA.
+MITRE Engage supports an owned, instrumented process; isolated decoys and their
+efficacy remain target verification. No new ATT&CK/ATLAS/D3FEND identifier is
+introduced from the supplied countermeasure note.

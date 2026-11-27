@@ -67,6 +67,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "CAPABILITIES.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Complete capability/claim and skill navigation with explicit delivery/validation limits; no new implementation or deployment."
+    },
+    {
       "path": "CHANGELOG.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -101,6 +110,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "RECOMMENDATIONS.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source/link and manual scope review only; optional references are not executed or revalidated, countermeasures are not deployed."
     },
     {
       "path": "SECURITY.md",
@@ -184,6 +202,15 @@
       "scope": "Source-reviewed behavior/static-review guidance and limits; no deployed collection, real-intrusion effectiveness or third-party tool execution claimed."
     },
     {
+      "path": "docs/AGENTIC-OFFENSE-DEGRADATION.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source/link and manual scope review only; optional references are not executed or revalidated, countermeasures are not deployed."
+    },
+    {
       "path": "docs/AI-AGENT-RUNTIME.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -256,6 +283,15 @@
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
     },
     {
+      "path": "docs/COMMAND-AND-CONTROL-MONITORING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed telemetry prerequisites, trust boundaries and manual review examples; no collector or automatic detector execution."
+    },
+    {
       "path": "docs/DATABASE-ENGINE-PATCHING.md",
       "category": "source-reviewed-documentation",
       "checks": [
@@ -281,6 +317,15 @@
         "sha256-registry"
       ],
       "scope": "Source-reviewed guidance or contributor metadata; integrity and membership only, no runtime feature claim."
+    },
+    {
+      "path": "docs/DIRECTORY-IDENTITY-MONITORING.md",
+      "category": "source-reviewed-documentation",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "scope": "Source-reviewed telemetry prerequisites, trust boundaries and manual review examples; no collector or automatic detector execution."
     },
     {
       "path": "docs/DISCLOSURE-POLICY.md",

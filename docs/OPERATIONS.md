@@ -96,3 +96,25 @@ Follow [SSH key integrity](SSH-KEY-INTEGRITY.md) for trust-file baselines, appro
 The [four runtime starting profiles](../enterprise/runtime/README.md#runtime-signals) support source-reviewed direct child-shell rules; an operator can record a review as `process-exec`. They do not install Falco or establish kernel-event coverage.
 
 Use [host egress monitoring](HOST-EGRESS-MONITORING.md), [indicator provenance and expiry](INDICATOR-HANDLING.md) and, for a federated deployment, [identity monitoring](IDENTITY-MONITORING.md). The [SIEM reference](../enterprise/operations/README.md) maps these operator-authored records to the closed schema. Record production signals only after verifying the sensor and privacy projection; schema support is not event collection or automated detection.
+
+## Directory, callback and campaign reviews
+
+Use [directory-identity monitoring](DIRECTORY-IDENTITY-MONITORING.md) for trusted
+directory/Kerberos/certificate sources and [C2 monitoring](COMMAND-AND-CONTROL-MONITORING.md)
+for workload-aware callback/channel review. Combine them through the
+[multi-stage procedure](AGENTIC-ATTACK-DETECTION.md#multi-stage-bursts-and-persistence-follow-on)
+only when scope, clocks, identity epochs and private asset relationships support
+the join. A missing collector is a coverage gap, not a negative result.
+
+Review new persistence-class services/tasks/identities against the approved
+rollout and preceding independently supported signals. Confirm any registered
+exercise's owner, action/target scope and expiry outside the monitored agent.
+An exception cannot waive authorization or erase a policy/identity-integrity
+incident. Containment and issuer-side revocation require their own authority;
+preserve evidence and reconcile uncertain operations before retries.
+
+Export existing coarse SIEM records only. Campaign observations use campaign/
+campaign-note; integrity observations use runtime/config-integrity. Do not force
+raw directory events or new illustrative fields into the closed exporter schema.
+Collectors, detection rules and incident exercises must be integrated and
+verified separately on the actual target.

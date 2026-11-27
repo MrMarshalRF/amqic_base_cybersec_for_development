@@ -12,6 +12,8 @@
 [![AMQIC YouTube](https://img.shields.io/badge/AMQIC-YouTube-CC0000?logo=youtube&logoColor=white)](https://www.youtube.com/@amqic)
 [![AMQIC Instagram](https://img.shields.io/badge/AMQIC-Instagram-C13584?logo=instagram&logoColor=white)](https://www.instagram.com/alex_mus96/)
 
+## TL;DR
+
 > **You can verify every release file.** First authenticate the signed [SHA256SUMS](SHA256SUMS) registry through [AMQIC verification](https://amqic.ai/pages/request-verification). Then compare the SHA-256 of each release file with its registry entry.
 >
 > The [VirusTotal scan register](VIRUSTOTAL.md) lists current repository files, exact file hashes and matching scan observations. The [JSON report](VIRUSTOTAL.json) includes individual engine results. Pending scans and generated metadata are identified separately; compare the exact hash before relying on a result.
@@ -20,7 +22,290 @@
 
 **This is a reusable toolkit, not a standalone application.** It contains independent cybersecurity measures, runnable examples, infrastructure templates, release tools, and AI skills. They are not tied to one product or architecture: select the relevant parts and integrate them into different applications, services, or individual components. You may copy, adapt, and modify them for your own requirements under the MIT license. Match each example to your target runtime and integration contracts; adopting one component does not require adopting the entire kit.
 
-## Press coverage and technical publication
+See the [complete capability catalog](CAPABILITIES.md) for the full feature list, implementation status, integration boundaries and validation links. Optional third-party projects and services are listed in [RECOMMENDATIONS.md](RECOMMENDATIONS.md).
+
+<a id="who-this-is-for"></a>
+
+## Where it helps
+
+Developers building web applications, APIs, MCP integrations, and containerized services who want a concrete baseline before production. The runnable examples and step-by-step templates are intended for developers who are starting to formalize their security practices.
+
+![Local authorization demo](assets/demo.gif)
+
+Captured output from `node --experimental-sqlite reference/demo.mjs`, played back with illustrative pacing.
+
+New to cybersecurity? Start with [Security basics, explained simply](docs/SECURITY-BASICS.md): how each protection works, a practical example, and what it does not guarantee.
+
+See the [changelog](CHANGELOG.md) for additions, changes, validation notes and release history.
+
+<a id="what-is-included"></a>
+
+## Navigate the toolkit
+
+Use [CAPABILITIES.md](CAPABILITIES.md) for the complete inventory, status,
+source links and validation scope. Choose the area you need below; references,
+configuration candidates and operating guidance retain different integration
+requirements.
+
+| Area | Scope | Start here |
+| --- | --- | --- |
+| Application identity and business flows | Staged login, CAPTCHA/TOTP, exact grants, Ed25519, replay/idempotency and offer eligibility | [Authorization](#authorization-identity-and-business-flows) |
+| Data, secrets and content | RLS/field encryption, input/output boundaries, isolated uploads, ClamAV, backups and KeePassXC | [Data](#data-secrets-and-content) |
+| Network and origin | Nginx/TLS/CSP, protected routes, firewall/SSH, private VPN access and safe edge caching | [Network](#network-origin-and-private-administration) |
+| Host and supply chain | Server/container isolation, quarantine, controlled dependencies and artifact provenance | [Isolation](#host-container-and-dependency-isolation) |
+| AI agents and monitoring | Tool authority, configuration/integrity, behavioral review, directory/C2/campaign guidance | [Agents and monitoring](#ai-agents-monitoring-and-abuse-defense) |
+| Enterprise adapters | Distributed admission, cloud KMS, federation, audit/SIEM and operating playbooks | [Enterprise](#enterprise-adapters-and-operations) |
+| Production and releases | Cleanup, binary transformations, versions, deployment, signed registries and evidence | [Delivery](#production-and-release-operations) |
+
+## Getting started
+
+### Requirements
+
+Choose current patched releases from supported runtime branches and run the kit checks on the target versions. The core was tested with Node.js 22.14.0 and `node:sqlite`. The SQLite module is experimental in this tested version. The example has no npm dependencies. Python helpers use the standard library, with baseline support starting at Python 3.11. Production preparation on Windows requires Python 3.12+.
+
+The infrastructure instructions target Linux, OpenSSH, Nginx, and Docker Compose. Trusted-proxy client whitelisting requires `http_realip_module`. The Nginx test environment uses a local image identified by a reviewed SHA-256 and synthetic TLS certificates. Encrypted backup and secret input commands are intended for a human operator's own interactive Linux terminal.
+
+Tested versions, environments, and limitations are listed in [VALIDATION.md](docs/VALIDATION.md). Before a release, check current patches and branch support using [VERSIONS.md](docs/VERSIONS.md).
+
+### Quick start
+
+Open a terminal in the kit's root directory. These commands run checks against synthetic data.
+
+```sh
+node --experimental-sqlite reference/demo.mjs
+node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs reference/pii-input.test.mjs
+python -B scripts/test_operations.py
+node --test scripts/test_crypto.mjs
+python -B scripts/test_prepare_production.py
+python -B scripts/test_check_versions.py
+python -B infra/container/test_quarantine.py
+python -B infra/nginx/test_harness.py
+```
+
+The demo completes the login flow, performs a signed authorized operation, and retries using the same operation identifier. The `sameResult=true` response confirms that the stored result was returned. The CAPTCHA adapters, passwords, and TOTP fixtures in `reference/fixtures.mjs` are used exclusively by synthetic examples.
+
+<a id="one-command-for-people-and-ai-agents"></a>
+
+### Complete local laboratory
+
+[The complete local lab](docs/ALL-LAB.md) exposes a side-effect-free JSON plan and a fixed all-local runner:
+
+```sh
+node scripts/verify.mjs --plan
+node scripts/verify.mjs --all --prepare --output /absolute/external/all-local.json
+```
+
+On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new external report directory and runs the same fixed all-local plan. [Host prerequisites and visible parameters](lab/host-requirements.md) explain the machine requirements and every configuration boundary.
+
+`--prepare` explicitly authorizes only the pinned lab prerequisites. The [scenario catalogue](lab/scenarios.json), [JSON protocol schema](lab/protocol.schema.json) and [AI skill](skills/run-security-lab/SKILL.md) make prerequisites, actions, results and cleanup machine-readable. Local tests and external/manual provider checks remain distinct.
+
+The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) also covers private technical paths, administrative source maps, terminating edge blocks and Nginx static-location precedence. [Production preparation](docs/PRODUCTION.md#repository-tracking-and-private-operational-material) explains why Git ignore rules, tracked-file review and exact release inventories must be checked separately.
+
+### Adoption sequence
+
+1. Read the [security model](docs/SECURITY-MODEL.md) and define system ownership, access boundaries, and recovery.
+2. For a new server, start with [initial deployment](docs/INITIAL-DEPLOYMENT.md). Configure the cloud firewall, administrative access, and origin TLS before publishing proxied DNS records.
+3. Create a dedicated account and an Ed25519 SSH key, then verify a second session and the provider console. Allow the SSH port only from administrative CIDRs or a VPN. `sshd` verifies the key.
+4. Prepare the application and its internal container network. Choose non-overlapping address ranges and verify that Nginx can reach the private address on the target Linux host.
+5. Generate a candidate Nginx configuration with the actual domain and private upstream. Enable whitelisting where needed. Check syntax, permitted requests, denials, rate limits, and CSP.
+6. Integrate the server core through the contracts in [reference/README.md](reference/README.md). Connect a real CAPTCHA provider, protected factor storage, enrollment, and recovery.
+7. Set up hidden secret input, backups, and restore verification. Critical changes require independent 2FA confirmation bound to the specific operation.
+8. Check versions and dependencies, prepare a clean release inventory, and test the application with its target configuration.
+9. Follow a separately authorized release procedure with a rollback plan and monitoring.
+
+### AI skills
+
+| Skill | Purpose |
+| --- | --- |
+| [protected-terminal-input](skills/protected-terminal-input/SKILL.md) | Metadata preparation and hidden human input |
+| [verified-backup](skills/verified-backup/SKILL.md) | Encrypted backups and restore verification |
+| [review-dependencies](skills/review-dependencies/SKILL.md) | Offline dependency inspection and an exact SHA-256 approval decision |
+| [prepare-production](skills/prepare-production/SKILL.md) | A clean release inventory and checks for common secret patterns |
+| [check-versions](skills/check-versions/SKILL.md) | Version currency, branch support, and coverage gaps |
+| [obfuscate-binaries](skills/obfuscate-binaries/SKILL.md) | Production binary transformations, preserved contracts, private diagnostics, and final signing |
+| [run-security-lab](skills/run-security-lab/SKILL.md) | Plan and run the fixed local scenarios and interpret machine-readable evidence |
+| [review-with-sandhive](skills/review-with-sandhive/SKILL.md) | Optional reading of external security cases and planning of authorized checks |
+
+Give the agent the path to the relevant `SKILL.md`, or install the skill folder through your tool's normal mechanism while preserving access to its relative resources. The skills are part of this kit and reference its `scripts/`, `infra/`, and `docs/` directories. Copying a skill folder alone requires updating those references. Repository agent instructions are in [AGENTS.md](AGENTS.md).
+
+## Capability areas
+
+### Authorization, identity and business flows
+
+#### Integrating authorization and API/MCP
+
+`reference/core.mjs` contains the server core, `reference/crypto.mjs` provides cryptographic functions, and `reference/login-client.mjs` controls the login stages presented by the interface. Each login stage requires server confirmation. The flow has no option to disable stages for simplified login.
+
+A sensitive-operation handler receives a grant bound to the user, session, action, argument hash, and operation identifier. The example changes synthetic records within the same SQLite transaction. External effects, including deleting a production database or backup files, require a separately reviewed handler with durable outcome tracking.
+
+The application supplies the complete HTTP/MCP transport, OAuth integration, and browser-facing server. Machine Ed25519 signatures belong to the internal protocol, while MCP transport authorization requires its own integration. CAPTCHA, cookie, CSRF, factor storage, scope, revocation, and idempotency contracts are documented in the [core guide](reference/README.md).
+
+#### Subscription offer eligibility
+
+The [billing offer guard](reference/README.md#subscription-offer-eligibility) enforces account eligibility and authorized offer selection before issuing a trial entitlement. The reference uses a trusted purchase verification adapter and an atomic SQLite claim record to prevent duplicate grants.
+
+### Data, secrets and content
+
+<a id="database-engines-and-application-boundaries"></a>
+
+#### Database and field boundaries
+
+The [database-engine guide](docs/DATABASE-ENGINE-PATCHING.md) separates vendor patching from RLS, column permissions and object-creation restrictions. The PostgreSQL lab pins a reviewed 17.12 image and verifies the actual server version. [Application boundaries](docs/APPLICATION-BOUNDARIES.md) connect a fixed outbound HTTPS transport, allowlisted local return routes and one-use recovery-token references to their tests and deployment requirements.
+
+#### Website form data and container boundaries
+
+The [web input guide](docs/WEB-INPUT-PROTECTION.md) and [server module](reference/pii-input.mjs) validate contact fields and keep SQL structure fixed while binding all submitted values. Browser output stays plain text; form values never become shell commands or dynamically evaluated code. The guide connects these protections to the constrained server container, least-privilege database access and private networking. Each layer keeps its own checks: container isolation does not replace safe queries or authorization.
+
+#### Uploads stay outside primary storage
+
+The [upload-isolation guide](docs/UPLOAD-ISOLATION.md) and [Compose topology](infra/container/uploads.compose.yaml) separate the untrusted intake area from approved content and the main application. Only the trusted promoter can write approved storage, after matching the exact scanned bytes; the media service reads approved content only. The template defines isolation boundaries and requires separately implemented role-specific services.
+
+#### Backups and secrets
+
+The primary backup entry point is `scripts/secure_backup.mjs`. It creates a private intermediate archive, encrypts it with AES-256-GCM, and verifies decryption and contents. A human enters the password without echo. Restore creates a new directory. A running database requires a native consistent dump or snapshot.
+
+`protected_input.mjs` demonstrates hidden input and encrypted storage. Enforced isolation from an agent with full access under the same OS user requires a separate trusted process under another account or an external secret store. The application's secret consumer is integrated separately. Never pass secrets through chat, command arguments, environment variables, or logs. Detailed commands and limitations are in [OPERATIONS.md](docs/OPERATIONS.md).
+
+[KeePassXC and KDBX guidance](docs/KEEPASSXC.md) complements protected input and backup workflows with password-vault, separate-factor and recovery practices.
+
+#### Malware scanning and shared request limits
+
+The [service-protection guide](docs/SERVICE-PROTECTION.md) explains ClamAV, Redis and request admission. Runnable [upload/ClamAV](lab/upload-pipeline.README.md) and [PoW/Redis](lab/admission.README.md) references supplement those integration patterns. The lab starts temporary real service consumers; it does not install production services or automatically enable PoW on a production API.
+
+### Network, origin and private administration
+
+#### Origin protection, rate limits, and CSP
+
+The baseline Nginx configuration permits only explicitly selected routes. The `infra/protected-paths.json` registry additionally blocks known paths to secrets, source files, and internal data. Direct requests with an inappropriate Host or SNI are rejected.
+
+The starting website limit is 10 requests per second per IP. `/api` and `/mcp` share a separate starting limit of 10 requests per minute per IP. Tune these values and burst capacity to the application workload, trusted proxy setup, and expected shared-IP traffic, then rerun the rate-limit tests before deployment. Each zone uses `burst=9 nodelay`, allowing an initial batch of up to ten nearly simultaneous requests. Excess requests receive 429. Capacity recovers according to the leaky-bucket algorithm. Blocked HTTP paths also pass through the limiter. TLS and early HTTP parsing failures have their own processing boundary.
+
+CSP allows core resources from the same origin and restricts inline code, `eval`, frames, plugins, workers, and media. The policy is also included in denial responses. A stricter application CSP is retained alongside the baseline policy. External CAPTCHA, CDN, API, WebSocket, or nonce/hash integration requires coordinated policy changes and interface testing. Configuration and the reproducible test environment are described in [INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md).
+
+Whitelisting has separate profiles for the immediate connection peer and a client address restored through a trusted proxy. A header supplied by an arbitrary sender does not establish trust. The network firewall restricts ports and SSH reachability, while OpenSSH verifies keys. Every template requires explicit operator-provided settings.
+
+#### Nginx protocol-parser security
+
+The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.
+
+#### External protection and safe caching
+
+The [Cloudflare edge guide](docs/CLOUDFLARE-EDGE.md) explains network/application DDoS, selective public-asset caching, sensitive-response bypasses, WAF and rate limits, strict origin TLS and proxy-source trust. Cloudflare is an additional layer in front of the existing origin and application controls; caching must never mix one user's personal data with another user's response.
+
+#### Private VPN administration
+
+Use the [VPN guide](docs/VPN-TUNNELS.md) for WireGuard with WireSock on Windows or Tailscale, including subnet-router access. Keep SSH and private administrative endpoints restricted by tunnel policy, host firewall and application authorization. A tunnel does not automatically configure Nginx, anonymize an origin, or close public listeners.
+
+### Host, container and dependency isolation
+
+Use [initial deployment](docs/INITIAL-DEPLOYMENT.md) for administrative
+identity, SSH keys, firewall reachability and recovery. The
+[infrastructure guide](docs/INFRASTRUCTURE.md) separates configuration candidates
+from target activation. [Container isolation and quarantine](infra/container/)
+cover constrained workloads and dependency review; a container still executes
+its code and shares the host kernel. Dependency approval, effective permissions
+and the actual network boundary require their own evidence.
+
+Host-level adoption guidance covers [SSH trust-file integrity](docs/SSH-KEY-INTEGRITY.md), [host/container egress](docs/HOST-EGRESS-MONITORING.md), [indicator expiry](docs/INDICATOR-HANDLING.md) and [federated identity review](docs/IDENTITY-MONITORING.md). Source-reviewed [Node/PostgreSQL child-shell profiles](enterprise/runtime/README.md#runtime-signals) and [additive SIEM records](enterprise/operations/README.md) provide starting contracts; deployed monitoring and detection effectiveness require target verification.
+
+### AI agents, monitoring and abuse defense
+
+#### AI agent runtime protection
+
+The [agent runtime guide](docs/AI-AGENT-RUNTIME.md) explains how to separate an agent from secrets and privileged actions, constrain tools and network access, review policy changes and stop a run externally. The [tested reference guard](enterprise/agent-runtime/README.md) covers exact tool/argument approvals, per-generation revocation, local admission and conservative egress planning. Operating-system isolation and actual egress enforcement require deployment-specific checks.
+
+#### Agent runtime integrity
+
+The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) covers installed-file monitoring, externally enforced permission policy and review of agent plugins, skills and MCP servers.
+
+#### Behavior detection and pre-admission review
+
+[Behavior detection guidance](docs/AGENTIC-ATTACK-DETECTION.md) and the [offline reference](enterprise/detection/README.md) describe eight event families, with explicit match/near-match fixtures and privately maintained classification policies. These starting rules do not install sensors, identify an attacker or establish real-intrusion effectiveness.
+
+[Agent configuration review](docs/AGENT-CONFIG-REVIEW.md) adds a bounded static checklist and executable review contract before configuration or extensions are admitted. Findings require operator interpretation; a documented, scoped exception is not an instruction file granting itself permission.
+
+[Client-exposed secret review](docs/CLIENT-SECRET-EXPOSURE.md) covers public build variables, environment examples and release preparation. Reports omit values; heuristic checks do not trace data flow or certify that a browser bundle contains no secrets.
+
+#### Directory identity and multi-stage campaign review
+
+The [directory-identity guide](docs/DIRECTORY-IDENTITY-MONITORING.md) and [command-and-control monitoring guide](docs/COMMAND-AND-CONTROL-MONITORING.md) describe trusted telemetry, scoped exceptions and human review. [Campaign correlation](docs/AGENTIC-ATTACK-DETECTION.md#multi-stage-bursts-and-persistence-follow-on) connects short-window signals without treating timing or encryption as proof of compromise. [Agent configuration review](docs/AGENT-CONFIG-REVIEW.md#manual-admission-for-high-risk-capabilities) and [runtime guidance](docs/AI-AGENT-RUNTIME.md#untrusted-tool-output-and-role-boundaries) cover networked tool grants and untrusted model inputs. These additions supply operating procedures and review examples; they install no collector or new automatic detector.
+
+#### Defense against automated probing
+
+The [defense guide](docs/AUTOMATED-PROBING-DEFENSE.md) combines minimal exposure, layered request budgets, generic errors, inert canary signals and evidence-based disclosure handling. Its [working reference](enterprise/probe-defense/README.md) includes atomic same-host multi-dimension admission, safe denial responses and a conservative security.txt generator. These controls apply to unauthorized automation broadly; no client-name detector or third-party pentest tool is installed.
+
+#### Countermeasures for agent-driven probing
+
+The [countermeasure guide](docs/AGENTIC-OFFENSE-DEGRADATION.md) connects strict operation-level budgets, trusted proxy identity, bounded selective responses, monitored inert decoys and root-cause hardening. It includes legitimate-client near matches and coverage limits. These are operator procedures, not a new automatic detector or a guarantee that a response delay closes a vulnerability.
+
+#### Analyst tooling and untrusted packages
+
+The [analyst-tooling guide](docs/ANALYST-TOOLING-SECURITY.md) covers JADX version/runtime inventory, isolated APK/XAPK/JAR review, plugin integrity and untrusted Gradle exports. It is operational guidance for teams already using those tools; the kit does not install or execute JADX. Patch both the tool and the Java runtime actually selected by each package.
+
+### Enterprise adapters and operations
+
+#### Enterprise security profile
+
+Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The profile includes distributed admission, cloud KMS and identity federation references, plus operating playbooks and SIEM export. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
+
+### Production and release operations
+
+<a id="production-binaries-and-private-administration"></a>
+
+#### Production binary transformations
+
+Use the [binary obfuscation guide](docs/BINARY-OBFUSCATION.md) to distinguish symbol stripping from actual obfuscation and to preserve diagnostics, runtime compatibility and signing order. It includes Linux ELF and Go metadata-reduction examples, version-bound Garble/R8 templates, and .NET considerations. Obfuscation can increase analysis effort; it cannot protect embedded credentials or replace server-side authorization.
+
+#### Secure deployment and GitHub releases
+
+Follow the [production deployment runbook](docs/DEPLOYMENT.md) for signed-artifact verification, recovery, configuration and secrets, compatible migrations, staged rollout, real-path checks and rollback. Follow the [GitHub release guide](docs/GITHUB-RELEASES.md) for README/SECURITY/LICENSE contents, source-versus-binary inventories, deterministic SHA-256 registries, signing, version tags, draft assets and download verification. Publishing a release and activating it in production are separate actions.
+
+#### Release preparation and updates
+
+`prepare_production.py` copies only explicitly selected files into a new directory outside the source, checks their contents, and creates a manifest. Git metadata, Graphify output, internal instructions, MCP configuration, tests, caches, backups, and known secret filenames are excluded. Explicitly selecting a prohibited file stops preparation. The source tree is preserved.
+
+Secret detection is limited to supported text formats and known patterns. Manual review and a separate process for binary artifacts are required. Confirmed secret exposure requires revocation or rotation. See the [preparation guide](docs/PRODUCTION.md).
+
+`check_versions.py` distinguishes the current environment, lockfile/requirements versions, and dated official metadata. Its report separately shows the latest release, the current patch in the selected branch, support status, and available withdrawn-release information. Private package names are not sent over the network automatically. Updates go through quarantine, compatibility review, and the normal tests. See the [version guide](docs/VERSIONS.md).
+
+## Validation and release verification
+
+### Run and verify the implementation
+
+The [reproducible lab](docs/REPRODUCIBLE-LAB.md) runs a real HTTP form, server-enforced synthetic login, parameterized storage, an upload/quarantine/promotion flow, the ClamAV protocol and a browser consumer. Its automatic mode also checks a real Redis limiter. Use the pinned prerequisites and a new external report path:
+
+```sh
+node --experimental-sqlite lab/run-lab.mjs --verify --output /absolute/external/live-result.json
+node scripts/verify.mjs --full --output /absolute/external/whole-kit-result.json
+```
+
+Every payload file is classified in [coverage.json](verification/coverage.json). [Claims and limitations](verification/claims.json) connect mechanisms to named checks and standards. The [completion protocol](verification/v1.2.0-report.json) records final observed results. Executable references, configuration templates and source-reviewed guides are distinct; a guide is not counted as a deployed control. Hosted CI is configured, not claimed to have run before publication.
+
+### Signed release verification
+
+Official releases use a post-quantum electronic signature on the [SHA256SUMS file registry](SHA256SUMS). Validate that signed registry at [amqic.ai/pages/request-verification](https://amqic.ai/pages/request-verification), then compare the SHA-256 of every release file with its registry entry. The maintainer signs the final registry before publication. See [release verification](docs/RELEASE-VERIFICATION.md) for the scope and checks.
+
+Report suspected vulnerabilities privately to [cyber@amqic.ai](mailto:cyber@amqic.ai). The [security policy](SECURITY.md) describes response targets and coordinated disclosure.
+
+### Verification and readiness boundaries
+
+Local tests cover the core and client controller, backups and encryption, release preparation, version currency, and safe archive inspection. Nginx was checked with synthetic requests, and nftables was checked in a separate network namespace. Exact results are available in [VALIDATION.md](docs/VALIDATION.md).
+
+Before production launch, verify actual certificates, addresses, proxy headers, SSH recovery, network rules, and application compatibility. A container shares the host kernel and continues to execute its own code. A minimal image and restrictions reduce the attack surface. Running untrusted code requires a suitable separate sandbox.
+
+### OWASP reference map
+
+The [capability catalog](CAPABILITIES.md) records implementation status and integration limits. Selected **OWASP ASVS 5.0.0** requirements and **OWASP Top 10:2025** relationships are recorded in the [OWASP mapping](docs/OWASP-MAPPING.md) and [security control register](SECURITY.md). These are partial review relationships; they do not establish an ASVS level or OWASP certification.
+
+### Operational threat data
+
+[Vallatum telemetry from AMQIC's public site](THREAT-DATA.md) covers 27 UTC dates, from 22 October through 17 November 2026. Cloudflare reported **21,296 Block decisions** and **968 Managed Challenges**. The Block total includes **8,106** attributed to the tracked maintenance rule and **13,190** from other rules. These counts describe policy decisions on requests. The separate filtered sample for 12–17 November contains **235 distinct public paths or redacted aliases**, with **1,680 Blocks** and **14 Managed Challenges**. Its counts come from returned, adaptively sampled groups. The consolidated register now contains **617 distinct public path strings or aliases**, combining 514 historical entries and 235 supplemental entries with 132 overlaps deduplicated. Historical sample counts and supplemental provider-reported counts remain separate; a listed path does not establish successful access or identify an attacker. The report also includes the daily chart, a separate origin sample and collection limits.
+
+## Project, community and optional resources
+
+<a id="press-coverage-and-technical-publication"></a>
+
+### Maintainer, credits and publication context
 
 **The Qubit Report covered Aleksei Musienko's scientific and technical work on 18 November 2026.** The [article](https://thequbitreport.com/software-algorithms/2026/11/18/amqic-publishes-foundations-of-programming-document-for-quantonia-and-qrace/), credited to The Qubit Report Staff, links to the author's [full English paper](https://amqic.ai/assets/public/signed-abstracts/53ce4951974d5277d11a2f7377eb24e3edd790a02513778e121955b11f1fad85/en/03eced4b-a094-433b-acf8-70e4120c8cf6/AMQIC-Quantonia-QRACE-EN.pdf#page=9).
 
@@ -38,304 +323,30 @@ AI-assisted development, testing, and review — **[OpenAI Codex](https://openai
 
 Thanks to **Orvar Odd**, a cybersecurity researcher, for feedback on this toolkit. [Telegram group](https://t.me/b0ster).
 
-## Database engines and application boundaries
+<a id="recommended-security-resources"></a>
 
-The [database-engine guide](docs/DATABASE-ENGINE-PATCHING.md) separates vendor patching from RLS, column permissions and object-creation restrictions. The PostgreSQL lab pins a reviewed 17.12 image and verifies the actual server version. [Application boundaries](docs/APPLICATION-BOUNDARIES.md) connect a fixed outbound HTTPS transport, allowlisted local return routes and one-use recovery-token references to their tests and deployment requirements.
+### Optional resources and SPFsmartGATE
 
-Host-level adoption guidance covers [SSH trust-file integrity](docs/SSH-KEY-INTEGRITY.md), [host/container egress](docs/HOST-EGRESS-MONITORING.md), [indicator expiry](docs/INDICATOR-HANDLING.md) and [federated identity review](docs/IDENTITY-MONITORING.md). Source-reviewed [Node/PostgreSQL child-shell profiles](enterprise/runtime/README.md#runtime-signals) and [additive SIEM records](enterprise/operations/README.md) provide starting contracts; deployed monitoring and detection effectiveness require target verification.
+See the [optional third-party recommendations](RECOMMENDATIONS.md) for security
+projects, self-hosted AI, computer vision and Rust resources.
 
-## Analyst tooling and untrusted packages
-
-The [analyst-tooling guide](docs/ANALYST-TOOLING-SECURITY.md) covers JADX version/runtime inventory, isolated APK/XAPK/JAR review, plugin integrity and untrusted Gradle exports. It is operational guidance for teams already using those tools; the kit does not install or execute JADX. Patch both the tool and the Java runtime actually selected by each package.
-
-## Nginx protocol-parser security
-
-The [edge security guide](docs/NGINX-EDGE-SECURITY.md) covers patched images, restrictive protocol defaults, master/worker replacement and rollout evidence. Benign ALPN regression tests check HTTP/1.1 alongside the existing origin controls.
-
-## AI agent runtime protection
-
-The [agent runtime guide](docs/AI-AGENT-RUNTIME.md) explains how to separate an agent from secrets and privileged actions, constrain tools and network access, review policy changes and stop a run externally. The [tested reference guard](enterprise/agent-runtime/README.md) covers exact tool/argument approvals, per-generation revocation, local admission and conservative egress planning. Operating-system isolation and actual egress enforcement require deployment-specific checks.
-
-## Defense against automated probing
-
-The [defense guide](docs/AUTOMATED-PROBING-DEFENSE.md) combines minimal exposure, layered request budgets, generic errors, inert canary signals and evidence-based disclosure handling. Its [working reference](enterprise/probe-defense/README.md) includes atomic same-host multi-dimension admission, safe denial responses and a conservative security.txt generator. These controls apply to unauthorized automation broadly; no client-name detector or third-party pentest tool is installed.
-
-## Enterprise security profile
-
-Use the [enterprise profile](enterprise/README.md) to evaluate policy enforcement, tenant boundaries, abuse control, audit and release evidence alongside the core kit. The profile includes distributed admission, cloud KMS and identity federation references, plus operating playbooks and SIEM export. The guide links each executable reference to its local tests and documents the integration steps for databases, secret providers and deployment tools.
-
-## One command for people and AI agents
-
-[The complete local lab](docs/ALL-LAB.md) exposes a side-effect-free JSON plan and a fixed all-local runner:
-
-```sh
-node scripts/verify.mjs --plan
-node scripts/verify.mjs --all --prepare --output /absolute/external/all-local.json
-```
-
-On Linux/macOS, the convenience entry is `sh lab/run.sh`; it chooses a new external report directory and runs the same fixed all-local plan. [Host prerequisites and visible parameters](lab/host-requirements.md) explain the machine requirements and every configuration boundary.
-
-`--prepare` explicitly authorizes only the pinned lab prerequisites. The [scenario catalogue](lab/scenarios.json), [JSON protocol schema](lab/protocol.schema.json) and [AI skill](skills/run-security-lab/SKILL.md) make prerequisites, actions, results and cleanup machine-readable. Local tests and external/manual provider checks remain distinct.
-
-The [Cloudflare/Origin guide](docs/CLOUDFLARE-EDGE.md#closed-technical-paths-and-administrative-source-maps) also covers private technical paths, administrative source maps, terminating edge blocks and Nginx static-location precedence. [Production preparation](docs/PRODUCTION.md#repository-tracking-and-private-operational-material) explains why Git ignore rules, tracked-file review and exact release inventories must be checked separately.
-
-## Agent runtime integrity
-
-The [runtime integrity guide](docs/AGENT-RUNTIME-INTEGRITY.md) covers installed-file monitoring, externally enforced permission policy and review of agent plugins, skills and MCP servers.
-
-## Behavior detection and pre-admission review
-
-[Behavior detection guidance](docs/AGENTIC-ATTACK-DETECTION.md) and the [offline reference](enterprise/detection/README.md) describe eight event families, with explicit match/near-match fixtures and privately maintained classification policies. These starting rules do not install sensors, identify an attacker or establish real-intrusion effectiveness.
-
-[Agent configuration review](docs/AGENT-CONFIG-REVIEW.md) adds a bounded static checklist and executable review contract before configuration or extensions are admitted. Findings require operator interpretation; a documented, scoped exception is not an instruction file granting itself permission.
-
-[Client-exposed secret review](docs/CLIENT-SECRET-EXPOSURE.md) covers public build variables, environment examples and release preparation. Reports omit values; heuristic checks do not trace data flow or certify that a browser bundle contains no secrets.
-
-## Recommended security resources
-
-Independent projects for additional security review and AI-agent protection. Review each project's current documentation and applicability to your environment.
-
-### SandHive
-
-For additional case-guided security review, consider [SandHive How Could I Be Hacked](https://github.com/sandhiveio/How-Could-I-Be-Hacked). Its investigation corpus can help reviewers identify relevant failure patterns and design checks for their own application. See the [recommendation and limitations](docs/SANDHIVE.md).
-
-This is an independent external resource recommendation. This kit provides no SandHive launcher, download step or executable laboratory integration. The [review-with-sandhive skill](skills/review-with-sandhive/SKILL.md) guides reading cases and evaluating their relevance.
-
-### Stonecell.AI — SPFsmartGATE
+#### Stonecell.AI — SPFsmartGATE
 
 [Stonecell.AI](https://stonecell.ai/) presents **SPFsmartGATE** as a local, Rust-based MCP security gateway for applying policies to AI-agent actions. Consider it when evaluating additional controls around agent tools and permitted paths.
 
 At the time of this recommendation, the vendor labels the product pre-release. Check current availability and review which tool calls, paths and data flows it actually governs before adopting it.
 
-### Kaspersky endpoint protection
-
-Where procurement and ongoing updates are supported and permitted, consider installing Kaspersky endpoint protection. For personal devices, evaluate [Kaspersky Standard](https://www.kaspersky.com/standard). For managed endpoints, evaluate [Kaspersky Next EDR Foundations or Optimum](https://www.kaspersky.com/next) using your operating systems, update requirements and incident response needs.
-
-Use official distribution channels and test update delivery, telemetry settings and compatibility on a small group before rollout. For deployments in the United States or involving U.S. persons, consult the [BIS Final Determination and guidance](https://media.bis.gov/Kaspersky) on covered products and updates. Choose a supported alternative where the determination or your organization's procurement policy restricts supply or updates. This is a third-party recommendation. The kit has no Kaspersky dependency or installation step.
-
-### ThreatDefence — Agentic Attack Detections
-
-[Agentic Attack Detections](https://github.com/ThreatDefence/agentic-attack-detections) is an optional external detection-side reading resource. The update's supplied research note identifies the reviewed snapshot as `cf360e5b2d4ae1584f6af677b3f83a2375dbbb8f` and describes synthetic, experimental coverage. Check the current project, license and telemetry applicability before adoption; this kit does not download, execute or redistribute its rules or indicators.
-
-### safe-anything
-
-[safe-anything](https://github.com/erkamyaman/safe-anything) is an optional external static-review resource. The supplied research note identifies snapshot `c0617f5cd0292f7e6c3a670bc77b816ac1b63191`; its pattern-based findings are not a data-flow security proof. Before adoption, verify the exact version, license, checksums, dependency-check network behavior and any MCP permissions. This kit does not install or execute it, and has not independently verified the current external release during this update.
-
-## Self-hosted AI workflows
-
-### RagLeap Core
-
-[RagLeap Core](https://github.com/ragleap/ragleap-core) is an open-source project for self-hosted AI agents and document-grounded workflows. Consider it for workflows that need human approvals before agent actions. Review the project's permissions and data flows for your deployment. AMQIC maintainer Aleksei Musienko helped improve the project.
-
-## Computer vision and desktop automation
-
-### Oarwise
-
-[Oarwise](https://oarwise.com/) offers computer-use tooling for Codex on Windows. Consider it for computer-vision-assisted desktop workflows. Review its current documentation and permissions, explicitly select the target application/window, and account for sensitive information visible on screen.
-
-## Rust tools and migration resources
-
-- [WinRust](https://github.com/Lemxy/WinRust) is a Rust-based Windows shell replacement with a taskbar, file manager, NTFS search and task manager.
-- [WinMemClean](https://github.com/nusu-github/WinMemClean) is a Windows memory-management utility written in Rust. It reports memory use and offers cleanup operations for working sets and system caches.
-- [rust-anything](https://github.com/erkamyaman/rust-anything) supports incremental migrations to Rust by replaying recorded behavior against rewritten components.
-
-## Run and verify the implementation
-
-The [reproducible lab](docs/REPRODUCIBLE-LAB.md) runs a real HTTP form, server-enforced synthetic login, parameterized storage, an upload/quarantine/promotion flow, the ClamAV protocol and a browser consumer. Its automatic mode also checks a real Redis limiter. Use the pinned prerequisites and a new external report path:
-
-```sh
-node --experimental-sqlite lab/run-lab.mjs --verify --output /absolute/external/live-result.json
-node scripts/verify.mjs --full --output /absolute/external/whole-kit-result.json
-```
-
-Every payload file is classified in [coverage.json](verification/coverage.json). [Claims and limitations](verification/claims.json) connect mechanisms to named checks and standards. The [completion protocol](verification/v1.2.0-report.json) records final observed results. Executable references, configuration templates and source-reviewed guides are distinct; a guide is not counted as a deployed control. Hosted CI is configured, not claimed to have run before publication.
-
-## Who this is for
-
-Developers building web applications, APIs, MCP integrations, and containerized services who want a concrete baseline before production. The runnable examples and step-by-step templates are intended for developers who are starting to formalize their security practices.
-
-![Local authorization demo](assets/demo.gif)
-
-Captured output from `node --experimental-sqlite reference/demo.mjs`, played back with illustrative pacing.
-
-New to cybersecurity? Start with [Security basics, explained simply](docs/SECURITY-BASICS.md): how each protection works, a practical example, and what it does not guarantee.
-
-See the [changelog](CHANGELOG.md) for additions, changes, validation notes and release history.
-
-## Signed release verification
-
-Official releases use a post-quantum electronic signature on the [SHA256SUMS file registry](SHA256SUMS). Validate that signed registry at [amqic.ai/pages/request-verification](https://amqic.ai/pages/request-verification), then compare the SHA-256 of every release file with its registry entry. The maintainer signs the final registry before publication. See [release verification](docs/RELEASE-VERIFICATION.md) for the scope and checks.
-
-Report suspected vulnerabilities privately to [cyber@amqic.ai](mailto:cyber@amqic.ai). The [security policy](SECURITY.md) describes response targets and coordinated disclosure.
-
-## What is included
-
-| Area | Implementation and guide | Related risks and references |
-| --- | --- | --- |
-| Server-side authorization | Login → password → CAPTCHA → TOTP → session, single-use stages, attempt limits, and revocation. [Core](reference/README.md) | [A07, A01](docs/OWASP-MAPPING.md) |
-| Runnable verification lab | Real HTTP/browser, ClamAV and Redis consumers; fixed whole-kit verifier and CI. [Reproduction](docs/REPRODUCIBLE-LAB.md) | [Evidence boundaries](verification/claims.json) |
-| Request admission reference | Bound single-use proof of work, SQLite replay store and fixed Redis rate limiter. [Admission](lab/admission.README.md) | [NIST SC-5 scope](verification/claims.json) |
-| Website personal-data forms | Strict server schema, bounded Unicode input and fixed parameterized storage; safe output/container integration guidance. [Web input protection](docs/WEB-INPUT-PROTECTION.md) | [A05, A01](docs/OWASP-MAPPING.md) |
-| Embeddable login | A framework-independent client controller with protection against duplicate submissions and stale responses. [Controller](reference/login-client.mjs) | [A07, A10](docs/OWASP-MAPPING.md) |
-| Machine identity | Ed25519 signatures bound to the request, audience, timestamp, body, and nonce, with persistent replay protection. [Core](reference/README.md) | [A07, A04, A08](docs/OWASP-MAPPING.md) |
-| Database access | PostgreSQL row-level policies, tenant-bound database principals, column grants and explicit parameterized selection. [Database guide](docs/DATABASE-SECURITY.md) | [PostgreSQL RLS and database standards](docs/DATABASE-SECURITY.md#primary-references) |
-| Sensitive fields | AES-256-GCM envelope encryption, a KMS provider contract, authorization before unwrap and authenticated tenant/row/field binding. [Field encryption](reference/field-encryption.README.md) | [NIST GCM and key management](docs/DATABASE-SECURITY.md#primary-references) |
-| Shared replay enforcement | Atomic nonce admission, consistent expiration and authoritative shared state across instances; separate idempotency and external-effect handling. [Database and replay guide](docs/DATABASE-SECURITY.md#replay-protection-across-instances) | [NIST access/session controls](docs/DATABASE-SECURITY.md#primary-references) |
-| Sensitive operations | Fresh TOTP verification, a single-use grant for the exact action and arguments, and idempotent retries. [Core](reference/README.md) | [A01, A06](docs/OWASP-MAPPING.md) |
-| API/MCP | A fixed tool catalog, authorization checks, and transport integration contracts. [Integration](reference/README.md) | [A01, A07](docs/OWASP-MAPPING.md) |
-| External web protection | Cloudflare edge/CDN example, safe caching, DDoS concepts, WAF/rate limits and restricted origin. [Cloudflare guide](docs/CLOUDFLARE-EDGE.md) | [A02, A06](docs/OWASP-MAPPING.md) |
-| Nginx origin | HTTPS, Host/SNI checks, blocked paths, a sensitive URI registry, CSP, and 429 responses. [Infrastructure](docs/INFRASTRUCTURE.md) | [A02, A05](docs/OWASP-MAPPING.md) |
-| Initial deployment | Proxying before public launch, closed ports, key-only SSH, and CIDR firewall rules. [Deployment](docs/INITIAL-DEPLOYMENT.md) | [A02](docs/OWASP-MAPPING.md) |
-| Whitelisting | Access restrictions by TCP peer or by end-client address through an explicitly trusted proxy. [Deployment](docs/INITIAL-DEPLOYMENT.md) | [A01, A02](docs/OWASP-MAPPING.md) |
-| Containers | A minimal image, a non-root UID, a read-only filesystem, and capability, network, and resource limits. [Infrastructure](docs/INFRASTRUCTURE.md) | [A02](docs/OWASP-MAPPING.md) |
-| Dependencies | Separate download and offline inspection stages, artifact inventory checks, and approval of exact bytes. [Operations](docs/OPERATIONS.md) | [A03, A08](docs/OWASP-MAPPING.md) |
-| Secrets | Hidden human input, encrypted storage, and metadata for AI agents. [Operations](docs/OPERATIONS.md) | [A02, A04](docs/OWASP-MAPPING.md) |
-| Backups | Explicit file selection, a manifest, restore verification, and AES-256-GCM. [Operations](docs/OPERATIONS.md) | [A04, A08](docs/OWASP-MAPPING.md) |
-| Password management | KeePassXC, KDBX, separate factor storage, and recovery. [KeePassXC](docs/KEEPASSXC.md) | [A04, A07](docs/OWASP-MAPPING.md) |
-| Production preparation | A new clean release directory, exclusion of Git/Graphify/internal files, and checks for common secret patterns. [Preparation](docs/PRODUCTION.md) | [A02, A08](docs/OWASP-MAPPING.md) |
-| Binary release protection | Symbol separation, version-specific obfuscation examples, private diagnostics, and final-byte verification. [Binary guide](docs/BINARY-OBFUSCATION.md) | [Resilience and SSDF scope](docs/BINARY-OBFUSCATION.md#standards-and-evidence) |
-| VPN administration | WireGuard/WireSock and Tailscale patterns, restricted access, and source-address verification. [VPN guide](docs/VPN-TUNNELS.md) | [Network boundaries](docs/VPN-TUNNELS.md) |
-| Upload isolation | Separate quarantine, verdict and approved-content volumes; distinct intake/scanner/promoter/media identities. [Upload guide](docs/UPLOAD-ISOLATION.md) | [ASVS upload / NIST mapping](SECURITY.md#standards-mapping-for-the-v11-additions) |
-| Malware scanning | ClamAV quarantine, update, coverage and failure-policy guidance. [Service protection](docs/SERVICE-PROTECTION.md) | [Layered resource and content checks](docs/SERVICE-PROTECTION.md) |
-| Shared admission state | Private Redis, ACL/TLS, replay-state durability and gateway proof-of-work design guidance. [Service protection](docs/SERVICE-PROTECTION.md) | [Resource-consumption limits](docs/SERVICE-PROTECTION.md#request-proof-of-work-at-a-gateway) |
-| Version currency | Node/Python, supported npm/PyPI dependencies, official metadata, and dated snapshots. [Versions](docs/VERSIONS.md) | [A03](docs/OWASP-MAPPING.md) |
-
-
-## OWASP reference map
-
-The feature table above is cross-referenced to selected **OWASP ASVS 5.0.0** requirements and **OWASP Top 10:2025** categories in the [OWASP mapping](docs/OWASP-MAPPING.md). Each row distinguishes executable examples, configuration templates, and application integration work. The mapping is a review aid and records partial relationships; it does not establish an ASVS level or OWASP certification.
-
-## Requirements
-
-Choose current patched releases from supported runtime branches and run the kit checks on the target versions. The core was tested with Node.js 22.14.0 and `node:sqlite`. The SQLite module is experimental in this tested version. The example has no npm dependencies. Python helpers use the standard library, with baseline support starting at Python 3.11. Production preparation on Windows requires Python 3.12+.
-
-The infrastructure instructions target Linux, OpenSSH, Nginx, and Docker Compose. Trusted-proxy client whitelisting requires `http_realip_module`. The Nginx test environment uses a local image identified by a reviewed SHA-256 and synthetic TLS certificates. Encrypted backup and secret input commands are intended for a human operator's own interactive Linux terminal.
-
-Tested versions, environments, and limitations are listed in [VALIDATION.md](docs/VALIDATION.md). Before a release, check current patches and branch support using [VERSIONS.md](docs/VERSIONS.md).
-
-## Quick start
-
-Open a terminal in the kit's root directory. These commands run checks against synthetic data.
-
-```sh
-node --experimental-sqlite reference/demo.mjs
-node --experimental-sqlite --test reference/core.test.mjs reference/login-client.test.mjs reference/pii-input.test.mjs
-python -B scripts/test_operations.py
-node --test scripts/test_crypto.mjs
-python -B scripts/test_prepare_production.py
-python -B scripts/test_check_versions.py
-python -B infra/container/test_quarantine.py
-python -B infra/nginx/test_harness.py
-```
-
-The demo completes the login flow, performs a signed authorized operation, and retries using the same operation identifier. The `sameResult=true` response confirms that the stored result was returned. The CAPTCHA adapters, passwords, and TOTP fixtures in `reference/fixtures.mjs` are used exclusively by synthetic examples.
-
-## Adoption sequence
-
-1. Read the [security model](docs/SECURITY-MODEL.md) and define system ownership, access boundaries, and recovery.
-2. For a new server, start with [initial deployment](docs/INITIAL-DEPLOYMENT.md). Configure the cloud firewall, administrative access, and origin TLS before publishing proxied DNS records.
-3. Create a dedicated account and an Ed25519 SSH key, then verify a second session and the provider console. Allow the SSH port only from administrative CIDRs or a VPN. `sshd` verifies the key.
-4. Prepare the application and its internal container network. Choose non-overlapping address ranges and verify that Nginx can reach the private address on the target Linux host.
-5. Generate a candidate Nginx configuration with the actual domain and private upstream. Enable whitelisting where needed. Check syntax, permitted requests, denials, rate limits, and CSP.
-6. Integrate the server core through the contracts in [reference/README.md](reference/README.md). Connect a real CAPTCHA provider, protected factor storage, enrollment, and recovery.
-7. Set up hidden secret input, backups, and restore verification. Critical changes require independent 2FA confirmation bound to the specific operation.
-8. Check versions and dependencies, prepare a clean release inventory, and test the application with its target configuration.
-9. Follow a separately authorized release procedure with a rollback plan and monitoring.
-
-## Integrating authorization and API/MCP
-
-`reference/core.mjs` contains the server core, `reference/crypto.mjs` provides cryptographic functions, and `reference/login-client.mjs` controls the login stages presented by the interface. Each login stage requires server confirmation. The flow has no option to disable stages for simplified login.
-
-A sensitive-operation handler receives a grant bound to the user, session, action, argument hash, and operation identifier. The example changes synthetic records within the same SQLite transaction. External effects, including deleting a production database or backup files, require a separately reviewed handler with durable outcome tracking.
-
-The application supplies the complete HTTP/MCP transport, OAuth integration, and browser-facing server. Machine Ed25519 signatures belong to the internal protocol, while MCP transport authorization requires its own integration. CAPTCHA, cookie, CSRF, factor storage, scope, revocation, and idempotency contracts are documented in the [core guide](reference/README.md).
-
-## Origin protection, rate limits, and CSP
-
-The baseline Nginx configuration permits only explicitly selected routes. The `infra/protected-paths.json` registry additionally blocks known paths to secrets, source files, and internal data. Direct requests with an inappropriate Host or SNI are rejected.
-
-The starting website limit is 10 requests per second per IP. `/api` and `/mcp` share a separate starting limit of 10 requests per minute per IP. Tune these values and burst capacity to the application workload, trusted proxy setup, and expected shared-IP traffic, then rerun the rate-limit tests before deployment. Each zone uses `burst=9 nodelay`, allowing an initial batch of up to ten nearly simultaneous requests. Excess requests receive 429. Capacity recovers according to the leaky-bucket algorithm. Blocked HTTP paths also pass through the limiter. TLS and early HTTP parsing failures have their own processing boundary.
-
-CSP allows core resources from the same origin and restricts inline code, `eval`, frames, plugins, workers, and media. The policy is also included in denial responses. A stricter application CSP is retained alongside the baseline policy. External CAPTCHA, CDN, API, WebSocket, or nonce/hash integration requires coordinated policy changes and interface testing. Configuration and the reproducible test environment are described in [INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md).
-
-Whitelisting has separate profiles for the immediate connection peer and a client address restored through a trusted proxy. A header supplied by an arbitrary sender does not establish trust. The network firewall restricts ports and SSH reachability, while OpenSSH verifies keys. Every template requires explicit operator-provided settings.
-
-## Backups and secrets
-
-The primary backup entry point is `scripts/secure_backup.mjs`. It creates a private intermediate archive, encrypts it with AES-256-GCM, and verifies decryption and contents. A human enters the password without echo. Restore creates a new directory. A running database requires a native consistent dump or snapshot.
-
-`protected_input.mjs` demonstrates hidden input and encrypted storage. Enforced isolation from an agent with full access under the same OS user requires a separate trusted process under another account or an external secret store. The application's secret consumer is integrated separately. Never pass secrets through chat, command arguments, environment variables, or logs. Detailed commands and limitations are in [OPERATIONS.md](docs/OPERATIONS.md).
-
-## AI skills
-
-| Skill | Purpose |
-| --- | --- |
-| [protected-terminal-input](skills/protected-terminal-input/SKILL.md) | Metadata preparation and hidden human input |
-| [verified-backup](skills/verified-backup/SKILL.md) | Encrypted backups and restore verification |
-| [review-dependencies](skills/review-dependencies/SKILL.md) | Offline dependency inspection and an exact SHA-256 approval decision |
-| [prepare-production](skills/prepare-production/SKILL.md) | A clean release inventory and checks for common secret patterns |
-| [check-versions](skills/check-versions/SKILL.md) | Version currency, branch support, and coverage gaps |
-| [obfuscate-binaries](skills/obfuscate-binaries/SKILL.md) | Production binary transformations, preserved contracts, private diagnostics, and final signing |
-| [run-security-lab](skills/run-security-lab/SKILL.md) | Plan and run the fixed local scenarios and interpret machine-readable evidence |
-| [review-with-sandhive](skills/review-with-sandhive/SKILL.md) | Optional reading of external security cases and planning of authorized checks |
-
-Give the agent the path to the relevant `SKILL.md`, or install the skill folder through your tool's normal mechanism while preserving access to its relative resources. The skills are part of this kit and reference its `scripts/`, `infra/`, and `docs/` directories. Copying a skill folder alone requires updating those references. Repository agent instructions are in [AGENTS.md](AGENTS.md).
-
-## Production binaries and private administration
-
-Use the [binary obfuscation guide](docs/BINARY-OBFUSCATION.md) to distinguish symbol stripping from actual obfuscation and to preserve diagnostics, runtime compatibility and signing order. It includes Linux ELF and Go metadata-reduction examples, version-bound Garble/R8 templates, and .NET considerations. Obfuscation can increase analysis effort; it cannot protect embedded credentials or replace server-side authorization.
-
-Use the [VPN guide](docs/VPN-TUNNELS.md) for WireGuard with WireSock on Windows or Tailscale, including subnet-router access. Keep SSH and private administrative endpoints restricted by tunnel policy, host firewall and application authorization. A tunnel does not automatically configure Nginx, anonymize an origin, or close public listeners.
-
-## External protection and safe caching
-
-The [Cloudflare edge guide](docs/CLOUDFLARE-EDGE.md) explains network/application DDoS, selective public-asset caching, sensitive-response bypasses, WAF and rate limits, strict origin TLS and proxy-source trust. Cloudflare is an additional layer in front of the existing origin and application controls; caching must never mix one user's personal data with another user's response.
-
-## Website form data and container boundaries
-
-The [web input guide](docs/WEB-INPUT-PROTECTION.md) and [server module](reference/pii-input.mjs) validate contact fields and keep SQL structure fixed while binding all submitted values. Browser output stays plain text; form values never become shell commands or dynamically evaluated code. The guide connects these protections to the constrained server container, least-privilege database access and private networking. Each layer keeps its own checks: container isolation does not replace safe queries or authorization.
-
-## Uploads stay outside primary storage
-
-The [upload-isolation guide](docs/UPLOAD-ISOLATION.md) and [Compose topology](infra/container/uploads.compose.yaml) separate the untrusted intake area from approved content and the main application. Only the trusted promoter can write approved storage, after matching the exact scanned bytes; the media service reads approved content only. The template defines isolation boundaries and requires separately implemented role-specific services.
-
-## Malware scanning and shared request limits
-
-The [service-protection guide](docs/SERVICE-PROTECTION.md) explains ClamAV, Redis and request admission. Runnable [upload/ClamAV](lab/upload-pipeline.README.md) and [PoW/Redis](lab/admission.README.md) references supplement those integration patterns. The lab starts temporary real service consumers; it does not install production services or automatically enable PoW on a production API.
-
-## Secure deployment and GitHub releases
-
-Follow the [production deployment runbook](docs/DEPLOYMENT.md) for signed-artifact verification, recovery, configuration and secrets, compatible migrations, staged rollout, real-path checks and rollback. Follow the [GitHub release guide](docs/GITHUB-RELEASES.md) for README/SECURITY/LICENSE contents, source-versus-binary inventories, deterministic SHA-256 registries, signing, version tags, draft assets and download verification. Publishing a release and activating it in production are separate actions.
-
-## Release preparation and updates
-
-`prepare_production.py` copies only explicitly selected files into a new directory outside the source, checks their contents, and creates a manifest. Git metadata, Graphify output, internal instructions, MCP configuration, tests, caches, backups, and known secret filenames are excluded. Explicitly selecting a prohibited file stops preparation. The source tree is preserved.
-
-Secret detection is limited to supported text formats and known patterns. Manual review and a separate process for binary artifacts are required. Confirmed secret exposure requires revocation or rotation. See the [preparation guide](docs/PRODUCTION.md).
-
-`check_versions.py` distinguishes the current environment, lockfile/requirements versions, and dated official metadata. Its report separately shows the latest release, the current patch in the selected branch, support status, and available withdrawn-release information. Private package names are not sent over the network automatically. Updates go through quarantine, compatibility review, and the normal tests. See the [version guide](docs/VERSIONS.md).
-
-## Subscription offer eligibility
-
-The [billing offer guard](reference/README.md#subscription-offer-eligibility) enforces account eligibility and authorized offer selection before issuing a trial entitlement. The reference uses a trusted purchase verification adapter and an atomic SQLite claim record to prevent duplicate grants.
-
-## Operational threat data
-
-[Vallatum telemetry from AMQIC's public site](THREAT-DATA.md) covers 27 UTC dates, from 22 October through 17 November 2026. Cloudflare reported **21,296 Block decisions** and **968 Managed Challenges**. The Block total includes **8,106** attributed to the tracked maintenance rule and **13,190** from other rules. These counts describe policy decisions on requests. The separate filtered sample for 12–17 November contains **235 distinct public paths or redacted aliases**, with **1,680 Blocks** and **14 Managed Challenges**. Its counts come from returned, adaptively sampled groups. The consolidated register now contains **617 distinct public path strings or aliases**, combining 514 historical entries and 235 supplemental entries with 132 overlaps deduplicated. Historical sample counts and supplemental provider-reported counts remain separate; a listed path does not establish successful access or identify an attacker. The report also includes the daily chart, a separate origin sample and collection limits.
-
-## Verification and readiness boundaries
-
-Local tests cover the core and client controller, backups and encryption, release preparation, version currency, and safe archive inspection. Nginx was checked with synthetic requests, and nftables was checked in a separate network namespace. Exact results are available in [VALIDATION.md](docs/VALIDATION.md).
-
-Before production launch, verify actual certificates, addresses, proxy headers, SSH recovery, network rules, and application compatibility. A container shares the host kernel and continues to execute its own code. A minimal image and restrictions reduce the attack surface. Running untrusted code requires a suitable separate sandbox.
-
-## Contributing and license
+### Contributing and license
 
 Change the relevant module, preserve its contracts, and verify affected behavior through its normal entry points. Synthetic examples must remain clearly identified. Follow [AGENTS.md](AGENTS.md) when contributing source code and documentation.
 
 The repository is distributed under the [MIT license](LICENSE). **Copyright (c) 2026 amqic.ai.** Review the terms of third-party tools and images separately for the components you use.
 
-## Repository activity
+### Developer perspective
+
+This project supports collaboration between developers and AI, with people retaining responsibility for decisions and support. Read the [developer manifesto](MANIFESTO.md) for the full message and social links.
+
+### Repository activity
 
 <a href="https://www.star-history.com/?repos=MrMarshalRF%2Famqic_base_cybersec_for_development&amp;type=date">
   <picture>
@@ -345,16 +356,11 @@ The repository is distributed under the [MIT license](LICENSE). **Copyright (c) 
   </picture>
 </a>
 
-The chart is generated by [Star History](https://www.star-history.com/) from public GitHub data and refreshes subject to service and image-cache delays. It becomes available once this repository is public.
+The chart is generated by [Star History](https://www.star-history.com/) from public GitHub data and refreshes subject to service and image-cache delays.
 
 The badges above display public GitHub repository data.
 
-
-## Developer perspective
-
-This project supports collaboration between developers and AI, with people retaining responsibility for decisions and support. Read the [developer manifesto](MANIFESTO.md) for the full message and social links.
-
-## Optional support
+### Optional support
 
 The address list is also available as [wallets.txt](wallets.txt). First verify the maintainer's signature on [SHA256SUMS](SHA256SUMS) through [AMQIC verification](https://amqic.ai/pages/request-verification), then check that the hash of wallets.txt matches its registry entry before relying on the addresses.
 
@@ -365,5 +371,3 @@ I do not ask for money or sell anything from my own public products. This is par
 | USDT | TRC20 | `TTu2KEobZW3hv8RaX2VaWz4Fkj8hQ1Wjqx` |
 | BTC | Bitcoin | `19BvhiToixuGvVsVw1fZTiDdAPnXhHJzG3` |
 | ETH | Ethereum | `0xf26b834094b9509d5ec3131759ecb64fb45f7405` |
-
-

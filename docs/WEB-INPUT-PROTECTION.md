@@ -133,3 +133,19 @@ These are design references, not claims of certification or complete protection 
 ## Destinations and recovery forms
 
 Validate redirect selections as server-defined local route IDs using the [return-route reference](../enterprise/outbound/README.md); do not write arbitrary form/query URLs into Location. Use its fixed outbound transport for the documented approved-resource profile, not a user-selected fetch service. Recovery forms follow the separate [token lifecycle contract](../enterprise/recovery/README.md), generic responses and independent admission. Field validation does not prove control of an email address or authorize a credential change.
+
+## Preserve operation identity under hostile request variation
+
+Connect the application's parser, route selection and limiter through the
+[countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md#harden-twelve-limiter-boundaries).
+Use a single documented parse/validation contract and reject ambiguous inputs;
+do not repair controls or decode again to manufacture an apparently safe value.
+Canonical operation IDs and verified account identity must be server-selected.
+Unknown fields, unsupported methods/content types and retired API versions must
+not create an unlimited new budget or gain permission.
+
+Keep fixed parameterized database operations, safe output contexts, file-ID
+authorization and independent tool boundaries as the root protections. A decoy,
+slower response, generic denial or blocked callback cannot repair an injection
+or authorization defect. Request- and cost-pressure limits complement those
+controls; parser and anti-automation examples do not certify a production app.

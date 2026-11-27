@@ -1,6 +1,6 @@
 # Federated identity monitoring
 
-Apply this source-reviewed procedure when a deployment uses a federated identity provider (IdP) or cloud tenant. It does not apply to a purely local password file. Active Directory and Windows identity hardening remain outside this web baseline.
+Apply this source-reviewed procedure when a deployment uses a federated identity provider (IdP) or cloud tenant. It does not apply to a purely local password file. The [directory companion](DIRECTORY-IDENTITY-MONITORING.md) now adds manual directory, Kerberos and certificate review guidance. Directory collectors, Windows/domain hardening and deployed detection remain outside the implemented web references.
 
 ## Review changes
 
@@ -39,3 +39,30 @@ Review cloud control-plane audit events per opaque credential, source, asset and
 Register expected infrastructure-as-code, inventory, posture and backup runs with reviewed source/scope/expiry. A registered run with the same breadth and a high-rate single-action job are near matches. The [behavior specification](AGENTIC-ATTACK-DETECTION.md) and [offline fixture suite](../enterprise/detection/README.md) use synthetic event classes only, without cloud queries or credentials. Production baselines, provider completeness, pagination, latency and clock handling require target validation.
 
 Record the anomaly review as `campaign` / `campaign-note` / `campaign-correlation`. Use `identity` / `principal-change` only for an actual principal or credential-state change. Confirm the finding with the identity owner; any revoke, disable or rotate action occurs at the issuer, and the evaluator performs none of those operations.
+
+## Cloud control-plane context
+
+Extend the private audit baseline beyond velocity. Review metadata-service access
+by unexpected workloads, IAM/role-binding changes, unusual object-storage
+inventory and Kubernetes API discovery. Normal bootstrap, workload-identity token
+refresh, inventory and deployment traffic can produce similar observations;
+metadata access alone is not evidence of credential theft.
+
+Record trusted event and ingestion times, issuer/tenant, opaque principal and
+resource scope, operation class, outcome, collector provenance, policy revision
+and a protected change/engagement reference. Some metadata accesses are not
+visible in control-plane logs: identify the host/proxy/workload source and its
+coverage rather than inventing a missing audit event. Preserve pagination,
+delivery delays and identity/key epochs when relating records.
+
+For example, storage listing plus a role-binding change by an unexpected
+principal can justify review. A deployment is a near match only when these exact
+actions, resources, workload/source and times fall within its externally
+approved scope, without unexplained privilege or integrity drift. An approved
+identity alone cannot exempt unrelated changes. Another tenant or incomparable
+clocks cannot establish a chain. Confirm actual effects separately from denied attempts.
+Use campaign/campaign-note/campaign-correlation for the investigation; existing
+identity/principal-change records describe actual supported principal-state
+changes, not arbitrary directory or API-discovery records. The eight-family
+evaluator's cloud-velocity fixture does not implement all of these new behaviors.
+Revocation and rotation remain separately authorized issuer operations.
