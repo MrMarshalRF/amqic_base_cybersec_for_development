@@ -36,3 +36,48 @@ A separately implemented blocked-admission exporter must use the existing SIEM v
 ## Validation scope
 
 Offline Node builtin tests cover all ten classes with exact expected finding lists, risk/near-match/description/exception pairs and failure/privacy cases. They do not execute extensions, probe live systems, scan real credentials or measure false-positive rates. Target collection, precedence, custody, consumer binding and enforcement remain operator integration. Findings are investigation leads, never attribution or automatic bans; all providers and countries receive identical treatment.
+
+## Manual admission for high-risk capabilities
+
+Classify tools by their effective capabilities, not names or descriptions they
+publish. A server, library or tool that can create a networked sandbox, provision
+runtime stacks or initiate an engagement against targets requires a separate
+high-risk write grant. A package pin, valid TLS connection or ordinary MCP
+registration is not that grant. Unknown capability or collection coverage holds
+admission for review.
+
+Default deny until an independent authority binds owner, reviewer, authenticated
+actor/tenant, exact tool/catalog and artifact identity, target/network scope,
+policy revision, argument digest, resource budget, approval time and expiry.
+Record authorized exercises in the private engagement registry; the agent and
+server cannot edit their own permission or exception. Recheck scope, revocation
+and expiry at dispatch and after asynchronous approval. Changed catalog, code,
+arguments, targets or tenant invalidates the previous grant.
+
+A read-only documentation tool is a near match, as is artifact acquisition
+without any launch permission. An explicitly granted isolated test remains
+authorized only for its fixed targets, lifetime and limits. The engagement entry
+does not suppress unrelated identity drift or policy-integrity findings.
+
+This is an additional manual admission requirement. The ten-rule configuration
+reference has no new capability field or rule ID: do not pass illustrative grant
+fields into its closed input schema or claim its existing tests implement this
+collector/gate. Use a separately reviewed capability collector and enforcing
+authority, with the [runtime boundary](AI-AGENT-RUNTIME.md). Untrusted tool or
+crawl output remains data under the [composition procedure](AI-AGENT-RUNTIME.md#untrusted-tool-output-and-role-boundaries).
+Context formatting alone cannot authorize a consequential operation.
+
+## Skills in managed coding-agent environments
+
+Include all effective skill/plugin/hook/MCP locations in managed-endpoint review,
+not just one harness directory. Classify actual callable capabilities and
+network/credential reach; an attractive name or untrusted manifest cannot
+authorize admission. Broad testing or execution skills that can reach production
+need the same independent owner/target/action/time grant described above.
+
+A new documentation-only pack or a reviewed local-only fixture is a near match,
+not automatic compromise. Preserve the original bytes, effective precedence,
+pin/provenance and exact approval scope privately. See the
+[countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md) for endpoint context and
+response limits. This remains manual coverage: the ten-rule reference does not
+discover harness directories or implement new capability classifications.

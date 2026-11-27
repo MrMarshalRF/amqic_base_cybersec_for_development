@@ -152,3 +152,38 @@ and owned-resource cleanup. Version fixtures check incomplete root/direct npm
 inventory and runtime support at assessment time, including policy-date
 precision. These checks do not establish production failover, cloud integration
 or exhaustive vulnerability clearance.
+
+## v1.9.3 operational guidance
+
+The [directory guide](DIRECTORY-IDENTITY-MONITORING.md), [connection guide](COMMAND-AND-CONTROL-MONITORING.md)
+and expanded campaign/cloud/MCP/tool-output procedures are source-reviewed
+guidance. Review checks their trust/clock/scope assumptions, examples and near
+matches, official citations, local links and payload membership. Review examples
+are expected human dispositions, not executable detection fixtures or measured
+precision/recall. An example vocabulary item does not extend a closed input schema.
+
+The behavior evaluator retains eight families, configuration review retains ten
+rules and SIEM v1 retains its existing fields/actions. There is no new Windows
+collector, directory hardening, C2 parser, serializer/sanitizer, model-provider
+connector or automatic campaign gate. Existing reference tests establish only
+their original executable contracts. Actual audit enablement/SACLs/CA policy,
+collector identity and delivery, clock/key epochs, privacy projection, model
+serialization, incident response and deployed effectiveness require target checks.
+Archive/hash membership checks are not evidence that any of those were activated.
+
+### Combined countermeasure and resource-catalog guidance
+
+The combined v1.9.3 includes [selective-response/rate-limit guidance](AGENTIC-OFFENSE-DEGRADATION.md)
+and the [optional resource catalog](../RECOMMENDATIONS.md). Sources, proxy/parser
+and account-identity boundaries, bounded resource use, manual match/near-match
+dispositions, statuses, privacy and links are reviewed statically. These cases
+are documentation reasoning, not new executable detectors, payload tests or
+measured protection. Moving recommendations preserves existing entry text and
+scope limits; SPFsmartGATE remains in the main README. No current external
+product audit is inferred from the move.
+
+The original nineteen-file scan is reconciled by exact source hashes, sizes,
+state/report pins and engine-category counts before editing. Only unchanged
+bytes can retain those observations; later modified files await matching fresh
+results. Errors, timeouts and unsupported types remain non-results. The final
+registry is generated only after accepted content and reports are complete.

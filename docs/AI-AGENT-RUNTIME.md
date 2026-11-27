@@ -104,3 +104,46 @@ These are selected control relationships. Local tests demonstrate only the imple
 ## Installed files and policy provenance
 
 The [integrity companion](AGENT-RUNTIME-INTEGRITY.md) covers approved installed-file baselines, launcher/configuration changes and extension review, with an optional external reference and no third-party integration. Interpret effective permission semantics for the exact product/version; compare them with the owner's approved host/task policy. Keep the enforcing identity, baseline and audit custody outside the agent's write authority.
+
+## Untrusted tool output and role boundaries
+
+Treat browser, crawl, retrieval and tool responses as untrusted data, even when
+the request was authorized or the transport was authenticated. Never concatenate
+raw response bytes into a handcrafted trusted conversation transcript or promote
+them into system/developer policy. Use the backend's structured message/tool-result
+interface, bounded decoding and provider-aware escaping/validation of control
+syntax where required by that backend. Preserve provenance outside the content's
+write authority and retain original evidence only in protected custody.
+
+Delimiters and labels help a reader distinguish evidence, but cannot guarantee
+neutralization or prompt-injection immunity. Test the actual serializer,
+tokenizer/model endpoint and consumer boundary. A hosted provider, self-hosted
+endpoint, filter or summarizer is not an independent authorization authority. If
+the composition boundary cannot be established, hold that content for controlled
+review or a bounded data-only projection; do not silently grant it trusted roles.
+
+For example, a crawl response proposing a broader tool or network permission
+remains an observation for review. The unchanged outside policy must deny any
+ungranted action. An ordinary response containing useful domain facts is a near
+match and should still be usable as data; rejecting all tool content is not a
+functional integration. Original bytes, escaped display and separately reviewed
+policy must remain distinguishable.
+
+Enforce tool/catalog, exact arguments, actor/tenant, generation, expiry and
+revocation independently of model text. A model can still be influenced after
+formatting controls; it must not gain wider filesystem/network/credential rights.
+For [high-risk networked tools](AGENT-CONFIG-REVIEW.md#manual-admission-for-high-risk-capabilities),
+require the separate scoped grant and private engagement record where relevant.
+These requirements are adoption guidance. This patch installs no serializer,
+prompt filter, model gateway or new runtime guard behavior.
+
+### Related application-boundary advisory
+
+An [application-layer advisory](https://github.com/BitterSecurity/Decepticon/security/advisories/GHSA-g5f9-3xfg-p9mf),
+published on 24 June 2026, describes untrusted crawl output crossing model role
+boundaries under susceptible backend/tokenizer handling, with execution inside
+the application's sandbox. It is related work for the composition requirement,
+not a tool recommendation or proof that this kit reproduced, prevents or is
+affected by that issue. No advisory control strings, procedures or third-party
+implementation are copied. Hosted and self-hosted endpoints each require their
+actual boundary to be evaluated.

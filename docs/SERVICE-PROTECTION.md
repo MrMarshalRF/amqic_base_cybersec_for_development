@@ -97,3 +97,26 @@ OWASP's [Denial of Service guidance](https://cheatsheetseries.owasp.org/cheatshe
 Record the scanner engine/database age and coverage, Redis version/topology/ACL/TLS/eviction/persistence choices, gateway challenge policy, denied bypass paths, outage behavior, load measurements and incident owner. Keep records and recovery credentials outside public source. A detection, scanner outage, lost replay state or excess resource use must have an explicit containment and recovery action.
 
 The runnable lab adds temporary real ClamAV and Redis consumers; standalone PoW and Redis admission APIs are not silently attached to every authorization-core operation. No production deployment or gateway activation is performed. Use [secure deployment](DEPLOYMENT.md) for a separately reviewed rollout and [release preparation](GITHUB-RELEASES.md) for the final artifact inventory.
+
+## Authentication and shared-budget boundaries
+
+The [countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md#harden-twelve-limiter-boundaries)
+connects shared admission with canonical account/operation/target identity,
+trusted proxy boundaries and normalization. Use current issuer-owned IDs and
+preserve tenant/account separation. An email alias rule is never a replacement
+for account authorization. Local replicas need a coordinated global cap;
+independent fallback counters do not preserve the original limit.
+
+Challenge verification belongs to the server and must bind the protected action,
+session/tenant and short-lived one-use proof. Passing a password stage does not
+reset outstanding OTP/MFA protections. If policy permits an account failure
+reset after complete authentication, update it atomically for that exact account
+without erasing another account's or aggregate/window abuse history. Preserve
+later concurrent failures. Missing/invalid challenge attempts still need the
+appropriate pressure budget; a client flag grants nothing.
+
+Distinguish resource-pressure limits, one-operation idempotency and effect
+reconciliation. Keep the [distributed reference](../enterprise/distributed/README.md)
+within its stated backend guarantees; this guide adds no account resolver,
+authentication reset implementation, challenge-provider adapter or automatic
+globally bounded fallback.

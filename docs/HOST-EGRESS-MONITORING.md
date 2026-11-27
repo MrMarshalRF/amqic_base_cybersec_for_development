@@ -31,3 +31,36 @@ Maintain `model-api` as a private, provider-neutral destination class for infere
 Maintain `interaction-capture` values privately with provenance and expiry. A classified server DNS lookup or connection deserves review; a workstation lookup or an unusual-looking ordinary service subdomain is not enough. Correlate relevant preceding inbound activity using protected linkage references. A classified match does not prove injection or attribution. The [behavior reference](AGENTIC-ATTACK-DETECTION.md) supplies synthetic match/near-match pairs; resolver/proxy collection and classification remain operator integrations.
 
 Record both families through existing `egress` / `egress-decision` / `egress-unapproved` fields. Destination classes and exact indicators stay in the restricted source case. No provider hostname list, resolver sensor or live egress test is shipped.
+
+## Callback and channel review
+
+Follow [command-and-control monitoring](COMMAND-AND-CONTROL-MONITORING.md) for
+periodic callback, unusual long-lived session and DNS/web-channel review. Combine
+trusted workload lineage and destination authorization with a deployment
+baseline. Ordinary TLS, long sessions, random-looking DNS names or regular
+health checks alone do not identify a covert channel. Unapproved model use plus
+scan-like workstation egress is a review lead, not an extension of the existing
+server-only model-API rule or attribution to a product.
+
+Protect collector completeness, clock/key epochs and private session linkage.
+Keep actual destinations and any packet/DNS details out of public exports.
+Registered maintenance/testing requires externally approved exact scope and
+expiry; it does not grant a blanket egress exception. These are manual
+correlation procedures, not new evaluator kinds, packet parsers or installed
+resolver rules.
+
+## Callback denial and isolated decoys
+
+Default-deny workload egress and reviewed URL-fetch boundaries can prevent an
+unnecessary callback, as discussed in the [countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md).
+Confirm resolver routing, proxies, protocol families and the actual enforcing
+point. A required resolver or proxy is not permission for arbitrary destinations.
+An absent callback is not proof that an injection or execution flaw is fixed;
+preserve the root-cause review and legitimate permitted-service checks.
+
+Inert decoys must not initiate callbacks, fetch untrusted destinations or grant
+real credentials/data. Keep production services, caches and authenticated flows
+outside their response-variation experiments. Correlation with managed-workstation
+evidence requires independent collector/owner context; approved inference use
+alone cannot justify blocking a workstation. No resolver rule or new egress
+enforcement is activated by these procedures.

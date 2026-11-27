@@ -271,3 +271,27 @@ A security.txt file is a sign giving the right contact and policy. It does not g
 A package checksum is like checking that a delivered box matches its shipping label. It does not tell you whether somebody later changed the tools inside your workshop. Installed-file monitoring needs a separately trusted list of expected files plus checks for extra/missing files, permissions and approved changes.
 
 Keep that list and its checker outside the workshop's own write authority. A tool claiming it is safe cannot supply independent proof. Broad access may be an explicitly approved choice for an isolated task; verify the actual boundary instead of guessing from a permission label. See [Agent runtime integrity](AGENT-RUNTIME-INTEGRITY.md).
+
+## 37. Read several warning signs together
+
+Imagine an office access-card system. Issuing many cards can be normal during
+onboarding. Issuing them under an unexpected administrator, followed by changes
+to door permissions, deserves a person checking the approved work order. The
+[directory guide](DIRECTORY-IDENTITY-MONITORING.md) applies that idea to identity
+and certificate records. It supplies a review procedure, not a Windows sensor.
+
+A server calling home every minute can be a normal health check. The same
+rhythm from an unexpected new process to an unapproved destination needs context,
+as explained in the [connection guide](COMMAND-AND-CONTROL-MONITORING.md).
+Encryption or timing alone cannot tell you whether it is an attack.
+
+Putting several related signs into one timeline can reveal something a single
+alert misses. First confirm that they belong to the same organization and
+privately verified related machines, and that their clocks agree. Two events
+from unrelated customers must not become one case just because their times
+match. An approved test is an exception only for its actual scope and time.
+
+An AI tool response is like a document handed to a receptionist: it can provide
+information, but cannot issue itself a building key. Formatting helps distinguish
+the document from policy; an outside authorization check still owns the key.
+See [runtime boundaries](AI-AGENT-RUNTIME.md#untrusted-tool-output-and-role-boundaries).

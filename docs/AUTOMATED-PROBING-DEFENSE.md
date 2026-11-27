@@ -102,3 +102,65 @@ For a callback review, compare an inbound source reference with an outbound dest
 For rotating sources, baseline distinct-source count and route-class breadth per asset, role and hour of week. Public crawler fleets, CDN health checks and a fleet touching one approved health route are near matches. Header/TLS/timing classes may enrich private review; they do not identify a person or malicious actor. The [offline examples](../enterprise/detection/README.md) consume operator-classified synthetic records and do not fingerprint visitors or query an edge provider.
 
 Protected-path monitoring distinguishes the background denial floor from an unusual clustered burst. Any protected-path request that was not denied requires high-priority configuration review; link subsequent authenticated activity through trusted opaque references. Preserve the aggregate [THREAT-DATA](../THREAT-DATA.md) without adding raw sources. Correlations use `campaign` / `campaign-note`; configuration-integrity reviews use `runtime` / `config-integrity`, matching the existing exporter. Do not add raw routes, addresses, prompts or undeclared fields to SIEM.
+
+## Short-window multi-stage review
+
+Use the [multi-stage procedure](AGENTIC-ATTACK-DETECTION.md#multi-stage-bursts-and-persistence-follow-on)
+alongside delayed/multi-source review. Preserve signal diversity, observed
+outcomes, trusted temporal order and private asset/identity linkage. A shared
+network address or denied request pair cannot prove that access occurred. Missing
+sources or incomparable key epochs leave correlation incomplete.
+
+Engagement registration requires a separate owner/reviewer, exact action,
+asset/account/target scope, approval time and expiry. The monitored tool cannot
+register or extend its own exception. An approved exercise is a documented
+near match only for its actual scope and time; exceptions never disable tenant
+isolation, independent grants or investigation of an unexpected integrity
+change. Store the rationale privately and preserve coarse review records.
+
+Correlate new service/task/identity creation only with independently supported
+preceding signals. Confirm authorized maintenance and actual effects before
+containment. These additions supply a playbook; they add no new executable
+campaign detector or telemetry collector.
+
+## Operation-level budgets and selective responses
+
+Follow the [countermeasure guide](AGENTIC-OFFENSE-DEGRADATION.md) for the twelve
+limiter boundaries and manual match/near-match cases. Bind budgets to trusted
+tenant/account and canonical operation IDs, not raw URI spelling, client-minted
+cookies, changing browser strings or arbitrary request fields. Supported method,
+representation and version aliases share the appropriate operation budget;
+unsupported variants remain rejected and never gain authorization by sharing a key.
+
+Use the observed socket peer as provenance. Only reviewed immediate proxies may
+supply a verified chain; walk from the trusted application side to the first
+non-trusted boundary. That address need not identify the initiating user. Keep
+edge/global peer capacity distinct from authenticated per-client budgets so a
+shared proxy or carrier does not become one victim-wide lockout.
+
+Reject invalid/ambiguous request encodings under one reviewed parser contract;
+do not strip controls, repeatedly decode, lowercase every path or silently merge
+different handlers. Resolve account IDs using issuer-defined identity rules.
+Provider-specific mailbox delivery equivalence may support a separate abuse
+budget only when verified; it never merges account ownership or authorization.
+
+Require shared atomic reservation/update/expiry/reset and reviewed failover
+continuity for global limits. A single local counter per replica cannot enforce
+the global cap. Keep aggregate abuse windows and request-pressure budgets
+separate from an account's narrowly scoped full-authentication success reset.
+Duplicate transport requests can still count against pressure limits even when
+idempotency forbids repeating their business effect. Lost effect replies need
+reconciliation of the original operation, not fresh identity/window resets.
+
+If required protection is unavailable, hold that sensitive/costly operation or
+use an explicitly reviewed bounded fallback; do not multiply a global allowance
+through uncoordinated per-instance fallback. Preserve truthful quota and outage
+responses. No new distributed limiter, normalizer or challenge provider is
+implemented by this documentation increment.
+
+Selective delay needs global connection/queue/time/memory limits and cheap
+load shedding before the application is saturated. Fast refusal is the safe
+starting point. Keep real authorization, meaningful statuses, cache validators,
+CSP, cookie/token rules and idempotency stable. Any response variation belongs
+only on isolated inert decoys after review; no prompt-based retaliation or
+off-estate action is supplied.

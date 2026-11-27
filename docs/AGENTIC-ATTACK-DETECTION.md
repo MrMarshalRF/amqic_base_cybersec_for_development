@@ -37,8 +37,73 @@ Every family has a synthetic match and at least two near matches with an exact e
 
 Existing SIEM v1 action ownership is preserved. Agent/service process records use runtime/process-exec/host-process; destination records use egress/egress-decision/egress-unapproved; observations use campaign/campaign-note/campaign-correlation. Both web-script and non-denied protected-path integrity observations use **runtime/config-integrity/host-process**, matching the current exporter. No invented administration mapping, new signal enum, identity-state change or undeclared record field is added. A separate trusted adapter must produce complete existing audit records and case references.
 
-Current technique identifiers are intentionally omitted: no external framework-release verification was performed for this source update. Before publication, re-check any proposed mappings against the current primary framework documentation and record the exact reviewed revision; omit unverified identifiers. No third-party rules, queries, indicators, offensive utilities, payloads or traffic are included. These additions are source-reviewed and statically tested starting references. Sensor deployment, real intrusion effectiveness and false-positive rates remain unverified target work.
+The original eight-family increment omitted new framework identifiers. Dated selected mappings for the later operational additions are recorded in [SECURITY.md](../SECURITY.md#directory-c2-and-agent-boundaries-in-v193). No third-party rules, queries, indicators, offensive utilities, payloads or traffic are included. Existing executable fixtures and source-reviewed operating procedures retain distinct evidence scopes; deployed effectiveness and false-positive rates require target validation.
 
 ## Related work
 
 The supplied design brief identifies ThreatDefence's [Agentic Attack Detections](https://github.com/ThreatDefence/agentic-attack-detections), pinned there at `cf360e5b2d4ae1584f6af677b3f83a2375dbbb8f`, as context for behavior families and match/near-match testing. That brief describes its rules as experimental and synthetic-data tested. This implementation was written independently from the supplied requirements; no external repository was fetched or executed, and no rule, query, signature, indicator, source code or text was copied. Current external repository, license and validation status were not independently verified in this update. Review the exact source and applicable license before importing any future material; attribution and permission notices must accompany any copied material.
+
+## Multi-stage bursts and persistence follow-on
+
+This section is an operator correlation procedure, not an additional family in
+the eight-family evaluator. Define a workload-specific bounded window and a
+protected join policy before evaluating events. Relate two or more distinct
+signal classes such as probing, a corroborated access anomaly, unapproved
+transfer/callback, credential breadth or internal discovery. Repeated events of
+one class alone do not satisfy this diversity condition. A denied probe followed
+by a denied connection is attempted activity, not proof of an intrusion chain.
+
+Require comparable authenticated clocks, collector provenance and the same
+tenant/account scope. Cross-asset joins additionally require a reviewed private
+relationship and identity epoch; a shared address, timing, header or opaque
+cluster label supplied by the client cannot establish it. Use a half-open window
+`[since, until)` and reject events at `until`, uncertain ordering or missing
+required identity/collector context from the proposed chain. Retain the coverage
+gap for human review rather than treating excluded data as clean.
+
+| Synthetic review example | Expected disposition |
+| --- | --- |
+| Within one reviewed window, an independently observed access anomaly is followed by an unapproved callback and internal discovery on a privately linked asset in the same tenant. | Create a campaign review with the distinct signals, protected join evidence and observed outcomes. This does not identify a tool or prove every attack stage. |
+| Identical timestamps/classes come from different tenants or an unverified asset relation. | Do not join them into one campaign; investigate individual signals under their own scopes. |
+| An approved rollout generates a normal service start and inventory traffic, with no corroborated access anomaly or unapproved callback. | Near match for the proposed chain; verify the exact current change scope rather than declaring compromise from speed. |
+| The callback precedes the proposed access anomaly, or a required event is exactly at the window end. | Do not assert that ordered chain; preserve separate observations and window/clock limitations. |
+
+Review new services, scheduled tasks or long-lived workload identities occurring
+after related probing/callback/credential signals as a separate persistence
+lead. Check approved software rollout and identity provisioning before response;
+a service creation event alone is not malicious persistence. Directory and
+certificate context is in [directory monitoring](DIRECTORY-IDENTITY-MONITORING.md);
+callback rhythm and DNS/web-channel evidence is in [C2 monitoring](COMMAND-AND-CONTROL-MONITORING.md).
+
+An engagement exception must be issued outside the monitored agent's authority,
+bind owner/reviewer, asset/account, action and target scope, and be valid both
+for the event interval and the active evaluation. Use `approvedAt <= eventAt <
+expiresAt` with a trusted current clock before expiry. It cannot retroactively
+hide prior activity or exempt unrelated identities, scope changes or integrity
+failures. Historical approval valid at event time remains investigation context
+after expiry; it cannot authorize a current action, renew an expired grant or
+erase evidence. Mark authorized exercise findings as reviewed exceptions while keeping
+their evidence; never bypass authentication, tenant isolation or independent
+tool authorization. The proposed labels above are review vocabulary, not new
+accepted kinds or fields in the existing evaluator input schema.
+
+Export only an operator-authored campaign/campaign-note/campaign-correlation
+record using existing required fields and an opaque case reference. Evidence of
+an integrity change retains runtime/config-integrity ownership. Raw identities,
+addresses, prompts and telemetry stay in protected custody.
+
+## Broad-then-deep and managed-workstation context
+
+Use the [countermeasure procedure](AGENTIC-OFFENSE-DEGRADATION.md) to review
+route/family breadth followed by focused repetition, including low-rate activity
+over longer windows. A cadence, pattern library or single quota denial does not
+identify a tool or malicious operator. Confirm the authorization, outcomes and
+private linkage described above before relating different signals.
+
+For endpoints you manage, approved model traffic plus independently observed
+unexpected technical-route probing, a newly admitted skill/MCP capability or
+proxy activity can justify a campaign review. Ordinary approved developer work
+is a near match. A remote website does not thereby observe a visitor's local
+agent, model provider or proxy; unavailable endpoint evidence remains unknown.
+The existing server-only model-API evaluator rule is not widened to workstations
+by this guide. These are human correlation procedures, not added detector families.

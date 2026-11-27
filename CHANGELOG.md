@@ -2,6 +2,16 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.9.3
+
+- Add guidance for operation-level rate-limit hardening, bounded selective responses, monitored inert decoys and root-cause remediation of agent-driven probing.
+- Refresh README navigation and move optional third-party resources to a separate recommendations catalog.
+- Add a complete capability catalog with implementation status, integration limits and validation references.
+
+- Add directory-identity and C2-oriented monitoring guidance, including trusted log sources, scoped exceptions and review examples.
+- Extend multi-stage and persistence correlation, cloud control-plane review, high-risk MCP admission and untrusted tool-output handling guidance.
+- Update security mappings, plain-language explanations and per-file validation. These are source-reviewed operator procedures; existing executable detector and configuration-review contracts remain unchanged.
+
 ## v1.9.2
 
 - Add analyst-tooling guidance using JADX as an optional worked example: reviewed 1.5.7 floor, bundled/system Java inventory, isolated input/output, plugin review and untrusted Gradle exports. No decompiler, sample or detector is shipped.
