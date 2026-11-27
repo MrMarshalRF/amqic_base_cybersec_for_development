@@ -116,3 +116,7 @@ Read [SSH key integrity](docs/SSH-KEY-INTEGRITY.md), [host egress monitoring](do
 ## Behavior detection and static admission
 
 Read [behavior detection](docs/AGENTIC-ATTACK-DETECTION.md), [agent configuration review](docs/AGENT-CONFIG-REVIEW.md) and [client secret review](docs/CLIENT-SECRET-EXPOSURE.md) before changing those areas. Keep actual executable/tool/destination classifications and expiring exception stores private. Use synthetic event records and exact expected-findings match/near-match tests; do not run attack tools, fetch external indicator content or label a fixture as real-intrusion validation. Preserve existing SIEM mappings: `campaign-note` maps to `campaign`, `config-integrity` to `runtime`. Unsupported input is not a clean review. Never expose reviewed values in findings or copy untrusted instruction text into executable guidance.
+
+## External exposure and LLM resilience changes
+
+Read [external reconnaissance guidance](docs/EXTERNAL-RECON-DEGRADATION.md) and [LLM resilience](docs/LLM-JAILBREAK-RESILIENCE.md) before adapting discovery, public fingerprint, scanner/controller custody, model-input/output or approval boundaries. Keep protocol and license obligations, actual patch evidence, legitimate callers and unknown states explicit. These documents supply manual procedures and isolated acceptance expectations; they install no scanner, corpus, semantic detector or host policy. Raw prompts and sensitive artifacts stay outside general logs and public fixtures.

@@ -4,7 +4,7 @@
 
 AMQIC Base Cybersecurity for Development is a reusable security toolkit: executable reference components, infrastructure candidates, verification tools, operating guidance and task-specific AI skills. Select the components that fit your application and integrate their trusted adapters. It is not a preconfigured production service, a universal attack blocker or a certification.
 
-This catalog covers the whole kit, including the unreleased v1.9.3 documentation additions. The traceability appendix includes every entry in [the claim registry](verification/claims.json), with its declared kind, source, check and adoption limit. A listed check identifies how to obtain evidence; it is not a claim that a new run passed or that a control is active on your infrastructure.
+This catalog covers the whole kit. The traceability appendix includes every entry in [the claim registry](verification/claims.json), with its declared kind, source, check and adoption limit. A listed check identifies how to obtain evidence; it is not a claim that a new run passed or that a control is active on your infrastructure.
 
 ## Where it helps
 
@@ -103,6 +103,8 @@ Container candidates use a minimal runtime, non-root identity, read-only code fi
 
 [Dependency quarantine](docs/OPERATIONS.md) separates acquisition from bounded offline archive inspection. Inventory checks reject unsupported/unsafe members without executing package code or installation hooks. Content review, origin authentication and approval of exact bytes remain separate steps; package text cannot authorize itself.
 
+[External reconnaissance guidance](docs/EXTERNAL-RECON-DEGRADATION.md) supplies operator procedures for public inventory, DNS/certificate retirement, origin access, patch evidence, legitimate caller baselines and owned inventory/tunnel tooling. Public version suppression and inert decoys have separate effectiveness and compatibility limits; the guide installs no scanner, collector or denial policy.
+
 ## Secrets, backups and recovery
 
 [Operations](docs/OPERATIONS.md) and [protected input](skills/protected-terminal-input/SKILL.md) keep new secret entry in the human's own hidden-input terminal and connect only a pre-reviewed fixed consumer. Agents work with metadata; values must not enter chat, arguments, environment, reports or source. Same-user hidden input alone does not isolate secrets from a fully privileged process.
@@ -161,6 +163,8 @@ The [multi-stage procedure](docs/AGENTIC-ATTACK-DETECTION.md#multi-stage-bursts-
 [Agentic probing countermeasures](docs/AGENTIC-OFFENSE-DEGRADATION.md) describe twelve limiter boundaries, stable legitimate semantics, shared atomic budgets, bounded optional delay/load shedding, monitored inert decoys and root remediation. Managed-workstation correlation needs independent local evidence. Deception/callback denial does not prove a vulnerability closed; the guide adds no limiter, tarpit, deception service or measured effectiveness.
 
 [Disclosure handling](docs/DISCLOSURE-POLICY.md) connects incoming reports, independently scoped engagements and meaningful evidence. [Aggregate threat data](THREAT-DATA.md) records its stated aggregate observations without publishing private source identities. No guide grants permission to probe public systems, run offensive frameworks, hack back or act against a suspected operator.
+
+[LLM jailbreak and injection resilience](docs/LLM-JAILBREAK-RESILIENCE.md) describes independently enforced identity/tool/target/approval/output boundaries, minimal evidence and harmless offline acceptance cases. It distinguishes instruction-shaped data from authority, legitimate near matches from investigation leads and missing coverage from acceptance. Model-local hosting and prompt filters do not by themselves enforce isolation, custody or permission boundaries.
 
 ## Development, packaging and release
 
@@ -289,3 +293,5 @@ This appendix is a traceability inventory, not a numeric security score. Several
 | `c2-behavior-review` | `guidance` | [docs/COMMAND-AND-CONTROL-MONITORING.md](docs/COMMAND-AND-CONTROL-MONITORING.md) | coverage-membership, sha256-registry | Source-reviewed workload-aware callback/channel procedure and manual near matches. No packet parser, deployed sensor, new evaluator family or real-traffic detection test. |
 | `multistage-agent-boundaries` | `guidance` | [docs/AGENTIC-ATTACK-DETECTION.md](docs/AGENTIC-ATTACK-DETECTION.md) | coverage-membership, sha256-registry | Source-reviewed correlation, scoped high-risk admission and model-input composition requirements. Existing eight-family/ten-rule/schema contracts unchanged; no new detector, serializer, sanitizer or enforcing gate is implemented. |
 | `agentic-probing-countermeasures` | `guidance` | [docs/AGENTIC-OFFENSE-DEGRADATION.md](docs/AGENTIC-OFFENSE-DEGRADATION.md) | coverage-membership, sha256-registry | Source-reviewed operation-level limiter boundaries, bounded selective responses, monitored inert decoys and manual triage examples. No new limiter, normalizer, tarpit, deception service, detector or demonstrated effectiveness; existing executable contracts unchanged. |
+| `external-recon-countermeasures` | `guidance` | [docs/EXTERNAL-RECON-DEGRADATION.md](docs/EXTERNAL-RECON-DEGRADATION.md) | coverage-membership, sha256-registry | Source-reviewed exposure/inventory, patch, correlation, owned-tooling and inert-deception procedures with manual near matches. No scanner, collector, enrollment, policy activation or measured external-recon effectiveness. |
+| `llm-jailbreak-resilience` | `guidance` | [docs/LLM-JAILBREAK-RESILIENCE.md](docs/LLM-JAILBREAK-RESILIENCE.md) | coverage-membership, sha256-registry | Source-reviewed independent tool/output authority and private-evidence procedures with harmless offline acceptance expectations. No corpus, semantic detector, output filter, runtime broker, sandbox or empirical jailbreak-resistance result. |

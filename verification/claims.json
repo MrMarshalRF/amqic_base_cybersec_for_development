@@ -1098,6 +1098,47 @@
       "lab_scenarios": [
         "agentic-probing-countermeasures"
       ]
+    },
+    {
+      "id": "external-recon-countermeasures",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/EXTERNAL-RECON-DEGRADATION.md"
+      ],
+      "references": [
+        "OWASP API8:2023 and API9:2023",
+        "MITRE ATT&CK T1596.003 and T1595",
+        "RFC 9162, RFC 9110 and RFC 4253",
+        "CISA KEV, ENISA vulnerability services and FIRST EPSS"
+      ],
+      "limits": "Source-reviewed exposure/inventory, patch, correlation, owned-tooling and inert-deception procedures with manual near matches. No scanner, collector, enrollment, policy activation or measured external-recon effectiveness.",
+      "lab_scenarios": [
+        "external-recon-countermeasures"
+      ]
+    },
+    {
+      "id": "llm-jailbreak-resilience",
+      "kind": "guidance",
+      "checks": [
+        "coverage-membership",
+        "sha256-registry"
+      ],
+      "files": [
+        "docs/LLM-JAILBREAK-RESILIENCE.md"
+      ],
+      "references": [
+        "OWASP LLM01:2026, LLM02:2026, LLM03:2026, LLM06:2026 and LLM10:2026",
+        "MITRE ATLAS 2026.10 AML.T0051.000, AML.T0051.001 and AML.T0054",
+        "NIST AI 600-1"
+      ],
+      "limits": "Source-reviewed independent tool/output authority and private-evidence procedures with harmless offline acceptance expectations. No corpus, semantic detector, output filter, runtime broker, sandbox or empirical jailbreak-resistance result.",
+      "lab_scenarios": [
+        "llm-jailbreak-resilience"
+      ]
     }
   ]
 }

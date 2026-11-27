@@ -114,10 +114,18 @@ OWASP Top 10:2025, API Top 10:2023 and the fixed ASVS v5.0.0 tag. Earlier mappin
 editions retain their original context; numbers must not be translated between
 editions by position.
 
-API4/6 address resource/sensitive-flow abuse and API7 SSRF. ASVS 2.4.1/2.4.2 and
-6.1.1/6.3.1 provide selected anti-automation/authentication relationships; 6.6.3
+API4/6 address resource/sensitive-flow abuse and API7 SSRF. ASVS 2.4.1/2.4.2
+cover application/business-flow anti-automation. V6 6.1.1/6.3.1 applies to
+documented authentication defenses and malicious account-lockout prevention;
+these are not generic requirements for every scanner or operation budget. 6.6.3
 and 6.6.4 apply specifically to out-of-band codes and push MFA. They do not
 mandate this document's counter-reset algorithm or certify generic CAPTCHA.
 MITRE Engage supports an owned, instrumented process; isolated decoys and their
 efficacy remain target verification. No new ATT&CK/ATLAS/D3FEND identifier is
-introduced from the supplied countermeasure note.
+introduced from that earlier operation-budget countermeasure note.
+
+## External exposure and LLM resilience guidance
+
+[External reconnaissance](EXTERNAL-RECON-DEGRADATION.md) maps asset inventory and configuration to API8:2023/API9:2023, with ATT&CK T1596.003 passive certificate research and T1595 active scanning as contextual threat categories. Certificate logs are append-only; suppressing an optional banner does not patch the running software. Decoys and correlation need owned deployment evidence and legitimate near matches.
+
+[LLM resilience](LLM-JAILBREAK-RESILIENCE.md) uses the explicitly versioned [OWASP 2026 publication](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/): LLM01 prompt injection, LLM02 disclosure, LLM03 excessive agency, LLM06 unbounded consumption and LLM10 improper output handling. Earlier explicitly dated 2025 IDs remain historical references, not a position-based crosswalk. MITRE ATLAS 2026.10 AML.T0051.000/.001 and AML.T0054 distinguish direct/indirect injection and jailbreaks. These are guidance mappings; no new semantic detector or host enforcement is established.

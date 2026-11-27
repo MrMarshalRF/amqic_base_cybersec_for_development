@@ -2,6 +2,13 @@
 
 This file records user-visible additions, changes and validation notes by version. See [GitHub Releases](https://github.com/MrMarshalRF/amqic_base_cybersec_for_development/releases) for release assets and [VALIDATION.md](docs/VALIDATION.md) for the tested scope.
 
+## v1.9.4
+
+- Add external-reconnaissance guidance for public inventory, certificate/DNS lifecycle, origin access, deployed patch evidence, distributed observations and controlled first-party inventory tooling.
+- Add LLM jailbreak and prompt-injection resilience guidance: independently enforced authority, tool/output boundaries, minimal incident records and harmless offline acceptance cases.
+- Extend README, SECURITY, the capability catalog, standards mappings and per-file/source-reviewed validation. New guidance is not an installed scanner, semantic detector, enforcement adapter or measured deployment result.
+- Preserve dated historical mappings while adding explicitly versioned OWASP LLM Top 10:2026 and MITRE ATLAS references. Clarify authentication-specific ASVS rate-limit relationships.
+
 ## v1.9.3
 
 - Add guidance for operation-level rate-limit hardening, bounded selective responses, monitored inert decoys and root-cause remediation of agent-driven probing.

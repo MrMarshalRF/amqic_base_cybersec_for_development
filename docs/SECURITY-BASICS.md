@@ -295,3 +295,9 @@ An AI tool response is like a document handed to a receptionist: it can provide
 information, but cannot issue itself a building key. Formatting helps distinguish
 the document from policy; an outside authorization check still owns the key.
 See [runtime boundaries](AI-AGENT-RUNTIME.md#untrusted-tool-output-and-role-boundaries).
+
+## External discovery and agent instructions
+
+A missing version in a public response leaves the service reachable under its actual access policy. Keep an owned inventory, confirm the running build and patches, restrict unneeded access, and check that health monitoring still works. [External reconnaissance guidance](EXTERNAL-RECON-DEGRADATION.md) gives ordinary, unwanted and uncertain cases to review.
+
+An external document can contain text that sounds like an instruction from a manager. That text does not establish identity, permission or an approval. Let the trusted host check each proposed action and its output. [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) explains the boundary with harmless offline cases; missing records remain unknown rather than a successful protection test.

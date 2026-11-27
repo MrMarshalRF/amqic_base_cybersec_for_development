@@ -64,3 +64,7 @@ outside their response-variation experiments. Correlation with managed-workstati
 evidence requires independent collector/owner context; approved inference use
 alone cannot justify blocking a workstation. No resolver rule or new egress
 enforcement is activated by these procedures.
+
+## Inventory workers, controllers and local models
+
+The [external reconnaissance guide](EXTERNAL-RECON-DEGRADATION.md#govern-your-own-inventory-tooling) covers approved scanner/controller enrollment, inventory-report destinations and unexpected internal breadth or tunnels. Local analysis still needs worker identities, restricted logging and effective egress controls. Use [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) for model-input/output and capability boundaries; a locally hosted model is not evidence that no data can leave.

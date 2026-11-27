@@ -4,7 +4,7 @@
 
 Close application defects, enforce shared admission budgets and deny unneeded outbound access. On infrastructure you administer, monitored inert decoys and carefully bounded delay can add investigation time. Their effectiveness against an agent's validation loop remains target verification; they do not make a vulnerable application safe.
 
-This guide is documentation in the unreleased v1.9.3 candidate. It adds no detector, rule, telemetry field, executable limiter or deployment. Preserve legitimate API behavior, meaningful denial statuses, tenant isolation and recovery access. No offensive framework, skill pack, payload collection or external source import is needed to follow it.
+This guide supplies source-reviewed operating guidance. It adds no detector, rule, telemetry field, executable limiter or deployment. Preserve legitimate API behavior, meaningful denial statuses, tenant isolation and recovery access. No offensive framework, skill pack, payload collection or external source import is needed to follow it.
 
 ## Where it helps
 
@@ -140,3 +140,7 @@ These synthetic paper cases are a manual acceptance worksheet for an operator's 
 This increment supplies source-reviewed operating guidance. It imports no offensive code, rules, indicators or dependencies, runs no suspect framework and activates no service. Existing executable modules retain their own documented tests and limitations.
 
 External-target validation remains pending: legitimate-client compatibility, false positives, distributed counter/queue capacity and failover, trusted proxy behavior, latency, notification fairness, decoy alert delivery and cleanup, sensor completeness, issuer revocation and measurable effectiveness against unauthorized probing. Conduct applicable validation only within separately authorized, policy-compliant scope. Static document checks and manual examples cannot establish these outcomes.
+
+## Related exposure and instruction boundaries
+
+[External reconnaissance](EXTERNAL-RECON-DEGRADATION.md) adds inventory, DNS/certificate lifecycle, origin and deployed-build evidence before response shaping. [LLM resilience](LLM-JAILBREAK-RESILIENCE.md) separates instruction-shaped data from tool authority. Keep inert deception on owned, monitored surfaces; never send instructions intended to hijack a third-party model. The same stable-client and bounded-resource requirements remain in force.
